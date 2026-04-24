@@ -745,11 +745,11 @@
             max-height: 390px;
         }
 
-        .creature-card[data-creature="huldra"].show-artist .artist-image {
+        .creature-card[data-creature="jotna"].show-artist .artist-image {
             background: transparent;
         }
 
-        .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image img[src*="alma.png"].draug-dancer {
+        .creature-card.artist-reveal-card[data-creature="jotna"].show-artist .artist-image img[src*="alma.png"].draug-dancer {
             position: relative;
             left: auto;
             right: auto;
@@ -796,33 +796,6 @@
             filter: none !important;
             -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0, 0, 0, 0.82) 88%, transparent 100%);
             mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0, 0, 0, 0.82) 88%, transparent 100%);
-        }
-
-        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image img[src*="diego"].draug-dancer {
-            position: relative;
-            left: auto;
-            right: auto;
-            top: auto;
-            bottom: auto;
-            display: block;
-            margin: 0 auto;
-            width: auto;
-            max-width: 320px;
-            height: 100%;
-            object-fit: contain;
-            transform: translateY(16px) scale(1.04);
-            transform-origin: center bottom;
-            z-index: 2;
-            pointer-events: none;
-            background: transparent !important;
-            box-shadow: none !important;
-            filter: none !important;
-            -webkit-mask-image:
-                radial-gradient(92% 86% at 50% 42%, #000 0%, #000 58%, rgba(0,0,0,0.84) 74%, transparent 100%),
-                linear-gradient(180deg, #000 0%, #000 70%, rgba(0,0,0,0.72) 82%, transparent 100%);
-            mask-image:
-                radial-gradient(92% 86% at 50% 42%, #000 0%, #000 58%, rgba(0,0,0,0.84) 74%, transparent 100%),
-                linear-gradient(180deg, #000 0%, #000 70%, rgba(0,0,0,0.72) 82%, transparent 100%);
         }
 
         .creature-card.artist-reveal-card[data-creature="draug"].show-artist .artist-image img[src*="dennixx"].draug-dancer {
@@ -2062,21 +2035,12 @@
             <p class="creatures-hint">Trykk på vesenene for å vekke dem og se hvem som skjuler seg bak dem.</p>
             <div class="creatures-grid">
                 <!-- HULDRA -->
-                <div class="creature-card artist-reveal-card" data-creature="huldra">
+                <div class="creature-card" data-creature="huldra">
                     <div class="particle-explosion"></div>
                     <div class="creature-icon">
-                        <div class="folklore-image">
-                            <img src="assets/huldra.png" alt="Huldra" class="card-folklore-img">
-                        </div>
-                        <div class="artist-image">
-                            <img src="assets/alma.png" alt="Huldra cutout reveal" class="draug-dancer">
-                        </div>
+                        <img src="assets/huldra.png" alt="Huldra">
                     </div>
-                    <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
-                        <button type="button" class="card-state-button is-active" data-card-state="folklore" aria-pressed="true">Vesen</button>
-                        <button type="button" class="card-state-button" data-card-state="artist" aria-pressed="false">Artist</button>
-                    </div>
-                    <div class="card-folklore-content">
+                    <div class="card-copy">
                         <h3 class="creature-name">HULDRA</h3>
                         <div class="creature-identity">Femme Power • Halen hun aldri skjuler igjen</div>
                         <p class="creature-description">
@@ -2085,16 +2049,6 @@
                         </p>
                         <div class="creature-quote">
                             "Hun skjulte halen sin ikke av skam, men fordi verden ennå ikke var klar for hennes sannhet."
-                        </div>
-                    </div>
-                    <div class="card-artist-content">
-                        <h3 class="creature-name">Alma Adore</h3>
-                        <div class="creature-identity">Kunstner • Dominatrix • Aktivist</div>
-                        <p class="creature-description">
-                            Alma Adore er kunstner, dominatrix og aktivist. Founder of seduction.no og Club Seduction, tidligere konsept på Elsker.
-                        </p>
-                        <div class="creature-quote">
-                            Instagram: @alma.made.it.rain
                         </div>
                     </div>
                 </div>
@@ -2157,21 +2111,12 @@
                 </div>
 
                 <!-- FOSSEGRIMEN -->
-                <div class="creature-card artist-reveal-card" data-creature="fossegrim">
+                <div class="creature-card" data-creature="fossegrim">
                     <div class="particle-explosion"></div>
                     <div class="creature-icon">
-                        <div class="folklore-image">
-                            <img src="assets/fossegrimen.png" alt="Fossegrimen" class="card-folklore-img">
-                        </div>
-                        <div class="artist-image">
-                            <img src="assets/diego.png.png" alt="Fossegrimen cutout reveal" class="draug-dancer">
-                        </div>
+                        <img src="assets/fossegrimen.png" alt="Fossegrimen">
                     </div>
-                    <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
-                        <button type="button" class="card-state-button is-active" data-card-state="folklore" aria-pressed="true">Vesen</button>
-                        <button type="button" class="card-state-button" data-card-state="artist" aria-pressed="false">Artist</button>
-                    </div>
-                    <div class="card-folklore-content">
+                    <div class="card-copy">
                         <h3 class="creature-name">FOSSEGRIMEN</h3>
                         <div class="creature-identity">Androgyn Skjønnhet • Det usigelige i musikken</div>
                         <p class="creature-description">
@@ -2180,16 +2125,6 @@
                         </p>
                         <div class="creature-quote">
                             "Skogen har aldri spurt treet om det vokser riktig."
-                        </div>
-                    </div>
-                    <div class="card-artist-content">
-                        <h3 class="creature-name">Diego</h3>
-                        <div class="creature-identity">Danser • Poledance • Sensuell Kraft</div>
-                        <p class="creature-description">
-                            Diego forener det feminine og det maskuline med styrke, fleksibilitet og en rå scenisk tilstedeværelse.
-                        </p>
-                        <div class="creature-quote">
-                            Instagram: @soydieego_
                         </div>
                     </div>
                 </div>
@@ -2232,12 +2167,21 @@
                     </div>
                 </div>
                 <!-- MARE -->
-                <div class="creature-card" data-creature="jotna">
+                <div class="creature-card artist-reveal-card" data-creature="jotna">
                     <div class="particle-explosion"></div>
                     <div class="creature-icon">
-                        <img src="assets/mare.png" alt="MARE">
+                        <div class="folklore-image">
+                            <img src="assets/mare.png" alt="MARE" class="card-folklore-img">
+                        </div>
+                        <div class="artist-image">
+                            <img src="assets/alma.png" alt="MARE cutout reveal" class="draug-dancer">
+                        </div>
                     </div>
-                    <div class="card-copy">
+                    <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
+                        <button type="button" class="card-state-button is-active" data-card-state="folklore" aria-pressed="true">Vesen</button>
+                        <button type="button" class="card-state-button" data-card-state="artist" aria-pressed="false">Artist</button>
+                    </div>
+                    <div class="card-folklore-content">
                         <h3 class="creature-name">MARE</h3>
                         <div class="creature-identity">Nattvette • Det kristendommen prøvde å begrave</div>
                         <p class="creature-description">
@@ -2246,6 +2190,16 @@
                         </p>
                         <div class="creature-quote">
                             "Du våkner ikke fordi du sover. Du våkner fordi hun slipper deg."
+                        </div>
+                    </div>
+                    <div class="card-artist-content">
+                        <h3 class="creature-name">Alma Adore</h3>
+                        <div class="creature-identity">Kunstner • Dominatrix • Aktivist</div>
+                        <p class="creature-description">
+                            Alma Adore er kunstner, dominatrix og aktivist. Founder of seduction.no og Club Seduction, tidligere konsept på Elsker.
+                        </p>
+                        <div class="creature-quote">
+                            Instagram: @alma.made.it.rain
                         </div>
                     </div>
                 </div>
@@ -3139,44 +3093,9 @@ if (!isMobilePerformanceMode()) {
     setInterval(() => {
         const preview = document.getElementById('bergtattPreview');
         if (!preview) return;
-        preview.src = `bergtatt-visuals.html?preview=true&t=${Date.now()}`;
+        preview.src = `https://ingridormevik.github.io/bergtatt-visuals.html?preview=true&t=${Date.now()}`;
     }, 45000);
 }
-
-// Let parent embeds resize this page without manual height guessing.
-(() => {
-    const postEmbedHeight = () => {
-        const doc = document.documentElement;
-        const body = document.body;
-        const height = Math.max(
-            body ? body.scrollHeight : 0,
-            body ? body.offsetHeight : 0,
-            doc ? doc.scrollHeight : 0,
-            doc ? doc.offsetHeight : 0
-        );
-
-        if (window.parent && window.parent !== window) {
-            window.parent.postMessage({ type: 'regnbuenatt:height', height }, '*');
-        }
-    };
-
-    window.addEventListener('load', () => {
-        postEmbedHeight();
-        setTimeout(postEmbedHeight, 250);
-        setTimeout(postEmbedHeight, 1000);
-    });
-
-    window.addEventListener('resize', postEmbedHeight);
-
-    if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(postEmbedHeight).catch(() => {});
-    }
-
-    if ('ResizeObserver' in window && document.body) {
-        const resizeObserver = new ResizeObserver(() => postEmbedHeight());
-        resizeObserver.observe(document.body);
-    }
-})();
 
     </script>
 </body>
