@@ -2303,9 +2303,11 @@
         const canvas = document.getElementById('aurora-canvas');
         const ctx = canvas.getContext('2d');
 
+        const isInIframe = window !== window.top;
+
         function isMobilePerformanceMode() {
             const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-            return window.innerWidth < 768 || (coarsePointer && window.innerWidth < 1024);
+            return isInIframe || window.innerWidth < 768 || (coarsePointer && window.innerWidth < 1024);
         }
 
         const mobileLiteMode = isMobilePerformanceMode();
@@ -2624,25 +2626,25 @@ creatureCards.forEach(card => {
         function showLegendaryNotification(creatureType) {
             const creatureData = {
                 'huldra': {
-                    icon: '🌿',
+                    icon: '\u{1F33F}',
                     name: 'HULDRA VÅKNER',
                     subtitle: 'Forførende',
                     color: '#ff1744'
                 },
                 'nokken': {
-                    icon: '👁',
+                    icon: '\u{1F441}️',
                     name: 'NØKKEN VÅKNER',
                     subtitle: 'Formskiftende',
                     color: '#00d4ff'
                 },
                 'troll': {
-                    icon: '🪨',
+                    icon: '\u{1FAA8}',
                     name: 'BERGTROLLET VÅKNER',
                     subtitle: 'Kraftfulle',
                     color: '#00ff88'
                 },
                 'fossegrim': {
-                    icon: '🎻',
+                    icon: '\u{1F3BB}',
                     name: 'FOSSEGRIMEN VÅKNER',
                     subtitle: 'Vakre',
                     color: '#ffd700'
@@ -2650,11 +2652,11 @@ creatureCards.forEach(card => {
                 'draug': {
                     icon: '⚓',
                     name: 'DRAUGEN VÅKNER',
-                    subtitle: 'Gjenoppståtte',
+                    subtitle: 'Gjenoppsåtte',
                     color: '#b968ff'
                 },
                 'jotna': {
-                    icon: '🔥',
+                    icon: '\u{1F525}',
                     name: 'MARE VÅKNER',
                     subtitle: 'Mareritt',
                     color: '#ff8a1f'
@@ -2677,11 +2679,11 @@ creatureCards.forEach(card => {
             // Show notification
             notification.classList.add('show');
 
-            // Create 40-particle burst
-            createNotificationParticleBurst(creature.color);
-
-            // Create floating background particles
-            createFloatingParticles(creature.color);
+            // Create particle burst (skip on mobile/iframe for performance)
+            if (!mobileLiteMode) {
+                createNotificationParticleBurst(creature.color);
+                createFloatingParticles(creature.color);
+            }
 
             // Auto-hide after 6 seconds
             setTimeout(() => {
@@ -3061,7 +3063,9 @@ creatureCards.forEach(card => {
             card.classList.add('ritual-active');
             setTimeout(() => card.classList.remove('ritual-active'), 1600);
 
-            const symbols = ['?', '?', '?', '?', '?', '?', '?', '?'];
+            if (mobileLiteMode) return;
+
+            const symbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚹ', 'ᛁ'];
             const rect = card.getBoundingClientRect();
 
             for (let i = 0; i < 7; i++) {
