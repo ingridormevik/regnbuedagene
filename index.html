@@ -26,7 +26,7 @@
             --mist-gray: #8a9a95;
             --spirit-white: #e8ece8;
             --moonlight: #c4d4cc;
-            
+
             /* Creature Essence Colors */
             --huldra-fire: #ff1744;
             --nokken-water: #00d4ff;
@@ -76,7 +76,7 @@
             position: absolute;
             width: 200%;
             height: 100%;
-            background: 
+            background:
                 radial-gradient(ellipse at 20% 30%, rgba(138, 154, 149, 0.15) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 70%, rgba(138, 154, 149, 0.1) 0%, transparent 50%);
             animation: mistDrift 60s ease-in-out infinite;
@@ -164,7 +164,7 @@
             margin-inline: auto;
             text-align: center;
             margin-bottom: 20px;
-            text-shadow: 
+            text-shadow:
                 0 0 40px rgba(196, 212, 204, 0.4),
                 0 4px 12px rgba(0, 0, 0, 0.9);
             animation: titleGlow 4s ease-in-out infinite;
@@ -1041,7 +1041,6 @@
             display: none !important;
         }
 
-        /* Kill all expensive effects in iframe/mobile */
         body.mobile-lite .creature-card,
         body.mobile-lite .journey-text,
         body.mobile-lite .timeline-section,
@@ -1238,11 +1237,11 @@
         }
 
         @keyframes legendaryAppear {
-            0% { 
+            0% {
                 transform: translate(-50%, -50%) scale(0);
                 opacity: 0;
             }
-            10% { 
+            10% {
                 transform: translate(-50%, -50%) scale(1.2);
                 opacity: 1;
             }
@@ -1279,7 +1278,7 @@
             color: var(--creature-color);
             text-transform: uppercase;
             letter-spacing: 0.2em;
-            text-shadow: 
+            text-shadow:
                 0 0 20px var(--creature-color),
                 0 0 40px var(--creature-color),
                 0 0 60px var(--creature-color),
@@ -1289,15 +1288,15 @@
         }
 
         @keyframes textGlow {
-            0%, 100% { 
-                text-shadow: 
+            0%, 100% {
+                text-shadow:
                     0 0 20px var(--creature-color),
                     0 0 40px var(--creature-color),
                     0 0 60px var(--creature-color),
                     0 4px 8px rgba(0, 0, 0, 0.8);
             }
-            50% { 
-                text-shadow: 
+            50% {
+                text-shadow:
                     0 0 30px var(--creature-color),
                     0 0 60px var(--creature-color),
                     0 0 90px var(--creature-color),
@@ -1399,7 +1398,7 @@
             .legendary-icon { font-size: 5rem; }
             .legendary-subtitle { font-size: 1.5rem; }
         }
-    
+
         /* ---------------------------------------------------------------
            ADDED ENHANCEMENTS - NO EXISTING EFFECTS REMOVED
            --------------------------------------------------------------- */
@@ -1999,9 +1998,86 @@
             }
         }
 
+        #language-control {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 10060;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+            min-height: 44px;
+            padding: 10px 16px;
+            background: rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(255, 180, 80, 0.35);
+            border-radius: 999px;
+            box-shadow: 0 0 24px rgba(0, 0, 0, 0.35), 0 0 28px rgba(255, 215, 0, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+        }
+
+        #language-control:hover {
+            background: rgba(0, 0, 0, 0.72);
+            border-color: rgba(255, 180, 80, 0.52);
+            transform: translateY(-1px);
+        }
+
+        #language-toggle {
+            appearance: none;
+            -webkit-appearance: none;
+            min-width: 22px;
+            min-height: 22px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 180, 80, 0.24);
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 180, 80, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0 6px;
+            line-height: 1;
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        #language-toggle:hover,
+        #language-toggle:focus {
+            outline: none;
+            border-color: rgba(255, 180, 80, 0.48);
+            background: rgba(255, 180, 80, 0.08);
+            color: rgba(255, 220, 170, 1);
+        }
+
+        #language-toggle:focus-visible {
+            outline: 2px solid rgba(255, 180, 80, 0.9);
+            outline-offset: 4px;
+        }
+
+        #language-toggle:active {
+            transform: scale(0.96);
+        }
+
+        @media (max-width: 560px) {
+            #language-control {
+                top: max(10px, env(safe-area-inset-top));
+                right: max(10px, env(safe-area-inset-right));
+                padding: 9px 12px;
+            }
+        }
+
     </style>
 </head>
 <body>
+    <div id="language-control">
+        <button id="language-toggle" type="button" aria-label="Toggle language">NOR/ENG</button>
+    </div>
+
     <!-- FOREST ATMOSPHERE -->
     <div class="forest-atmosphere">
         <canvas id="aurora-canvas"></canvas>
@@ -2283,7 +2359,7 @@
         <!-- TIMELINE -->
         <div class="timeline-section">
             <h2 class="timeline-title">Nattens Reise</h2>
-            
+
             <div class="timeline-item">
                 <div class="timeline-time">22:00–00:00</div>
                 <div class="timeline-content">
@@ -2310,16 +2386,18 @@
         </div>
 
         <iframe
+            src="bergtatt-visuals.html?preview=true"
             id="bergtattPreview"
             class="visual-preview"
             title="BERGTATT preview"
+            loading="lazy"
             aria-label="BERGTATT preview"></iframe>
         <div style="max-width:1200px;margin:18px auto 0;padding:20px 18px;border:1px solid rgba(255,255,255,0.14);border-radius:14px;background:linear-gradient(135deg,rgba(10,14,13,0.92),rgba(26,40,32,0.82));box-shadow:0 0 28px rgba(0,0,0,0.32),0 0 40px rgba(185,104,255,0.10);text-align:center;">
             <h3 style="font-family:'Cinzel',serif;font-size:1.15rem;line-height:1.5;letter-spacing:0.1em;color:var(--moonlight);margin:0 0 12px;text-transform:uppercase;">BERGTATT, Audiovisuell installasjon av Ingrid Ormevik</h3>
             <p style="margin:0 0 18px;font-size:1rem;line-height:1.65;color:rgba(232,236,232,0.88);">Du ser bare begynnelsen. Den fulle opplevelsen vekkes til live i Den Forbudte Skogen, lyd, kropp og rom smelter sammen i et rituelt møte du ikke kan forberede deg på.</p>
             <span style="display:inline-block;padding:11px 20px;border:1px solid rgba(255,215,0,0.30);border-radius:999px;background:linear-gradient(135deg,rgba(255,215,0,0.10),rgba(185,104,255,0.14));color:rgba(232,236,232,0.9);font-family:'Cinzel',serif;font-size:0.82rem;letter-spacing:0.15em;text-transform:uppercase;box-shadow:0 0 18px rgba(255,215,0,0.12),0 0 22px rgba(185,104,255,0.10);">Teaser modus aktiv</span>
             <div class="bergtatt-mobile-link">
-                <a href="https://cool-mochi-5acdd7.netlify.app/bergtatt-visuals.html?preview=true" class="cta-button" target="_blank" rel="noopener noreferrer" style="font-size:0.9rem;padding:13px 24px;letter-spacing:0.12em;">Se BERGTATT-teaser</a>
+                <a href="bergtatt-visuals.html?preview=true" class="cta-button" target="_blank" rel="noopener noreferrer" style="font-size:0.9rem;padding:13px 24px;letter-spacing:0.12em;">Se BERGTATT-teaser</a>
             </div>
             <div style="margin-top:12px;"><a href="https://bergenpride.ticketco.events/no/nb/e/regnbuenatt_2026" class="cta-button" target="_blank" rel="noopener noreferrer" style="font-size:0.95rem;padding:14px 26px;letter-spacing:0.14em;">Kjøp Billett</a></div>
         </div>
@@ -2336,37 +2414,179 @@
 
     <!-- JAVASCRIPT -->
     <script>
+        function getStoredLanguage() {
+            try {
+                return localStorage.getItem('regnbuenattTicketLanguage') || 'no';
+            } catch (error) {
+                return 'no';
+            }
+        }
+
+        function storeLanguage(language) {
+            try {
+                localStorage.setItem('regnbuenattTicketLanguage', language);
+            } catch (error) {
+                // Language still changes for the current page view if storage is unavailable.
+            }
+        }
+
+        const LANG = {
+            current: getStoredLanguage()
+        };
+
+        const TRANSLATIONS = {
+            title: { no: 'Regnbuenatt 2026 - Den Forbudte Skogen', en: 'Regnbuenatt 2026 - The Forbidden Forest' },
+            toggleLabel: { no: 'Bytt språk', en: 'Toggle language' },
+            texts: [
+                ['.rune-top', { no: 'Bergen Pride Presents', en: 'Bergen Pride Presents' }],
+                ['.subtitle', { no: 'Fra Den Fortryllede til Den Forbudte Skogen', en: 'From The Enchanted to The Forbidden Forest' }],
+                ['.event-info', { no: '6. Juni 2026 • Marinehagen • 22:00-02:30', en: 'June 6, 2026 • Marinehagen • 22:00-02:30' }],
+                ['.ticket-price', { no: 'Billetter: 295 kr (early bird) / 395 kr (døren)', en: 'Tickets: NOK 295 (early bird) / NOK 395 (door)' }],
+                ['.journey-text p:nth-of-type(1)', { no: 'Closing party for Bergen Pride. Marinehagen. 6. juni, kvelden etter paraden.', en: 'Closing party for Bergen Pride. Marinehagen. June 6, the evening after the parade.' }],
+                ['.journey-text p:nth-of-type(2)', { no: 'Natten er forankret i norsk folklore og Theodor Kittelsens bildeverden, med Bergens natur som bakteppe: granittfjell, furuskog, fjord og tåke. Seks mytiske vesener våkner til live gjennom kvelden, ett etter ett, mens musikken leder deg dypere inn i ritualet.', en: 'The night is rooted in Norwegian folklore and Theodor Kittelsen\'s visual world, with Bergen\'s nature as the backdrop: granite mountains, pine forest, fjord and mist. Six mythical beings awaken through the evening, one by one, while the music leads you deeper into the ritual.' }],
+                ['.journey-text .quote', { no: '"De mytiske vesenene har alltid vært queercoded. De lever utenfor normens grenser. På Regnbuenatt tar vi dem tilbake."', en: '"Mythical beings have always been queer-coded. They live beyond the boundaries of the norm. At Regnbuenatt, we reclaim them."' }],
+                ['.journey-text p:nth-of-type(3)', { no: 'Witch Princess åpner med sin Forest Meeting EP og setter scenen. Ved midnatt overtar DJ Pizza$lut og Club Seduction, og Den Fortryllede Skogen blir Den Forbudte.', en: 'Witch Princess opens with her Forest Meeting EP and sets the scene. At midnight DJ Pizza$lut and Club Seduction take over, and The Enchanted Forest becomes The Forbidden.' }],
+                ['.witch-lead', { no: 'Witch Princess åpner Regnbuenatt med <em>Forest Meeting</em> og leder publikum inn i den fortryllede skogen.', en: 'Witch Princess opens Regnbuenatt with <em>Forest Meeting</em> and leads the audience into the enchanted forest.' }, true],
+                ['.witch-description:not(.witch-lead):not(.witch-details)', { no: 'Downtempo, psykedelisk rituale og mørk folklore setter stemningen før skogen skifter form ved midnatt.', en: 'Downtempo, psychedelic ritual and dark folklore set the mood before the forest changes shape at midnight.' }],
+                ['.witch-pill:nth-child(3)', { no: 'Åpner Kvelden', en: 'Opens the Night' }],
+                ['.witch-details', { no: 'Mallika J Y Herland • Norge • DJ / Artist • Instagram: @dj_witch_princess_official', en: 'Mallika J Y Herland • Norway • DJ / Artist • Instagram: @dj_witch_princess_official' }],
+                ['.section-title', { no: 'Møt Vesenene', en: 'Meet the Beings' }],
+                ['.creatures-hint', { no: 'Trykk på vesenene for å vekke dem og se hvem som skjuler seg bak dem.', en: 'Tap the beings to awaken them and see who is hiding behind them.' }],
+                ['[data-creature="huldra"] .creature-identity', { no: 'Femme Power • Halen hun aldri skjuler igjen', en: 'Femme Power • The tail she never hides again' }],
+                ['[data-creature="huldra"] .creature-description', { no: 'Hun viser halen. Det de fortalte henne var hennes feil er det vakreste ved henne. Vakker på overflaten, vill og fri under.', en: 'She shows her tail. What they told her was her flaw is the most beautiful thing about her. Beautiful on the surface, wild and free underneath.' }],
+                ['[data-creature="huldra"] .creature-quote', { no: '"Hun skjulte halen sin ikke av skam, men fordi verden ennå ikke var klar for hennes sannhet."', en: '"She did not hide her tail out of shame, but because the world was not yet ready for her truth."' }],
+                ['[data-creature="nokken"] .card-folklore-content .creature-identity', { no: 'Begjær uten unnskyldning • Han som visste det først', en: 'Desire without apology • The one who knew it first' }],
+                ['[data-creature="nokken"] .card-folklore-content .creature-description', { no: 'Han lever i grenselandet mellom overflate og dyp. Han visste hva du var lenge før du visste det selv.', en: 'He lives on the border between surface and depth. He knew what you were long before you knew it yourself.' }],
+                ['[data-creature="nokken"] .card-folklore-content .creature-quote', { no: '"Fossens vei er aldri den samme to ganger, og det er dens styrke."', en: '"The waterfall\'s path is never the same twice, and that is its strength."' }],
+                ['[data-creature="nokken"] .card-artist-content .creature-identity', { no: 'Entertainer • Danser • Modell', en: 'Entertainer • Dancer • Model' }],
+                ['[data-creature="nokken"] .card-artist-content .creature-description', { no: 'Logan bærer en selvsikker, sensuell energi og sceneerfaring som trekker publikum dypere inn i mørket.', en: 'Logan carries a confident, sensual energy and stage experience that pulls the audience deeper into the dark.' }],
+                ['[data-creature="troll"] .creature-identity', { no: 'Butch Kraft • Pride skjer i lag over tid', en: 'Butch Power • Pride happens in layers over time' }],
+                ['[data-creature="troll"] .creature-description', { no: 'Gammelt som fjellet selv. Det har sett alle lovene som prøvde å holde oss nede og står fortsatt. Urokkelig. Evig.', en: 'As old as the mountain itself. It has seen every law that tried to keep us down and still stands. Unshakable. Eternal.' }],
+                ['[data-creature="troll"] .creature-quote', { no: '"Bergens syv fjell dømmer ikke. De bærer bare."', en: '"Bergen\'s seven mountains do not judge. They simply carry."' }],
+                ['[data-creature="fossegrim"] .creature-identity', { no: 'Androgyn Skjønnhet • Det usigelige i musikken', en: 'Androgynous Beauty • The unsayable in the music' }],
+                ['[data-creature="fossegrim"] .creature-description', { no: 'Han sitter ved fossen og spiller det som ikke kan sies med ord. Vakker på grensen mellom kjønn. Farlig fordi han er perfekt.', en: 'He sits by the waterfall and plays what cannot be said in words. Beautiful on the border between genders. Dangerous because he is perfect.' }],
+                ['[data-creature="fossegrim"] .creature-quote', { no: '"Skogen har aldri spurt treet om det vokser riktig."', en: '"The forest has never asked the tree whether it is growing correctly."' }],
+                ['[data-creature="draug"] .card-folklore-content .creature-identity', { no: 'Fluiditet • Formskifter', en: 'Fluidity • Shapeshifter' }],
+                ['[data-creature="draug"] .card-folklore-content .creature-description', { no: 'Aldri den samme to ganger. Vann som tar alle former. Vakker, farlig, umulig å fange i ett namn.', en: 'Never the same twice. Water that takes every form. Beautiful, dangerous, impossible to capture in one name.' }],
+                ['[data-creature="draug"] .card-folklore-content .creature-quote', { no: '"Det som glir unna grepet ditt, er ofte det sanneste."', en: '"What slips from your grasp is often the truest thing."' }],
+                ['[data-creature="draug"] .card-artist-content .creature-identity', { no: 'Nederland • Dancer', en: 'Netherlands • Dancer' }],
+                ['[data-creature="draug"] .card-artist-content .creature-description', { no: 'Flytende, presis og umulig å holde fast. Bevegelsen lar kroppen skifte form i møte med lyset.', en: 'Fluid, precise and impossible to hold still. The movement lets the body change shape in contact with the light.' }],
+                ['[data-creature="jotna"] .card-folklore-content .creature-identity', { no: 'Nattvette • Det kristendommen prøvde å begrave', en: 'Night Spirit • What Christianity tried to bury' }],
+                ['[data-creature="jotna"] .card-folklore-content .creature-description', { no: 'Den mektige naturkraften de forvandte til monster. Hun er stor, rå og tar plass uten å be om unnskyldning. Det de kalte stygt er det sterkeste ved henne.', en: 'The mighty force of nature they turned into a monster. She is vast, raw and takes up space without apology. What they called ugly is her greatest strength.' }],
+                ['[data-creature="jotna"] .card-folklore-content .creature-quote', { no: '"Du våkner ikke fordi du sover. Du våkner fordi hun slipper deg."', en: '"You do not wake because you are sleeping. You wake because she lets you go."' }],
+                ['[data-creature="jotna"] .card-artist-content .creature-identity', { no: 'Kunstner • Dominatrix • Aktivist', en: 'Artist • Dominatrix • Activist' }],
+                ['[data-creature="jotna"] .card-artist-content .creature-description', { no: 'Alma Adore er kunstner, dominatrix og aktivist. Founder of seduction.no og Club Seduction, tidligere konsept på Elsker.', en: 'Alma Adore is an artist, dominatrix and activist. Founder of seduction.no and Club Seduction, formerly a concept at Elsker.' }],
+                ['.club-seduction-kicker', { no: 'Etter vesenene', en: 'After the beings' }],
+                ['.club-seduction-copy p', { no: 'Ved midnatt skifter skogen form. Club Seduction feat DJ Pizza$lut tar publikum fra oppvåkning til overgivelse, og åpner Den Forbudte Skogen med mørkere energi, mer begjær og null vei tilbake.', en: 'At midnight the forest changes shape. Club Seduction feat DJ Pizza$lut takes the audience from awakening to surrender, opening The Forbidden Forest with darker energy, more desire and no way back.' }],
+                ['.club-seduction-row:nth-child(2) .club-seduction-label', { no: 'DJ Pizza$lut tar over', en: 'DJ Pizza$lut takes over' }],
+                ['.club-seduction-row:nth-child(3) .club-seduction-time', { no: 'Til 02:30', en: 'Until 02:30' }],
+                ['.club-seduction-footer', { no: 'Marinehagen • 6 juni 2026 • Bergen', en: 'Marinehagen • June 6, 2026 • Bergen' }],
+                ['.timeline-title', { no: 'Nattens Reise', en: 'The Night\'s Journey' }],
+                ['.timeline-item:nth-of-type(1) .timeline-content p', { no: 'Witch Princess åpner ritualet med <em>Forest Meeting EP</em> spilt ut i sin helhet. Vesenene våkner ett etter ett, Huldra, Nøkken, Draugen, Bergtrollet, Fossegrimen, Mare, mens skogen fylles sakte med magi. Musikken er lydsporet til oppvåkningssekvensen.', en: 'Witch Princess opens the ritual with <em>Forest Meeting EP</em> played in full. The beings awaken one by one, Huldra, Nøkken, Draugen, Bergtrollet, Fossegrimen, Mare, while the forest slowly fills with magic. The music is the soundtrack to the awakening sequence.' }, true],
+                ['.timeline-item:nth-of-type(2) .timeline-content h3', { no: 'Changeover, Overgangen', en: 'Changeover, The Transition' }],
+                ['.timeline-item:nth-of-type(2) .timeline-content p', { no: 'Den fortryllede skogen møter den forbudte. Energien skifter. Det som var varmt og mystisk blir mørkt og ekstatisk.', en: 'The enchanted forest meets the forbidden one. The energy shifts. What was warm and mysterious becomes dark and ecstatic.' }],
+                ['.timeline-item:nth-of-type(3) .timeline-content p', { no: 'DJ Pizza$lut tar over. Club Seduction. Begjær uten unnskyldning, kropper som tar plass, nytelse som politisk akt. Vesenene er fullt til stede. Ingen vei tilbake.', en: 'DJ Pizza$lut takes over. Club Seduction. Desire without apology, bodies taking up space, pleasure as a political act. The beings are fully present. No way back.' }],
+                ['#bergtattPreview + div h3', { no: 'BERGTATT, Audiovisuell installasjon av Ingrid Ormevik', en: 'BERGTATT, Audiovisual installation by Ingrid Ormevik' }],
+                ['#bergtattPreview + div p', { no: 'Du ser bare begynnelsen. Den fulle opplevelsen vekkes til live i Den Forbudte Skogen, lyd, kropp og rom smelter sammen i et rituelt møte du ikke kan forberede deg på.', en: 'You are only seeing the beginning. The full experience is awakened in The Forbidden Forest, where sound, body and space merge in a ritual encounter you cannot prepare for.' }],
+                ['#bergtattPreview + div span', { no: 'Teaser modus aktiv', en: 'Teaser mode active' }],
+                ['.bergtatt-mobile-link .cta-button', { no: 'Se BERGTATT-teaser', en: 'View BERGTATT teaser' }],
+                ['a[href*="ticketco"].cta-button', { no: 'Kjøp Billett', en: 'Buy Ticket' }]
+            ],
+            all: [
+                ['.card-state-toggle', 'aria-label', { no: 'Bytt mellom vesen og artist', en: 'Switch between being and artist' }],
+                ['.card-state-button[data-card-state="folklore"]', null, { no: 'Vesen', en: 'Being' }],
+                ['.card-state-button[data-card-state="artist"]', null, { no: 'Artist', en: 'Artist' }]
+            ]
+        };
+
+        function tr(value) {
+            return value[LANG.current] || value.no;
+        }
+
+        function applyLanguage() {
+            const button = document.getElementById('language-toggle');
+            document.documentElement.lang = LANG.current === 'en' ? 'en' : 'no';
+            document.title = tr(TRANSLATIONS.title);
+            if (button) {
+                button.textContent = 'NOR/ENG';
+                button.setAttribute('aria-label', tr(TRANSLATIONS.toggleLabel));
+            }
+
+            TRANSLATIONS.texts.forEach(([selector, value, html]) => {
+                const element = document.querySelector(selector);
+                if (!element) return;
+                if (html) element.innerHTML = tr(value);
+                else element.textContent = tr(value);
+            });
+
+            TRANSLATIONS.all.forEach(([selector, attr, value]) => {
+                document.querySelectorAll(selector).forEach((element) => {
+                    if (attr) element.setAttribute(attr, tr(value));
+                    else element.textContent = tr(value);
+                });
+            });
+
+            const haptic = document.getElementById('hapticIndicator');
+            if (haptic) {
+                haptic.textContent = LANG.current === 'en' ? 'RITUAL RESPONSE ACTIVE' : 'RITUELL RESPONS AKTIV';
+            }
+        }
+
+        function initLanguageSystem() {
+            const button = document.getElementById('language-toggle');
+            applyLanguage();
+            if (!button) return;
+            button.addEventListener('click', () => {
+                LANG.current = LANG.current === 'no' ? 'en' : 'no';
+                storeLanguage(LANG.current);
+                applyLanguage();
+                tryVibrate([25, 15, 25]);
+            });
+        }
+
+        initLanguageSystem();
 
         // ---------------------------------------------------------------
         // NORTHERN LIGHTS AURORA EFFECT - Enhanced
         // ---------------------------------------------------------------
         const canvas = document.getElementById('aurora-canvas');
-        const ctx = canvas.getContext('2d');
-
-        const isInIframe = window !== window.top;
+        const ctx = canvas.getContext('2d', { alpha: true });
 
         function isMobilePerformanceMode() {
             const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-            return isInIframe || window.innerWidth < 768 || (coarsePointer && window.innerWidth < 1024);
+            return window.innerWidth < 768 || (coarsePointer && window.innerWidth < 1024);
         }
 
-        const mobileLiteMode = isMobilePerformanceMode();
+        let mobileLiteMode = isMobilePerformanceMode();
         document.body.classList.toggle('mobile-lite', mobileLiteMode);
 
         function resizeCanvas() {
-            const scale = isMobilePerformanceMode() ? 0.5 : 1;
+            const scale = mobileLiteMode ? 0.5 : 0.82;
             canvas.width = Math.floor(window.innerWidth * scale);
             canvas.height = Math.floor(window.innerHeight * scale);
             canvas.style.width = `${window.innerWidth}px`;
             canvas.style.height = `${window.innerHeight}px`;
         }
         resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
+
+        let resizeQueued = false;
+        function schedulePerformanceResize() {
+            if (resizeQueued) return;
+            resizeQueued = true;
+            requestAnimationFrame(() => {
+                resizeQueued = false;
+                mobileLiteMode = isMobilePerformanceMode();
+                document.body.classList.toggle('mobile-lite', mobileLiteMode);
+                resizeCanvas();
+                resizeShaderCanvas();
+            });
+        }
+        window.addEventListener('resize', schedulePerformanceResize, { passive: true });
 
         let time = 0;
         let auroraFrameToggle = false;
         function drawAurora() {
-            const mobileMode = isMobilePerformanceMode();
+            const mobileMode = mobileLiteMode;
             if (document.hidden) {
                 requestAnimationFrame(drawAurora);
                 return;
@@ -2380,39 +2600,39 @@
             }
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-             
+
             // Multiple aurora layers with different speeds
             const layerCount = mobileMode ? 1 : 3;
-            const xStep = mobileMode ? 12 : 5;
+            const xStep = mobileMode ? 12 : 8;
             for (let layer = 0; layer < layerCount; layer++) {
                 const layerTime = time + layer * 0.5;
                 const alpha = mobileMode ? 0.085 + (layer * 0.02) : 0.05 + (layer * 0.03);
-                
+
                 ctx.globalCompositeOperation = 'lighter';
-                
+
                 // Draw wave pattern
                 ctx.beginPath();
                 for (let x = 0; x < canvas.width; x += xStep) {
-                    const y = canvas.height * 0.3 + 
-                              Math.sin(x * 0.01 + layerTime) * 100 + 
+                    const y = canvas.height * 0.3 +
+                              Math.sin(x * 0.01 + layerTime) * 100 +
                               Math.sin(x * 0.005 + layerTime * 0.5) * 50;
-                    
+
                     if (x === 0) ctx.moveTo(x, y);
                     else ctx.lineTo(x, y);
                 }
-                
+
                 // Create gradient for wave
                 const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
                 gradient.addColorStop(0, `rgba(0, 212, 255, ${alpha})`);
                 gradient.addColorStop(0.33, `rgba(0, 255, 136, ${alpha})`);
                 gradient.addColorStop(0.66, `rgba(185, 104, 255, ${alpha})`);
                 gradient.addColorStop(1, `rgba(255, 215, 0, ${alpha})`);
-                
+
                 ctx.strokeStyle = gradient;
                 ctx.lineWidth = mobileMode ? 22 + (layer * 10) : 40 + (layer * 20);
                 ctx.stroke();
             }
-             
+
             time += mobileMode ? 0.005 : 0.008;
             requestAnimationFrame(drawAurora);
         }
@@ -2435,20 +2655,20 @@
             mountainCanvas.style.zIndex = '5';
             mountainCanvas.style.pointerEvents = 'none';
             mountainCanvas.style.opacity = '0.4';
-            
+
             document.querySelector('.forest-atmosphere').appendChild(mountainCanvas);
-            
-            const mCtx = mountainCanvas.getContext('2d');
-            
+
+            const mCtx = mountainCanvas.getContext('2d', { alpha: true });
+
             function resizeMountains() {
                 mountainCanvas.width = window.innerWidth;
                 mountainCanvas.height = window.innerHeight * 0.4;
                 drawMountainSilhouette();
             }
-            
+
             function drawMountainSilhouette() {
                 mCtx.clearRect(0, 0, mountainCanvas.width, mountainCanvas.height);
-                
+
                 // Bergen's Seven Mountains silhouette
                 const mountains = [
                     { x: 0.1, height: 0.6, width: 0.15 },    // Ulriken
@@ -2459,21 +2679,21 @@
                     { x: 0.78, height: 0.5, width: 0.12 },   // Lyderhorn
                     { x: 0.9, height: 0.4, width: 0.1 }      // Sandviksfjellet
                 ];
-                
+
                 const gradient = mCtx.createLinearGradient(0, 0, 0, mountainCanvas.height);
                 gradient.addColorStop(0, 'rgba(10, 14, 13, 0.9)');
                 gradient.addColorStop(0.6, 'rgba(26, 40, 32, 0.8)');
                 gradient.addColorStop(1, 'rgba(10, 14, 13, 0.95)');
-                
+
                 mCtx.fillStyle = gradient;
                 mCtx.beginPath();
                 mCtx.moveTo(0, mountainCanvas.height);
-                
+
                 mountains.forEach(mountain => {
                     const baseX = mountain.x * mountainCanvas.width;
                     const peakY = mountainCanvas.height * (1 - mountain.height);
                     const baseWidth = mountain.width * mountainCanvas.width;
-                    
+
                     // Create jagged mountain peak
                     for (let i = 0; i < 10; i++) {
                         const x = baseX - baseWidth/2 + (i/9) * baseWidth;
@@ -2482,24 +2702,26 @@
                         mCtx.lineTo(x, y);
                     }
                 });
-                
+
                 mCtx.lineTo(mountainCanvas.width, mountainCanvas.height);
                 mCtx.closePath();
                 mCtx.fill();
-                
+
                 // Add mist at mountain base
                 const mistGradient = mCtx.createLinearGradient(0, mountainCanvas.height * 0.7, 0, mountainCanvas.height);
                 mistGradient.addColorStop(0, 'rgba(138, 154, 149, 0.1)');
                 mistGradient.addColorStop(1, 'rgba(138, 154, 149, 0.05)');
-                
+
                 mCtx.fillStyle = mistGradient;
                 mCtx.fillRect(0, mountainCanvas.height * 0.7, mountainCanvas.width, mountainCanvas.height * 0.3);
             }
-            
+
             resizeMountains();
-            window.addEventListener('resize', resizeMountains);
+            window.addEventListener('resize', () => {
+                requestAnimationFrame(resizeMountains);
+            }, { passive: true });
         }
-        
+
         if (!mobileLiteMode) {
             drawBergenMountains();
         }
@@ -2508,16 +2730,18 @@
         // FLOATING PARTICLES
         // ---------------------------------------------------------------
         const atmosphere = document.querySelector('.forest-atmosphere');
-        
+
         const ambientParticleCount = mobileLiteMode ? 0 : 30;
+        const ambientParticles = document.createDocumentFragment();
         for (let i = 0; i < ambientParticleCount; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.style.left = Math.random() * 100 + '%';
             particle.style.setProperty('--drift', (Math.random() - 0.5) * 200 + 'px');
             particle.style.animationDelay = Math.random() * 15 + 's';
-            atmosphere.appendChild(particle);
+            ambientParticles.appendChild(particle);
         }
+        atmosphere.appendChild(ambientParticles);
 
        // ---------------------------------------------------------------
 // CREATURE CARD INTERACTIONS - Particle Explosion on Click
@@ -2596,7 +2820,7 @@ creatureCards.forEach(card => {
                 [30, 20, 50, 20, 70, 20, 100], // 4th click: quad pulse
                 [50, 30, 70, 30, 100, 30, 150] // 5th+ click: intense ritual pulse
             ];
-            
+
             // Use the most intense pattern after 5 clicks
             const patternIndex = Math.min(count - 1, patterns.length - 1);
             return patterns[patternIndex];
@@ -2613,7 +2837,7 @@ creatureCards.forEach(card => {
                     return false;
                 }
             }
-            
+
             // Try webkit vibrate (older iOS)
             if (navigator.webkitVibrate) {
                 try {
@@ -2624,7 +2848,7 @@ creatureCards.forEach(card => {
                     return false;
                 }
             }
-            
+
             return false;
         }
 
@@ -2666,39 +2890,39 @@ creatureCards.forEach(card => {
         function showLegendaryNotification(creatureType) {
             const creatureData = {
                 'huldra': {
-                    icon: '\u{1F33F}',
-                    name: 'HULDRA VÅKNER',
-                    subtitle: 'Forførende',
+                    icon: '🌿',
+                    name: { no: 'HULDRA VÅKNER', en: 'HULDRA AWAKENS' },
+                    subtitle: { no: 'Forførende', en: 'Seductive' },
                     color: '#ff1744'
                 },
                 'nokken': {
-                    icon: '\u{1F441}️',
-                    name: 'NØKKEN VÅKNER',
-                    subtitle: 'Formskiftende',
+                    icon: '👁',
+                    name: { no: 'NØKKEN VÅKNER', en: 'NØKKEN AWAKENS' },
+                    subtitle: { no: 'Formskiftende', en: 'Shapeshifting' },
                     color: '#00d4ff'
                 },
                 'troll': {
-                    icon: '\u{1FAA8}',
-                    name: 'BERGTROLLET VÅKNER',
-                    subtitle: 'Kraftfulle',
+                    icon: '🪨',
+                    name: { no: 'BERGTROLLET VÅKNER', en: 'THE MOUNTAIN TROLL AWAKENS' },
+                    subtitle: { no: 'Kraftfulle', en: 'Powerful' },
                     color: '#00ff88'
                 },
                 'fossegrim': {
-                    icon: '\u{1F3BB}',
-                    name: 'FOSSEGRIMEN VÅKNER',
-                    subtitle: 'Vakre',
+                    icon: '🎻',
+                    name: { no: 'FOSSEGRIMEN VÅKNER', en: 'FOSSEGRIMEN AWAKENS' },
+                    subtitle: { no: 'Vakre', en: 'Beautiful' },
                     color: '#ffd700'
                 },
                 'draug': {
                     icon: '⚓',
-                    name: 'DRAUGEN VÅKNER',
-                    subtitle: 'Gjenoppsåtte',
+                    name: { no: 'DRAUGEN VÅKNER', en: 'DRAUGEN AWAKENS' },
+                    subtitle: { no: 'Gjenoppståtte', en: 'Risen' },
                     color: '#b968ff'
                 },
                 'jotna': {
-                    icon: '\u{1F525}',
-                    name: 'MARE VÅKNER',
-                    subtitle: 'Mareritt',
+                    icon: '🔥',
+                    name: { no: 'MARE VÅKNER', en: 'MARE AWAKENS' },
+                    subtitle: { no: 'Mareritt', en: 'Nightmare' },
                     color: '#ff8a1f'
                 }
             };
@@ -2713,17 +2937,17 @@ creatureCards.forEach(card => {
             // Set creature data
             notification.style.setProperty('--creature-color', creature.color);
             icon.textContent = creature.icon;
-            text.textContent = creature.name;
-            subtitle.textContent = creature.subtitle;
+            text.textContent = tr(creature.name);
+            subtitle.textContent = tr(creature.subtitle);
 
             // Show notification
             notification.classList.add('show');
 
-            // Create particle burst (skip on mobile/iframe for performance)
-            if (!mobileLiteMode) {
-                createNotificationParticleBurst(creature.color);
-                createFloatingParticles(creature.color);
-            }
+            // Create 40-particle burst
+            createNotificationParticleBurst(creature.color);
+
+            // Create floating background particles
+            createFloatingParticles(creature.color);
 
             // Auto-hide after 6 seconds
             setTimeout(() => {
@@ -2735,6 +2959,8 @@ creatureCards.forEach(card => {
             const container = document.getElementById('notificationParticles');
             container.style.setProperty('--creature-color', color);
             const burstCount = isMobilePerformanceMode() ? 16 : 40;
+            const particles = [];
+            const fragment = document.createDocumentFragment();
 
             // Create ritual burst particles
             for (let i = 0; i < burstCount; i++) {
@@ -2749,27 +2975,34 @@ creatureCards.forEach(card => {
                 const tx = Math.cos(angle) * velocity;
                 const ty = Math.sin(angle) * velocity;
 
-                container.appendChild(particle);
+                particles.push({ particle, tx, ty });
+                fragment.appendChild(particle);
+            }
 
+            container.appendChild(fragment);
+
+            particles.forEach(({ particle, tx, ty }) => {
                 // Animate burst
                 particle.animate([
-                    { 
-                        transform: 'translate(-50%, -50%) scale(1)', 
-                        opacity: 1 
+                    {
+                        transform: 'translate(-50%, -50%) scale(1)',
+                        opacity: 1
                     },
-                    { 
-                        transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`, 
-                        opacity: 0 
+                    {
+                        transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0)`,
+                        opacity: 0
                     }
                 ], {
                     duration: 1000 + Math.random() * 500,
                     easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
                 }).onfinish = () => particle.remove();
-            }
+            });
         }
 
         function createFloatingParticles(color) {
             const floatCount = isMobilePerformanceMode() ? 10 : 25;
+            const particles = [];
+            const fragment = document.createDocumentFragment();
             // Create floating particles that rise up
             for (let i = 0; i < floatCount; i++) {
                 const particle = document.createElement('div');
@@ -2780,28 +3013,33 @@ creatureCards.forEach(card => {
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.top = '100%';
 
-                document.body.appendChild(particle);
+                particles.push(particle);
+                fragment.appendChild(particle);
+            }
 
+            document.body.appendChild(fragment);
+
+            particles.forEach((particle) => {
                 // Animate floating up
                 particle.animate([
-                    { 
-                        transform: 'translateY(0) translateX(0)', 
-                        opacity: 0 
+                    {
+                        transform: 'translateY(0) translateX(0)',
+                        opacity: 0
                     },
-                    { 
-                        transform: 'translateY(-20vh) translateX(0)', 
-                        opacity: 0.8 
+                    {
+                        transform: 'translateY(-20vh) translateX(0)',
+                        opacity: 0.8
                     },
-                    { 
-                        transform: `translateY(-120vh) translateX(${(Math.random() - 0.5) * 100}px)`, 
-                        opacity: 0 
+                    {
+                        transform: `translateY(-120vh) translateX(${(Math.random() - 0.5) * 100}px)`,
+                        opacity: 0
                     }
                 ], {
                     duration: 4000 + Math.random() * 2000,
                     easing: 'ease-out',
                     delay: Math.random() * 500
                 }).onfinish = () => particle.remove();
-            }
+            });
         }
 
         function createExplosion(container, creatureType) {
@@ -2817,6 +3055,8 @@ creatureCards.forEach(card => {
             const color = colorMap[creatureType];
             if (!color) return;
             const explosionCount = isMobilePerformanceMode() ? 14 : 30;
+            const particles = [];
+            const fragment = document.createDocumentFragment();
 
             // Create explosion particles
             for (let i = 0; i < explosionCount; i++) {
@@ -2825,29 +3065,34 @@ creatureCards.forEach(card => {
                 particle.style.setProperty('--glow-color', color);
                 particle.style.background = color;
                 particle.style.boxShadow = `0 0 15px ${color}`;
-                
+
                 const angle = (Math.PI * 2 * i) / explosionCount;
                 const velocity = isMobilePerformanceMode() ? 72 + Math.random() * 58 : 100 + Math.random() * 100;
                 const tx = Math.cos(angle) * velocity;
                 const ty = Math.sin(angle) * velocity;
-                
-                container.appendChild(particle);
-                
+
+                particles.push({ particle, tx, ty });
+                fragment.appendChild(particle);
+            }
+
+            container.appendChild(fragment);
+
+            particles.forEach(({ particle, tx, ty }) => {
                 // Animate
                 particle.animate([
-                    { 
-                        transform: 'translate(0, 0) scale(1)', 
-                        opacity: 1 
+                    {
+                        transform: 'translate(0, 0) scale(1)',
+                        opacity: 1
                     },
-                    { 
-                        transform: `translate(${tx}px, ${ty}px) scale(0)`, 
-                        opacity: 0 
+                    {
+                        transform: `translate(${tx}px, ${ty}px) scale(0)`,
+                        opacity: 0
                     }
                 ], {
                     duration: 800 + Math.random() * 400,
                     easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
                 }).onfinish = () => particle.remove();
-            }
+            });
         }
 
         // ---------------------------------------------------------------
@@ -2860,13 +3105,13 @@ creatureCards.forEach(card => {
                         entry.target.style.opacity = '0';
                         entry.target.style.transform = 'translateY(30px)';
                         entry.target.style.transition = 'all 0.8s ease-out';
-                        
+
                         setTimeout(() => {
                             entry.target.style.opacity = '1';
                             entry.target.style.transform = 'translateY(0)';
                         }, 50);
                     }, index * 150);
-                    
+
                     observer.unobserve(entry.target);
                 }
             });
@@ -2889,29 +3134,28 @@ creatureCards.forEach(card => {
                 }
             });
         });
-    
+
         // ---------------------------------------------------------------
         // ADDED ENHANCEMENTS - REAL AURORA SHADER / RITUAL FX / MOBILE HAPTICS
         // ---------------------------------------------------------------
         const shaderCanvas = document.getElementById('aurora-shader-canvas');
-        const shaderCtx = shaderCanvas ? shaderCanvas.getContext('2d') : null;
+        const shaderCtx = shaderCanvas ? shaderCanvas.getContext('2d', { alpha: true }) : null;
 
         function resizeShaderCanvas() {
             if (!shaderCanvas) return;
-            const scale = isMobilePerformanceMode() ? 0.45 : 1;
+            const scale = mobileLiteMode ? 0.45 : 0.72;
             shaderCanvas.width = Math.floor(window.innerWidth * scale);
             shaderCanvas.height = Math.floor(window.innerHeight * scale);
             shaderCanvas.style.width = `${window.innerWidth}px`;
             shaderCanvas.style.height = `${window.innerHeight}px`;
         }
         resizeShaderCanvas();
-        window.addEventListener('resize', resizeShaderCanvas);
 
         let shaderTime = 0;
         let shaderFrameToggle = false;
         function drawAuroraShader() {
             if (!shaderCtx || !shaderCanvas) return;
-            const mobileMode = isMobilePerformanceMode();
+            const mobileMode = mobileLiteMode;
             if (document.hidden) {
                 requestAnimationFrame(drawAuroraShader);
                 return;
@@ -2927,7 +3171,7 @@ creatureCards.forEach(card => {
             shaderCtx.clearRect(0, 0, shaderCanvas.width, shaderCanvas.height);
             shaderCtx.globalCompositeOperation = 'lighter';
 
-            const bandCount = mobileMode ? 2 : 7;
+            const bandCount = mobileMode ? 2 : 5;
             for (let band = 0; band < bandCount; band++) {
                 const t = shaderTime * (0.65 + band * 0.09);
                 const baseY = shaderCanvas.height * (0.14 + band * 0.055);
@@ -2943,7 +3187,7 @@ creatureCards.forEach(card => {
 
                 shaderCtx.beginPath();
                 shaderCtx.moveTo(0, shaderCanvas.height);
-                for (let x = 0; x <= shaderCanvas.width; x += (mobileMode ? 18 : 7)) {
+                for (let x = 0; x <= shaderCanvas.width; x += (mobileMode ? 18 : 11)) {
                     const y = baseY
                         + Math.sin(x * 0.006 + t) * amplitude
                         + Math.sin(x * 0.013 - t * 1.5) * (amplitude * 0.45)
@@ -2956,7 +3200,7 @@ creatureCards.forEach(card => {
                 shaderCtx.fill();
 
                 shaderCtx.beginPath();
-                for (let x = 0; x <= shaderCanvas.width; x += (mobileMode ? 22 : 9)) {
+                for (let x = 0; x <= shaderCanvas.width; x += (mobileMode ? 22 : 14)) {
                     const y = baseY
                         + Math.sin(x * 0.006 + t) * amplitude
                         + Math.sin(x * 0.013 - t * 1.5) * (amplitude * 0.45)
@@ -3093,7 +3337,9 @@ creatureCards.forEach(card => {
                 triggerShake(element, intensity);
             }
 
-            const modeText = didVibrate ? 'RITUELL HAPTIKK · VIBRASJON' : (isIOS ? 'RITUELL HAPTIKK · LYD + RISTING' : 'RITUELL HAPTIKK · RISTING');
+            const modeText = LANG.current === 'en'
+                ? (didVibrate ? 'RITUAL HAPTICS · VIBRATION' : (isIOS ? 'RITUAL HAPTICS · SOUND + SHAKE' : 'RITUAL HAPTICS · SHAKE'))
+                : (didVibrate ? 'RITUELL HAPTIKK · VIBRASJON' : (isIOS ? 'RITUELL HAPTIKK · LYD + RISTING' : 'RITUELL HAPTIKK · RISTING'));
             showHapticMode(modeText);
         }
 
@@ -3103,9 +3349,7 @@ creatureCards.forEach(card => {
             card.classList.add('ritual-active');
             setTimeout(() => card.classList.remove('ritual-active'), 1600);
 
-            if (mobileLiteMode) return;
-
-            const symbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚹ', 'ᛁ'];
+            const symbols = ['?', '?', '?', '?', '?', '?', '?', '?'];
             const rect = card.getBoundingClientRect();
 
             for (let i = 0; i < 7; i++) {
@@ -3128,19 +3372,24 @@ setTimeout(() => {
 if (mobileLiteMode) {
     const preview = document.getElementById('bergtattPreview');
     if (preview) {
+        preview.removeAttribute('src');
         preview.style.display = 'none';
     }
 }
 
-// Keep BERGTATT teaser in a continuous loop on larger screens only.
-if (!mobileLiteMode) {
-    const preview = document.getElementById('bergtattPreview');
-    if (preview) {
-        preview.src = 'bergtatt-visuals.html?preview=true';
-        setInterval(() => {
-            preview.src = `bergtatt-visuals.html?preview=true&t=${Date.now()}`;
-        }, 45000);
-    }
+// Keep BERGTATT teaser fresh without reloading it while the user is looking at it.
+const bergtattLoopPreview = document.getElementById('bergtattPreview');
+let bergtattPreviewVisible = false;
+if (bergtattLoopPreview && !mobileLiteMode) {
+    const previewObserver = new IntersectionObserver((entries) => {
+        bergtattPreviewVisible = entries.some((entry) => entry.isIntersecting);
+    }, { threshold: 0.08 });
+    previewObserver.observe(bergtattLoopPreview);
+
+    setInterval(() => {
+        if (document.hidden || bergtattPreviewVisible) return;
+        bergtattLoopPreview.src = `https://ingridormevik.github.io/bergtatt-visuals.html?preview=true&t=${Date.now()}`;
+    }, 45000);
 }
 
     </script>
