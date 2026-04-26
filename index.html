@@ -952,46 +952,20 @@
             pointer-events: none;
             background: transparent !important;
             box-shadow: none !important;
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-            -webkit-mask-size: 100% 100%;
-            mask-size: 100% 100%;
         }
 
         .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer {
-            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 34px rgba(255, 80, 170, 0.36)) drop-shadow(0 0 72px rgba(48, 220, 150, 0.16));
-            -webkit-mask-image:
-                radial-gradient(ellipse 36% 26% at 33% 17%, #000 0 52%, transparent 74%),
-                radial-gradient(ellipse 42% 48% at 36% 48%, #000 0 58%, transparent 78%),
-                radial-gradient(ellipse 62% 30% at 54% 82%, #000 0 58%, transparent 82%);
-            mask-image:
-                radial-gradient(ellipse 36% 26% at 33% 17%, #000 0 52%, transparent 74%),
-                radial-gradient(ellipse 42% 48% at 36% 48%, #000 0 58%, transparent 78%),
-                radial-gradient(ellipse 62% 30% at 54% 82%, #000 0 58%, transparent 82%);
+            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
         }
 
         .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer {
-            filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58)) drop-shadow(0 0 34px rgba(205, 158, 100, 0.34)) drop-shadow(0 0 70px rgba(120, 80, 52, 0.2));
-            -webkit-mask-image:
-                radial-gradient(ellipse 26% 20% at 52% 14%, #000 0 54%, transparent 76%),
-                radial-gradient(ellipse 42% 48% at 52% 44%, #000 0 58%, transparent 80%),
-                radial-gradient(ellipse 58% 36% at 54% 78%, #000 0 56%, transparent 82%);
-            mask-image:
-                radial-gradient(ellipse 26% 20% at 52% 14%, #000 0 54%, transparent 76%),
-                radial-gradient(ellipse 42% 48% at 52% 44%, #000 0 58%, transparent 80%),
-                radial-gradient(ellipse 58% 36% at 54% 78%, #000 0 56%, transparent 82%);
+            filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58));
         }
 
         .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .draug-dancer {
-            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 32px rgba(255, 210, 96, 0.36)) drop-shadow(0 0 74px rgba(134, 222, 255, 0.18));
-            -webkit-mask-image:
-                radial-gradient(ellipse 32% 34% at 42% 34%, #000 0 58%, transparent 80%),
-                radial-gradient(ellipse 52% 42% at 56% 58%, #000 0 58%, transparent 82%),
-                radial-gradient(ellipse 62% 28% at 50% 80%, #000 0 54%, transparent 80%);
-            mask-image:
-                radial-gradient(ellipse 32% 34% at 42% 34%, #000 0 58%, transparent 80%),
-                radial-gradient(ellipse 52% 42% at 56% 58%, #000 0 58%, transparent 82%),
-                radial-gradient(ellipse 62% 28% at 50% 80%, #000 0 54%, transparent 80%);
+            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
+            max-width: 410px;
+            transform: translateY(12px) scale(1.28);
         }
 
         @keyframes creatureCutoutAura {
@@ -2321,6 +2295,44 @@
                     </div>
                 </div>
 
+                <!-- BERGTROLLET -->
+                <div class="creature-card artist-reveal-card" data-creature="troll">
+                    <div class="particle-explosion"></div>
+                    <div class="creature-icon">
+                        <div class="folklore-image">
+                            <img src="assets/bergtrollet.png" alt="Bergtrollet" class="card-folklore-img">
+                        </div>
+                        <div class="artist-image">
+                            <img src="assets/diesel.PNG" alt="Bergtrollet cutout reveal" class="draug-dancer">
+                        </div>
+                    </div>
+                    <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
+                        <button type="button" class="card-state-button is-active" data-card-state="folklore" aria-pressed="true">Vesen</button>
+                        <button type="button" class="card-state-button" data-card-state="artist" aria-pressed="false">Artist</button>
+                    </div>
+                    <div class="card-folklore-content">
+                        <h3 class="creature-name">BERGTROLLET</h3>
+                        <div class="creature-identity">Butch kraft</div>
+                        <p class="creature-description">
+                            Fra tidenes morgen, grensesprengende, urokkelig og evig. Kan ikke holdes nede av loven.
+                        </p>
+                        <div class="creature-quote">
+                            Bergens syv fjell dømmer ikke. De bærer.
+                        </div>
+                    </div>
+                    <div class="card-artist-content">
+                        <h3 class="creature-name">Diesel</h3>
+                        <div class="artist-pronouns">han/ham</div>
+                        <div class="creature-identity">Ballroom • Performer • Prince of Seduction</div>
+                        <p class="creature-description">
+                            Diesel er en kraft av rå eleganse og kompromissløs tilstedeværelse. Hver bevegelse bærer historie, motstand og begjær.
+                        </p>
+                        <div class="creature-quote">
+                            Diesel • Bergtrollet
+                        </div>
+                    </div>
+                </div>
+
                 <!-- NØKKEN -->
                 <div class="creature-card artist-reveal-card" data-creature="nokken">
                     <div class="particle-explosion"></div>
@@ -2359,15 +2371,15 @@
                     </div>
                 </div>
 
-                <!-- BERGTROLLET -->
-                <div class="creature-card artist-reveal-card" data-creature="troll">
+                <!-- MARE -->
+                <div class="creature-card artist-reveal-card" data-creature="jotna">
                     <div class="particle-explosion"></div>
                     <div class="creature-icon">
                         <div class="folklore-image">
-                            <img src="assets/bergtrollet.png" alt="Bergtrollet" class="card-folklore-img">
+                            <img src="assets/mare.png" alt="MARE" class="card-folklore-img">
                         </div>
                         <div class="artist-image">
-                            <img src="assets/diesel.PNG" alt="Bergtrollet cutout reveal" class="draug-dancer">
+                            <img src="assets/alma.png" alt="MARE cutout reveal" class="draug-dancer">
                         </div>
                     </div>
                     <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
@@ -2375,24 +2387,62 @@
                         <button type="button" class="card-state-button" data-card-state="artist" aria-pressed="false">Artist</button>
                     </div>
                     <div class="card-folklore-content">
-                        <h3 class="creature-name">BERGTROLLET</h3>
-                        <div class="creature-identity">Butch kraft</div>
+                        <h3 class="creature-name">MARE</h3>
+                        <div class="creature-identity">Nattvette</div>
                         <p class="creature-description">
-                            Fra tidenes morgen, grensesprengende, urokkelig og evig. Kan ikke holdes nede av loven.
+                            Den mektige naturkraften de forvandte til monster. Hun er rå og tar plass uten å be om unnskyldning.
                         </p>
                         <div class="creature-quote">
-                            Bergens syv fjell dømmer ikke. De bærer.
+                            Du våkner når hun slipper deg.
                         </div>
                     </div>
                     <div class="card-artist-content">
-                        <h3 class="creature-name">Diesel</h3>
-                        <div class="artist-pronouns">han/ham</div>
-                        <div class="creature-identity">Ballroom • Performer • Prince of Seduction</div>
+                        <h3 class="creature-name">Alma Adore</h3>
+                        <div class="artist-pronouns">hun/henne</div>
+                        <div class="creature-identity">Kunstner • Dominatrix • Aktivist</div>
                         <p class="creature-description">
-                            Diesel er en kraft av rå eleganse og kompromissløs tilstedeværelse. Hver bevegelse bærer historie, motstand og begjær.
+                            Alma Adore er kunstner, dominatrix og aktivist. Founder of seduction.no og Club Seduction, tidligere konsept på Elsker.
                         </p>
                         <div class="creature-quote">
-                            Diesel • Bergtrollet
+                            Instagram: @alma.made.it.rain
+                        </div>
+                    </div>
+                </div>
+                <!-- DRAUGEN -->
+                <div class="creature-card artist-reveal-card" data-creature="draug">
+                    <div class="particle-explosion"></div>
+                    <div class="creature-icon">
+                        <div class="folklore-image">
+                            <img src="assets/draugen.png" alt="Draugen" class="card-folklore-img">
+                        </div>
+                        <div class="artist-image">
+                            <img src="assets/dennixx.PNG" alt="Draugen cutout reveal" class="draug-dancer">
+                        </div>
+                    </div>
+                    <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
+                        <button type="button" class="card-state-button is-active" data-card-state="folklore" aria-pressed="true">Vesen</button>
+                        <button type="button" class="card-state-button" data-card-state="artist" aria-pressed="false">Artist</button>
+                    </div>
+                    <div class="card-folklore-content">
+                        <h3 class="creature-name">DRAUGEN</h3>
+                        <div class="creature-identity">Formskifteren</div>
+                        <p class="creature-description">
+                            Aldri den samme to ganger, og kan ta ulike former. Vakker, farlig og kan ikke fanges av et navn.
+                        </p>
+                        <div class="creature-quote">
+                            Det som skifter form, kan ikke fanges.
+                        </div>
+                    </div>
+                    <div class="card-artist-content">
+                        <h3 class="creature-name">Dennixx Nijmegen</h3>
+                        <div class="artist-pronouns">han/ham</div>
+                        <div class="creature-identity">Nederland • Dancer</div>
+                        <p class="creature-description">
+                            Flytende, presis og umulig å holde fast.
+                            Bevegelsen lar kroppen skifte form i møte med lyset.
+                        </p>
+                        <div class="creature-quote">
+                            Instagram: @dennixx.nijmegen
                         </div>
                     </div>
                 </div>
@@ -2435,82 +2485,6 @@
                     </div>
                 </div>
 
-                <!-- DRAUGEN -->
-                <div class="creature-card artist-reveal-card" data-creature="draug">
-                    <div class="particle-explosion"></div>
-                    <div class="creature-icon">
-                        <div class="folklore-image">
-                            <img src="assets/draugen.png" alt="Draugen" class="card-folklore-img">
-                        </div>
-                        <div class="artist-image">
-                            <img src="assets/dennixx.PNG" alt="Draugen cutout reveal" class="draug-dancer">
-                        </div>
-                    </div>
-                    <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
-                        <button type="button" class="card-state-button is-active" data-card-state="folklore" aria-pressed="true">Vesen</button>
-                        <button type="button" class="card-state-button" data-card-state="artist" aria-pressed="false">Artist</button>
-                    </div>
-                    <div class="card-folklore-content">
-                        <h3 class="creature-name">DRAUGEN</h3>
-                        <div class="creature-identity">Formskifteren</div>
-                        <p class="creature-description">
-                            Aldri den samme to ganger, og kan ta ulike former. Vakker, farlig og kan ikke fanges av et navn.
-                        </p>
-                        <div class="creature-quote">
-                            Det som skifter form, kan ikke fanges.
-                        </div>
-                    </div>
-                    <div class="card-artist-content">
-                        <h3 class="creature-name">Dennixx Nijmegen</h3>
-                        <div class="artist-pronouns">han/ham</div>
-                        <div class="creature-identity">Nederland • Dancer</div>
-                        <p class="creature-description">
-                            Flytende, presis og umulig å holde fast.
-                            Bevegelsen lar kroppen skifte form i møte med lyset.
-                        </p>
-                        <div class="creature-quote">
-                            Instagram: @dennixx.nijmegen
-                        </div>
-                    </div>
-                </div>
-
-                <!-- MARE -->
-                <div class="creature-card artist-reveal-card" data-creature="jotna">
-                    <div class="particle-explosion"></div>
-                    <div class="creature-icon">
-                        <div class="folklore-image">
-                            <img src="assets/mare.png" alt="MARE" class="card-folklore-img">
-                        </div>
-                        <div class="artist-image">
-                            <img src="assets/alma.png" alt="MARE cutout reveal" class="draug-dancer">
-                        </div>
-                    </div>
-                    <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
-                        <button type="button" class="card-state-button is-active" data-card-state="folklore" aria-pressed="true">Vesen</button>
-                        <button type="button" class="card-state-button" data-card-state="artist" aria-pressed="false">Artist</button>
-                    </div>
-                    <div class="card-folklore-content">
-                        <h3 class="creature-name">MARE</h3>
-                        <div class="creature-identity">Nattvette</div>
-                        <p class="creature-description">
-                            Den mektige naturkraften de forvandte til monster. Hun er rå og tar plass uten å be om unnskyldning.
-                        </p>
-                        <div class="creature-quote">
-                            Du våkner når hun slipper deg.
-                        </div>
-                    </div>
-                    <div class="card-artist-content">
-                        <h3 class="creature-name">Alma Adore</h3>
-                        <div class="artist-pronouns">hun/henne</div>
-                        <div class="creature-identity">Kunstner • Dominatrix • Aktivist</div>
-                        <p class="creature-description">
-                            Alma Adore er kunstner, dominatrix og aktivist. Founder of seduction.no og Club Seduction, tidligere konsept på Elsker.
-                        </p>
-                        <div class="creature-quote">
-                            Instagram: @alma.made.it.rain
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
