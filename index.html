@@ -926,6 +926,12 @@
                 radial-gradient(circle at 42% 68%, rgba(255, 130, 65, 0.18), transparent 60%);
         }
 
+        .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image::before,
+        .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image::before,
+        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image::before {
+            display: none;
+        }
+
         .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer,
         .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer,
         .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .draug-dancer {
