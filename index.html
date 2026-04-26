@@ -827,7 +827,7 @@
             border-radius: 0;
             text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
             width: min(100%, 22rem);
-            grid-template-rows: 6.4rem 4rem 8rem 5.2rem;
+            grid-template-rows: auto;
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content .creature-name {
@@ -837,25 +837,132 @@
             line-height: 1.06;
         }
 
+        .creature-card.artist-reveal-card.show-artist .artist-pronouns {
+            margin: -10px 0 12px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            letter-spacing: 0.08em;
+            text-align: center;
+            color: var(--mist-gray);
+        }
+
         .creature-card.artist-reveal-card.show-artist .card-artist-content .creature-identity {
             margin-bottom: 18px;
-            min-height: 4rem;
-            white-space: nowrap;
+            min-height: 0;
+            white-space: normal;
             font-size: 0.84rem;
             letter-spacing: 0.08em;
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content .creature-description {
-            min-height: 8rem;
+            min-height: 0;
             margin-bottom: 0;
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content .creature-quote {
             margin-top: 18px;
             padding-top: 18px;
-            min-height: 5.2rem;
-            white-space: nowrap;
-            font-size: 0.74rem;
+            min-height: 0;
+            white-space: normal;
+            font-size: 0.9rem;
+        }
+
+        .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image,
+        .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image,
+        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image {
+            background: transparent;
+        }
+
+        .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image::before,
+        .creature-card.artist-reveal-card[data-creature="nokken"].show-artist .artist-image::before,
+        .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image::before,
+        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image::before,
+        .creature-card.artist-reveal-card[data-creature="draug"].show-artist .artist-image::before,
+        .creature-card.artist-reveal-card[data-creature="jotna"].show-artist .artist-image::before {
+            content: "";
+            position: absolute;
+            inset: 18% 10% 2%;
+            border-radius: 48%;
+            pointer-events: none;
+            filter: blur(18px);
+            opacity: 0.88;
+            z-index: 1;
+            animation: creatureCutoutAura 5.8s ease-in-out infinite;
+        }
+
+        .creature-card.artist-reveal-card[data-creature="nokken"].show-artist .artist-image::before {
+            background:
+                radial-gradient(ellipse at 50% 78%, rgba(87, 213, 255, 0.36), transparent 58%),
+                repeating-radial-gradient(ellipse at 50% 84%, rgba(165, 244, 255, 0.28) 0 2px, transparent 3px 15px);
+        }
+
+        .creature-card.artist-reveal-card[data-creature="draug"].show-artist .artist-image::before {
+            background:
+                radial-gradient(ellipse at 50% 72%, rgba(42, 160, 210, 0.42), transparent 60%),
+                linear-gradient(180deg, transparent 0%, rgba(14, 64, 92, 0.5) 72%, rgba(210, 242, 255, 0.2) 100%);
+        }
+
+        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image::before {
+            background:
+                radial-gradient(ellipse at 50% 66%, rgba(255, 210, 114, 0.35), transparent 56%),
+                repeating-linear-gradient(100deg, transparent 0 14px, rgba(188, 240, 255, 0.2) 15px 17px);
+        }
+
+        .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image::before {
+            background:
+                radial-gradient(circle at 48% 52%, rgba(255, 110, 190, 0.3), transparent 50%),
+                radial-gradient(circle at 56% 42%, rgba(70, 220, 150, 0.22), transparent 58%);
+        }
+
+        .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image::before {
+            background:
+                radial-gradient(ellipse at 50% 76%, rgba(185, 148, 94, 0.4), transparent 60%),
+                linear-gradient(180deg, transparent 24%, rgba(80, 65, 48, 0.42) 100%);
+        }
+
+        .creature-card.artist-reveal-card[data-creature="jotna"].show-artist .artist-image::before {
+            background:
+                radial-gradient(circle at 52% 50%, rgba(95, 54, 138, 0.38), transparent 52%),
+                radial-gradient(circle at 42% 68%, rgba(255, 130, 65, 0.18), transparent 60%);
+        }
+
+        .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer,
+        .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer,
+        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .draug-dancer {
+            position: relative;
+            left: auto;
+            right: auto;
+            top: auto;
+            bottom: auto;
+            display: block;
+            margin: 0 auto;
+            width: auto;
+            max-width: 330px;
+            height: 100%;
+            object-fit: contain;
+            transform: translateY(16px) scale(1.04);
+            transform-origin: center bottom;
+            z-index: 2;
+            pointer-events: none;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer {
+            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 34px rgba(255, 80, 170, 0.36)) drop-shadow(0 0 72px rgba(48, 220, 150, 0.16));
+        }
+
+        .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer {
+            filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58)) drop-shadow(0 0 34px rgba(205, 158, 100, 0.34)) drop-shadow(0 0 70px rgba(120, 80, 52, 0.2));
+        }
+
+        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .draug-dancer {
+            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 32px rgba(255, 210, 96, 0.36)) drop-shadow(0 0 74px rgba(134, 222, 255, 0.18));
+        }
+
+        @keyframes creatureCutoutAura {
+            0%, 100% { transform: translateY(0) scale(0.98); opacity: 0.72; }
+            50% { transform: translateY(-10px) scale(1.05); opacity: 1; }
         }
 
         .creature-name {
@@ -2142,12 +2249,21 @@
             <p class="creatures-hint">Trykk på vesenene for å vekke dem og se hvem som skjuler seg bak dem.</p>
             <div class="creatures-grid">
                 <!-- HULDRA -->
-                <div class="creature-card" data-creature="huldra">
+                <div class="creature-card artist-reveal-card" data-creature="huldra">
                     <div class="particle-explosion"></div>
                     <div class="creature-icon">
-                        <img src="assets/huldra.png" alt="Huldra">
+                        <div class="folklore-image">
+                            <img src="assets/huldra.png" alt="Huldra" class="card-folklore-img">
+                        </div>
+                        <div class="artist-image">
+                            <img src="assets/selina.PNG" alt="Huldra cutout reveal" class="draug-dancer">
+                        </div>
                     </div>
-                    <div class="card-copy">
+                    <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
+                        <button type="button" class="card-state-button is-active" data-card-state="folklore" aria-pressed="true">Vesen</button>
+                        <button type="button" class="card-state-button" data-card-state="artist" aria-pressed="false">Artist</button>
+                    </div>
+                    <div class="card-folklore-content">
                         <h3 class="creature-name">HULDRA</h3>
                         <div class="creature-identity">Femme Power</div>
                         <p class="creature-description">
@@ -2156,6 +2272,17 @@
                         </p>
                         <div class="creature-quote">
                             Verden er klar for hennes sannhet.
+                        </div>
+                    </div>
+                    <div class="card-artist-content">
+                        <h3 class="creature-name">Selina</h3>
+                        <div class="artist-pronouns">hun/henne</div>
+                        <div class="creature-identity">Skeiv kunstner • Seduction</div>
+                        <p class="creature-description">
+                            Trukket frem fra skygge og stillhet leder Selinas sensuelle og sterke bevegelser deg et sted du aldri hadde tenkt å gå.
+                        </p>
+                        <div class="creature-quote">
+                            Selina • Huldra
                         </div>
                     </div>
                 </div>
@@ -2187,6 +2314,7 @@
                     </div>
                     <div class="card-artist-content">
                         <h3 class="creature-name">Logan Moore</h3>
+                        <div class="artist-pronouns">han/ham</div>
                         <div class="creature-identity">Entertainer • Danser • Modell</div>
                         <p class="creature-description">
                             Logan bærer en selvsikker, sensuell energi og sceneerfaring som trekker publikum dypere inn i mørket.
@@ -2198,12 +2326,21 @@
                 </div>
 
                 <!-- BERGTROLLET -->
-                <div class="creature-card" data-creature="troll">
+                <div class="creature-card artist-reveal-card" data-creature="troll">
                     <div class="particle-explosion"></div>
                     <div class="creature-icon">
-                        <img src="assets/bergtrollet.png" alt="Bergtrollet">
+                        <div class="folklore-image">
+                            <img src="assets/bergtrollet.png" alt="Bergtrollet" class="card-folklore-img">
+                        </div>
+                        <div class="artist-image">
+                            <img src="assets/diesel.PNG" alt="Bergtrollet cutout reveal" class="draug-dancer">
+                        </div>
                     </div>
-                    <div class="card-copy">
+                    <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
+                        <button type="button" class="card-state-button is-active" data-card-state="folklore" aria-pressed="true">Vesen</button>
+                        <button type="button" class="card-state-button" data-card-state="artist" aria-pressed="false">Artist</button>
+                    </div>
+                    <div class="card-folklore-content">
                         <h3 class="creature-name">BERGTROLLET</h3>
                         <div class="creature-identity">Butch kraft</div>
                         <p class="creature-description">
@@ -2213,15 +2350,35 @@
                             Bergens syv fjell dømmer ikke. De bærer.
                         </div>
                     </div>
+                    <div class="card-artist-content">
+                        <h3 class="creature-name">Diesel</h3>
+                        <div class="artist-pronouns">han/ham</div>
+                        <div class="creature-identity">Ballroom • Performer • Prince of Seduction</div>
+                        <p class="creature-description">
+                            Diesel er en kraft av rå eleganse og kompromissløs tilstedeværelse. Hver bevegelse bærer historie, motstand og begjær.
+                        </p>
+                        <div class="creature-quote">
+                            Diesel • Bergtrollet
+                        </div>
+                    </div>
                 </div>
 
                 <!-- FOSSEGRIMEN -->
-                <div class="creature-card" data-creature="fossegrim">
+                <div class="creature-card artist-reveal-card" data-creature="fossegrim">
                     <div class="particle-explosion"></div>
                     <div class="creature-icon">
-                        <img src="assets/fossegrimen.png" alt="Fossegrimen">
+                        <div class="folklore-image">
+                            <img src="assets/fossegrimen.png" alt="Fossegrimen" class="card-folklore-img">
+                        </div>
+                        <div class="artist-image">
+                            <img src="assets/aftab.PNG" alt="Fossegrimen cutout reveal" class="draug-dancer">
+                        </div>
                     </div>
-                    <div class="card-copy">
+                    <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
+                        <button type="button" class="card-state-button is-active" data-card-state="folklore" aria-pressed="true">Vesen</button>
+                        <button type="button" class="card-state-button" data-card-state="artist" aria-pressed="false">Artist</button>
+                    </div>
+                    <div class="card-folklore-content">
                         <h3 class="creature-name">FOSSEGRIMEN</h3>
                         <div class="creature-identity">Androgyn skjønnhet</div>
                         <p class="creature-description">
@@ -2229,6 +2386,17 @@
                         </p>
                         <div class="creature-quote">
                             Skogen spør aldri om du vokser riktig.
+                        </div>
+                    </div>
+                    <div class="card-artist-content">
+                        <h3 class="creature-name">Aftab</h3>
+                        <div class="artist-pronouns">de/dem</div>
+                        <div class="creature-identity">Pole dancer • Performancekunstner</div>
+                        <p class="creature-description">
+                            Aftab er en opplevelse. Med sensuell dans flyter de gjennom mørket og hypnotiserer deg med enhver bevegelse.
+                        </p>
+                        <div class="creature-quote">
+                            Aftab • Fossegrimen
                         </div>
                     </div>
                 </div>
@@ -2260,6 +2428,7 @@
                     </div>
                     <div class="card-artist-content">
                         <h3 class="creature-name">Dennixx Nijmegen</h3>
+                        <div class="artist-pronouns">han/ham</div>
                         <div class="creature-identity">Nederland • Dancer</div>
                         <p class="creature-description">
                             Flytende, presis og umulig å holde fast.
@@ -2298,6 +2467,7 @@
                     </div>
                     <div class="card-artist-content">
                         <h3 class="creature-name">Alma Adore</h3>
+                        <div class="artist-pronouns">hun/henne</div>
                         <div class="creature-identity">Kunstner • Dominatrix • Aktivist</div>
                         <p class="creature-description">
                             Alma Adore er kunstner, dominatrix og aktivist. Founder of seduction.no og Club Seduction, tidligere konsept på Elsker.
@@ -2446,10 +2616,13 @@
                 ['.section-title', { no: 'Møt Vesenene', en: 'Meet the Beings' }],
                 ['.creatures-hint', { no: 'Trykk på vesenene for å vekke dem og se hvem som skjuler seg bak dem.', en: 'Tap the beings to awaken them and see who is hiding behind them.' }],                ['[data-creature="huldra"] .creature-identity', { no: 'Femme Power', en: 'Femme Power' }],                ['[data-creature="huldra"] .creature-description', { no: 'Hun viser halen. Det andre mente var feil er det vakreste ved henne. Vakker på overflaten, vill og fri under.', en: 'She shows her tail. What others saw as wrong is the most beautiful thing about her. Beautiful on the surface, wild and free underneath.' }],                ['[data-creature="huldra"] .creature-quote', { no: 'Verden er klar for hennes sannhet.', en: 'The world is ready for her truth.' }],                ['[data-creature="nokken"] .card-folklore-content .creature-identity', { no: 'Begjær uten unnskyldning', en: 'Desire without apology' }],                ['[data-creature="nokken"] .card-folklore-content .creature-description', { no: 'Han lever i grenselandet mellom overflate og dyp. Han lokker frem det du allerede visste fantes.', en: 'He lives on the border between surface and depth. He draws out what you already knew was there.' }],                ['[data-creature="nokken"] .card-folklore-content .creature-quote', { no: 'Fossens vei er aldri den samme to ganger.', en: 'The waterfall\'s path is never the same twice.' }],
                 ['[data-creature="nokken"] .card-artist-content .creature-identity', { no: 'Entertainer • Danser • Modell', en: 'Entertainer • Dancer • Model' }],
-                ['[data-creature="nokken"] .card-artist-content .creature-description', { no: 'Logan bærer en selvsikker, sensuell energi og sceneerfaring som trekker publikum dypere inn i mørket.', en: 'Logan carries a confident, sensual energy and stage experience that pulls the audience deeper into the dark.' }],                ['[data-creature="troll"] .creature-identity', { no: 'Butch kraft', en: 'Butch power' }],                ['[data-creature="troll"] .creature-description', { no: 'Fra tidenes morgen, grensesprengende, urokkelig og evig. Kan ikke holdes nede av loven.', en: 'From the dawn of time, boundary-breaking, unshakable and eternal. Cannot be held down by the law.' }],                ['[data-creature="troll"] .creature-quote', { no: 'Bergens syv fjell dømmer ikke. De bærer.', en: 'Bergen\'s seven mountains do not judge. They carry.' }],                ['[data-creature="fossegrim"] .creature-identity', { no: 'Androgyn skjønnhet', en: 'Androgynous beauty' }],                ['[data-creature="fossegrim"] .creature-description', { no: 'Han sitter ved fossen og spiller det som ikke kan sies med ord. Vakker på grensen mellom kjønn.', en: 'He sits by the waterfall and plays what cannot be said in words. Beautiful on the border between genders.' }],                ['[data-creature="fossegrim"] .creature-quote', { no: 'Skogen spør aldri om du vokser riktig.', en: 'The forest never asks if you are growing correctly.' }],                ['[data-creature="draug"] .card-folklore-content .creature-identity', { no: 'Formskifteren', en: 'The shapeshifter' }],                ['[data-creature="draug"] .card-folklore-content .creature-description', { no: 'Aldri den samme to ganger, og kan ta ulike former. Vakker, farlig og kan ikke fanges av et navn.', en: 'Never the same twice, and able to take many forms. Beautiful, dangerous and impossible to capture in one name.' }],                ['[data-creature="draug"] .card-folklore-content .creature-quote', { no: 'Det som skifter form, kan ikke fanges.', en: 'What changes shape cannot be captured.' }],
+                ['[data-creature="nokken"] .card-artist-content .artist-pronouns', { no: 'han/ham', en: 'he/him' }],
+                ['[data-creature="nokken"] .card-artist-content .creature-description', { no: 'Logan bærer en selvsikker, sensuell energi og sceneerfaring som trekker publikum dypere inn i mørket.', en: 'Logan carries a confident, sensual energy and stage experience that pulls the audience deeper into the dark.' }],                ['[data-creature="troll"] .card-folklore-content .creature-identity', { no: 'Butch kraft', en: 'Butch power' }],                ['[data-creature="troll"] .card-folklore-content .creature-description', { no: 'Fra tidenes morgen, grensesprengende, urokkelig og evig. Kan ikke holdes nede av loven.', en: 'From the dawn of time, boundary-breaking, unshakable and eternal. Cannot be held down by the law.' }],                ['[data-creature="troll"] .card-folklore-content .creature-quote', { no: 'Bergens syv fjell dømmer ikke. De bærer.', en: 'Bergen\'s seven mountains do not judge. They carry.' }],                ['[data-creature="troll"] .card-artist-content .artist-pronouns', { no: 'han/ham', en: 'he/him' }],                ['[data-creature="troll"] .card-artist-content .creature-identity', { no: 'Ballroom • Performer • Prince of Seduction', en: 'Ballroom • Performer • Prince of Seduction' }],                ['[data-creature="troll"] .card-artist-content .creature-description', { no: 'Diesel er en kraft av rå eleganse og kompromissløs tilstedeværelse. Hver bevegelse bærer historie, motstand og begjær, og trekker deg inn i hans skamfrie verden.', en: 'Diesel is a force of raw elegance and uncompromising presence. Every movement carries history, resistance and desire, pulling you into his shameless world.' }],                ['[data-creature="troll"] .card-artist-content .creature-quote', { no: 'Daniel «Diesel» Soheili har over 40 seire i den undergrunns Ballroom-scenen i 12 land.', en: 'Daniel “Diesel” Soheili has more than 40 wins in the underground Ballroom scene across 12 countries.' }],                ['[data-creature="fossegrim"] .card-folklore-content .creature-identity', { no: 'Androgyn skjønnhet', en: 'Androgynous beauty' }],                ['[data-creature="fossegrim"] .card-folklore-content .creature-description', { no: 'Han sitter ved fossen og spiller det som ikke kan sies med ord. Vakker på grensen mellom kjønn.', en: 'He sits by the waterfall and plays what cannot be said in words. Beautiful on the border between genders.' }],                ['[data-creature="fossegrim"] .card-folklore-content .creature-quote', { no: 'Skogen spør aldri om du vokser riktig.', en: 'The forest never asks if you are growing correctly.' }],                ['[data-creature="fossegrim"] .card-artist-content .artist-pronouns', { no: 'de/dem', en: 'they/them' }],                ['[data-creature="fossegrim"] .card-artist-content .creature-identity', { no: 'Pole dancer • Performancekunstner', en: 'Pole dancer • Performance artist' }],                ['[data-creature="fossegrim"] .card-artist-content .creature-description', { no: 'Aftab er en opplevelse. Med sensuell dans flyter de gjennom mørket og hypnotiserer deg med enhver bevegelse.', en: 'Aftab is an experience. With sensual dance, they flow through the dark and hypnotise you with every movement.' }],                ['[data-creature="fossegrim"] .card-artist-content .creature-quote', { no: 'Inspirert av desi-musikk og sørasiatisk kultur lar de lyden guide bevegelsene sine.', en: 'Inspired by desi music and South Asian culture, they let sound guide their movement.' }],                ['[data-creature="huldra"] .card-artist-content .artist-pronouns', { no: 'hun/henne', en: 'she/her' }],                ['[data-creature="huldra"] .card-artist-content .creature-identity', { no: 'Skeiv kunstner • Seduction', en: 'Queer artist • Seduction' }],                ['[data-creature="huldra"] .card-artist-content .creature-description', { no: 'Trukket frem fra skygge og stillhet leder Selinas sensuelle og sterke bevegelser deg et sted du aldri hadde tenkt å gå.', en: 'Drawn out of shadow and silence, Selina’s sensual and powerful movement leads you somewhere you never meant to go.' }],                ['[data-creature="huldra"] .card-artist-content .creature-quote', { no: 'Selina er en skeiv kunstner og mangeårig medlem av stripperkollektivet Seduction.', en: 'Selina is a queer artist and longtime member of the stripper collective Seduction.' }],                ['[data-creature="draug"] .card-folklore-content .creature-identity', { no: 'Formskifteren', en: 'The shapeshifter' }],                ['[data-creature="draug"] .card-folklore-content .creature-description', { no: 'Aldri den samme to ganger, og kan ta ulike former. Vakker, farlig og kan ikke fanges av et navn.', en: 'Never the same twice, and able to take many forms. Beautiful, dangerous and impossible to capture in one name.' }],                ['[data-creature="draug"] .card-folklore-content .creature-quote', { no: 'Det som skifter form, kan ikke fanges.', en: 'What changes shape cannot be captured.' }],
                 ['[data-creature="draug"] .card-artist-content .creature-identity', { no: 'Nederland • Dancer', en: 'Netherlands • Dancer' }],
+                ['[data-creature="draug"] .card-artist-content .artist-pronouns', { no: 'han/ham', en: 'he/him' }],
                 ['[data-creature="draug"] .card-artist-content .creature-description', { no: 'Flytende, presis og umulig å holde fast. Bevegelsen lar kroppen skifte form i møte med lyset.', en: 'Fluid, precise and impossible to hold still. The movement lets the body change shape in contact with the light.' }],                ['[data-creature="jotna"] .card-folklore-content .creature-identity', { no: 'Nattvette', en: 'Night spirit' }],                ['[data-creature="jotna"] .card-folklore-content .creature-description', { no: 'Den mektige naturkraften de forvandte til monster. Hun er rå og tar plass uten å be om unnskyldning.', en: 'The mighty force of nature they turned into a monster. She is raw and takes up space without apology.' }],                ['[data-creature="jotna"] .card-folklore-content .creature-quote', { no: 'Du våkner når hun slipper deg.', en: 'You wake when she lets you go.' }],
                 ['[data-creature="jotna"] .card-artist-content .creature-identity', { no: 'Kunstner • Dominatrix • Aktivist', en: 'Artist • Dominatrix • Activist' }],
+                ['[data-creature="jotna"] .card-artist-content .artist-pronouns', { no: 'hun/henne', en: 'she/her' }],
                 ['[data-creature="jotna"] .card-artist-content .creature-description', { no: 'Alma Adore er kunstner, dominatrix og aktivist. Founder of seduction.no og Club Seduction, tidligere konsept på Elsker.', en: 'Alma Adore is an artist, dominatrix and activist. Founder of seduction.no and Club Seduction, formerly a concept at Elsker.' }],
                 ['.club-seduction-kicker', { no: 'Etter vesenene', en: 'After the beings' }],                ['.club-seduction-copy p', { no: 'DJ Pizza$lut tar over når skogen skifter form. Begjær uten unnskyldning, kropper som tar plass og en natt som blir mørkere, friere og mer intens.', en: 'DJ Pizza$lut takes over as the forest changes shape. Desire without apology, bodies taking up space and a night that grows darker, freer and more intense.' }],
                 ['.club-seduction-row:nth-child(2) .club-seduction-label', { no: 'DJ Pizza$lut tar over', en: 'DJ Pizza$lut takes over' }],
