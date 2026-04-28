@@ -2704,8 +2704,7 @@
         const ctx = canvas.getContext('2d', { alpha: true });
 
         function isMobilePerformanceMode() {
-            const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-            return window.innerWidth < 768 || (coarsePointer && window.innerWidth < 1024);
+            return window.innerWidth < 480;
         }
 
         let mobileLiteMode = isMobilePerformanceMode();
