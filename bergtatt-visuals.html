@@ -328,6 +328,28 @@ const LAYER_QUALITY={
 };
 
 const CRITICAL_LAYERS=new Set(['c-text','c-creatures','c-wave']);
+const LAYER_FRAME_STEP={
+  'c-bg':1,
+  'c-mount':isMobile?2:1,
+  'c-fjord':1,
+  'c-fog':2,
+  'c-roots':2,
+  'c-forest':isMobile?2:1,
+  'c-shrooms':2,
+  'c-wisps':1,
+  'c-creatures':1,
+  'c-rain':2,
+  'c-parts':1,
+  'c-wave':1,
+  'c-shaman':2,
+  'c-nature':isMobile?3:2,
+  'c-rivers':2,
+  'c-bergen':isMobile?2:1,
+  'c-digital':isMobile?2:1,
+  'c-witch':isMobile?2:1,
+  'c-text':1,
+};
+let _renderFrame=0;
 const PERF_GUARD={
   enabled:true,
   scale:1,
@@ -408,6 +430,13 @@ function updatePerfGuard(frameMs){
     PERF_GUARD.lastAdjustTs=now;
     resizeCanvases();
   }
+}
+
+function shouldRenderLayer(id){
+  const base=LAYER_FRAME_STEP[id]||1;
+  const pressure=PERF_GUARD.scale<0.86?1:0;
+  const step=CRITICAL_LAYERS.has(id)?1:Math.min(4,base+pressure);
+  return step<=1||(_renderFrame%step)===0;
 }
 
 let _resizeRAF=0;
@@ -1802,13 +1831,15 @@ function renderBergenOverlay(){
 
   // Draw edges between nearby nodes
   const MAX_EDGE_DIST=0.28;
+  const MAX_EDGE_DIST_SQ=MAX_EDGE_DIST*MAX_EDGE_DIST;
   for(let i=0;i<CDN_NODES.length;i++){
     const ni=CDN_NODES[i];
     for(let j=i+1;j<CDN_NODES.length;j++){
       const nj=CDN_NODES[j];
       const dx=(ni.x-nj.x)*WW/HH,dy=ni.y-nj.y; // aspect-correct
-      const dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist>MAX_EDGE_DIST)continue;
+      const distSq=dx*dx+dy*dy;
+      if(distSq>MAX_EDGE_DIST_SQ)continue;
+      const dist=Math.sqrt(distSq);
       const edgeFade=1-dist/MAX_EDGE_DIST;
       const pulseBoost=(ni.pulse+nj.pulse)*0.5;
       const edgeA=(0.04+pulseBoost*0.12+smoothEnergy*0.03)*edgeFade;
@@ -2571,8 +2602,9 @@ function renderNeuralNetwork(cx,WW,HH){
     n.phase+=n.phaseSpd*(1+smoothBpmFactor*1.5);n.pulse=Math.max(0,n.pulse*(0.91+smoothBpmFactor*0.03));
     const nx=n.x*WW,ny=n.y*HH;
     neuronNodes.forEach((n2,j)=>{
-      if(j<=i)return;const dx=(n.x-n2.x)*WW,dy=(n.y-n2.y)*HH,dist=Math.sqrt(dx*dx+dy*dy),maxDist=WW*0.20;
-      if(dist>maxDist)return;
+      if(j<=i)return;const dx=(n.x-n2.x)*WW,dy=(n.y-n2.y)*HH,maxDist=WW*0.20,distSq=dx*dx+dy*dy;
+      if(distSq>maxDist*maxDist)return;
+      const dist=Math.sqrt(distSq);
       const strength=1-dist/maxDist,connA=netA*0.13*strength+(n.pulse+n2.pulse)*0.09;
       const curveX=(nx+n2.x*WW)*0.5+Math.sin(t*0.6+i*0.8+j*0.4)*18,curveY=(ny+n2.y*HH)*0.5+Math.cos(t*0.5+i*0.5+j*0.6)*14;
       cx.beginPath();cx.moveTo(nx,ny);cx.quadraticCurveTo(curveX,curveY,n2.x*WW,n2.y*HH);cx.strokeStyle=`rgba(${pc[0]},${pc[1]},${pc[2]},${connA})`;cx.lineWidth=0.3+strength*0.5;cx.stroke();
@@ -2817,6 +2849,7 @@ function loop(){
   updatePerfGuard(_delta);
   if(_delta<_TARGET_INTERVAL-0.5){requestAnimationFrame(loop);return;}
   _lastFrameTime=_now-(_delta%_TARGET_INTERVAL);
+  _renderFrame++;
   if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
   detectBeat();updateBeat();updateParticles();
   tickCreatureOnBeat();
@@ -2825,9 +2858,9 @@ function loop(){
   beatFlashEl.style.background=beatFlashV>0.01?`${theme().flash}${beatFlashV*0.08})`:'transparent';
   if(!isMobile){curEl.style.width=(16+masterBeat*16+smoothEnergy*5)+'px';curEl.style.height=(16+masterBeat*16+smoothEnergy*5)+'px';}
 
-  try{renderBg();renderMountains();renderFjord();renderFog();renderRoots();}catch(e){}
-  try{renderForest();renderShrooms();renderWisps();renderCreatures();renderRain();}catch(e){}
-  try{renderParticles();renderWaveform();renderNature();renderShaman();renderRivers();renderBergenOverlay();renderDigitalOverlay();renderWitchOverlay();renderText();}catch(e){}
+  try{if(shouldRenderLayer('c-bg'))renderBg();if(shouldRenderLayer('c-mount'))renderMountains();if(shouldRenderLayer('c-fjord'))renderFjord();if(shouldRenderLayer('c-fog'))renderFog();if(shouldRenderLayer('c-roots'))renderRoots();}catch(e){}
+  try{if(shouldRenderLayer('c-forest'))renderForest();if(shouldRenderLayer('c-shrooms'))renderShrooms();if(shouldRenderLayer('c-wisps'))renderWisps();if(shouldRenderLayer('c-creatures'))renderCreatures();if(shouldRenderLayer('c-rain'))renderRain();}catch(e){}
+  try{if(shouldRenderLayer('c-parts'))renderParticles();if(shouldRenderLayer('c-wave'))renderWaveform();if(shouldRenderLayer('c-nature'))renderNature();if(shouldRenderLayer('c-shaman'))renderShaman();if(shouldRenderLayer('c-rivers'))renderRivers();if(shouldRenderLayer('c-bergen'))renderBergenOverlay();if(shouldRenderLayer('c-digital'))renderDigitalOverlay();if(shouldRenderLayer('c-witch'))renderWitchOverlay();if(shouldRenderLayer('c-text'))renderText();}catch(e){}
   requestAnimationFrame(loop);
 }
 
@@ -2836,6 +2869,7 @@ function idleLoop(){
   const _idleNow=performance.now();
   const _idleDelta=_lastFrameTime?(_idleNow-_lastFrameTime):_TARGET_INTERVAL;
   _lastFrameTime=_idleNow;
+  _renderFrame++;
   updatePerfGuard(_idleDelta);
   energy=0;bassLevel=0;
   if(PREVIEW){
@@ -2848,9 +2882,9 @@ function idleLoop(){
   tickCreatureOnBeat();
 
   updateParticles();
-  try{renderBg();renderMountains();renderFjord();renderFog();renderRoots();}catch(e){}
-  try{renderForest();renderShrooms();renderWisps();renderCreatures();renderRain();}catch(e){}
-  try{renderParticles();renderNature();renderShaman();renderRivers();renderBergenOverlay();renderDigitalOverlay();renderWitchOverlay();renderText();}catch(e){}
+  try{if(shouldRenderLayer('c-bg'))renderBg();if(shouldRenderLayer('c-mount'))renderMountains();if(shouldRenderLayer('c-fjord'))renderFjord();if(shouldRenderLayer('c-fog'))renderFog();if(shouldRenderLayer('c-roots'))renderRoots();}catch(e){}
+  try{if(shouldRenderLayer('c-forest'))renderForest();if(shouldRenderLayer('c-shrooms'))renderShrooms();if(shouldRenderLayer('c-wisps'))renderWisps();if(shouldRenderLayer('c-creatures'))renderCreatures();if(shouldRenderLayer('c-rain'))renderRain();}catch(e){}
+  try{if(shouldRenderLayer('c-parts'))renderParticles();if(shouldRenderLayer('c-nature'))renderNature();if(shouldRenderLayer('c-shaman'))renderShaman();if(shouldRenderLayer('c-rivers'))renderRivers();if(shouldRenderLayer('c-bergen'))renderBergenOverlay();if(shouldRenderLayer('c-digital'))renderDigitalOverlay();if(shouldRenderLayer('c-witch'))renderWitchOverlay();if(shouldRenderLayer('c-text'))renderText();}catch(e){}
   requestAnimationFrame(idleLoop);
 }
 
@@ -3091,14 +3125,16 @@ function renderDigitalOverlay(){
     DN_NODES[k].pulse=1.0+sBass*0.4;DN_NODES[k].active=true;
   }
   // Draw edges
+  const maxDist=0.22;
+  const maxDistSq=maxDist*maxDist;
   for(let i=0;i<DN_NODES.length;i++){
     const ni=DN_NODES[i];
     for(let j=i+1;j<DN_NODES.length;j++){
       const nj=DN_NODES[j];
       const dx=(ni.x-nj.x)*WW/HH,dy=ni.y-nj.y;
-      const dist=Math.sqrt(dx*dx+dy*dy);
-      if(dist>0.22)continue;
-      const fade=1-dist/0.22;
+      const distSq=dx*dx+dy*dy;
+      if(distSq>maxDistSq)continue;
+      const fade=1-Math.sqrt(distSq)/maxDist;
       const pb=(ni.pulse+nj.pulse)*0.5;
       const ea=(0.03+pb*0.10+sMid*0.04)*fade;
       cx.beginPath();cx.moveTo(ni.x*WW,ni.y*HH);cx.lineTo(nj.x*WW,nj.y*HH);
@@ -3150,12 +3186,12 @@ function renderDigitalOverlay(){
 
   // ── 4. FULL-SPECTRUM FFT BARS at floor level ──
   if(analyserHi&&freqHi){
-    analyserHi.getByteFrequencyData(freqHi);
     const bins=freqHi.length;
-    const barW=WW/bins,baseY=HH*0.74,maxBarH=HH*0.26;
+    const stride=isMobile?4:2;
+    const barW=(WW/bins)*stride,baseY=HH*0.74,maxBarH=HH*0.26;
     const opacity=0.12+smoothEnergy*0.14+masterBeat*0.10;
     cx.save();cx.globalCompositeOperation='screen';
-    for(let i=0;i<bins;i++){
+    for(let i=0;i<bins;i+=stride){
       const v=freqHi[i]/255;if(v<0.04)continue;
       const h=v*maxBarH*(1+masterBeat*0.6);
       const hue=i/bins;
@@ -3165,7 +3201,7 @@ function renderDigitalOverlay(){
       const col=cx.createLinearGradient(0,baseY,0,baseY-h);
       col.addColorStop(0,`rgba(${r},${g2},${b},${opacity})`);
       col.addColorStop(1,'transparent');
-      cx.fillStyle=col;cx.fillRect(i*barW,baseY-h,Math.max(1,barW-0.4),h);
+      cx.fillStyle=col;cx.fillRect((i/bins)*WW,baseY-h,Math.max(1,barW-0.4),h);
     }
     cx.restore();
   }
@@ -3210,6 +3246,17 @@ function randomizeNarrativeStartOnLoad(){
 }
 
 randomizeNarrativeStartOnLoad();
+
+const _demoParam = new URLSearchParams(location.search).get('demo');
+if (_demoParam) {
+  currentMode = _demoParam;
+  document.querySelectorAll('[data-mode]').forEach(x => x.classList.toggle('active', x.dataset.mode === _demoParam));
+  const _sc = document.getElementById('startcard');
+  if (_sc) { _sc.classList.toggle('bergen-mode', _demoParam==='bergen'); _sc.classList.toggle('witch-mode', _demoParam==='witch'); }
+  document.getElementById('ui').style.display = 'none';
+  document.getElementById('hud-ctrl').style.display = 'none';
+  document.getElementById('hud-stats').style.display = 'none';
+}
 
 resizeAll();
 setTimeout(()=>requestAnimationFrame(idleLoop),80);
