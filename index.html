@@ -37,6 +37,7 @@
 
         html, body {
             width: 100%;
+            max-width: 100%;
             min-height: 100vh;
             overflow-x: hidden;
             font-family: 'Crimson Text', Georgia, serif;
@@ -69,6 +70,8 @@
             height: 100%;
             opacity: 0.15;
             mix-blend-mode: screen;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         /* Mist/Fog Effect */
@@ -113,8 +116,9 @@
             position: relative;
             z-index: 10;
             width: min(100%, 1400px);
-            max-width: 1400px;
+            max-width: 100%;
             margin: 0 auto;
+            overflow-x: hidden;
             padding: 60px 20px;
             padding-top: max(60px, env(safe-area-inset-top));
             padding-right: max(20px, env(safe-area-inset-right));
@@ -287,7 +291,7 @@
 
         .creatures-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
             gap: 40px;
             max-width: 1200px;
             margin: 0 auto;
@@ -1519,6 +1523,8 @@
            --------------------------------------------------------------- */
 
         #aurora-shader-canvas {
+            will-change: transform;
+            transform: translateZ(0);
             position: absolute;
             inset: 0;
             width: 100%;
@@ -1698,8 +1704,7 @@
             bottom: -14px;
             right: auto;
             top: auto;
-            width: 388px;
-            max-width: 33vw;
+            width: min(388px, 33vw);
             pointer-events: none;
             user-select: none;
             filter:
@@ -2701,7 +2706,7 @@
         // NORTHERN LIGHTS AURORA EFFECT - Enhanced
         // ---------------------------------------------------------------
         const canvas = document.getElementById('aurora-canvas');
-        const ctx = canvas.getContext('2d', { alpha: true });
+        const ctx = canvas.getContext('2d', { alpha: true, desynchronized: true });
 
         function isMobilePerformanceMode() {
             return window.innerWidth < 480;
@@ -2715,6 +2720,7 @@
             const scale = mobileLiteMode ? 0.5 : 1.0;
             canvas.width = Math.floor(window.innerWidth * scale * dpr);
             canvas.height = Math.floor(window.innerHeight * scale * dpr);
+            buildAuroraGradients();
             canvas.style.width = `${window.innerWidth}px`;
             canvas.style.height = `${window.innerHeight}px`;
         }
@@ -2735,60 +2741,58 @@
         window.addEventListener('resize', schedulePerformanceResize, { passive: true });
 
         let time = 0;
-        let auroraFrameToggle = false;
-        function drawAurora() {
+        let auroraRafId = null;
+        let auroraLastTs = 0;
+        const AURORA_FPS = 30;
+        const AURORA_INTERVAL = 1000 / AURORA_FPS;
+
+        // Cache gradients — rebuilt only on resize
+        let cachedAuroraGradients = [];
+        function buildAuroraGradients() {
+            cachedAuroraGradients = [];
+            const layerCount = mobileLiteMode ? 1 : 5;
+            for (let layer = 0; layer < layerCount; layer++) {
+                const alpha = mobileLiteMode ? 0.085 + (layer * 0.02) : 0.05 + (layer * 0.03);
+                const g = ctx.createLinearGradient(0, 0, canvas.width, 0);
+                g.addColorStop(0,    `rgba(0, 212, 255, ${alpha})`);
+                g.addColorStop(0.33, `rgba(0, 255, 136, ${alpha})`);
+                g.addColorStop(0.66, `rgba(185, 104, 255, ${alpha})`);
+                g.addColorStop(1,    `rgba(255, 215, 0, ${alpha})`);
+                cachedAuroraGradients.push(g);
+            }
+        }
+
+        function drawAurora(ts) {
+            auroraRafId = requestAnimationFrame(drawAurora);
+            if (document.hidden) return;
+            if (ts - auroraLastTs < AURORA_INTERVAL) return;
+            auroraLastTs = ts;
+
             const mobileMode = mobileLiteMode;
-            if (document.hidden) {
-                requestAnimationFrame(drawAurora);
-                return;
-            }
-            if (mobileMode) {
-                auroraFrameToggle = !auroraFrameToggle;
-                if (auroraFrameToggle) {
-                    requestAnimationFrame(drawAurora);
-                    return;
-                }
-            }
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.globalCompositeOperation = 'lighter';
 
-            // Multiple aurora layers with different speeds
             const layerCount = mobileMode ? 1 : 5;
             const xStep = mobileMode ? 12 : 4;
             for (let layer = 0; layer < layerCount; layer++) {
                 const layerTime = time + layer * 0.5;
-                const alpha = mobileMode ? 0.085 + (layer * 0.02) : 0.05 + (layer * 0.03);
-
-                ctx.globalCompositeOperation = 'lighter';
-
-                // Draw wave pattern
                 ctx.beginPath();
                 for (let x = 0; x < canvas.width; x += xStep) {
                     const y = canvas.height * 0.3 +
                               Math.sin(x * 0.01 + layerTime) * 100 +
                               Math.sin(x * 0.005 + layerTime * 0.5) * 50;
-
                     if (x === 0) ctx.moveTo(x, y);
                     else ctx.lineTo(x, y);
                 }
-
-                // Create gradient for wave
-                const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-                gradient.addColorStop(0, `rgba(0, 212, 255, ${alpha})`);
-                gradient.addColorStop(0.33, `rgba(0, 255, 136, ${alpha})`);
-                gradient.addColorStop(0.66, `rgba(185, 104, 255, ${alpha})`);
-                gradient.addColorStop(1, `rgba(255, 215, 0, ${alpha})`);
-
-                ctx.strokeStyle = gradient;
+                ctx.strokeStyle = cachedAuroraGradients[layer] || cachedAuroraGradients[0];
                 ctx.lineWidth = mobileMode ? 22 + (layer * 10) : 40 + (layer * 20);
                 ctx.stroke();
             }
-
             time += mobileMode ? 0.005 : 0.008;
-            requestAnimationFrame(drawAurora);
         }
         if (!mobileLiteMode) {
-            drawAurora();
+            buildAuroraGradients();
+            auroraRafId = requestAnimationFrame(drawAurora);
         } else {
             canvas.style.display = 'none';
         }
@@ -3290,7 +3294,25 @@ creatureCards.forEach(card => {
         // ADDED ENHANCEMENTS - REAL AURORA SHADER / RITUAL FX / MOBILE HAPTICS
         // ---------------------------------------------------------------
         const shaderCanvas = document.getElementById('aurora-shader-canvas');
-        const shaderCtx = shaderCanvas ? shaderCanvas.getContext('2d', { alpha: true }) : null;
+        const shaderCtx = shaderCanvas ? shaderCanvas.getContext('2d', { alpha: true, desynchronized: true }) : null;
+
+        let cachedShaderGradients = [];
+        function buildShaderGradients() {
+            if (!shaderCtx || !shaderCanvas) return;
+            cachedShaderGradients = [];
+            const bandCount = mobileLiteMode ? 2 : 5;
+            for (let band = 0; band < bandCount; band++) {
+                const width = 90 + band * 16;
+                const baseY = shaderCanvas.height * (0.14 + band * 0.055);
+                const g = shaderCtx.createLinearGradient(0, baseY - width, shaderCanvas.width, baseY + width);
+                g.addColorStop(0.00, `rgba(0, 212, 255, ${0.018 + band * 0.007})`);
+                g.addColorStop(0.28, `rgba(0, 255, 136, ${0.030 + band * 0.009})`);
+                g.addColorStop(0.55, `rgba(185, 104, 255, ${0.022 + band * 0.008})`);
+                g.addColorStop(0.82, `rgba(255, 215, 0, ${0.015 + band * 0.006})`);
+                g.addColorStop(1.00, `rgba(0, 212, 255, 0.00)`);
+                cachedShaderGradients.push(g);
+            }
+        }
 
         function resizeShaderCanvas() {
             if (!shaderCanvas) return;
@@ -3300,25 +3322,23 @@ creatureCards.forEach(card => {
             shaderCanvas.height = Math.floor(window.innerHeight * scale * dpr);
             shaderCanvas.style.width = `${window.innerWidth}px`;
             shaderCanvas.style.height = `${window.innerHeight}px`;
+            buildShaderGradients();
         }
         resizeShaderCanvas();
 
         let shaderTime = 0;
-        let shaderFrameToggle = false;
-        function drawAuroraShader() {
+        let shaderRafId = null;
+        let shaderLastTs = 0;
+        const SHADER_FPS = 30;
+        const SHADER_INTERVAL = 1000 / SHADER_FPS;
+
+        function drawAuroraShader(ts) {
+            shaderRafId = requestAnimationFrame(drawAuroraShader);
             if (!shaderCtx || !shaderCanvas) return;
+            if (document.hidden) return;
+            if (ts - shaderLastTs < SHADER_INTERVAL) return;
+            shaderLastTs = ts;
             const mobileMode = mobileLiteMode;
-            if (document.hidden) {
-                requestAnimationFrame(drawAuroraShader);
-                return;
-            }
-            if (mobileMode) {
-                shaderFrameToggle = !shaderFrameToggle;
-                if (shaderFrameToggle) {
-                    requestAnimationFrame(drawAuroraShader);
-                    return;
-                }
-            }
 
             shaderCtx.clearRect(0, 0, shaderCanvas.width, shaderCanvas.height);
             shaderCtx.globalCompositeOperation = 'lighter';
@@ -3328,14 +3348,8 @@ creatureCards.forEach(card => {
                 const t = shaderTime * (0.65 + band * 0.09);
                 const baseY = shaderCanvas.height * (0.14 + band * 0.055);
                 const amplitude = 26 + band * 18;
-                const width = 90 + band * 16;
 
-                const gradient = shaderCtx.createLinearGradient(0, baseY - width, shaderCanvas.width, baseY + width);
-                gradient.addColorStop(0.00, `rgba(0, 212, 255, ${0.018 + band * 0.007})`);
-                gradient.addColorStop(0.28, `rgba(0, 255, 136, ${0.030 + band * 0.009})`);
-                gradient.addColorStop(0.55, `rgba(185, 104, 255, ${0.022 + band * 0.008})`);
-                gradient.addColorStop(0.82, `rgba(255, 215, 0, ${0.015 + band * 0.006})`);
-                gradient.addColorStop(1.00, `rgba(0, 212, 255, 0.00)`);
+                const gradient = cachedShaderGradients[band] || cachedShaderGradients[0];
 
                 shaderCtx.beginPath();
                 shaderCtx.moveTo(0, shaderCanvas.height);
@@ -3366,13 +3380,21 @@ creatureCards.forEach(card => {
             }
 
             shaderTime += mobileMode ? 0.0065 : 0.011;
-            requestAnimationFrame(drawAuroraShader);
         }
         if (!mobileLiteMode) {
-            drawAuroraShader();
+            buildShaderGradients();
+            shaderRafId = requestAnimationFrame(drawAuroraShader);
         } else if (shaderCanvas) {
             shaderCanvas.style.display = 'none';
         }
+
+        // Pause all RAF loops when tab is hidden, resume when visible
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                auroraLastTs = 0;
+                shaderLastTs = 0;
+            }
+        });
 
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const hasVibrate = 'vibrate' in navigator;
