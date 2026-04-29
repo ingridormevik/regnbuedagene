@@ -1011,6 +1011,14 @@
             pointer-events: none;
         }
 
+            .particle-burst-layer {
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+                overflow: visible;
+                z-index: 80;
+            }
+
         .explosion-particle {
             position: absolute;
             width: 8px;
@@ -2896,6 +2904,17 @@
 const creatureCards = document.querySelectorAll('.creature-card');
 const ritualCountMap = {};
 
+function getParticleBurstLayer() {
+    let layer = document.getElementById('particleBurstLayer');
+    if (!layer) {
+        layer = document.createElement('div');
+        layer.id = 'particleBurstLayer';
+        layer.className = 'particle-burst-layer';
+        document.body.appendChild(layer);
+    }
+    return layer;
+}
+
 function cycleArtistCardState(card) {
     const nextState = card.dataset.cardState === 'artist' ? 'folklore' : 'artist';
     setArtistCardState(card, nextState);
@@ -2930,7 +2949,7 @@ creatureCards.forEach(card => {
 
         // Particle explosion
         if (explosionContainer) {
-            createExplosion(explosionContainer, key);
+            createExplosion(explosionContainer, key, clientX, clientY);
         }
 
         // Legendary notification
@@ -3189,7 +3208,7 @@ creatureCards.forEach(card => {
             });
         }
 
-        function createExplosion(container, creatureType) {
+        function createExplosion(container, creatureType, originX, originY) {
             // Get creature color
             const colorMap = {
                 'huldra': '#ff1744',
@@ -3201,6 +3220,10 @@ creatureCards.forEach(card => {
             };
             const color = colorMap[creatureType];
             if (!color) return;
+            const burstLayer = getParticleBurstLayer();
+            const containerRect = container.getBoundingClientRect();
+            const startX = typeof originX === 'number' ? originX : containerRect.left + containerRect.width / 2;
+            const startY = typeof originY === 'number' ? originY : containerRect.top + containerRect.height / 2;
             const explosionCount = isMobilePerformanceMode() ? 14 : 30;
             const particles = [];
             const fragment = document.createDocumentFragment();
@@ -3212,6 +3235,8 @@ creatureCards.forEach(card => {
                 particle.style.setProperty('--glow-color', color);
                 particle.style.background = color;
                 particle.style.boxShadow = `0 0 15px ${color}`;
+                particle.style.left = `${startX}px`;
+                particle.style.top = `${startY}px`;
 
                 const angle = (Math.PI * 2 * i) / explosionCount;
                 const velocity = isMobilePerformanceMode() ? 72 + Math.random() * 58 : 100 + Math.random() * 100;
@@ -3222,7 +3247,7 @@ creatureCards.forEach(card => {
                 fragment.appendChild(particle);
             }
 
-            container.appendChild(fragment);
+            burstLayer.appendChild(fragment);
 
             particles.forEach(({ particle, tx, ty }) => {
                 // Animate
