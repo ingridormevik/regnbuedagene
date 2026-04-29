@@ -2099,6 +2099,86 @@
             }
         }
 
+        body.embedded-desktop .forest-atmosphere,
+        body.embedded-desktop #aurora-canvas,
+        body.embedded-desktop #aurora-shader-canvas,
+        body.embedded-desktop .mist-layer,
+        body.embedded-desktop .mist-layer-2 {
+            display: block !important;
+        }
+
+        body.embedded-desktop .main-container {
+            padding-top: max(44px, env(safe-area-inset-top));
+            padding-right: max(18px, env(safe-area-inset-right));
+            padding-bottom: max(56px, env(safe-area-inset-bottom));
+            padding-left: max(18px, env(safe-area-inset-left));
+        }
+
+        body.embedded-desktop .title-section {
+            width: min(100%, 980px);
+            margin-bottom: 64px;
+        }
+
+        body.embedded-desktop .main-title {
+            font-size: clamp(2.2rem, 8.4vw, 4.1rem);
+            width: 100%;
+            max-width: 14ch;
+            margin-inline: auto;
+            white-space: normal;
+            text-wrap: balance;
+            line-height: 0.94;
+        }
+
+        body.embedded-desktop .subtitle {
+            font-size: clamp(1.15rem, 3vw, 1.75rem);
+        }
+
+        body.embedded-desktop .event-info {
+            letter-spacing: 0.14em;
+        }
+
+        body.embedded-desktop .journey-text,
+        body.embedded-desktop .timeline-section,
+        body.embedded-desktop .witch-ep,
+        body.embedded-desktop .club-seduction-section,
+        body.embedded-desktop .visual-preview {
+            width: min(100%, 860px);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        body.embedded-desktop .journey-text,
+        body.embedded-desktop .timeline-section {
+            padding: 30px 22px;
+        }
+
+        body.embedded-desktop .creatures-grid {
+            grid-template-columns: 1fr;
+            gap: 28px;
+            max-width: 860px;
+        }
+
+        body.embedded-desktop .creature-card {
+            padding: 34px 24px;
+        }
+
+        body.embedded-desktop .section-title {
+            font-size: 2.15rem;
+            margin-bottom: 38px;
+        }
+
+        body.embedded-desktop .creatures-hint {
+            margin-bottom: 34px;
+        }
+
+        body.embedded-desktop .legendary-text {
+            font-size: clamp(2.1rem, 8vw, 3.2rem);
+        }
+
+        body.embedded-desktop .legendary-icon {
+            font-size: clamp(3.8rem, 10vw, 5.2rem);
+        }
+
         @media (prefers-reduced-motion: reduce) {
             #aurora-canvas,
             #aurora-shader-canvas,
@@ -2707,12 +2787,30 @@
         const canvas = document.getElementById('aurora-canvas');
         const ctx = canvas.getContext('2d', { alpha: true });
 
+        function isEmbeddedDesktopMode() {
+            const params = new URLSearchParams(window.location.search);
+            const forceEmbed = params.get('embed') === '1';
+            let embedded = forceEmbed;
+            if (!embedded) {
+                try {
+                    embedded = window.self !== window.top;
+                } catch (e) {
+                    embedded = true;
+                }
+            }
+
+            const finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+            return embedded && finePointer && window.innerWidth >= 520;
+        }
+
         function isMobilePerformanceMode() {
+            if (isEmbeddedDesktopMode()) return false;
             const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
             return window.innerWidth < 768 || (coarsePointer && window.innerWidth < 1024);
         }
 
         let mobileLiteMode = isMobilePerformanceMode();
+        document.body.classList.toggle('embedded-desktop', isEmbeddedDesktopMode());
         document.body.classList.toggle('mobile-lite', mobileLiteMode);
 
         function resizeCanvas() {
@@ -2731,6 +2829,7 @@
             requestAnimationFrame(() => {
                 resizeQueued = false;
                 mobileLiteMode = isMobilePerformanceMode();
+                document.body.classList.toggle('embedded-desktop', isEmbeddedDesktopMode());
                 document.body.classList.toggle('mobile-lite', mobileLiteMode);
                 resizeCanvas();
                 resizeShaderCanvas();
