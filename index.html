@@ -655,7 +655,7 @@
         }
 
         .creature-card.artist-reveal-card.is-revealed .card-state-toggle {
-            display: grid !important;
+            display: none !important;
         }
 
         .card-state-button {
@@ -3265,16 +3265,23 @@ creatureCards.forEach(card => {
             entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
                     setTimeout(() => {
-                        entry.target.classList.remove('card-hidden');
-                        entry.target.classList.add('card-reveal');
+                        entry.target.style.opacity = '0';
+                        entry.target.style.transform = 'translateY(30px)';
+                        entry.target.style.transition = 'all 0.8s ease-out';
+
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, 50);
                     }, index * 150);
+
                     observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.1 });
 
         creatureCards.forEach(card => {
-            card.classList.add('card-hidden');
+            card.style.opacity = '0';
             observer.observe(card);
         });
 
