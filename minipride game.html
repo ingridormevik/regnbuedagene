@@ -1,0 +1,3501 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MINI PRIDE / HAVENHJØRNING — BRYGGEN UNDER VANN</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:radial-gradient(circle at top,rgba(34,66,92,.28),transparent 34%),linear-gradient(180deg,#04111a 0%,#071521 42%,#031019 100%);overflow:hidden;font-family:'Sora',sans-serif;cursor:default;touch-action:none;-webkit-user-select:none;user-select:none;color:#e8f8ff;}
+body::before{content:'';position:fixed;inset:-18% -12% auto -12%;height:46vh;pointer-events:none;z-index:0;background:radial-gradient(circle at 18% 28%,rgba(255,187,120,.12),transparent 26%),radial-gradient(circle at 72% 22%,rgba(120,214,255,.12),transparent 32%),linear-gradient(90deg,rgba(255,124,146,.05),rgba(255,211,138,.04),rgba(111,224,255,.05));filter:blur(26px);opacity:.95;}
+body::after{content:'';position:fixed;inset:auto -10% -22% -10%;height:40vh;pointer-events:none;z-index:0;background:radial-gradient(circle at 30% 20%,rgba(115,222,255,.08),transparent 28%),radial-gradient(circle at 72% 15%,rgba(255,192,124,.07),transparent 24%);filter:blur(34px);opacity:.9;}
+canvas{display:block;position:absolute;inset:0;}
+:root{
+  --fjord:#8fe6ff;--fjord-dim:rgba(143,230,255,0.10);
+  --amber:#ffcb8b;--red:#ff788a;--green:#92f5c7;
+  --text:#e7f8ff;--dim:#6b8ea2;--copper:#c88d56;
+  --panel:rgba(6,16,28,.76);--panel-strong:rgba(7,18,32,.90);--mist:rgba(182,231,255,.14);
+  --plex:'IBM Plex Mono',monospace;--disp:'Sora',sans-serif;--serif:'Cormorant Garamond',serif;
+}
+/* ── HUD ── */
+#hud{position:fixed;inset:0;pointer-events:none;z-index:100;}
+/* TOP */
+#tb{position:fixed;top:0;left:0;right:0;height:40px;background:linear-gradient(180deg,rgba(5,14,25,.96),rgba(4,12,22,.82));
+  border-bottom:1px solid rgba(132,212,245,.10);display:flex;align-items:center;
+  padding:0 14px;gap:0;pointer-events:all;z-index:110;box-shadow:0 10px 30px rgba(0,0,0,.24);backdrop-filter:blur(16px);}
+#tb::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,203,139,.58),rgba(143,230,255,.54),transparent);opacity:.22;}
+.ts-brand{font-family:var(--serif);font-weight:700;font-size:19px;letter-spacing:2px;
+  color:#eef9ff;padding-right:18px;border-right:1px solid rgba(132,212,245,.10);margin-right:14px;text-transform:none;line-height:1;}
+.ts{display:flex;align-items:center;gap:6px;padding:0 11px;border-right:1px solid rgba(132,212,245,.08);height:100%;}
+.tsl{font-size:6.5px;letter-spacing:2.2px;color:var(--dim);text-transform:uppercase;font-family:var(--disp);font-weight:600;}
+.tsv{font-size:11px;color:var(--fjord);letter-spacing:.6px;font-family:var(--plex);transition:color .3s;}
+.tsv.danger{color:var(--red);}.tsv.warn{color:var(--amber);}
+.tfill{flex:1;}
+#zone-lbl{font-size:8px;letter-spacing:2.4px;color:#d9effa;
+  border:1px solid rgba(142,221,251,.12);padding:6px 12px;border-radius:999px;margin-right:13px;font-family:var(--disp);background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));box-shadow:inset 0 1px 0 rgba(255,255,255,.04);}
+#clock{font-family:var(--plex);font-size:10px;color:rgba(255,232,198,.82);letter-spacing:2px;opacity:.7;}
+#lang-toggle{appearance:none;border:1px solid rgba(255,203,139,.24);background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));
+  color:#ffe3bd;border-radius:999px;padding:6px 10px;font-family:var(--disp);font-size:7px;font-weight:600;letter-spacing:1.8px;text-transform:uppercase;
+  cursor:pointer;transition:border-color .18s ease,background .18s ease,color .18s ease,transform .18s ease;}
+#lang-toggle:hover{border-color:rgba(255,203,139,.58);background:linear-gradient(180deg,rgba(255,203,139,.16),rgba(143,230,255,.08));color:#fff4df;transform:translateY(-1px);}
+#lang-toggle[data-lang='en']{border-color:rgba(143,230,255,.34);color:#dff8ff;}
+/* LEFT */
+#lp{position:fixed;left:0;top:40px;bottom:50px;width:156px;background:linear-gradient(180deg,rgba(7,18,31,.92),rgba(5,15,26,.74));
+  border-right:1px solid rgba(132,212,245,.09);padding:12px 11px;
+  display:flex;flex-direction:column;gap:9px;pointer-events:none;backdrop-filter:blur(14px);box-shadow:18px 0 34px rgba(0,0,0,.18);}
+#lp::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,rgba(255,203,139,.55),transparent);opacity:.22;}
+.plbl{font-family:var(--disp);font-size:7px;letter-spacing:4.6px;color:rgba(226,242,250,.66);
+  text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+.plbl::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,203,139,.18),transparent);}
+.sr{display:flex;flex-direction:column;gap:3px;}
+.srh{display:flex;justify-content:space-between;align-items:baseline;}
+.srn{font-size:7.5px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);font-family:var(--plex);transition:color .4s;}
+.srv{font-size:10px;font-weight:500;font-family:var(--plex);color:rgba(58,184,216,.4);min-width:24px;text-align:right;transition:color .3s;}
+.sbt{height:2px;background:rgba(255,255,255,.05);border-radius:999px;overflow:hidden;}
+.sbf{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1);position:relative;}
+.sbf::after{content:'';position:absolute;right:-1px;top:-1px;bottom:-1px;width:2px;background:inherit;filter:brightness(2.2);}
+#bst .sbf{background:var(--green);}#bsv .sbf{background:var(--fjord);}
+#ber .sbf{background:var(--red);}#bgu .sbf{background:var(--amber);}
+#bfr .sbf{background:rgba(150,120,210,.7);}#bce .sbf{background:rgba(170,190,220,.5);}
+.sr.danger .srn,.sr.danger .srv{color:var(--red);}
+.sr.warn .srn,.sr.warn .srv{color:var(--amber);}
+.sr.high .srn,.sr.high .srv{color:var(--fjord);}
+#obj-box{flex:1;border:1px solid rgba(132,212,245,.12);padding:10px 10px 12px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.015));border-radius:20px;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 14px 28px rgba(0,0,0,.12);}
+#obj-box::before{content:attr(data-label);display:block;font-size:7px;letter-spacing:3px;
+  color:rgba(255,203,139,.86);opacity:.9;margin-bottom:7px;font-family:var(--disp);}
+#obj-text{font-size:7.5px;line-height:2.0;color:var(--text);}
+#obj-text .obj-step{display:block;font-size:7px;letter-spacing:2px;color:rgba(103,223,255,.7);text-transform:uppercase;margin-bottom:4px;}
+#obj-text .obj-main{display:block;font-size:10px;line-height:1.45;color:#f4fbff;margin-bottom:7px;font-family:var(--serif);letter-spacing:.2px;}
+#obj-text .obj-hint{display:block;font-size:7px;line-height:1.7;color:rgba(255,214,164,.94);}
+#metric-help{border:1px solid rgba(132,212,245,.10);border-radius:12px;padding:7px 8px;background:rgba(255,255,255,.025);
+  color:rgba(222,242,250,.74);font-size:6.5px;line-height:1.55;font-family:var(--plex);}
+#metric-help b{color:rgba(255,221,176,.92);font-weight:500;}
+/* RIGHT */
+#rp{position:fixed;right:0;top:40px;bottom:50px;width:146px;background:linear-gradient(180deg,rgba(7,18,31,.92),rgba(5,15,26,.74));
+  border-left:1px solid rgba(132,212,245,.09);padding:12px 11px;
+  display:flex;flex-direction:column;gap:9px;pointer-events:none;backdrop-filter:blur(14px);box-shadow:-18px 0 34px rgba(0,0,0,.18);}
+#rp::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,203,139,.55));opacity:.22;}
+#depth-v{font-family:var(--plex);font-size:28px;color:#eefbff;letter-spacing:2px;font-weight:300;opacity:.88;}
+#depth-u{font-size:7px;letter-spacing:2px;color:var(--dim);margin-top:2px;}
+#press-v{font-family:var(--plex);font-size:13px;color:var(--amber);letter-spacing:1px;opacity:.5;}
+#press-u{font-size:6.5px;letter-spacing:2px;color:var(--dim);}
+#elog{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:3px;
+  scrollbar-width:thin;scrollbar-color:rgba(58,184,216,.08) transparent;}
+.lge{font-size:7.5px;line-height:1.72;padding:5px 7px;border-left:1px solid rgba(132,212,245,.12);
+  color:#b8d8e8;animation:lgi .2s ease;font-family:var(--plex);border-radius:0 12px 12px 0;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));}
+@keyframes lgi{from{opacity:0;transform:translateX(4px);}to{opacity:1;transform:none;}}
+.lge.w{border-color:var(--amber);background:rgba(184,112,24,.07);color:var(--amber);}
+.lge.d{border-color:var(--red);background:rgba(200,32,48,.07);color:var(--red);}
+.lge.g{border-color:var(--green);background:rgba(16,216,96,.06);color:var(--green);}
+.lge.i{border-color:var(--fjord);background:var(--fjord-dim);color:var(--fjord);}
+.lts{font-size:6px;opacity:.28;display:block;margin-bottom:1px;}
+/* BOTTOM */
+#btm{position:fixed;bottom:0;left:0;right:0;height:50px;background:linear-gradient(180deg,rgba(6,16,28,.84),rgba(4,12,23,.96));
+  border-top:1px solid rgba(132,212,245,.09);display:flex;align-items:center;
+  padding:0 12px;gap:8px;pointer-events:all;z-index:110;box-shadow:0 -14px 34px rgba(0,0,0,.28);backdrop-filter:blur(16px);}
+.ab{font-family:var(--disp);font-size:8px;letter-spacing:1.6px;text-transform:uppercase;
+  padding:8px 13px;border:1px solid rgba(132,212,245,.12);background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
+  color:#d5edf8;cursor:pointer;transition:all .18s;border-radius:999px;white-space:nowrap;box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 18px rgba(0,0,0,.16);}
+.ab:hover:not(:disabled){border-color:var(--fjord);color:#f3fbff;background:linear-gradient(180deg,rgba(143,230,255,.18),rgba(143,230,255,.08));transform:translateY(-1px);}
+.ab.rs{border-color:rgba(184,112,24,.18);color:var(--amber);}
+.ab.rs:hover:not(:disabled){border-color:var(--amber);background:linear-gradient(180deg,rgba(255,203,139,.18),rgba(255,203,139,.08));}
+.ab.dg{border-color:rgba(200,32,48,.18);color:var(--red);}
+.ab.dg:hover:not(:disabled){border-color:var(--red);background:linear-gradient(180deg,rgba(255,120,138,.18),rgba(255,120,138,.08));}
+.ab:disabled{opacity:.1;cursor:not-allowed;}
+.ak{font-size:6px;color:rgba(214,233,244,.44);margin-left:4px;opacity:.58;}
+#bf{flex:1;}
+#ctx-lbl{font-size:7.2px;color:rgba(234,243,249,.72);font-family:var(--disp);text-align:right;
+  max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:.4px;}
+/* OVERLAYS */
+#sedge{position:fixed;inset:0;pointer-events:none;z-index:90;border:2px solid transparent;transition:all .5s;}
+#pflash{position:fixed;inset:0;pointer-events:none;z-index:92;opacity:0;transition:opacity .08s;background:rgba(200,32,48,.09);}
+#pflash.on{opacity:1;}
+#warn-b{position:fixed;top:40px;left:50%;transform:translateX(-50%) translateY(-110%);
+  background:linear-gradient(180deg,rgba(16,23,31,.98),rgba(9,14,22,.96));border:1px solid rgba(255,203,139,.46);border-top:2px solid var(--amber);
+  padding:10px 24px;font-family:var(--disp);font-size:11px;letter-spacing:5px;
+  color:#fff0d4;text-transform:uppercase;z-index:200;border-radius:999px;box-shadow:0 18px 36px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.05);
+  transition:transform .25s cubic-bezier(.4,0,.2,1),opacity .2s ease;pointer-events:none;white-space:nowrap;opacity:0;backdrop-filter:blur(14px);}
+#warn-b.show{transform:translateX(-50%) translateY(0);opacity:1;}
+#frpop{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.94);
+  background:linear-gradient(180deg,rgba(10,16,27,.98),rgba(8,13,22,.94));border:1px solid rgba(255,203,139,.14);border-top:2px solid rgba(255,203,139,.34);
+  padding:26px 34px;z-index:300;min-width:300px;text-align:center;opacity:0;pointer-events:none;transition:all .25s;border-radius:28px;box-shadow:0 26px 60px rgba(0,0,0,.34);}
+#frpop.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:all;}
+#frt{font-family:var(--disp);font-size:8px;letter-spacing:5px;color:rgba(255,203,139,.68);text-transform:uppercase;margin-bottom:11px;}
+#frm{font-size:12px;color:var(--text);line-height:1.8;margin-bottom:18px;font-family:var(--serif);}
+#frbt{height:1px;background:rgba(150,120,210,.1);}
+#frbf{height:100%;background:linear-gradient(90deg,rgba(255,203,139,.34),rgba(143,230,255,.42));width:0%;transition:width linear;}
+#ipop{position:fixed;bottom:56px;left:50%;transform:translateX(-50%);
+  background:linear-gradient(180deg,rgba(8,18,31,.98),rgba(6,14,25,.94));border:1px solid rgba(132,212,245,.16);
+  padding:18px 20px;min-width:310px;z-index:200;display:none;pointer-events:all;border-radius:28px;box-shadow:0 26px 60px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.04);}
+#ipop.show{display:block;}
+#ipt{font-family:var(--serif);font-weight:700;font-size:22px;letter-spacing:.6px;margin-bottom:8px;color:#f5fbff;line-height:1;}
+#ipd{font-size:9px;color:rgba(228,241,249,.76);line-height:1.8;margin-bottom:13px;max-width:38ch;}
+#ipa{display:flex;gap:6px;flex-wrap:wrap;}
+#gwsp{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);
+  font-size:9px;font-style:italic;color:rgba(184,112,24,.28);
+  pointer-events:none;z-index:150;opacity:0;transition:opacity 1.4s;letter-spacing:1px;font-family:var(--plex);}
+#gwsp.show{opacity:1;}
+/* INTERACT HINT */
+#hint{position:fixed;left:50%;transform:translateX(-50%);bottom:60px;
+  font-family:var(--plex);font-size:7px;letter-spacing:3px;color:rgba(58,184,216,.35);
+  pointer-events:none;z-index:150;opacity:0;transition:opacity .4s;text-transform:uppercase;}
+#hint.show{opacity:1;}
+/* END */
+#endscrn{position:fixed;inset:0;background:rgba(1,4,8,.98);z-index:9900;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  opacity:0;pointer-events:none;transition:opacity 1.5s;}
+#endscrn.show{opacity:1;pointer-events:all;}
+@keyframes eG{0%,84%,100%{transform:none;clip-path:none;}86%{transform:translate(-3px,0);clip-path:polygon(0 13%,100% 13%,100% 19%,0 19%);}90%{transform:translate(3px,0);clip-path:polygon(0 49%,100% 49%,100% 55%,0 55%);}95%{transform:none;clip-path:none;}}
+#end-t{font-family:var(--disp);font-size:52px;font-weight:700;letter-spacing:16px;text-transform:uppercase;animation:eG 5s ease infinite;}
+#end-b{font-size:10.5px;color:var(--dim);max-width:420px;text-align:center;line-height:2.5;letter-spacing:1px;font-family:var(--plex);white-space:pre-line;font-style:italic;}
+#end-s{font-size:7px;letter-spacing:4px;color:var(--dim);opacity:.28;text-transform:uppercase;font-family:var(--disp);}
+#end-r{font-family:var(--plex);font-size:8px;letter-spacing:3px;text-transform:uppercase;padding:9px 24px;border:1px solid rgba(58,184,216,.09);background:transparent;color:var(--dim);cursor:pointer;margin-top:10px;transition:all .25s;}
+#end-r:hover{border-color:var(--fjord);color:var(--fjord);}
+/* LOADING */
+#ldg{position:fixed;inset:0;background:radial-gradient(circle at 20% 18%,rgba(255,190,126,.12),transparent 24%),radial-gradient(circle at 78% 12%,rgba(111,224,255,.12),transparent 28%),linear-gradient(180deg,#030811,#05111c 44%,#030a12 100%);z-index:9950;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:60px 80px;transition:opacity .7s;}
+#ldg.h{opacity:0;pointer-events:none;}
+.bt{font-family:var(--serif);font-weight:700;font-size:42px;letter-spacing:.8px;color:#eff9ff;text-transform:none;margin-bottom:8px;line-height:.95;}
+.bs{font-size:8px;letter-spacing:4px;color:rgba(225,239,247,.64);margin-bottom:34px;font-family:var(--disp);text-transform:uppercase;}
+.bl{font-family:var(--plex);font-size:10px;line-height:2.4;color:var(--dim);display:flex;gap:20px;align-items:center;opacity:0;transition:opacity .2s;}
+.bl.show{opacity:1;}
+.bl-ok{color:var(--green);}
+#bbt{width:320px;height:1px;background:rgba(255,255,255,.04);margin-top:18px;}
+#bbf{height:100%;width:0%;background:var(--fjord);box-shadow:0 0 8px rgba(58,184,216,.25);}
+#bfin{margin-top:16px;font-family:var(--disp);font-weight:600;font-size:10px;letter-spacing:5px;color:var(--fjord);text-transform:uppercase;opacity:0;transition:opacity .4s;}
+#bfin.show{opacity:1;}
+#aprmpt{position:fixed;bottom:58px;left:50%;transform:translateX(-50%);font-size:7.5px;letter-spacing:2px;color:var(--dim);pointer-events:none;z-index:500;transition:opacity .5s;opacity:.4;}
+@keyframes sL{0%,100%{transform:translate(0)}20%{transform:translate(-2px,1px)}60%{transform:translate(-1px,2px)}}
+@keyframes sH{0%,100%{transform:translate(0)}15%{transform:translate(-5px,3px)}35%{transform:translate(5px,-4px)}55%{transform:translate(-3px,5px)}75%{transform:translate(4px,-3px)}}
+.sl{animation:sL .3s ease;}
+.sh{animation:sH .5s ease;}
+@keyframes ch{0%,100%{filter:none;}30%{filter:drop-shadow(-4px 0 0 rgba(255,10,60,.55)) drop-shadow(4px 0 0 rgba(0,60,200,.55));}}
+.ch{animation:ch .3s ease;}
+#story-card{display:block;position:fixed;left:170px;right:160px;top:52px;bottom:auto;z-index:165;width:auto;max-width:420px;
+  border:1px solid rgba(132,212,245,.16);background:linear-gradient(180deg,rgba(8,19,32,.92),rgba(8,16,27,.82));backdrop-filter:blur(18px);
+  box-shadow:0 18px 38px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.05);padding:10px 12px 11px;pointer-events:none;overflow:hidden;border-radius:18px;opacity:.88;}
+#story-card::before{content:'';position:absolute;left:-6%;right:-6%;top:-10px;height:46px;
+  background:linear-gradient(90deg,rgba(255,132,154,.18),rgba(255,203,139,.16),rgba(143,230,255,.16),rgba(146,245,199,.12));
+  filter:blur(14px);opacity:.95;pointer-events:none;}
+#story-card::after{content:'';position:absolute;inset:auto -18% -28% 28%;height:90px;
+  background:radial-gradient(circle,rgba(115,222,255,.11) 0%,rgba(115,222,255,0) 72%);
+  pointer-events:none;}
+#story-eyebrow{font-family:var(--disp);font-size:6px;letter-spacing:3px;color:rgba(255,203,139,.80);text-transform:uppercase;margin-bottom:5px;}
+#story-title{position:relative;font-family:var(--serif);font-size:20px;letter-spacing:.2px;color:#f5fbff;margin-bottom:4px;line-height:1;z-index:1;}
+#story-mission{position:relative;font-size:7px;line-height:1.55;letter-spacing:1.8px;color:rgba(143,230,255,.92);text-transform:uppercase;margin-bottom:6px;z-index:1;font-family:var(--disp);}
+#story-copy{display:none;}
+#story-tip{position:relative;font-size:7.5px;line-height:1.55;color:rgba(255,221,176,.96);z-index:1;font-family:var(--disp);max-width:48ch;}
+#story-progress{position:relative;display:flex;gap:5px;margin:6px 0 7px;z-index:1;}
+.story-dot{width:10px;height:10px;border-radius:999px;border:1px solid rgba(143,230,255,.24);background:rgba(143,230,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.02);}
+.story-dot.done{background:rgba(120,240,186,.22);border-color:rgba(120,240,186,.48);}
+.story-dot.now{background:rgba(255,191,107,.22);border-color:rgba(255,191,107,.56);transform:scale(1.08);}
+#touch-ui{display:none;position:fixed;left:14px;right:14px;bottom:92px;z-index:170;align-items:flex-end;justify-content:space-between;pointer-events:none;}
+#touch-pad{display:grid;grid-template-columns:58px 58px 58px;grid-template-rows:58px 58px 58px;gap:8px;pointer-events:all;}
+.touch-btn,.touch-action-btn{border:1px solid rgba(132,212,245,.18);background:linear-gradient(180deg,rgba(12,24,37,.94),rgba(6,15,26,.88));color:#eff9ff;
+  font-family:var(--disp);text-transform:uppercase;letter-spacing:1.4px;box-shadow:0 16px 30px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.04);
+  display:flex;align-items:center;justify-content:center;touch-action:none;}
+.touch-btn{border-radius:18px;font-size:22px;}
+.touch-btn.ghost{opacity:0;pointer-events:none;}
+.touch-btn.active,.touch-action-btn.active{border-color:var(--fjord);background:linear-gradient(180deg,rgba(143,230,255,.18),rgba(143,230,255,.08));}
+#touch-actions{display:flex;flex-direction:column;gap:8px;pointer-events:all;}
+.touch-action-btn{min-width:122px;min-height:58px;border-radius:20px;font-size:11px;padding:0 15px;}
+.touch-action-btn.alt{border-color:rgba(255,191,107,.24);color:var(--amber);background:linear-gradient(180deg,rgba(35,24,12,.92),rgba(22,14,8,.86));}
+body.mobile-ui #story-card{display:block;left:12px;right:12px;top:52px;bottom:auto;max-width:none;border-radius:18px;padding:9px 11px 10px;
+  background:linear-gradient(180deg,rgba(3,18,31,.92),rgba(2,11,22,.84));
+  box-shadow:0 22px 48px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.04);}
+body.mobile-ui #touch-ui{display:flex;}
+body.mobile-ui #tb{height:46px;padding:0 10px;}
+body.mobile-ui .ts-brand{font-size:11px;letter-spacing:4px;padding-right:8px;margin-right:8px;}
+body.mobile-ui .ts{padding:0 6px;}
+body.mobile-ui .tsl{font-size:6px;letter-spacing:1.4px;}
+body.mobile-ui .tsv{font-size:10px;}
+body.mobile-ui #zone-lbl{border-right:none;padding-right:0;margin-right:0;max-width:118px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:6.5px;letter-spacing:2px;}
+body.mobile-ui #clock{display:none;}
+body.mobile-ui #lang-toggle{padding:6px 8px;font-size:6.5px;letter-spacing:1.4px;}
+body.mobile-ui #lp,body.mobile-ui #rp{width:12px;top:46px;bottom:78px;padding:0;background:transparent;border:none;}
+body.mobile-ui #lp::before,body.mobile-ui #rp::before{display:none;}
+body.mobile-ui #lp > *,body.mobile-ui #rp > *{display:none !important;}
+body.mobile-ui #btm{height:74px;padding:8px 8px 10px;gap:6px;align-items:center;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;}
+body.mobile-ui .ab{flex:0 0 calc(20% - 5px);min-width:0;min-height:42px;font-size:7px;padding:10px 4px;letter-spacing:.8px;}
+body.mobile-ui .ak{display:none;}
+body.mobile-ui #bf{display:none;}
+body.mobile-ui #ctx-lbl{display:none;}
+body.mobile-ui #story-title{font-size:15px;letter-spacing:1px;}
+body.mobile-ui #story-mission{font-size:8px;letter-spacing:1.6px;margin-bottom:6px;}
+body.mobile-ui #story-copy{font-size:10px;line-height:1.72;max-width:none;}
+body.mobile-ui #story-tip{font-size:8.3px;line-height:1.65;}
+body.mobile-ui #story-progress{margin:8px 0 9px;gap:5px;}
+body.mobile-ui .story-dot{width:9px;height:9px;}
+body.mobile-ui #touch-ui{left:12px;right:12px;bottom:84px;}
+body.mobile-ui #touch-pad{grid-template-columns:52px 52px 52px;grid-template-rows:52px 52px 52px;gap:6px;}
+body.mobile-ui .touch-btn{border-radius:16px;font-size:20px;}
+body.mobile-ui .touch-action-btn{min-width:102px;min-height:52px;font-size:11px;padding:0 12px;}
+body.mobile-ui #hint{bottom:358px;letter-spacing:2px;font-size:8px;max-width:82vw;text-align:center;}
+body.mobile-ui #gwsp{bottom:362px;max-width:82vw;text-align:center;line-height:1.6;}
+body.mobile-ui #aprmpt{bottom:344px;font-size:8px;max-width:78vw;text-align:center;line-height:1.6;}
+body.mobile-ui #ipop{left:12px;right:12px;transform:none;bottom:88px;min-width:0;padding:14px 14px 12px;}
+body.mobile-ui #warn-b{max-width:92vw;white-space:normal;text-align:center;letter-spacing:4px;padding:9px 14px;}
+body.mobile-ui #frpop{min-width:0;width:min(92vw,360px);padding:20px 18px;}
+body.mobile-ui #ldg{padding:36px 20px;}
+body.mobile-ui .bt{font-size:18px;letter-spacing:6px;line-height:1.25;}
+body.mobile-ui .bs{font-size:7px;line-height:1.8;max-width:36ch;}
+</style>
+</head>
+<body>
+<canvas id="gc"></canvas>
+
+<!-- LOADING -->
+<div id="ldg">
+  <div class="bt">MINI PRIDE / HAVENHJØRNING</div>
+  <div class="bs">BERGEN 2063 ◈ BRYGGEN, NORDNES OG NYGÅRDSPARKEN UNDER VANN ◈ FLØYEN OG ULRIKEN OVER VANN</div>
+  <div class="bl" id="bl1"><span>Vekker regnbuebølgene rundt Bryggen...</span><span class="bl-ok">[OK]</span></div>
+  <div class="bl" id="bl2"><span>Laster kart: Bryggen/Nordnes under vann, Fløyen/Ulriken over vann...</span><span class="bl-ok">[OK]</span></div>
+  <div class="bl" id="bl3"><span>Pakker familievett: spør før du deler bilde, navn eller posisjon...</span><span class="bl-ok">[OK]</span></div>
+  <div class="bl" id="bl4"><span>Sender sporingsfisk og signalperler i myk modus...</span><span class="bl-ok">[OK]</span></div>
+  <div class="bl" id="bl5"><span>Kobler Bergen til Center for Digital Narrative...</span><span class="bl-ok">[OK]</span></div>
+  <div id="bbt"><div id="bbf"></div></div>
+  <div id="bfin">MINI PRIDE ER KLAR ◈ VÆR DEG SELV TRYGT ◈ BERGEN GLITRER UNDER VANN</div>
+</div>
+
+<!-- HUD -->
+<div id="hud">
+  <div id="tb">
+    <div class="ts-brand">MINI PRIDE</div>
+    <div class="ts"><span class="tsl">GLØD</span><span class="tsv" id="tv-st">100</span></div>
+    <div class="ts"><span class="tsl">APP-SPOR</span><span class="tsv" id="tv-sv">0</span></div>
+    <div class="ts"><span class="tsl">USYNLIG</span><span class="tsv" id="tv-er">0</span></div>
+    <div class="tfill"></div>
+    <div id="zone-lbl">BRYGGEN REGENBUEBRYGGE</div>
+    <div id="clock">◈ 20:44:00</div>
+    <button id="lang-toggle" type="button" onclick="toggleLanguage()" aria-label="Bytt språk">NOR/ENG</button>
+  </div>
+  <div id="lp">
+    <div class="plbl">Regnbuestatus</div>
+    <div class="sr" id="sr-st"><div class="srh"><span class="srn">Glød</span><span class="srv" id="vst">100</span></div><div class="sbt" id="bst"><div class="sbf" style="width:100%"></div></div></div>
+    <div class="sr" id="sr-sv"><div class="srh"><span class="srn">Digitale Spor</span><span class="srv" id="vsv">0</span></div><div class="sbt" id="bsv"><div class="sbf" style="width:0%"></div></div></div>
+    <div class="sr" id="sr-er"><div class="srh"><span class="srn">Usynlighet</span><span class="srv" id="ver">0</span></div><div class="sbt" id="ber"><div class="sbf" style="width:0%"></div></div></div>
+    <div class="sr" id="sr-gu"><div class="srh"><span class="srn">Samvittighet</span><span class="srv" id="vgu">0</span></div><div class="sbt" id="bgu"><div class="sbf" style="width:0%"></div></div></div>
+    <div class="sr" id="sr-fr"><div class="srh"><span class="srn">Ventebølger</span><span class="srv" id="vfr">0</span></div><div class="sbt" id="bfr"><div class="sbf" style="width:0%"></div></div></div>
+    <div class="sr" id="sr-ce"><div class="srh"><span class="srn">Taushetspress</span><span class="srv" id="vce">0</span></div><div class="sbt" id="bce"><div class="sbf" style="width:0%"></div></div></div>
+    <div id="metric-help"></div>
+    <div style="height:1px;background:rgba(58,184,216,.07);margin:3px 0;"></div>
+    <div id="obj-box"><div id="obj-text">Start reisen ved Bryggen og se hva telefoner og apper kan legge igjen av spor.</div></div>
+  </div>
+  <div id="rp">
+    <div class="plbl">Havmaler</div>
+    <div id="depth-v">000</div><div id="depth-u">METER UNDER OVERFLATEN</div>
+    <div style="height:8px;"></div>
+    <div id="press-v">0.0</div><div id="press-u">ATM TRYKK</div>
+    <div style="height:1px;background:rgba(58,184,216,.07);margin:6px 0;"></div>
+    <div class="plbl">Mini Pride-logg</div>
+    <div id="elog"></div>
+  </div>
+  <div id="btm">
+    <button class="ab" id="btn-map" onclick="showMoveMenu()">Rutekart<span class="ak">[M]</span></button>
+    <button class="ab rs" id="btn-act" onclick="handlePrimaryAction()">Gå til mål<span class="ak">[E]</span></button>
+    <button class="ab" id="btn-stop" onclick="stopAtNextNode()">Stopp<span class="ak">[X]</span></button>
+    <button class="ab" id="btn-calm" onclick="obeyP()">Pustepause<span class="ak">[C]</span></button>
+    <button class="ab dg" id="btn-help" onclick="showHelpMenu()" disabled>Hjelp</button>
+    <div id="bf"></div>
+    <div id="ctx-lbl">Piler/WASD eller klikk i ruten · klikk nær dykkeren for stopp</div>
+  </div>
+  <div id="sedge"></div>
+  <div id="pflash"></div>
+  <div id="warn-b"></div>
+  <div id="gwsp"></div>
+  <div id="hint"></div>
+  <div id="aprmpt">[ KLIKK FOR Å VEKKE HAVLYDENE ]</div>
+</div>
+
+<div id="story-card" aria-live="polite">
+  <div id="story-eyebrow">Mini Pride-fortelling</div>
+  <div id="story-title">Hei, lille dykker!</div>
+  <div id="story-mission">Mål nå: Finn regnbueporten</div>
+  <div id="story-progress" aria-hidden="true"></div>
+  <div id="story-copy">Svøm til regnbueporten og se hva telefoner og apper kan huske.</div>
+  <div id="story-tip">CDN-spor for alle aldre: Gode digitale fortellinger starter med samtykke, omsorg og trygge valg.</div>
+</div>
+
+<div id="touch-ui" aria-label="Berøringskontroller">
+  <div id="touch-pad">
+    <button class="touch-btn ghost" aria-hidden="true" tabindex="-1"></button>
+    <button class="touch-btn" id="touch-up" aria-label="Svøm opp">↑</button>
+    <button class="touch-btn ghost" aria-hidden="true" tabindex="-1"></button>
+    <button class="touch-btn" id="touch-left" aria-label="Svøm til venstre">←</button>
+    <button class="touch-btn ghost" aria-hidden="true" tabindex="-1"></button>
+    <button class="touch-btn" id="touch-right" aria-label="Svøm til høyre">→</button>
+    <button class="touch-btn ghost" aria-hidden="true" tabindex="-1"></button>
+    <button class="touch-btn" id="touch-down" aria-label="Svøm ned">↓</button>
+    <button class="touch-btn ghost" aria-hidden="true" tabindex="-1"></button>
+  </div>
+  <div id="touch-actions">
+    <button class="touch-action-btn" id="touch-interact" aria-label="Utforsk her">Utforsk</button>
+    <button class="touch-action-btn" id="touch-stop" aria-label="Stopp i neste kryss">Stopp</button>
+    <button class="touch-action-btn alt" id="touch-helper" aria-label="Åpne hjelp eller valg">Hjelp</button>
+  </div>
+</div>
+
+<div id="frpop"><div id="frt">⬡ VENTEBØLGE</div><div id="frm"></div><div id="frbt"><div id="frbf"></div></div></div>
+<div id="endscrn"><div id="end-t"></div><div id="end-b"></div><div id="end-s">BERGEN MINI PRIDE ◈ BRYGGEN UNDER VANN ◈ EVENTYRET HVILER</div><button id="end-r" onclick="resetGame()">[ START PÅ NYTT ]</button></div>
+<div id="ipop"><div id="ipt"></div><div id="ipd"></div><div id="ipa"></div></div>
+
+<script>
+// ════════ CANVAS ════════
+const gc=document.getElementById('gc');
+const ctx=gc.getContext('2d');
+gc.width=window.innerWidth; gc.height=window.innerHeight;
+const W=gc.width, H=gc.height;
+const FORCE_MOBILE=new URLSearchParams(window.location.search).get('mobile')==='1';
+const MOBILE_MODE=FORCE_MOBILE||window.innerWidth<=900||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches&&window.innerWidth<=1100);
+if(MOBILE_MODE)document.body.classList.add('mobile-ui');
+const LP=MOBILE_MODE?12:156, RP=MOBILE_MODE?12:146;           // left/right panel widths
+const SURFACE_Y = Math.round(H*(MOBILE_MODE?0.33:0.38)); // surface line moves a bit up on small screens
+const FLOOR_Y   = H-(MOBILE_MODE?80:52);
+const WORLD_W   = 9800;
+const GAME_VIEW_TOP=MOBILE_MODE?46:40;
+const GAME_VIEW_BOTTOM=H-(MOBILE_MODE?74:50);
+const MINI_PRIDE_LANG_KEY='miniPrideLanguage';
+const LANG={current:localStorage.getItem(MINI_PRIDE_LANG_KEY)==='en'?'en':'no'};
+const UI_TEXT={
+  loadingTitle:{no:'MINI PRIDE / HAVENHJØRNING',en:'MINI PRIDE / SEA UNICORN'},
+  loadingSubtitle:{no:'BERGEN 2063 ◈ BRYGGEN, NORDNES OG NYGÅRDSPARKEN UNDER VANN ◈ FLØYEN OG ULRIKEN OVER VANN',en:'BERGEN 2063 ◈ BRYGGEN, NORDNES AND NYGÅRDSPARKEN UNDER WATER ◈ FLØYEN AND ULRIKEN ABOVE WATER'},
+  loadingLine1:{no:'Vekker regnbuebølgene rundt Bryggen...',en:'Waking the rainbow waves around Bryggen...'},
+  loadingLine2:{no:'Laster kart: Bryggen/Nordnes under vann, Fløyen/Ulriken over vann...',en:'Loading map: Bryggen/Nordnes under water, Fløyen/Ulriken above water...'},
+  loadingLine3:{no:'Pakker familievett: spør før du deler bilde, navn eller posisjon...',en:'Packing family privacy rules: ask before sharing a photo, name or location...'},
+  loadingLine4:{no:'Sender sporingsfisk og signalperler i myk modus...',en:'Sending tracking fish and signal pearls in soft mode...'},
+  loadingLine5:{no:'Kobler Bergen til Center for Digital Narrative...',en:'Linking Bergen to the Center for Digital Narrative...'},
+  loadingReady:{no:'MINI PRIDE ER KLAR ◈ VÆR DEG SELV TRYGT ◈ BERGEN GLITRER UNDER VANN',en:'MINI PRIDE IS READY ◈ BE YOURSELF SAFELY ◈ BERGEN GLITTERS UNDER WATER'},
+  topGlow:{no:'GLØD',en:'GLOW'},
+  topTrace:{no:'APP-SPOR',en:'APP TRACE'},
+  topInvisible:{no:'USYNLIG',en:'INVISIBLE'},
+  leftTitle:{no:'Regnbuestatus',en:'Rainbow status'},
+  rightTopTitle:{no:'Havmåler',en:'Sea meter'},
+  rightLogTitle:{no:'Mini Pride-logg',en:'Mini Pride log'},
+  leftGlow:{no:'Glød',en:'Glow'},
+  leftTrace:{no:'Digitale Spor',en:'Digital traces'},
+  leftInvisible:{no:'Usynlighet',en:'Invisibility'},
+  leftConscience:{no:'Samvittighet',en:'Conscience'},
+  leftWaves:{no:'Ventebølger',en:'Waiting waves'},
+  leftSilence:{no:'Taushetspress',en:'Silence pressure'},
+  metricHelp:{no:'<b>Glød</b> er trygg energi. <b>App-spor</b> er hvor mye byen leser ruten din. <b>Usynlighet</b> øker når du blir presset bort. <b>Samvittighet</b>, <b>Ventebølger</b> og <b>Taushetspress</b> viser stress fra valg, venting og å måtte gjøre seg liten.',en:'<b>Glow</b> is safe energy. <b>App trace</b> is how much the city reads your route. <b>Invisibility</b> rises when you are pushed out. <b>Conscience</b>, <b>Waiting waves</b> and <b>Silence pressure</b> show stress from choices, delays and having to make yourself small.'},
+  defaultObjective:{no:'Start reisen ved Bryggen og se hva telefoner og apper kan legge igjen av spor.',en:'Start at Bryggen and see what phones and apps can leave behind.'},
+  depthUnit:{no:'METER UNDER OVERFLATEN',en:'METRES BELOW THE SURFACE'},
+  pressureUnit:{no:'ATM TRYKK',en:'ATM PRESSURE'},
+  routeMap:{no:'Rutekart',en:'Route map'},
+  nextGoal:{no:'Gå til mål',en:'Go to goal'},
+  goTo:{no:'GÅ TIL',en:'GO TO'},
+  goalReady:{no:'Du er ved målet. Trykk Utforsk.',en:'You are at the goal. Press Explore.'},
+  goalGuide:{no:'Målkompasset peker mot',en:'The goal compass points to'},
+  goalNoPath:{no:'Rutekartet finner ikke veien herfra. Åpne Rutekart.',en:'The route map cannot find a path from here. Open Route map.'},
+  explore:{no:'Utforsk',en:'Explore'},
+  stop:{no:'Stopp',en:'Stop'},
+  breather:{no:'Pustepause',en:'Breather'},
+  help:{no:'Hjelp',en:'Help'},
+  shadowguest:{no:'Skyggjesten',en:'Shadow guest'},
+  contextDefault:{no:'Trykk piler/WASD som i Pac-Man: retningen huskes, neste sving buffers. X stopper i neste kryss.',en:'Press arrows/WASD like Pac-Man: direction is remembered, next turn is buffered. X stops at the next junction.'},
+  audioPrompt:{no:'[ KLIKK FOR Å VEKKE HAVLYDENE ]',en:'[ CLICK TO WAKE THE SEA SOUNDS ]'},
+  frictionTitle:{no:'⬡ VENTEBØLGE',en:'⬡ WAITING WAVE'},
+  endSubtitle:{no:'BERGEN MINI PRIDE ◈ BRYGGEN UNDER VANN ◈ EVENTYRET HVILER',en:'BERGEN MINI PRIDE ◈ BRYGGEN UNDER WATER ◈ THE STORY RESTS'},
+  restart:{no:'[ START PÅ NYTT ]',en:'[ START AGAIN ]'},
+  storyEyebrowDefault:{no:'Mini Pride-fortelling',en:'Mini Pride story'},
+  storyTitleDefault:{no:'Hei, lille dykker!',en:'Hello, little diver!'},
+  storyMissionDefault:{no:'Mål nå: Finn regnbueporten',en:'Goal now: Find the rainbow gate'},
+  storyCopyDefault:{no:'Svøm til regnbueporten og se hva telefoner og apper kan huske.',en:'Swim to the rainbow gate and see what phones and apps can remember.'},
+  storyTipDefault:{no:'CDN-spor for alle aldre: Gode digitale fortellinger starter med samtykke, omsorg og trygge valg.',en:'A CDN trace for all ages: good digital stories begin with consent, care and safer choices.'},
+  tutorialMove:{no:'TRYGG ØVING 1/3 · hold en retning for å ta første strekk',en:'SAFE PRACTICE 1/3 · hold a direction to take the first stretch'},
+  tutorialTurn:{no:'TRYGG ØVING 2/3 · trykk neste retning litt tidlig og følg pilmarkøren',en:'SAFE PRACTICE 2/3 · press the next direction a little early and follow the turn marker'},
+  tutorialStop:{no:'TRYGG ØVING 3/3 · slipp retningen · stopp-ringen viser hvor du stanser',en:'SAFE PRACTICE 3/3 · release the direction · the stop ring shows where you halt'},
+  tutorialCountdown:{no:'PATRULJER STARTER SNART · du kan fortsatt øve i startbukten',en:'PATROLS START SOON · you can still practice in the starting cove'},
+  phaseScatter:{no:'SPREDNING',en:'SCATTER'},
+  phaseChase:{no:'JAKT',en:'CHASE'},
+  patrolPhase:{no:'PATRULJEFASE',en:'PATROL PHASE'},
+  clarityWave:{no:'KLARHETSBØLGE AKTIV',en:'CLARITY WAVE ACTIVE'},
+  lightTrails:{no:'lysspor',en:'light trails'},
+  clickRoute:{no:'trykk retning, samle prikker, ta bobler for å snu jakten',en:'press a direction, collect dots, take bubbles to turn the chase'},
+  roundLabel:{no:'Runde',en:'Round'},
+  roundClear:{no:'Runde fullført',en:'Round clear'},
+  roundStart:{no:'Ny runde',en:'New round'},
+  bossWarning:{no:'BYBANEN-BOSS · tunnelen lader opp rundt deg',en:'LIGHT RAIL BOSS · the tunnel is charging around you'},
+  bossCharge:{no:'BYBANEN-BOSS · full jakt gjennom skinnegangen',en:'LIGHT RAIL BOSS · full chase through the tracks'},
+  bossDisrupted:{no:'BYBANEN-BOSS · rytmen brutt, bruk vinduet nå',en:'LIGHT RAIL BOSS · rhythm disrupted, use the window now'},
+  bossHunt:{no:'BYBANEN-BOSS · hold deg i bevegelse og ta sideveiene',en:'LIGHT RAIL BOSS · keep moving and use the side paths'},
+  objectiveStep:{no:'Steg {current} av {total}',en:'Step {current} of {total}'},
+  objectiveDone:{no:'Mini Pride fullført',en:'Mini Pride completed'},
+  storyFallback:{no:'Eventyr {current} av {total}',en:'Story {current} of {total}'},
+  languageTitle:{no:'Bytt mellom norsk og engelsk',en:'Switch between Norwegian and English'},
+  languageAria:{no:'Bytt språk til engelsk',en:'Switch language to Norwegian'},
+  pageTitle:{no:'MINI PRIDE / HAVENHJØRNING — BRYGGEN UNDER VANN',en:'MINI PRIDE / SEA UNICORN — BRYGGEN UNDER WATER'},
+  objectiveTrail:{no:'▸ MINI PRIDE-LØYPE',en:'▸ MINI PRIDE ROUTE'},
+  touchControls:{no:'Berøringskontroller',en:'Touch controls'},
+  swimUp:{no:'Svøm opp',en:'Swim up'},
+  swimLeft:{no:'Svøm til venstre',en:'Swim left'},
+  swimRight:{no:'Svøm til høyre',en:'Swim right'},
+  swimDown:{no:'Svøm ned',en:'Swim down'},
+  helperMenu:{no:'Åpne hjelp eller valg',en:'Open help or options'},
+  routeTurn:{no:'SVING',en:'TURN'},
+  routeTryTurn:{no:'PRØV SVING',en:'TRY TURN'}
+};
+function tr(key,vars){
+  const entry=UI_TEXT[key];
+  let text=entry?(entry[LANG.current]||entry.no):key;
+  if(vars)Object.entries(vars).forEach(([name,value])=>{text=text.replace(`{${name}}`,value);});
+  return text;
+}
+const STRING_EN={
+  'BRYGGEN — SJØBODRADEN':'BRYGGEN — WHARF ROW',
+  'SANDVIKEN — SJØBODER OG SMYG':'SANDVIKEN — BOATHOUSES AND LANES',
+  'FISKETORGET — APPSTRØMMER':'FISH MARKET — APP STREAMS',
+  'FLØIBANEN — OVER VANN':'FLØIBANEN — ABOVE WATER',
+  'NYGÅRDSPARKEN — MØNSTER OG MINNER':'NYGÅRDSPARKEN — PATTERNS AND MEMORIES',
+  'BERGENHUS — TILLATELSESARKIV':'BERGENHUS — PERMISSION ARCHIVE',
+  'MARINEHOLMEN — WI-FI-BELTET':'MARINEHOLMEN — WI-FI BELT',
+  'PUDDEFJORDEN — EKKOSONEN':'PUDDEFJORDEN — ECHO ZONE',
+  'HEMMELIG BYBANETUNNEL':'SECRET LIGHT RAIL TUNNEL',
+  'NORDNES — LYSESLUSEN':'NORDNES — LIGHT LOCK',
+  'BRYGGEN PORTROM':'BRYGGEN GATE ROOM',
+  'FLØIBANEN KAI':'FLØIBANEN QUAY',
+  'FLØIBANEN TOPPSTASJON':'FLØIBANEN TOP STATION',
+  'ULRIKEN HOTSPOT':'ULRIKEN HOTSPOT',
+  'SKYGJEST I NYGÅRDPARKEN':'SHADOW GUEST IN NYGÅRDPARKEN',
+  'BERGENHUS TILLATELSESARKIV':'BERGENHUS PERMISSION ARCHIVE',
+  'NORDNES LYSESLUSE':'NORDNES LIGHT LOCK',
+  'Portrommet viser første del av mysteriet: mobilen kan huske ruter, tider og stopp selv når du bare er ute i byen.':'The gate room shows the first part of the mystery: your phone can remember routes, times and stops even when you are simply out in the city.',
+  '[ Se Hvilke Spor Mobilen Lager ]':'[ See What Traces the Phone Leaves ]',
+  '[ Bare Svøm Videre ]':'[ Just Keep Swimming ]',
+  'Ta Fløibanen opp fjellsiden til toppstasjonen på Fløyen. Der ligger Fjellfyret, et lys som gjør usynlige signaler lettere å forstå.':'Take Fløibanen up the mountainside to the top station at Fløyen. There the Mountain Beacon waits, a light that makes invisible signals easier to understand.',
+  '[ Ta Fløibanen Opp ]':'[ Ride Fløibanen Up ]',
+  '[ Vent Litt ]':'[ Wait A Moment ]',
+  'På toppstasjonen på Fløyen venter Fjellfyret. Det lærer deg hvordan byen kan kjenne igjen nærvær med nettverk og små signaler over tid.':'At the top station at Fløyen the Mountain Beacon is waiting. It teaches you how the city can recognise presence through networks and small signals over time.',
+  '[ Hent Fjellfyret ]':'[ Collect the Mountain Beacon ]',
+  '[ Se Deg Om ]':'[ Look Around ]',
+  'Fra Ulriken ser du Bergen som et levende kart. Her blir det tydelig hvordan sted, høyde og tid kan bli til mønstre.':'From Ulriken you see Bergen as a living map. Here it becomes clear how place, height and time can become patterns.',
+  '[ Se Utsynskartet ]':'[ See the View Map ]',
+  '"Først trodde jeg bare appene var smarte. Så skjønte jeg at de hadde lært rutene mine uten at jeg merket det."':'"At first I thought the apps were just clever. Then I realised they had learned my routes without me noticing."',
+  '[ Svøm Sammen Og Lytt ]':'[ Swim Together And Listen ]',
+  '[ Kom Tilbake Senere ]':'[ Come Back Later ]',
+  'Her ligger ordene som styrer mye av det digitale livet: tillatelser, annonse-ID og deling. Kjedelige ord, men viktige valg.':'Here lie the words that govern much of digital life: permissions, ad ID and sharing. Dry words, but important choices.',
+  '[ Hent Den Enkle Regelen ]':'[ Collect the Simple Rule ]',
+  '[ Senere ]':'[ Later ]',
+  'Her tar du med lyset opp igjen: sjekk tillatelser, slå av sporing du ikke trenger, og spør før du deler om andre.':'Here you bring the light back up: check permissions, switch off tracking you do not need, and ask before sharing about others.',
+  '[ Del Lyset Med Bergen ]':'[ Share the Light With Bergen ]',
+  '[ Bli Litt Til ]':'[ Stay A Little Longer ]',
+  'ØV PÅ Å SVINGE':'PRACTISE TURNING',
+  'SLIPP FOR Å STOPPE':'RELEASE TO STOP',
+  'PATRULJENE VÅKNER':'PATROLS WAKE',
+  'BYBANEN VÅKNER':'LIGHT RAIL WAKES',
+  'BYBANEN JAGER':'LIGHT RAIL CHASES',
+  'KLARHETSBØLGE':'CLARITY WAVE',
+  'MER GLØD TRENGS':'MORE GLOW NEEDED',
+  'MØNSTERET FORTSETTER':'THE PATTERN CONTINUES',
+  'FLØIBANEN STIGER':'FLØIBANEN RISES',
+  'FJELLFYR HENTET':'MOUNTAIN BEACON COLLECTED',
+  'Huskeregel: mobilen kan avsløre mer enn det du poster.':'Remember this: a phone can reveal more than what you post.',
+  'Bra. Nå prøv en sving i neste kryss mens Bryggen fortsatt er helt trygg.':'Good. Now try a turn at the next junction while Bryggen is still completely safe.',
+  'Der satt svingen. Slipp retningen, så stopper du trygt i neste kryss.':'That turn landed well. Release the direction and you will stop safely at the next junction.',
+  'Perfekt. Nå kan du gå, svinge og stoppe. Patruljene starter om et øyeblikk.':'Perfect. Now you can move, turn and stop. The patrols start in a moment.',
+  'Bryggen-patruljene er aktive. Startbukten er fortsatt rolig nok til å hente pusten.':'The Bryggen patrols are active. The starting cove is still calm enough to catch your breath.',
+  'Trollkart våkner når flere lysspor tennes. Nå prøver kartet å gjette hvor du skal.':'The troll map wakes when more light trails ignite. Now the map is trying to guess where you are going.',
+  'Huldra-Signal glir ut av åsen. Nå lytter byen til rytmen i bevegelsen din.':'Huldra Signal slips out of the hillside. Now the city is listening to the rhythm of your movement.',
+  'Maremønster finner lukten av vane. Nå teller ikke bare ett stopp, men hele mønsteret.':'The Mare Pattern catches the scent of habit. Now it is not just one stop that matters, but the whole pattern.',
+  'Draugnett løfter seg i nettverket. Nå svarer byen med skjulte forbindelser.':'The draug net rises inside the network. Now the city answers with hidden connections.',
+  'Fjordvette glitrer i dypet. Selv åpne flater føles fulle av øyne.':'A fjord spirit glitters in the depth. Even open spaces feel full of eyes.',
+  'Patruljene sprer seg mellom brygger og smug. Dette er pusterommet mellom jaktene.':'The patrols spread between wharves and lanes. This is the breathing space between chases.',
+  'Patruljene låser seg på sporene dine. Nå føles byen mer våken, mer nysgjerrig, mindre tilfeldig.':'The patrols lock onto your traces. Now the city feels more awake, more curious, less random.',
+  'Klarhetsboblen snur rytmen. Dronene mister motet og leter etter en vei bort fra deg.':'The clarity bubble flips the rhythm. The drones lose their nerve and look for a way away from you.',
+  'Du følger skinnene ned i den gamle tunnelen. Noe tungt svarer i mørket før du ser det.':'You follow the tracks down into the old tunnel. Something heavy answers in the dark before you see it.',
+  'Lyktene tenner hele tunnelen. Bybanen under vann går fra varsling til jakt.':'The lights ignite the whole tunnel. The underwater light rail shifts from warning to chase.',
+  'Klarhetsboblen vrenger skinnegangen. Bybanen mister rytmen et øyeblikk.':'The clarity bubble bends the tracks. The light rail loses its rhythm for a moment.',
+  'Bybanen holder trykket oppe. Nå jager hele ruten, ikke bare én vogn.':'The light rail keeps the pressure up. Now the whole route is chasing, not just one carriage.',
+  'Skinnene finner tonen igjen. Bybanen samler seg og går tilbake til jakten.':'The tracks find their tone again. The light rail regroups and returns to the chase.',
+  'Du tok en klarhetsboble. Dronene mister rytmen i noen sekunder.':'You collected a clarity bubble. The drones lose their rhythm for a few seconds.',
+  'Du samler første lysspor. Nå føles ruten tydeligere.':'You collect the first light trail. Now the route feels clearer.',
+  'Flere lysspor tenner byen. Nye folklorefiender kan våkne når mønsteret blir tydeligere.':'More light trails ignite the city. New folklore enemies can wake when the pattern becomes clearer.',
+  'Halvveis. Bergen 2063 gløder som et Pac-Man-labyrintkart rundt deg.':'Halfway there. Bergen 2063 glows around you like a Pac-Man maze.',
+  'Nå er nesten hele ruten tent. Hold øye med sideveier og klarhetsbobler.':'Now almost the whole route is lit. Watch the side paths and the clarity bubbles.',
+  'Alle lysspor er tent. Nå leser du byen like godt som den prøver å lese deg.':'All light trails are lit. Now you read the city as well as it tries to read you.',
+  'Bryggen knirker over deg. Under plankene føles det som om byen allerede husker hvor du pleier å stoppe.':'Bryggen creaks above you. Under the planks it feels like the city already remembers where you usually stop.',
+  'Sandviken er trang og vakker. Her blir en rute fort til et mønster noen andre kan lese.':'Sandviken is tight and beautiful. Here a route quickly becomes a pattern someone else can read.',
+  'Ved Fisketorget flyter folk, signaler og vaner sammen som om markedet aldri stenger.':'By the Fish Market, people, signals and habits flow together as if the market never closes.',
+  'Kablar og skinner synger i vannet. Her blir nærvær målt lenge før noen sier hei.':'Cables and rails sing in the water. Here presence is measured long before anyone says hello.',
+  'Parken er mykere enn patruljene. Her handler historien mindre om data og mer om hvordan data kjennes.':'The park is softer than the patrols. Here the story is less about data and more about how data feels.',
+  'Murene ved Bergenhus holder på gamle løfter. Appene gjør det motsatte: de ber fort og husker lenge.':'The walls at Bergenhus hold old promises. Apps do the opposite: they ask quickly and remember for a long time.',
+  'Marineholmen gløder av forskning og rutere. Nettet kjennes nesten som vær her nede.':'Marineholmen glows with research and routers. The network almost feels like weather down here.',
+  'Over den mørke fjorden kommer ekkoene sent. Spor sprer seg lenger her enn du tror.':'Over the dark fjord the echoes arrive late. Traces spread farther here than you think.',
+  'Skinner under vann. Noen systemer skulle vært slått av for lengst, men rutene deres lever videre.':'Rails under water. Some systems should have been shut down long ago, but their routes keep living on.',
+  'Nordnes holder det siste lyset. Her skal du ikke gjemme deg, bare forstå nok til å velge bedre.':'Nordnes holds the last light. Here you are not meant to hide, only understand enough to choose better.',
+  'I Nygårdsparken møter du en skygjest som merket overvåkingen lenge før hen fant ordene for den.':'In Nygårdsparken you meet a shadow guest who felt the surveillance long before they found words for it.',
+  '"Jeg trodde bare appene var smarte. Så skjønte jeg at de lærte rutinen min."':'"I thought the apps were just clever. Then I realised they had learned my routine."',
+  'MINI PRIDE-PÅMINNELSE: Kart-apper trenger ikke alltid posisjonen din hele tiden.':'MINI PRIDE REMINDER: Map apps do not always need your location all the time.',
+  'MINI PRIDE-PÅMINNELSE: Selv vanlige bevegelsesmønstre kan si mye om hvem du er sammen med.':'MINI PRIDE REMINDER: Even ordinary movement patterns can reveal a lot about who you are with.',
+  'MINI PRIDE-PÅMINNELSE: Queer barn skal slippe å bli profilert for å være seg selv.':'MINI PRIDE REMINDER: Queer children should not be profiled just for being themselves.',
+  'MINI PRIDE-PÅMINNELSE: Det er lov å sjekke tillatelser sammen med en trygg voksen.':'MINI PRIDE REMINDER: It is okay to check permissions together with a trusted adult.',
+  'MINI PRIDE-PÅMINNELSE: Spør før du deler bilde, navn eller posisjon om andre.':'MINI PRIDE REMINDER: Ask before sharing someone else’s photo, name or location.',
+  'MINI PRIDE-PÅMINNELSE: Center for Digital Narrative minner oss om at teknologi også former historier om oss.':'MINI PRIDE REMINDER: Center for Digital Narrative reminds us that technology also shapes stories about us.',
+  'Du tok en pustepause. Sporene roer seg, men stemmen blir litt stillere.':'You took a breather. The traces calm down, but the voice becomes a little quieter.',
+  'Appen vil vite mer enn du må dele. Pust først.':'The app wants to know more than you need to share. Breathe first.',
+  'Ventebølge: sjekk personvern sammen med en voksen du stoler på.':'Waiting wave: check privacy together with an adult you trust.',
+  'Ruten roer seg. Det er lov å ta det steg for steg.':'The route settles. It is okay to take it step by step.',
+  'Noen valg trenger et ja før de deles.':'Some choices need a yes before they are shared.',
+  'Pausebølge: ikke alt må publiseres.':'Pause wave: not everything needs to be published.',
+  'Trygghetsstopp: finn noen du kan være hele deg med.':'Safety stop: find someone you can be fully yourself with.',
+  'Litt tregt her nede. Bruk tiden til å tenke på samtykke.':'A little slow down here. Use the time to think about consent.',
+  'Ventebølge: hvilke spor vil du egentlig legge igjen?':'Waiting wave: what traces do you actually want to leave behind?',
+  'Spør før du deler bilde, navn eller posisjon.':'Ask before sharing a photo, name or location.',
+  'Queer barn fortjener trygge rom på skjerm også.':'Queer children deserve safe spaces on screen too.',
+  'Det er lov å be en voksen om hjelp med personvern.':'It is okay to ask an adult for help with privacy.',
+  'Fjellene husker Bergen, men apper trenger ikke alt.':'The mountains remember Bergen, but apps do not need everything.',
+  'Privatliv er omsorg, ikke hemmelighet.':'Privacy is care, not secrecy.',
+  'En liten pause kan gi et klokere digitalt valg.':'A small pause can lead to a wiser digital choice.',
+  'Noen trenger at du ser dem før skjermen gjør det.':'Some people need you to see them before the screen does.',
+  'Vær deg selv. Del med omtanke.':'Be yourself. Share with care.',
+  'Porten åpner seg ikke ennå. Du trenger mer glød først.':'The gate does not open yet. You need more glow first.',
+  'Bryggen-portrommet viser hvordan sted, tid og vane raskt blir til data.':'The Bryggen gate room shows how place, time and habit quickly become data.',
+  'Du svømte forbi portrommet. Dronene fikk fortsette å lese rutinen din i fred.':'You swam past the gate room. The drones got to keep reading your routine in peace.',
+  'Fløibanen drar deg opp fjellsiden mot Fløyen. Bergen åpner seg i lys og regn bak deg.':'Fløibanen pulls you up the mountainside toward Fløyen. Bergen opens in light and rain behind you.',
+  'Du henter Fjellfyret. Nå blir signalene rundt byen lettere å se og snakke om.':'You collect the Mountain Beacon. Now the signals around the city are easier to see and talk about.',
+  'Lærdom: systemer kan merke nærvær over tid uten å kjenne hele deg.':'Lesson: systems can notice presence over time without knowing everything about you.',
+  'Fra Ulriken ser du Bergen som et kart av tid, høyde og vaner. Slik kan små signaler bli til store mønstre.':'From Ulriken you see Bergen as a map of time, height and habits. That is how small signals can become large patterns.',
+  'Du svømmer ved siden av skygjesten og setter ord på det som føltes uklart.':'You swim beside the shadow guest and find words for what felt unclear.',
+  '"Takk. Det hjelper når noen skjønner at overvåking også kan merkes i kroppen."':'"Thank you. It helps when someone understands that surveillance can also be felt in the body."',
+  'Du svømte videre. Boblene kjennes tyngre.':'You kept swimming. The bubbles feel heavier.',
+  'Du fant tre enkle ting som faktisk hjelper: sjekk tillatelser, slå av unødig sporing og spør før du deler om andre.':'You found three simple things that actually help: check permissions, switch off tracking you do not need, and ask before sharing about others.',
+  '[ Flyt Her ]':'[ Drift Here ]',
+  'HEMMELIG BYBANETUNNEL':'SECRET LIGHT RAIL TUNNEL',
+  'Samle lysspor som Pac-Man-prikker, ta Fløibanen opp til fjelllyset, og bruk Ulriken som utsiktshotspot når du vil forstå mønsteret.':'Collect light trails like Pac-Man dots, take Fløibanen up to the mountain light, and use Ulriken as a lookout hotspot when you want to understand the pattern.',
+  'RUTEKART':'ROUTE MAP',
+  'PRIDEVALG':'PRIDE CHOICES',
+  'Prøv små digitale valg: mindre sporing, mer samtykke og tydeligere ord.':'Try small digital choices: less tracking, more consent and clearer language.',
+  '[ Skru Av Sporingssignal ]':'[ Switch Off Tracking Signal ]',
+  '[ Si Høyt: Vær Deg Selv ]':'[ Say It Out Loud: Be Yourself ]',
+  '[ Tilbake ]':'[ Back ]',
+  'Du slo av sporingssignalet et øyeblikk. Havet la merke til det.':'You switched off the tracking signal for a moment. The sea noticed.',
+  'Ordene sitter fast. Finn en trygg voksen eller venn og prøv igjen.':'The words are stuck. Find a trusted adult or friend and try again.',
+  'Du sa det høyt: vær deg selv. Signalet glitret gjennom vannet.':'You said it out loud: be yourself. The signal glittered through the water.',
+  'SKYGJEST':'SHADOW GUEST',
+  '"Kan du svømme ved siden av meg? Jeg vil slippe at appene vet mer om livet mitt enn jeg selv har sagt ja til."':'"Can you swim beside me? I want the apps to stop knowing more about my life than I have agreed to."',
+  '[ Svøm Sammen Nå ]':'[ Swim Together Now ]',
+  '[ Litt Senere ]':'[ A Little Later ]',
+  'Du venter litt. Samvittigheten kruser videre.':'You wait a little. The conscience ripples onward.',
+  'MINI PRIDE FULLFØRT':'MINI PRIDE COMPLETED',
+  'NESTE STASJON':'NEXT STOP',
+  'HELE EVENTYRET ER FULLFØRT. Ta lyset med deg videre.':'THE WHOLE STORY IS COMPLETE. Carry the light with you onward.',
+  'MISTET GLØD':'LOST GLOW',
+  'STILLE MODUS':'QUIET MODE',
+  'REGNBUELYS':'RAINBOW LIGHT',
+  'MINI PRIDE STARTET. Bryggen er satt i trygg øvingsmodus før patruljene går i gang.':'MINI PRIDE STARTED. Bryggen is set to safe practice mode before the patrols begin.',
+  'Hold en retning for å ta første strekk, sving i et kryss og slipp for å stoppe trygt.':'Hold a direction to take the first stretch, turn at a junction and release to stop safely.',
+  'Bergen ligger mørk og grønn over deg. Først får du en trygg øving på å gå, svinge og stoppe i Bryggen.':'Bergen lies dark and green above you. First you get a safe practice run to move, turn and stop in Bryggen.',
+  'Når øvingen er ferdig, våkner patruljene som arkadefiender: én etter én, med egne personligheter og egne måter å lese spor på.':'When the practice is over, the patrols wake like arcade enemies: one by one, each with its own personality and way of reading traces.',
+  'Bryggen, Nordnes og Nygårdsparken ligger under vann i dette 2063-kartet. Fløyen og Ulriken står over vann som utsiktspunkter.':'Bryggen, Nordnes and Nygårdsparken sit under water in this 2063 map. Fløyen and Ulriken remain above water as lookout points.',
+  'Mini Pride-regel lastet: sjekk tillatelser, slå av unødig sporing og spør før du deler.':'Mini Pride rule loaded: check permissions, switch off tracking you do not need, and ask before sharing.',
+  'Center for Digital Narrative minner deg om at teknologi ikke bare samler data, men også skriver historier om oss.':'Center for Digital Narrative reminds you that technology does not only collect data, it also writes stories about us.',
+  'NØKK-SPORER':'NØKK TRACKER',
+  'TROLLKART':'TROLL MAP',
+  'HULDRA-SIGNAL':'HULDRA SIGNAL',
+  'MAREMØNSTER':'MARE PATTERN',
+  'DRAUGNETT':'DRAUG NET',
+  'FJORDVETTE':'FJORD SPIRIT',
+  'Bybanen under vann':'Light rail under water',
+  'UTFORSK':'EXPLORE'
+};
+const STRING_NO=Object.fromEntries(Object.entries(STRING_EN).map(([no,en])=>[en,no]));
+function lt(text){
+  return LANG.current==='en'?(STRING_EN[text]||text):text;
+}
+function renderLanguageChrome(){
+  document.documentElement.lang=LANG.current;
+  document.title=tr('pageTitle');
+  const topLabels=document.querySelectorAll('#tb .tsl');
+  if(topLabels[0])topLabels[0].textContent=tr('topGlow');
+  if(topLabels[1])topLabels[1].textContent=tr('topTrace');
+  if(topLabels[2])topLabels[2].textContent=tr('topInvisible');
+  const leftTitles=document.querySelectorAll('#lp .plbl');
+  if(leftTitles[0])leftTitles[0].textContent=tr('leftTitle');
+  const rightTitles=document.querySelectorAll('#rp .plbl');
+  if(rightTitles[0])rightTitles[0].textContent=tr('rightTopTitle');
+  if(rightTitles[1])rightTitles[1].textContent=tr('rightLogTitle');
+  const fieldMap={
+    '#sr-st .srn':'leftGlow','#sr-sv .srn':'leftTrace','#sr-er .srn':'leftInvisible',
+    '#sr-gu .srn':'leftConscience','#sr-fr .srn':'leftWaves','#sr-ce .srn':'leftSilence'
+  };
+  Object.entries(fieldMap).forEach(([selector,key])=>{
+    const el=document.querySelector(selector);
+    if(el)el.textContent=tr(key);
+  });
+  const loadingTitle=document.querySelector('#ldg .bt');
+  const loadingSubtitle=document.querySelector('#ldg .bs');
+  const loadingLines=document.querySelectorAll('#ldg .bl span:first-child');
+  if(loadingTitle)loadingTitle.textContent=tr('loadingTitle');
+  if(loadingSubtitle)loadingSubtitle.textContent=tr('loadingSubtitle');
+  ['loadingLine1','loadingLine2','loadingLine3','loadingLine4','loadingLine5'].forEach((key,index)=>{
+    if(loadingLines[index])loadingLines[index].textContent=tr(key);
+  });
+  const ready=document.getElementById('bfin');
+  if(ready)ready.textContent=tr('loadingReady');
+  const depthUnit=document.getElementById('depth-u');
+  const pressureUnit=document.getElementById('press-u');
+  if(depthUnit)depthUnit.textContent=tr('depthUnit');
+  if(pressureUnit)pressureUnit.textContent=tr('pressureUnit');
+  const prompt=document.getElementById('aprmpt');
+  if(prompt)prompt.textContent=tr('audioPrompt');
+  const friction=document.getElementById('frt');
+  if(friction)friction.textContent=tr('frictionTitle');
+  const endSubtitle=document.getElementById('end-s');
+  const restart=document.getElementById('end-r');
+  if(endSubtitle)endSubtitle.textContent=tr('endSubtitle');
+  if(restart)restart.textContent=tr('restart');
+  const langToggle=document.getElementById('lang-toggle');
+  if(langToggle){
+    langToggle.textContent='NOR/ENG';
+    langToggle.dataset.lang=LANG.current;
+    langToggle.title=tr('languageTitle');
+    langToggle.setAttribute('aria-label',tr('languageAria'));
+  }
+  const objBox=document.getElementById('obj-box');
+  if(objBox)objBox.dataset.label=tr('objectiveTrail');
+  const metricHelp=document.getElementById('metric-help');
+  if(metricHelp)metricHelp.innerHTML=tr('metricHelp');
+  const objective=document.getElementById('obj-text');
+  if(objective&&!objective.querySelector('.obj-step'))objective.textContent=tr('defaultObjective');
+  const storyEyebrow=document.getElementById('story-eyebrow');
+  const storyTitle=document.getElementById('story-title');
+  const storyMission=document.getElementById('story-mission');
+  const storyCopy=document.getElementById('story-copy');
+  const storyTip=document.getElementById('story-tip');
+  if(storyEyebrow&&storyEyebrow.textContent.trim()==='Mini Pride-fortelling'||storyEyebrow&&storyEyebrow.textContent.trim()==='Mini Pride story')storyEyebrow.textContent=tr('storyEyebrowDefault');
+  if(storyTitle&&storyTitle.textContent.trim()==='Hei, lille dykker!'||storyTitle&&storyTitle.textContent.trim()==='Hello, little diver!')storyTitle.textContent=tr('storyTitleDefault');
+  if(storyMission&&storyMission.textContent.trim()==='Mål nå: Finn regnbueporten'||storyMission&&storyMission.textContent.trim()==='Goal now: Find the rainbow gate')storyMission.textContent=tr('storyMissionDefault');
+  if(storyCopy&&storyCopy.textContent.trim()==='Svøm til regnbueporten og se hva telefoner og apper kan huske.'||storyCopy&&storyCopy.textContent.trim()==='Swim to the rainbow gate and see what phones and apps can remember.')storyCopy.textContent=tr('storyCopyDefault');
+  if(storyTip&&storyTip.textContent.trim()==='CDN-spor for alle aldre: Gode digitale fortellinger starter med samtykke, omsorg og trygge valg.'||storyTip&&storyTip.textContent.trim()==='A CDN trace for all ages: good digital stories begin with consent, care and safer choices.')storyTip.textContent=tr('storyTipDefault');
+  const touchUi=document.getElementById('touch-ui');
+  if(touchUi)touchUi.setAttribute('aria-label',tr('touchControls'));
+  const ariaMap={
+    'touch-up':'swimUp',
+    'touch-left':'swimLeft',
+    'touch-right':'swimRight',
+    'touch-down':'swimDown',
+    'touch-helper':'helperMenu'
+  };
+  Object.entries(ariaMap).forEach(([id,key])=>{
+    const el=document.getElementById(id);
+    if(el)el.setAttribute('aria-label',tr(key));
+  });
+  renderLogHistory();
+}
+function toggleLanguage(){
+  LANG.current=LANG.current==='no'?'en':'no';
+  localStorage.setItem(MINI_PRIDE_LANG_KEY,LANG.current);
+  renderLanguageChrome();
+  updateUI();
+}
+
+// ════════ AUDIO ════════
+let AC=null,dG=null,audioOK=false;
+function initAudio(){
+  if(AC)return;
+  try{
+    AC=new(window.AudioContext||window.webkitAudioContext)();
+    audioOK=true;
+    document.getElementById('aprmpt').style.opacity='0';
+    const O=(f,tp)=>{const o=AC.createOscillator();o.type=tp;o.frequency.value=f;return o;};
+    const o1=O(36,'sawtooth'),o2=O(54,'sine'),o3=O(72,'triangle');
+    dG=AC.createGain();dG.gain.value=.025;
+    const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=85;lp.Q.value=5;
+    [o1,o2,o3].forEach(o=>{o.connect(lp);});lp.connect(dG);dG.connect(AC.destination);
+    const lfo=AC.createOscillator(),lg=AC.createGain();
+    lfo.frequency.value=.055;lg.gain.value=.004;lfo.connect(lg);lg.connect(dG.gain);
+    [o1,o2,o3,lfo].forEach(o=>o.start());
+  }catch(e){}
+}
+function tone(f,d,tp='sine',g=.035,off=0){
+  if(!audioOK)return;const t=AC.currentTime;
+  const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);
+  o.type=tp;o.frequency.value=f;
+  gn.gain.setValueAtTime(g,t+off);gn.gain.exponentialRampToValueAtTime(.001,t+off+d);
+  o.start(t+off);o.stop(t+off+d+.01);
+}
+function swp(f1,f2,d,tp='sine',g=.035,off=0){
+  if(!audioOK)return;const t=AC.currentTime;
+  const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);
+  o.type=tp;o.frequency.setValueAtTime(f1,t+off);o.frequency.exponentialRampToValueAtTime(f2,t+off+d);
+  gn.gain.setValueAtTime(g,t+off);gn.gain.exponentialRampToValueAtTime(.001,t+off+d);
+  o.start(t+off);o.stop(t+off+d+.01);
+}
+function snd(type){
+  if(!audioOK)return;
+  const s={
+    move:()=>swp(200,160,.14,'sine',.012),
+    floi:()=>{
+      [0,.12,.24].forEach((o,i)=>swp(180+i*46,340+i*82,.34,'triangle',.026,o));
+      [392,494,622].forEach((f,i)=>tone(f,.24,'sine',.018,.16+i*.11));
+    },
+    beep:()=>tone(750,.09,'square',.028),
+    boss:()=>[0,.12,.28].forEach((o,i)=>swp(140+i*18,62,.42,'sawtooth',.045,o)),
+    scan:()=>swp(1800,180,.7,'sine',.016),
+    warn:()=>{swp(580,380,.18,'square',.03);swp(780,580,.18,'square',.028,.20);},
+    alarm:()=>[0,.16,.34].forEach((o,i)=>swp(220-i*30,65,.14,'sawtooth',.055,o)),
+    heavy:()=>[0,.14,.30,.47].forEach((o,i)=>swp(340-i*44,58,.15,'sawtooth',.08,o)),
+    success:()=>[440,554,659,880].forEach((f,i)=>tone(f,.35,'sine',.028,i*.1)),
+    bubble:()=>tone(380+Math.random()*300,.06,'sine',.006),
+    static:()=>{
+      const b=AC.createBuffer(1,AC.sampleRate*.22,AC.sampleRate),d=b.getChannelData(0);
+      for(let i=0;i<d.length;i++)d[i]=(Math.random()-.5)*.2;
+      const s=AC.createBufferSource(),g=AC.createGain();s.buffer=b;s.connect(g);g.connect(AC.destination);
+      const t=AC.currentTime;g.gain.setValueAtTime(.3,t);g.gain.exponentialRampToValueAtTime(.001,t+.22);s.start(t);
+    }
+  };
+  s[type]&&s[type]();
+}
+document.addEventListener('click',initAudio,{once:true});
+document.addEventListener('pointerdown',initAudio,{once:true});
+document.addEventListener('keydown',initAudio,{once:true});
+
+// ════════ FEEDBACK ════════
+function shake(v){
+  const e=document.getElementById('hud'),c=v>15?'sh':'sl';
+  e.classList.remove('sl','sh');void e.offsetWidth;e.classList.add(c);
+  setTimeout(()=>e.classList.remove(c),v>15?500:300);
+}
+function chroma(){const e=document.getElementById('hud');e.classList.remove('ch');void e.offsetWidth;e.classList.add('ch');setTimeout(()=>e.classList.remove('ch'),320);}
+function flash(){const e=document.getElementById('pflash');e.classList.add('on');setTimeout(()=>e.classList.remove('on'),130);}
+const GC='█▓▒░╬═║╫01╪┼▪';
+function glV(id,v){const e=document.getElementById(id);if(!e)return;let n=0;const iv=setInterval(()=>{if(++n>7){e.textContent=Math.round(v);clearInterval(iv);}else e.textContent=GC[Math.floor(Math.random()*GC.length)]+(Math.random()>.4?GC[Math.floor(Math.random()*GC.length)]:'');},30);}
+function glAll(){[['vst','status'],['vsv','surveillance'],['ver','erasure'],['vgu','guilt'],['vfr','friction'],['vce','censorship']].forEach(([id,k])=>glV(id,S[k]));}
+
+// ════════ INPUT ════════
+const K={};
+document.addEventListener('keydown',e=>{K[e.key]=true;K[e.code]=true;
+  if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','KeyA','KeyD','KeyW','KeyS','a','d','w','s'].includes(e.key)||['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','KeyA','KeyD','KeyW','KeyS'].includes(e.code))e.preventDefault();
+  queueDirectionFromKey(e.code);
+  queueDirectionFromKey(e.key);
+  if(!S.go){
+    if(e.key==='e'||e.key==='E')tryInteract();
+    if(e.key==='m'||e.key==='M')showMoveMenu();
+    if(e.key==='r'||e.key==='R')showResistMenu();
+    if(e.key==='c'||e.key==='C')obeyP();
+    if(e.key==='x'||e.key==='X')stopAtNextNode();
+    if(e.key==='Escape')closeIP();
+  }
+});
+document.addEventListener('keyup',e=>{K[e.key]=false;K[e.code]=false;});
+
+const DIR_FROM_KEY={
+  ArrowLeft:'left',ArrowRight:'right',ArrowUp:'up',ArrowDown:'down',
+  KeyA:'left',KeyD:'right',KeyW:'up',KeyS:'down',a:'left',d:'right',w:'up',s:'down'
+};
+const DIR_VECTORS={left:{x:-1,y:0},right:{x:1,y:0},up:{x:0,y:-1},down:{x:0,y:1}};
+const OPPOSITE_DIR={left:'right',right:'left',up:'down',down:'up'};
+function queueDirectionFromKey(key){
+  const dir=DIR_FROM_KEY[key];
+  if(dir&&typeof P!=='undefined'){
+    P.desiredDir=dir;
+    P.bufferDir=dir;
+  }
+}
+
+function queueTapDirection(dir){
+  if(!dir||typeof P==='undefined')return;
+  P.desiredDir=dir;
+  P.bufferDir=dir;
+  P.tapDir=dir;
+}
+
+const KEY_ALIASES={
+  ArrowLeft:['ArrowLeft','KeyA','a'],
+  ArrowRight:['ArrowRight','KeyD','d'],
+  ArrowUp:['ArrowUp','KeyW','w'],
+  ArrowDown:['ArrowDown','KeyS','s'],
+};
+function setHeldKey(key,pressed){
+  (KEY_ALIASES[key]||[key]).forEach(alias=>{K[alias]=pressed;});
+  if(pressed)queueDirectionFromKey(key);
+}
+function clearHeldDirections(){
+  ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].forEach(key=>setHeldKey(key,false));
+}
+function isDirHeld(dir){
+  return (KEY_ALIASES[Object.keys(DIR_FROM_KEY).find(key=>DIR_FROM_KEY[key]===dir&&key.startsWith('Arrow'))]||[]).some(alias=>K[alias]);
+}
+function anyMoveKeyHeld(){
+  return ['left','right','up','down'].some(isDirHeld);
+}
+function markTouchButton(id,active){
+  const el=document.getElementById(id);if(el)el.classList.toggle('active',active);
+}
+function bindTouchHold(id,key){
+  const el=document.getElementById(id);if(!el)return;
+  const down=e=>{e.preventDefault();initAudio();setHeldKey(key,true);markTouchButton(id,true);};
+  const up=e=>{e.preventDefault();setHeldKey(key,false);markTouchButton(id,false);};
+  el.addEventListener('pointerdown',down);
+  el.addEventListener('pointerup',up);
+  el.addEventListener('pointercancel',up);
+  el.addEventListener('pointerleave',up);
+}
+function bindTouchTap(id,handler){
+  const el=document.getElementById(id);if(!el)return;
+  el.addEventListener('pointerdown',e=>{e.preventDefault();initAudio();markTouchButton(id,true);});
+  el.addEventListener('pointerup',e=>{e.preventDefault();markTouchButton(id,false);handler();});
+  el.addEventListener('pointercancel',()=>markTouchButton(id,false));
+  el.addEventListener('pointerleave',()=>markTouchButton(id,false));
+}
+function setupTouchControls(){
+  if(!MOBILE_MODE)return;
+  bindTouchHold('touch-left','ArrowLeft');
+  bindTouchHold('touch-right','ArrowRight');
+  bindTouchHold('touch-up','ArrowUp');
+  bindTouchHold('touch-down','ArrowDown');
+  bindTouchTap('touch-interact',()=>handlePrimaryAction());
+  bindTouchTap('touch-stop',()=>stopAtNextNode());
+  bindTouchTap('touch-helper',()=>{
+    if(!document.getElementById('btn-help').disabled)showHelpMenu();
+    else if(P.near)tryInteract();
+    else showResistMenu();
+  });
+  window.addEventListener('pointerup',clearHeldDirections);
+  window.addEventListener('pointercancel',clearHeldDirections);
+}
+
+function getCanvasIntent(clientX,clientY){
+  const rect=gc.getBoundingClientRect();
+  const x=clientX-rect.left,y=clientY-rect.top;
+  if(x<LP||x>W-RP||y<GAME_VIEW_TOP||y>GAME_VIEW_BOTTOM)return null;
+  const playerScreenX=P.x-camX+LP+P.w/2;
+  const playerScreenY=P.y+P.h/2;
+  const dx=x-playerScreenX,dy=y-playerScreenY;
+  if(Math.hypot(dx,dy)<40)return {type:'stop'};
+  return {type:'move',dir:Math.abs(dx)>Math.abs(dy)?(dx<0?'left':'right'):(dy<0?'up':'down')};
+}
+
+function setupPointerSteering(){
+  gc.addEventListener('pointerdown',e=>{
+    if(S.go)return;
+    if(e.pointerType==='mouse'&&e.button!==0)return;
+    if(document.getElementById('ipop').classList.contains('show'))return;
+    const intent=getCanvasIntent(e.clientX,e.clientY);
+    if(!intent)return;
+    initAudio();
+    if(intent.type==='stop'){
+      stopAtNextNode();
+      return;
+    }
+    queueTapDirection(intent.dir);
+  });
+}
+
+// ════════ STATE ════════
+const S={status:100,surveillance:0,erasure:0,guilt:0,friction:0,censorship:0,
+  go:false,tick:0,enemyClock:0,secretUnlocked:false,completedObjectives:new Set(),hasSeenErased:false,
+  tutorialStage:'move',tutorialCountdown:0,tutorialTurnDir:null,lastEnemyMode:null,trailCount:0,ethicCount:0,lessonText:null,lessonT:0,
+  round:1,roundClearing:false,roundAdvanceT:0,floiRideT:0,ulrikenSeen:false};
+const MAX=100;
+const cl=(v,lo=0,hi=MAX)=>Math.max(lo,Math.min(hi,v));
+
+function getRoundDifficulty(){
+  const r=Math.max(1,S.round||1);
+  return {
+    speed:1+Math.min(1.45,(r-1)*.13),
+    release:Math.max(.34,1-(r-1)*.09),
+    scatter:Math.max(.45,1-(r-1)*.08),
+    chase:1+Math.min(.75,(r-1)*.10),
+    power:Math.max(220,430-(r-1)*42),
+    grace:Math.max(42,92-(r-1)*6),
+    tag:Math.min(44,35+(r-1)*1.2)
+  };
+}
+
+// ════════ MOUNTAIN DATA — Bergen from memory ════════
+// Ulriken 643m, Fløyen 399m, Sandviken/Løvstakken, Vidden plateau
+// Expressed as Y fractions of SURFACE_Y
+const MTN_SILHOUETTES=[
+  // Layer 1 — FAR: Vidden plateau + Ulriken (rightmost peak)
+  {pts:[[0,.72],[.03,.68],[.07,.62],[.12,.55],[.17,.49],[.21,.44],[.25,.40],
+        [.29,.37],[.33,.34],[.36,.33],[.39,.35],[.42,.39],[.45,.42],[.48,.38],
+        [.52,.33],[.55,.29],[.58,.26],[.61,.23],[.64,.20],[.67,.18],[.70,.16],
+        [.73,.14],[.76,.12],[.79,.105],[.82,.09],[.845,.075],[.853,.065],
+        [.858,.058],[.862,.066],[.868,.078],[.875,.09],[.88,.11],
+        [.91,.17],[.95,.26],[1.0,.40]],
+   fill:'#040c16',snow:[[.73,.82,.14,.105],[.76,.845,.12,.09],[.79,.858,.105,.065]]},
+  // Layer 2 — MID: Fløyen ridge (center-left hump), Rundemanen
+  {pts:[[0,.82],[.04,.77],[.09,.70],[.14,.63],[.18,.56],[.22,.50],[.26,.44],
+        [.30,.40],[.34,.36],[.37,.33],[.40,.37],[.44,.42],[.48,.46],[.52,.50],
+        [.56,.53],[.60,.56],[.64,.59],[.68,.62],[.74,.65],[.82,.68],[.92,.72],[1.0,.76]],
+   fill:'#030a14'},
+  // Layer 3 — NEAR: Bergsdalen foothills, city ridge above Bryggen
+  {pts:[[0,.88],[.05,.84],[.10,.80],[.16,.78],[.22,.80],[.30,.76],[.38,.80],
+        [.48,.77],[.58,.80],[.68,.78],[.78,.80],[.88,.82],[1.0,.86]],
+   fill:'#020810'},
+];
+
+// Fløyen specific peak (iconic Bergen viewpoint, center-left)
+const FLOYEN={x:.30,y:.40,label:'FLØYEN 399m'};
+// Ulriken (tallest, far right with TV tower)
+const ULRIKEN={x:.858,y:.058};
+
+// Snowcap points (hand-shaped from memory — Ulriken has year-round snow patches)
+const SNOW_PATCHES=[
+  {x:.840,y:.085,pts:[[0,0],[.006,-.008],[.014,-.006],[.018,.004],[.022,-.002],[.026,.006],[.020,.012],[.012,.010],[.004,.008]]},
+  {x:.810,y:.095,pts:[[0,0],[.004,-.006],[.010,-.004],[.014,.002],[.010,.008],[.004,.006]]},
+  {x:.750,y:.115,pts:[[0,0],[.006,-.007],[.012,-.005],[.016,.003],[.012,.009],[.006,.007]]},
+];
+
+// City above water — Bergen buildings visible from below the surface
+const ABOVE_BLDGS=[];
+for(let i=0;i<28;i++){
+  ABOVE_BLDGS.push({
+    x: 80+i*60+Math.sin(i)*20,
+    h: 0.04+Math.random()*0.08, // fraction of SURFACE_Y
+    w: 20+Math.random()*28,
+    warm: Math.random()>.4,
+    windows: Array.from({length:3+Math.floor(Math.random()*4)},_=>({
+      ox:Math.random()*.8, oy:Math.random()*.7,
+      lit:Math.random()>.45, flicker:Math.random()>.75
+    }))
+  });
+}
+
+// Fløibanen cable car track (world x coords)
+const FUNI_X1=350, FUNI_Y1=SURFACE_Y-8;   // lower station (Bryggen side)
+const FUNI_X2=240+350, FUNI_Y2=SURFACE_Y*0.42; // upper station (Fløyen side)
+
+// ════════ BERGEN UNDERWATER WORLD ════════
+const ZONES=[
+  {x:0,   label:'BRYGGEN — SJØBODRADEN'},
+  {x:980, label:'SANDVIKEN — SJØBODER OG SMYG'},
+  {x:1620,label:'FISKETORGET — APPSTRØMMER'},
+  {x:2660,label:'FLØIBANEN — OVER VANN'},
+  {x:3920,label:'NYGÅRDSPARKEN — MØNSTER OG MINNER'},
+  {x:5160,label:'BERGENHUS — TILLATELSESARKIV'},
+  {x:6260,label:'MARINEHOLMEN — WI-FI-BELTET'},
+  {x:7160,label:'PUDDEFJORDEN — EKKOSONEN'},
+  {x:7600,label:'HEMMELIG BYBANETUNNEL'},
+  {x:9000,label:'NORDNES — LYSESLUSEN'},
+];
+
+const LANE_Y={
+  sky:FLOOR_Y-250,
+  high:FLOOR_Y-200,
+  mid:FLOOR_Y-150,
+  low:FLOOR_Y-102,
+  secret:FLOOR_Y-42,
+};
+const LANE_XS={
+  low:[220,620,1180,1760,2860,3420,4140,4700,5340,5900,6460,6900,7340,8040,8820,9240],
+  mid:[620,1180,1760,2860,3420,4140,4700,5340,5900,6460,6900,7340,8040,8820,9240],
+  high:[620,1180,1760,2860,3420,4140,4700,5340,6460,7340,8040,8820,9240],
+  sky:[2860,3420],
+  secret:[7340,7600,8040,8820],
+};
+const laneId=(lane,x)=>`${lane}_${x}`;
+const ROUTE_NODE_LIST=[];
+Object.entries(LANE_XS).forEach(([lane,xs])=>{
+  xs.forEach(x=>ROUTE_NODE_LIST.push({id:laneId(lane,x),x,y:LANE_Y[lane]}));
+});
+const NODE_MAP=Object.fromEntries(ROUTE_NODE_LIST.map(route=>[route.id,{...route,neighbors:{}}]));
+function node(id){return NODE_MAP[id];}
+function dirBetweenIds(aId,bId){
+  const a=node(aId),b=node(bId);
+  if(!a||!b)return 'right';
+  if(a.x===b.x)return b.y<a.y?'up':'down';
+  return b.x<a.x?'left':'right';
+}
+function linkNodes(aId,bId){
+  const dirAB=dirBetweenIds(aId,bId),dirBA=OPPOSITE_DIR[dirAB];
+  NODE_MAP[aId].neighbors[dirAB]=bId;
+  NODE_MAP[bId].neighbors[dirBA]=aId;
+}
+Object.entries(LANE_XS).forEach(([lane,xs])=>{
+  for(let i=0;i<xs.length-1;i++)linkNodes(laneId(lane,xs[i]),laneId(lane,xs[i+1]));
+});
+[
+  ['low_620','high_620'],['low_1180','high_1180'],['low_1760','mid_1760'],['mid_1760','high_1760'],
+  ['low_620','mid_1180'],['mid_620','high_1180'],['high_620','mid_1180'],
+  ['low_1180','mid_1760'],['high_1180','mid_1760'],['mid_1180','low_1760'],
+  ['low_1760','mid_2860'],['high_1760','mid_2860'],
+  ['low_2860','mid_2860'],['mid_2860','high_2860'],['mid_2860','sky_2860'],['sky_2860','sky_3420'],['low_3420','mid_3420'],['mid_3420','high_3420'],['high_3420','sky_3420'],
+  ['low_4140','mid_4140'],['mid_4140','high_4140'],['low_4700','mid_4700'],['mid_4700','high_4700'],
+  ['mid_3420','low_4140'],['high_3420','mid_4140'],['low_4140','mid_4700'],['high_4140','mid_4700'],
+  ['low_5340','mid_5340'],['mid_5340','high_5340'],['low_5900','mid_5900'],['low_6460','mid_6460'],['mid_6460','high_6460'],
+  ['high_4700','mid_5340'],['low_5340','mid_5900'],['mid_5900','high_6460'],
+  ['low_6900','mid_6900'],['low_7340','mid_7340'],['mid_7340','high_7340'],['mid_7340','secret_7340'],
+  ['mid_6460','low_6900'],['high_6460','mid_7340'],['low_6900','high_7340'],
+  ['low_8040','mid_8040'],['mid_8040','high_8040'],['low_8820','mid_8820'],['mid_8820','high_8820'],['low_8820','secret_8820'],
+  ['secret_7600','mid_8040'],['high_8040','mid_8820'],['low_8040','secret_8820'],
+  ['low_9240','mid_9240'],['mid_9240','high_9240'],['high_8820','mid_9240']
+].forEach(([aId,bId])=>linkNodes(aId,bId));
+
+const BRYGGEN_ROW=[
+  {x:74,w:56,h:176,col:'#6f281b',lean:-8,roof:24},
+  {x:134,w:48,h:164,col:'#8a4728',lean:-5,roof:20},
+  {x:186,w:54,h:188,col:'#5d2417',lean:-9,roof:27},
+  {x:244,w:48,h:170,col:'#8f5a29',lean:-3,roof:21},
+  {x:296,w:58,h:194,col:'#70341d',lean:-6,roof:28},
+  {x:360,w:50,h:182,col:'#9f582d',lean:-4,roof:22},
+  {x:416,w:60,h:198,col:'#6a2b19',lean:-10,roof:30},
+  {x:482,w:46,h:176,col:'#7d4926',lean:-3,roof:20},
+  {x:534,w:54,h:190,col:'#5f2216',lean:-8,roof:29},
+  {x:592,w:48,h:168,col:'#915229',lean:-4,roof:21},
+  {x:644,w:56,h:184,col:'#6b2c1e',lean:-7,roof:24},
+  {x:706,w:52,h:178,col:'#8b4d2d',lean:-3,roof:22},
+  {x:762,w:58,h:196,col:'#672317',lean:-8,roof:28},
+];
+const FACADES=BRYGGEN_ROW.map((f,i)=>({
+  ...f,
+  trim:`rgba(220,190,150,${.08+(i%3)*.02})`,
+  wins:Array.from({length:8+(i%4)},_=>({
+    ox:Math.random()*.66,oy:Math.random()*.6,lit:Math.random()>.32,flick:Math.random()>.78
+  })),
+  kelp:Array.from({length:3+i%3},_=>({
+    kx:Math.random(),h:56+Math.random()*72,sw:1.2+Math.random()*1.0,ph:Math.random()*Math.PI*2
+  })),
+}));
+
+const LANDMARKS=[
+  {kind:'fishmarket',x:1420,y:FLOOR_Y-128,w:320,h:96},
+  {kind:'nygard',x:3940,y:FLOOR_Y-172,w:360,h:124},
+  {kind:'marineholmen',x:6200,y:FLOOR_Y-162,w:420,h:130},
+  {kind:'puddefjord',x:7000,y:FLOOR_Y-196,w:420,h:170},
+  {kind:'bybanen',x:7580,y:FLOOR_Y-70,w:640,h:70},
+  {kind:'nordnes',x:8980,y:FLOOR_Y-148,w:260,h:118},
+];
+const FLOIBANEN_LINE={baseX:2480,baseY:FLOOR_Y-82,topX:2868,topY:FLOOR_Y-250};
+
+const INTERACTABLES=[
+  {id:'check',nodeId:'low_620',x:620,y:LANE_Y.low-18,type:'checkpoint',label:'BRYGGEN PORTROM',
+   desc:'Portrommet viser første del av mysteriet: mobilen kan huske ruter, tider og stopp selv når du bare er ute i byen.',used:false,
+   opts:[{l:'[ Se Hvilke Spor Mobilen Lager ]',c:'',a:'comply'},{l:'[ Bare Svøm Videre ]',c:'rs',a:'ignore'}]},
+  {id:'floi',nodeId:'low_2860',x:2860,y:LANE_Y.low-18,type:'lift',label:'FLØIBANEN KAI',
+    desc:'Ta Fløibanen opp fjellsiden til toppstasjonen på Fløyen. Der ligger Fjellfyret, et lys som gjør usynlige signaler lettere å forstå.',used:false,
+   opts:[{l:'[ Ta Fløibanen Opp ]',c:'rs',a:'ride_floi'},{l:'[ Vent Litt ]',c:'',a:'close'}]},
+  {id:'term',nodeId:'sky_2860',x:2860,y:LANE_Y.sky-18,type:'terminal',label:'FLØIBANEN TOPPSTASJON',
+    desc:'På toppstasjonen på Fløyen venter Fjellfyret. Det lærer deg hvordan byen kan kjenne igjen nærvær med nettverk og små signaler over tid.',used:false,
+   opts:[{l:'[ Hent Fjellfyret ]',c:'rs',a:'claim_fyr'},{l:'[ Se Deg Om ]',c:'',a:'close'}]},
+  {id:'ulriken',nodeId:'sky_3420',x:3420,y:LANE_Y.sky-18,type:'ulriken',label:'ULRIKEN HOTSPOT',
+   desc:'Fra Ulriken ser du Bergen som et levende kart. Her blir det tydelig hvordan sted, høyde og tid kan bli til mønstre.',used:false,
+   opts:[{l:'[ Se Utsynskartet ]',c:'rs',a:'view_ulriken'},{l:'[ Tilbake ]',c:'',a:'close'}]},
+  {id:'erased',nodeId:'mid_4140',x:4140,y:LANE_Y.mid-18,type:'erased',label:'SKYGJEST I NYGÅRDPARKEN',
+   desc:'"Først trodde jeg bare appene var smarte. Så skjønte jeg at de hadde lært rutene mine uten at jeg merket det."',used:false,
+   opts:[{l:'[ Svøm Sammen Og Lytt ]',c:'rs',a:'help_e'},{l:'[ Kom Tilbake Senere ]',c:'',a:'abandon'}]},
+  {id:'arch',nodeId:'high_5340',x:5340,y:LANE_Y.high-18,type:'archive',label:'BERGENHUS TILLATELSESARKIV',
+   desc:'Her ligger ordene som styrer mye av det digitale livet: tillatelser, annonse-ID og deling. Kjedelige ord, men viktige valg.',used:false,minStatus:55,
+   opts:[{l:'[ Hent Den Enkle Regelen ]',c:'rs',a:'copy_r'},{l:'[ Senere ]',c:'',a:'close'}]},
+  {id:'gate',nodeId:'mid_9240',x:9240,y:LANE_Y.mid-18,type:'gate',label:'NORDNES LYSESLUSE',
+   desc:'Her tar du med lyset opp igjen: sjekk tillatelser, slå av sporing du ikke trenger, og spør før du deler om andre.',used:false,
+   opts:[{l:'[ Del Lyset Med Bergen ]',c:'dg',a:'exit'},{l:'[ Bli Litt Til ]',c:'',a:'close'}]},
+];
+
+const POWER_PEARLS=[
+  {id:'pearl-bryggen',nodeId:'high_1180',taken:false},
+  {id:'pearl-torget',nodeId:'mid_1760',taken:false},
+  {id:'pearl-ulriken',nodeId:'mid_3420',taken:false},
+  {id:'pearl-marine',nodeId:'mid_6460',taken:false},
+  {id:'pearl-secret',nodeId:'secret_8040',taken:false},
+].map(pearl=>({
+  ...pearl,
+  x:node(pearl.nodeId).x+9,
+  y:node(pearl.nodeId).y+4,
+}));
+const TRAIL_ORBS=ROUTE_NODE_LIST
+  .filter(route=>route.id!=='low_220'&&!route.id.startsWith('secret_'))
+  .map(route=>({id:`trail-${route.id}`,nodeId:route.id,x:route.x+9,y:route.y+4,taken:false}));
+const TOTAL_TRAIL_ORBS=TRAIL_ORBS.length;
+
+const ETHIC_PICKUPS=[
+  {id:'ask',nodeId:'mid_1180',icon:'?',no:'Samtykke først',en:'Consent first',lessonNo:'Spør før du deler bilde, navn eller posisjon. Et ja skal være tydelig, frivillig og mulig å trekke tilbake.',lessonEn:'Ask before sharing a photo, name or location. A yes should be clear, voluntary and possible to take back.',effect:'guilt'},
+  {id:'min',nodeId:'high_1760',icon:'-',no:'Del mindre',en:'Share less',lessonNo:'Dataminimering betyr: gi appen bare det den trenger akkurat nå, ikke hele livet ditt.',lessonEn:'Data minimisation means: give the app only what it needs right now, not your whole life.',effect:'surveillance'},
+  {id:'loc',nodeId:'low_3420',icon:'L',no:'Posisjon er privat',en:'Location is private',lessonNo:'Kartdata kan vise skole, hjem, venner og vaner. Bruk "mens appen er i bruk" når det holder.',lessonEn:'Map data can reveal school, home, friends and habits. Use "while using the app" when that is enough.',effect:'surveillance'},
+  {id:'ai',nodeId:'high_4700',icon:'AI',no:'AI gjetter',en:'AI guesses',lessonNo:'AI kan ta feil, men likevel høres sikker ut. Spør: hvem tjener på denne gjetningen?',lessonEn:'AI can be wrong and still sound confident. Ask: who benefits from this guess?',effect:'erasure'},
+  {id:'adult',nodeId:'mid_5900',icon:'+',no:'Be om hjelp',en:'Ask for help',lessonNo:'Digital trygghet er ikke en solo-boss. Be en trygg voksen eller venn se på innstillinger sammen med deg.',lessonEn:'Digital safety is not a solo boss. Ask a trusted adult or friend to check settings with you.',effect:'status'},
+  {id:'report',nodeId:'high_7340',icon:'!',no:'Si fra',en:'Speak up',lessonNo:'Hvis noe føles utrygt: stopp, ta skjermbilde, blokker, rapporter og snakk med noen du stoler på.',lessonEn:'If something feels unsafe: stop, screenshot, block, report and talk to someone you trust.',effect:'censorship'},
+  {id:'bias',nodeId:'mid_8040',icon:'=',no:'Rettferdighet',en:'Fairness',lessonNo:'Systemer kan behandle folk ulikt. Spør alltid hvem som blir sett, og hvem som blir gjort usynlig.',lessonEn:'Systems can treat people differently. Always ask who gets seen, and who gets made invisible.',effect:'erasure'},
+  {id:'joy',nodeId:'high_8820',icon:'<3',no:'Teknologi skal hjelpe',en:'Tech should help',lessonNo:'God teknologi gjør rommet større for mennesker, ikke mindre. Pride handler også om digitale rom.',lessonEn:'Good technology makes more room for people, not less. Pride is also about digital spaces.',effect:'status'},
+].map(item=>({...item,x:node(item.nodeId).x+9,y:node(item.nodeId).y+4,taken:false}));
+
+// Platforms (world coords)
+const PLATS=[
+  {x:0,y:FLOOR_Y,w:WORLD_W,h:60},  // seafloor
+  {x:0,y:0,w:WORLD_W,h:SURFACE_Y}, // surface ceiling
+  // Bryggen ledges
+  ...[70,140,210,280,350,420,490,560,630,700,770].flatMap((x,i)=>[
+    {x,y:FLOOR_Y-105-i%4*18,w:62,h:12},
+    {x,y:FLOOR_Y-200-i%3*16,w:62,h:10},
+  ]),
+  // Torget ruins
+  {x:1160,y:FLOOR_Y-75,w:280,h:12},{x:1500,y:FLOOR_Y-135,w:170,h:12},
+  {x:1720,y:FLOOR_Y-80,w:200,h:12},{x:1970,y:FLOOR_Y-155,w:140,h:12},
+  {x:2160,y:FLOOR_Y-95,w:160,h:12},
+  // Fløibanen station
+  {x:2560,y:FLOOR_Y-85,w:90,h:12},{x:2670,y:FLOOR_Y-165,w:80,h:12},
+  {x:2770,y:FLOOR_Y-235,w:90,h:12},{x:2890,y:FLOOR_Y-155,w:80,h:12},
+  {x:2990,y:FLOOR_Y-85,w:100,h:12},
+  // Nygård
+  {x:3550,y:FLOOR_Y-65,w:120,h:12},{x:3730,y:FLOOR_Y-125,w:110,h:12},
+  {x:3870,y:FLOOR_Y-75,w:140,h:12},{x:4060,y:FLOOR_Y-155,w:120,h:12},
+  {x:4200,y:FLOOR_Y-90,w:100,h:12},
+  // Bergenhus walls
+  {x:4510,y:FLOOR_Y-180,w:16,h:180},{x:4526,y:FLOOR_Y-180,w:280,h:14},
+  {x:4806,y:FLOOR_Y-260,w:16,h:260},{x:4822,y:FLOOR_Y-260,w:190,h:14},
+  {x:5012,y:FLOOR_Y-175,w:16,h:175},{x:5028,y:FLOOR_Y-175,w:280,h:14},
+  {x:5308,y:FLOOR_Y-185,w:16,h:185},
+  // Marineholmen + Puddefjord
+  {x:6180,y:FLOOR_Y-92,w:180,h:12},{x:6400,y:FLOOR_Y-152,w:190,h:12},
+  {x:6710,y:FLOOR_Y-112,w:170,h:12},{x:7060,y:FLOOR_Y-182,w:160,h:12},
+  // Secret Bybanen tunnel
+  {x:7520,y:FLOOR_Y-46,w:580,h:10},{x:7670,y:FLOOR_Y-124,w:80,h:78},
+  {x:8080,y:FLOOR_Y-46,w:180,h:10},{x:8660,y:FLOOR_Y-128,w:82,h:82},
+  // Nordnes
+  {x:8920,y:FLOOR_Y-88,w:230,h:12},{x:9120,y:FLOOR_Y-160,w:140,h:12},
+  {x:9280,y:FLOOR_Y-210,w:120,h:12},
+];
+
+const DRONE_SPECS=[
+  {id:'dr-1',label:'NØKK-SPORER',startNodeId:'high_620',initialNextNodeId:'high_1180',scatterNodeId:'high_620',personality:'shadow',speed:3.78,releaseAfter:0,releaseDots:0},
+  {id:'dr-2',label:'TROLLKART',startNodeId:'low_1180',initialNextNodeId:'low_1760',scatterNodeId:'high_1760',personality:'ambush',speed:3.86,releaseAfter:40,releaseDots:2},
+  {id:'dr-3',label:'HULDRA-SIGNAL',startNodeId:'mid_2860',initialNextNodeId:'mid_3420',scatterNodeId:'sky_2860',personality:'ahead',speed:3.94,releaseAfter:120,releaseDots:5},
+  {id:'dr-4',label:'MAREMØNSTER',startNodeId:'high_4140',initialNextNodeId:'high_5340',scatterNodeId:'high_4140',personality:'bashful',speed:3.72,releaseAfter:240,releaseDots:8},
+  {id:'dr-5',label:'DRAUGNETT',startNodeId:'mid_6460',initialNextNodeId:'mid_7340',scatterNodeId:'mid_9240',personality:'crosscut',speed:3.88,releaseAfter:360,releaseDots:11},
+  {id:'dr-6',label:'FJORDVETTE',startNodeId:'low_7340',initialNextNodeId:'low_8820',scatterNodeId:'low_9240',personality:'lookout',speed:3.84,releaseAfter:500,releaseDots:14},
+];
+
+// ════════ PARTICLES ════════
+const PARTS=[];
+function spawnBub(x,y,big=false){
+  PARTS.push({x,y,vx:(Math.random()-.5)*.4,vy:-(0.35+Math.random()*.55)*(big?1.6:1),
+    r:big?3.5+Math.random()*3:1.2+Math.random()*2.2,
+    life:1,dec:.0035+Math.random()*.0025,type:'b'});
+}
+function spawnJelly(){
+  if(PARTS.filter(p=>p.type==='j').length>7)return;
+  PARTS.push({x:camX+W*.85+Math.random()*220,
+    y:SURFACE_Y+35+Math.random()*(FLOOR_Y-SURFACE_Y-80),
+    vx:-(0.14+Math.random()*.18),vy:0,
+    r:7+Math.random()*11,life:1,dec:.0004,ph:Math.random()*Math.PI*2,type:'j'});
+}
+
+// ════════ RAIN (Bergen: 2500mm/år) ════════
+const RAIN=Array.from({length:480},()=>({
+  x:Math.random()*WORLD_W, y:Math.random()*(H+80)-40,
+  len:.014+Math.random()*.011, sp:.0017+Math.random()*.0015,
+  a:.07+Math.random()*.11, wx:.24+Math.random()*.14
+}));
+const RIPPLES=[];
+
+// ════════ PLAYER ════════
+const P={
+  x:220,y:LANE_Y.low,vx:0,vy:0,w:18,h:28,dir:1,dirKey:'right',desiredDir:null,bufferDir:null,
+  nodeId:'low_220',nextNodeId:null,speed:5.05,anim:0,bubT:0,near:null,powerT:0,graceT:480,tapDir:null
+};
+
+function nodeCenter(nodeId){
+  const n=node(nodeId);
+  return {x:n.x+P.w/2,y:n.y+P.h/2};
+}
+function distSq(a,b){const dx=a.x-b.x,dy=a.y-b.y;return dx*dx+dy*dy;}
+function snapPlayerToNode(nodeId){
+  const n=node(nodeId);
+  P.x=n.x;P.y=n.y;P.nodeId=nodeId;P.nextNodeId=null;
+}
+function makeDrone(spec,index){
+  const start=nodeCenter(spec.startNodeId);
+  return {...spec,index,x:start.x,y:start.y-2,nodeId:spec.startNodeId,nextNodeId:spec.initialNextNodeId,prevNodeId:null,
+    dirKey:dirBetweenIds(spec.startNodeId,spec.initialNextNodeId),mode:(spec.releaseAfter||0)>0?'dormant':'scatter',
+    lastMode:(spec.releaseAfter||0)>0?'dormant':'scatter',stunnedT:0,tagCd:0,wobble:index*.7,
+    active:(spec.releaseAfter||0)<=0,houseT:0,releaseShown:(spec.releaseAfter||0)<=0};
+}
+const DRONES=DRONE_SPECS.map(makeDrone);
+const DRONE_CHAMBERS=DRONE_SPECS.map(spec=>{
+  const home=nodeCenter(spec.startNodeId);
+  return {id:spec.id,x:home.x-38,y:home.y-30,w:76,h:40,doorX:home.x,doorY:home.y+12};
+});
+const SECRET_ENEMY={
+  id:'bybanen',label:'Bybanen under vann',kind:'tram',startNodeId:'secret_7340',initialNextNodeId:'secret_8040',scatterNodeId:'secret_8820',
+  x:nodeCenter('secret_7340').x,y:nodeCenter('secret_7340').y+2,nodeId:'secret_7340',nextNodeId:'secret_8040',prevNodeId:null,
+  dirKey:'right',mode:'scatter',lastMode:'scatter',stunnedT:0,tagCd:0,speed:3.34,active:false,
+  houseT:0,phase:'hidden',phaseT:0,speedBoost:1,
+};
+function resetSecretEnemy(){
+  Object.assign(SECRET_ENEMY,{x:nodeCenter('secret_7340').x,y:nodeCenter('secret_7340').y+2,nodeId:'secret_7340',nextNodeId:'secret_8040',prevNodeId:null,dirKey:'right',mode:'scatter',lastMode:'scatter',stunnedT:0,tagCd:0,active:false,houseT:0,phase:'hidden',phaseT:0,speedBoost:1});
+}
+
+// ════════ CAMERA ════════
+let camX=0;
+function updateCam(){
+  const target=P.x-(W-LP-RP)/2-LP;
+  camX+=(target-camX)*.08;
+  camX=Math.max(0,Math.min(WORLD_W-W,camX));
+}
+
+function chamberForEnemy(enemy){
+  return DRONE_CHAMBERS.find(chamber=>chamber.id===enemy.id);
+}
+function placeEnemyInHouse(enemy){
+  const home=nodeCenter(enemy.startNodeId);
+  const loop=S.tick*.06+enemy.index*.9;
+  const radiusX=enemy.houseT>0?11:7;
+  const radiusY=enemy.houseT>0?6:4;
+  enemy.x=home.x+Math.sin(loop)*radiusX;
+  enemy.y=home.y-2+Math.cos(loop*1.4)*radiusY;
+  enemy.dirKey=Math.sin(loop)>=0?'right':'left';
+}
+
+function tutorialActive(){
+  return S.tutorialStage!=='done';
+}
+function getTutorialLabel(){
+  if(S.tutorialStage==='move')return tr('tutorialMove');
+  if(S.tutorialStage==='turn')return tr('tutorialTurn');
+  if(S.tutorialStage==='stop')return tr('tutorialStop');
+  if(S.tutorialStage==='countdown')return tr('tutorialCountdown');
+  return '';
+}
+function noteTutorialArrival(arrivedDir){
+  if(S.tutorialStage==='move'&&P.nodeId!=='low_220'){
+    S.tutorialStage='turn';
+    S.tutorialTurnDir=arrivedDir;
+    showWarn(lt('ØV PÅ Å SVINGE'));
+    addLog(lt('Bra. Nå prøv en sving i neste kryss mens Bryggen fortsatt er helt trygg.'), 'g');
+    return;
+  }
+  if(S.tutorialStage==='turn'&&arrivedDir&&arrivedDir!==S.tutorialTurnDir){
+    S.tutorialStage='stop';
+    showWarn(lt('SLIPP FOR Å STOPPE'));
+    addLog(lt('Der satt svingen. Slipp retningen, så stopper du trygt i neste kryss.'), 'g');
+  }
+}
+function updateTutorialState(dt){
+  if(S.tutorialStage==='stop'&&!P.nextNodeId&&!anyMoveKeyHeld()&&P.nodeId!=='low_220'){
+    S.tutorialStage='countdown';
+    S.tutorialCountdown=120;
+    showWarn(lt('PATRULJENE VÅKNER'));
+    addLog(lt('Perfekt. Nå kan du gå, svinge og stoppe. Patruljene starter om et øyeblikk.'), 'i');
+  }
+  if(S.tutorialStage==='countdown'){
+    S.tutorialCountdown=Math.max(0,S.tutorialCountdown-dt);
+    if(S.tutorialCountdown===0){
+      S.tutorialStage='done';
+      addLog(lt('Bryggen-patruljene er aktive. Startbukten er fortsatt rolig nok til å hente pusten.'), 'w');
+    }
+  }
+}
+
+const ENEMY_CYCLE=[
+  {mode:'scatter',dur:150},
+  {mode:'chase',dur:760},
+  {mode:'scatter',dur:105},
+  {mode:'chase',dur:960},
+  {mode:'scatter',dur:80},
+  {mode:'chase',dur:99999},
+];
+const ENEMY_RELEASE_LINES={
+  'dr-2':'Trollkart våkner når flere lysspor tennes. Nå prøver kartet å gjette hvor du skal.',
+  'dr-3':'Huldra-Signal glir ut av åsen. Nå lytter byen til rytmen i bevegelsen din.',
+  'dr-4':'Maremønster finner lukten av vane. Nå teller ikke bare ett stopp, men hele mønsteret.',
+  'dr-5':'Draugnett løfter seg i nettverket. Nå svarer byen med skjulte forbindelser.',
+  'dr-6':'Fjordvette glitrer i dypet. Selv åpne flater føles fulle av øyne.',
+};
+function getGlobalEnemyMode(){
+  let clock=S.enemyClock;
+  const diff=getRoundDifficulty();
+  for(const phase of ENEMY_CYCLE){
+    const dur=phase.dur*(phase.mode==='scatter'?diff.scatter:diff.chase);
+    if(clock<dur)return phase.mode;
+    clock-=dur;
+  }
+  return 'chase';
+}
+function reverseEnemy(enemy){
+  if(!enemy.nextNodeId)return;
+  const backTarget=enemy.nodeId;
+  enemy.nodeId=enemy.nextNodeId;
+  enemy.nextNodeId=backTarget;
+  enemy.dirKey=OPPOSITE_DIR[enemy.dirKey]||enemy.dirKey;
+}
+function maybeReleaseEnemy(enemy){
+  const diff=getRoundDifficulty();
+  const readyByDots=S.trailCount>=Math.max(0,Math.floor((enemy.releaseDots||0)*diff.release));
+  const readyByTime=S.enemyClock>=(enemy.releaseAfter||0)*diff.release;
+  if(enemy.active||tutorialActive()||(!readyByDots&&!readyByTime))return;
+  enemy.active=true;
+  enemy.houseT=54;
+  enemy.mode='house';
+  enemy.lastMode='dormant';
+  if(!enemy.releaseShown){
+    addLog(ENEMY_RELEASE_LINES[enemy.id]?ENEMY_RELEASE_LINES[enemy.id]:{no:`${enemy.label} kobler seg på ruten.`,en:`${lt(enemy.label)} connects to the route.`}, 'w');
+    snd('scan');
+    enemy.releaseShown=true;
+  }
+}
+function getEnemyMode(enemy){
+  if(!enemy.active)return 'dormant';
+  if(enemy.houseT>0)return 'house';
+  if(enemy.stunnedT>0)return 'eyes';
+  if(P.powerT>0)return 'frightened';
+  return getGlobalEnemyMode();
+}
+function updateEnemyPhaseSignals(){
+  if(tutorialActive())return;
+  const patrolMode=P.powerT>0?'frightened':getGlobalEnemyMode();
+  if(S.lastEnemyMode===patrolMode)return;
+  S.lastEnemyMode=patrolMode;
+  if(patrolMode==='scatter'){
+    addLog(lt('Patruljene sprer seg mellom brygger og smug. Dette er pusterommet mellom jaktene.'), 'i');
+    return;
+  }
+  if(patrolMode==='chase'){
+    addLog(lt('Patruljene låser seg på sporene dine. Nå føles byen mer våken, mer nysgjerrig, mindre tilfeldig.'), 'w');
+    return;
+  }
+  addLog(lt('Klarhetsboblen snur rytmen. Dronene mister motet og leter etter en vei bort fra deg.'), 'g');
+}
+function activateSecretTunnelBoss(){
+  if(S.secretUnlocked)return;
+  S.secretUnlocked=true;
+  Object.assign(SECRET_ENEMY,{
+    x:nodeCenter('secret_7340').x,y:nodeCenter('secret_7340').y+2,nodeId:'secret_7340',nextNodeId:null,prevNodeId:null,
+    dirKey:'right',mode:'house',lastMode:'house',stunnedT:0,tagCd:0,active:true,houseT:0,
+    phase:'warning',phaseT:150,speedBoost:1,
+  });
+  addLog(lt('Du følger skinnene ned i den gamle tunnelen. Noe tungt svarer i mørket før du ser det.'), 'w');
+  showWarn(lt('BYBANEN VÅKNER'));
+  snd('boss');
+  updateUI();
+}
+function updateSecretTunnelBoss(dt){
+  if(SECRET_ENEMY.phase==='hidden')return;
+  const base=nodeCenter(SECRET_ENEMY.startNodeId);
+  if(SECRET_ENEMY.phase==='warning'){
+    SECRET_ENEMY.x=base.x+Math.sin(S.tick*.08)*6;
+    SECRET_ENEMY.y=base.y+2+Math.cos(S.tick*.11)*3;
+    SECRET_ENEMY.phaseT=Math.max(0,SECRET_ENEMY.phaseT-dt);
+    if(SECRET_ENEMY.phaseT===0){
+      SECRET_ENEMY.phase='charge';
+      SECRET_ENEMY.phaseT=210;
+      SECRET_ENEMY.speedBoost=1.45;
+      SECRET_ENEMY.nextNodeId=SECRET_ENEMY.initialNextNodeId;
+      SECRET_ENEMY.dirKey=dirBetweenIds(SECRET_ENEMY.nodeId,SECRET_ENEMY.initialNextNodeId);
+      SECRET_ENEMY.lastMode='chase';
+      addLog(lt('Lyktene tenner hele tunnelen. Bybanen under vann går fra varsling til jakt.'), 'd');
+      showWarn(lt('BYBANEN JAGER'));
+      snd('alarm');
+      updateUI();
+    }
+    return;
+  }
+  if(SECRET_ENEMY.phase==='charge'){
+    SECRET_ENEMY.phaseT=Math.max(0,SECRET_ENEMY.phaseT-dt);
+    updateEnemy(SECRET_ENEMY,dt,10,SECRET_ENEMY.label);
+    if(P.powerT>0&&SECRET_ENEMY.mode==='frightened'){
+      SECRET_ENEMY.phase='disrupted';
+      SECRET_ENEMY.phaseT=120;
+      SECRET_ENEMY.speedBoost=.92;
+      addLog(lt('Klarhetsboblen vrenger skinnegangen. Bybanen mister rytmen et øyeblikk.'), 'g');
+      snd('success');
+      updateUI();
+      return;
+    }
+    if(SECRET_ENEMY.phaseT===0){
+      SECRET_ENEMY.phase='hunt';
+      SECRET_ENEMY.speedBoost=1.18;
+      addLog(lt('Bybanen holder trykket oppe. Nå jager hele ruten, ikke bare én vogn.'), 'w');
+      snd('heavy');
+      updateUI();
+    }
+    return;
+  }
+  if(SECRET_ENEMY.phase==='disrupted'){
+    SECRET_ENEMY.phaseT=Math.max(0,SECRET_ENEMY.phaseT-dt);
+    updateEnemy(SECRET_ENEMY,dt,8,SECRET_ENEMY.label);
+    if(SECRET_ENEMY.phaseT===0&&P.powerT<=0){
+      SECRET_ENEMY.phase='hunt';
+      SECRET_ENEMY.speedBoost=1.18;
+      addLog(lt('Skinnene finner tonen igjen. Bybanen samler seg og går tilbake til jakten.'), 'w');
+      snd('warn');
+      updateUI();
+    }
+    return;
+  }
+  SECRET_ENEMY.speedBoost=1.18;
+  updateEnemy(SECRET_ENEMY,dt,9,SECRET_ENEMY.label);
+  if(P.powerT>0&&SECRET_ENEMY.mode==='frightened'&&SECRET_ENEMY.phase!=='disrupted'){
+    SECRET_ENEMY.phase='disrupted';
+    SECRET_ENEMY.phaseT=120;
+    SECRET_ENEMY.speedBoost=.92;
+    addLog(lt('Klarhetsboblen vrenger skinnegangen. Bybanen mister rytmen et øyeblikk.'), 'g');
+    snd('success');
+    updateUI();
+  }
+}
+function choosePlayerNextNode(){
+  const current=node(P.nodeId);
+  if(P.bufferDir&&current.neighbors[P.bufferDir]){
+    const next=current.neighbors[P.bufferDir];
+    P.dirKey=P.bufferDir;
+    P.bufferDir=null;
+    return next;
+  }
+  if(P.desiredDir&&current.neighbors[P.desiredDir]){
+    P.dirKey=P.desiredDir;
+    return current.neighbors[P.desiredDir];
+  }
+  if(P.desiredDir&&current.neighbors[P.dirKey])return current.neighbors[P.dirKey];
+  return null;
+}
+function updatePlayerMovement(dt){
+  const prevX=P.x,prevY=P.y;
+  if(P.powerT>0)P.powerT=Math.max(0,P.powerT-dt);
+  if(P.graceT>0)P.graceT=Math.max(0,P.graceT-dt);
+  if(P.nextNodeId&&P.bufferDir&&P.bufferDir===OPPOSITE_DIR[P.dirKey]){
+    const backTarget=P.nodeId;
+    P.nodeId=P.nextNodeId;
+    P.nextNodeId=backTarget;
+    P.dirKey=P.bufferDir;
+    P.bufferDir=null;
+  }
+  if(!P.nextNodeId){
+    const next=choosePlayerNextNode();
+    if(next){P.nextNodeId=next;P.dirKey=dirBetweenIds(P.nodeId,next);}
+  }
+  if(P.nextNodeId){
+    const target=node(P.nextNodeId);
+    const dx=target.x-P.x,dy=target.y-P.y;
+    const dist=Math.hypot(dx,dy);
+    const step=P.speed*dt;
+    if(step>=dist){
+      const arrivedDir=P.dirKey;
+      P.x=target.x;P.y=target.y;P.nodeId=P.nextNodeId;P.nextNodeId=null;
+      noteTutorialArrival(arrivedDir);
+      if(P.tapDir===arrivedDir)P.tapDir=null;
+      const next=choosePlayerNextNode();
+      if(next){P.nextNodeId=next;P.dirKey=dirBetweenIds(P.nodeId,next);}
+    }else{
+      P.x+=dx/dist*step;P.y+=dy/dist*step;
+    }
+  }
+  P.vx=(P.x-prevX)/Math.max(dt,.001);
+  P.vy=(P.y-prevY)/Math.max(dt,.001);
+  if(P.dirKey==='left')P.dir=-1;
+  else if(P.dirKey==='right')P.dir=1;
+  P.anim+=((Math.abs(P.vx)+Math.abs(P.vy))>.08?dt*.18:dt*.04);
+}
+function getPlayerTargetPoint(distance){
+  const base={x:P.x+P.w/2,y:P.y+P.h/2};
+  const vec=DIR_VECTORS[P.dirKey]||DIR_VECTORS.right;
+  return {x:base.x+vec.x*distance,y:base.y+vec.y*Math.min(distance,140)};
+}
+function getEnemyTargetPoint(enemy){
+  const player={x:P.x+P.w/2,y:P.y+P.h/2};
+  if(enemy.personality==='shadow')return player;
+  if(enemy.personality==='ambush')return getPlayerTargetPoint(300);
+  if(enemy.personality==='ahead')return getPlayerTargetPoint(420);
+  if(enemy.personality==='crosscut'){
+    const lead=getPlayerTargetPoint(220),wave=Math.sin(S.tick*.06+enemy.index)*90;
+    return {x:lead.x,y:lead.y+wave};
+  }
+  if(enemy.personality==='lookout')return {x:player.x+Math.sin(S.tick*.03+enemy.index)*180,y:player.y-110};
+  if(enemy.personality==='bashful'){
+    const dist=Math.hypot(player.x-enemy.x,player.y-enemy.y);
+    return dist<270?nodeCenter(enemy.scatterNodeId):player;
+  }
+  return player;
+}
+
+function getEnemyPressureMultiplier(){
+  const timeRamp=Math.min(1,S.enemyClock/5200);
+  const trailRamp=Math.min(1,S.trailCount/18);
+  const ethicRamp=Math.min(1,S.ethicCount/ETHIC_PICKUPS.length);
+  return (1.08+timeRamp*.28+trailRamp*.22+ethicRamp*.10)*getRoundDifficulty().speed;
+}
+
+function inStartHarbor(){
+  return P.x<980&&!S.completedObjectives.has('check');
+}
+function chooseEnemyNextNode(enemy){
+  if(!enemy.active)return null;
+  const current=node(enemy.nodeId);
+  let options=Object.entries(current.neighbors);
+  if(options.length>1&&enemy.prevNodeId)options=options.filter(([,id])=>id!==enemy.prevNodeId);
+  if(!options.length)options=Object.entries(current.neighbors);
+  if(!options.length)return null;
+  if(enemy.stunnedT>0){
+    const home=nodeCenter(enemy.startNodeId);
+    options.sort((a,b)=>distSq(nodeCenter(a[1]),home)-distSq(nodeCenter(b[1]),home));
+    return options[0][1];
+  }
+  if(enemy.mode==='frightened'){
+    const player={x:P.x+P.w/2,y:P.y+P.h/2};
+    const ranked=options
+      .map(([dir,id])=>({dir,id,score:distSq(nodeCenter(id),player)+Math.random()*64000}))
+      .sort((a,b)=>b.score-a.score);
+    return ranked[0].id;
+  }
+  const target=enemy.mode==='scatter'?nodeCenter(enemy.scatterNodeId):getEnemyTargetPoint(enemy);
+  options.sort((a,b)=>distSq(nodeCenter(a[1]),target)-distSq(nodeCenter(b[1]),target));
+  return options[0][1];
+}
+function maybeTagPlayer(enemy,severity,label){
+  if(enemy.tagCd>0)return;
+  if(P.graceT>0)return;
+  if(inStartHarbor())return;
+  const player={x:P.x+P.w/2,y:P.y+P.h/2};
+  const dist=Math.hypot(player.x-enemy.x,player.y-enemy.y);
+  if(dist>getRoundDifficulty().tag)return;
+  enemy.tagCd=84;
+  if(P.powerT>0&&enemy.stunnedT<=0){
+    enemy.stunnedT=120;enemy.nextNodeId=null;
+    S.surveillance=cl(S.surveillance-5);
+    addLog({no:`${label}: klarhetsboblen fikk fienden til å miste sporet.`,en:`${lt(label)}: the clarity bubble made the enemy lose the trail.`}, 'g');
+    snd('beep');
+    return;
+  }
+  if(enemy.stunnedT>0)return;
+  breakRule(severity,true);
+  P.graceT=getRoundDifficulty().grace;
+  addLog({no:`${label}: mobilen din sendte fra seg et mønster du ikke så selv.`,en:`${lt(label)}: your phone gave off a pattern you could not see yourself.`}, 'd');
+}
+function updateEnemy(enemy,dt,severity,label){
+  maybeReleaseEnemy(enemy);
+  enemy.tagCd=Math.max(0,enemy.tagCd-dt);
+  if(enemy.stunnedT>0)enemy.stunnedT=Math.max(0,enemy.stunnedT-dt);
+  if(!enemy.active){
+    placeEnemyInHouse(enemy);
+    enemy.mode='dormant';
+    enemy.lastMode='dormant';
+    return;
+  }
+  if(enemy.houseT>0){
+    enemy.houseT=Math.max(0,enemy.houseT-dt);
+    enemy.mode='house';
+    enemy.lastMode='house';
+    placeEnemyInHouse(enemy);
+    if(enemy.houseT>0)return;
+    const home=nodeCenter(enemy.startNodeId);
+    enemy.x=home.x;enemy.y=home.y-2;enemy.nodeId=enemy.startNodeId;enemy.prevNodeId=null;
+    enemy.nextNodeId=enemy.initialNextNodeId;
+    enemy.dirKey=dirBetweenIds(enemy.startNodeId,enemy.initialNextNodeId);
+    return;
+  }
+  const nextMode=getEnemyMode(enemy);
+  if(nextMode!==enemy.lastMode){
+    if(enemy.lastMode&&enemy.lastMode!=='dormant'&&enemy.lastMode!=='house'&&nextMode!=='dormant'&&nextMode!=='house')reverseEnemy(enemy);
+    if(nextMode==='frightened'||nextMode==='eyes')enemy.nextNodeId=null;
+    enemy.lastMode=nextMode;
+  }
+  enemy.mode=nextMode;
+  if(enemy.mode==='dormant'||enemy.mode==='house')return;
+  if(!enemy.nextNodeId){
+    const next=chooseEnemyNextNode(enemy);
+    if(next){enemy.nextNodeId=next;enemy.dirKey=dirBetweenIds(enemy.nodeId,next);}
+  }
+  if(enemy.nextNodeId){
+    const target=nodeCenter(enemy.nextNodeId);
+    const dx=target.x-enemy.x,dy=target.y-enemy.y;
+    const dist=Math.hypot(dx,dy);
+    const pressure=enemy.kind==='tram'?1:getEnemyPressureMultiplier();
+    const speed=(enemy.mode==='frightened'?enemy.speed*.76:enemy.mode==='eyes'?enemy.speed*1.35:enemy.speed)*(enemy.speedBoost||1)*pressure*dt;
+    if(speed>=dist){
+      enemy.prevNodeId=enemy.nodeId;
+      enemy.nodeId=enemy.nextNodeId;
+      enemy.nextNodeId=null;
+      const snap=nodeCenter(enemy.nodeId);
+      enemy.x=snap.x;enemy.y=snap.y+(enemy.kind==='tram'?2:-2);
+      if(enemy.mode==='eyes'&&enemy.nodeId===enemy.startNodeId){
+        enemy.stunnedT=0;
+        enemy.houseT=46;
+        enemy.nextNodeId=null;
+        enemy.lastMode='house';
+        addLog({no:`${label}: fant tilbake til sin faste rute og laster inn et nytt spor.`,en:`${lt(label)}: found its way back to its fixed route and is loading a new trace.`}, 'i');
+        return;
+      }
+    }else{
+      enemy.x+=dx/dist*speed;enemy.y+=dy/dist*speed;
+    }
+  }
+  if(enemy.mode==='eyes')return;
+  maybeTagPlayer(enemy,severity,label);
+}
+function maybeCollectPowerPearls(){
+  const player={x:P.x+P.w/2,y:P.y+P.h/2};
+  POWER_PEARLS.forEach(pearl=>{
+    if(pearl.taken)return;
+    if(Math.hypot(player.x-pearl.x,player.y-pearl.y)<20){
+      pearl.taken=true;P.powerT=getRoundDifficulty().power;S.surveillance=cl(S.surveillance-4);
+      showWarn(lt('KLARHETSBØLGE'));
+      addLog(lt('Du tok en klarhetsboble. Dronene mister rytmen i noen sekunder.'), 'g');
+      snd('success');
+    }
+  });
+}
+function maybeCollectTrailOrbs(){
+  const player={x:P.x+P.w/2,y:P.y+P.h/2};
+  TRAIL_ORBS.forEach(orb=>{
+    if(orb.taken)return;
+    if(Math.hypot(player.x-orb.x,player.y-orb.y)<16){
+      orb.taken=true;
+      S.trailCount++;
+      S.status=cl(S.status+.08);
+      snd('bubble');
+      if([1,6,12,18,TOTAL_TRAIL_ORBS].includes(S.trailCount)){
+        const notes={
+          1:'Du samler første lysspor. Nå føles ruten tydeligere.',
+          6:'Flere lysspor tenner byen. Nye folklorefiender kan våkne når mønsteret blir tydeligere.',
+          12:'Halvveis. Bergen 2063 gløder som et Pac-Man-labyrintkart rundt deg.',
+          18:'Nå er nesten hele ruten tent. Hold øye med sideveier og klarhetsbobler.',
+        };
+        addLog(lt(notes[S.trailCount]||'Alle lysspor er tent. Nå leser du byen like godt som den prøver å lese deg.'), 'i');
+      }
+    }
+  });
+}
+
+function maybeCollectEthicPickups(){
+  const player={x:P.x+P.w/2,y:P.y+P.h/2};
+  ETHIC_PICKUPS.forEach(item=>{
+    if(item.taken)return;
+    if(Math.hypot(player.x-item.x,player.y-item.y)<20){
+      item.taken=true;
+      S.ethicCount++;
+      if(item.effect==='surveillance')S.surveillance=cl(S.surveillance-8);
+      if(item.effect==='erasure')S.erasure=cl(S.erasure-7);
+      if(item.effect==='guilt')S.guilt=cl(S.guilt-7);
+      if(item.effect==='censorship')S.censorship=cl(S.censorship-7);
+      if(item.effect==='status')S.status=cl(S.status+6);
+      const title=LANG.current==='en'?item.en:item.no;
+      S.lessonText={no:item.lessonNo,en:item.lessonEn};
+      S.lessonT=420;
+      addLog({no:`ETIKKBRIKKE ${S.ethicCount}/${ETHIC_PICKUPS.length}: ${item.no} — ${item.lessonNo}`,en:`ETHICS TOKEN ${S.ethicCount}/${ETHIC_PICKUPS.length}: ${item.en} — ${item.lessonEn}`},'g');
+      showWarn(title);
+      snd('success');
+    }
+  });
+}
+
+function resetRoundCollectibles(){
+  POWER_PEARLS.forEach(pearl=>{pearl.taken=false;});
+  TRAIL_ORBS.forEach(orb=>{orb.taken=false;});
+  ETHIC_PICKUPS.forEach(item=>{item.taken=false;});
+}
+
+function resetRoundActors(){
+  snapPlayerToNode('low_220');
+  P.nextNodeId=null;P.vx=0;P.vy=0;P.dir=1;P.dirKey='right';P.desiredDir=null;P.bufferDir=null;P.tapDir=null;P.powerT=0;P.graceT=240;
+  DRONES.forEach((dr,i)=>Object.assign(dr,makeDrone(DRONE_SPECS[i],i)));
+  resetSecretEnemy();
+  camX=0;
+}
+
+function beginNextRound(){
+  S.round++;
+  S.roundClearing=false;
+  S.roundAdvanceT=0;
+  S.enemyClock=0;
+  S.lastEnemyMode=null;
+  S.secretUnlocked=false;
+  S.trailCount=0;
+  S.ethicCount=0;
+  S.lessonText={no:`Runde ${S.round}: samme Bergen, flere spor, raskere patruljer. Samle alt på nytt og legg merke til hvordan risiko øker når flere systemer følger med.`,en:`Round ${S.round}: same Bergen, more traces, faster patrols. Collect everything again and notice how risk rises when more systems watch.`};
+  S.lessonT=500;
+  resetRoundCollectibles();
+  resetRoundActors();
+  addLog({no:`RUNDE ${S.round}: Banen starter på nytt. Fiendene slipper tidligere, jakten varer lenger og klarhetsboblene varer kortere.`,en:`ROUND ${S.round}: The board starts again. Enemies release earlier, chases last longer and clarity bubbles are shorter.`},'w');
+  showWarn(`${tr('roundStart')} ${S.round}`);
+  snd('success');
+  updateUI();
+}
+
+function updateRoundState(dt){
+  if(S.go)return;
+  if(S.roundClearing){
+    S.roundAdvanceT-=dt;
+    if(S.roundAdvanceT<=0)beginNextRound();
+    return;
+  }
+  if(TRAIL_ORBS.every(orb=>orb.taken)&&ETHIC_PICKUPS.every(item=>item.taken)){
+    S.roundClearing=true;
+    S.roundAdvanceT=130;
+    S.lessonText={no:'Bane tømt: du har hentet både lysspor og etikkbrikker. Nå kommer en ny runde med samme verden, men høyere tempo.',en:'Board clear: you collected both light trails and ethics tokens. A new round starts with the same world, but higher tempo.'};
+    S.lessonT=360;
+    addLog({no:`${tr('roundClear')} ${S.round}: alt er samlet. Neste runde øker vanskelighetsgraden som i Pac-Man.`,en:`${tr('roundClear')} ${S.round}: everything is collected. The next round increases difficulty like Pac-Man.`},'g');
+    showWarn(`${tr('roundClear')} ${S.round}`);
+    snd('success');
+  }
+}
+
+// ════════ OBJECTIVES ════════
+const OBJS=[
+  {t:'Finn Bryggen-portrommet og oppdag hva mobilen kan huske om ruter og stopp.',check:()=>S.completedObjectives.has('check')},
+  {t:'Ta Fløibanen opp og hent Fjellfyret på toppstasjonen.',check:()=>S.completedObjectives.has('term')},
+  {t:'Besøk Ulriken og Nygårdsparken for å se hvordan mønstre blir til historier.',check:()=>S.hasSeenErased&&S.ulrikenSeen},
+  {t:'Hjelp skygjesten med ro, språk og mot.',check:()=>S.completedObjectives.has('erased_helped')},
+  {t:'Ta lyset med hjem gjennom lyseslusen på Nordnes.',check:()=>S.completedObjectives.has('gate')},
+];
+const OBJS_EN=[
+  {t:'Find the Bryggen gate room and discover what a phone can remember about routes and stops.'},
+  {t:'Ride Fløibanen up and collect the Mountain Beacon at the top station.'},
+  {t:'Visit Ulriken and Nygårdsparken to see how patterns become stories.'},
+  {t:'Help the shadow guest with calm, language and courage.'},
+  {t:'Bring the light home through the light lock at Nordnes.'},
+];
+let objIdx=0;
+
+const STORY_BEATS=[
+  {eyebrow:'Bergen 2063 · Steg 1 av 5',title:'Bryggen våkner under vann',mission:'Mål nå: Bryggen-portrommet',copy:'Bergen 2063 er fullt av lysspor, folkloremonstre og skjulte signaler. I Bryggen begynner du å lære hva mobilen kan huske om deg uten at du merker det.',tip:'Samle lysspor mens du svømmer. De gjør ruten mer Pac-Man-aktig og vekker nye fiender i bølger.'},
+  {eyebrow:'Bergen 2063 · Steg 2 av 5',title:'Ta Fløibanen til fjelllyset',mission:'Mål nå: Fløibanen-kai og toppstasjon',copy:'Når du tar Fløibanen opp, kan du hente Fjellfyret. Det gjør signalene i byen synlige nok til at barn og familier lettere kan snakke om dem.',tip:'Klarhetsbobler virker som power pellets. De snur jakten og gir deg rom til å hente viktige ting.'},
+  {eyebrow:'Bergen 2063 · Steg 3 av 5',title:'Folkloremonstrene leser mønstre',mission:'Mål nå: Ulriken og Nygårdsparken',copy:'Nøkk-sporere, trollkart og draugnett er ikke bare monstre. De er digitale eventyrfigurer som viser hvordan små spor kan bli til store gjetninger.',tip:'På Ulriken ser du byen som et mønster. I Nygårdsparken kjenner du hva mønsteret gjør med mennesker.'},
+  {eyebrow:'Bergen 2063 · Steg 4 av 5',title:'Del roen videre',mission:'Mål nå: Hjelp skygjesten',copy:'Det mest heroiske i denne byen er ikke å være perfekt. Det er å stoppe opp, lytte og hjelpe andre når teknologien føles for nær.',tip:'Barn og familier trenger språk for personvern. Gi skygjesten ro, og ta med deg setningene videre.'},
+  {eyebrow:'Bergen 2063 · Steg 5 av 5',title:'Ta lyset hjem',mission:'Mål nå: Lyseslusen på Nordnes',copy:'Når du når Nordnes, er oppdraget å ta med deg det viktigste opp til overflaten: enkle regler, litt mot og et klarere blikk på sporene rundt deg.',tip:'Sjekk tillatelser. Skru av sporing du ikke trenger. Spør før du deler andres bilde, navn eller posisjon.'},
+];
+const STORY_BEATS_EN=[
+  {eyebrow:'Bergen 2063 · Step 1 of 5',title:'Bryggen wakes under water',mission:'Goal now: Bryggen gate room',copy:'Bergen 2063 is full of light trails, folklore monsters and hidden signals. In Bryggen you begin to learn what a phone can remember about you without you noticing.',tip:'Collect light trails as you swim. They make the route feel more Pac-Man-like and wake new enemies in waves.'},
+  {eyebrow:'Bergen 2063 · Step 2 of 5',title:'Take Fløibanen to the mountain light',mission:'Goal now: Fløibanen quay and top station',copy:'When you take Fløibanen up, you can collect the Mountain Beacon. It makes the city signals visible enough that children and families can talk about them more easily.',tip:'Clarity bubbles work like power pellets. They turn the chase and give you room to collect important things.'},
+  {eyebrow:'Bergen 2063 · Step 3 of 5',title:'The folklore monsters read patterns',mission:'Goal now: Ulriken and Nygårdsparken',copy:'Nøkk trackers, troll maps and draug nets are not just monsters. They are digital story creatures showing how small traces can become big guesses.',tip:'At Ulriken you see the city as a pattern. In Nygårdsparken you feel what that pattern does to people.'},
+  {eyebrow:'Bergen 2063 · Step 4 of 5',title:'Pass the calm onward',mission:'Goal now: Help the shadow guest',copy:'The most heroic thing in this city is not being perfect. It is stopping, listening and helping others when technology feels too close.',tip:'Children and families need language for privacy. Give the shadow guest calm, and carry those sentences onward.'},
+  {eyebrow:'Bergen 2063 · Step 5 of 5',title:'Bring the light home',mission:'Goal now: The light lock at Nordnes',copy:'When you reach Nordnes, the mission is to bring the most important thing back to the surface: simple rules, a little courage and a clearer view of the traces around you.',tip:'Check permissions. Turn off tracking you do not need. Ask before sharing someone else’s photo, name or location.'},
+];
+const ZONE_WHISPERS={
+  'BRYGGEN — SJØBODRADEN':'Bryggen knirker over deg. Under plankene føles det som om byen allerede husker hvor du pleier å stoppe.',
+  'SANDVIKEN — SJØBODER OG SMYG':'Sandviken er trang og vakker. Her blir en rute fort til et mønster noen andre kan lese.',
+  'FISKETORGET — APPSTRØMMER':'Ved Fisketorget flyter folk, signaler og vaner sammen som om markedet aldri stenger.',
+  'FLØIBANEN — OVER VANN':'Fløyen ligger over vann. Fløibanen er et løft opp til utsikt, ikke en undervannsby.',
+  'NYGÅRDSPARKEN — MØNSTER OG MINNER':'Parken er mykere enn patruljene. Her handler historien mindre om data og mer om hvordan data kjennes.',
+  'BERGENHUS — TILLATELSESARKIV':'Murene ved Bergenhus holder på gamle løfter. Appene gjør det motsatte: de ber fort og husker lenge.',
+  'MARINEHOLMEN — WI-FI-BELTET':'Marineholmen gløder av forskning og rutere. Nettet kjennes nesten som vær her nede.',
+  'PUDDEFJORDEN — EKKOSONEN':'Over den mørke fjorden kommer ekkoene sent. Spor sprer seg lenger her enn du tror.',
+  'HEMMELIG BYBANETUNNEL':'Skinner under vann. Noen systemer skulle vært slått av for lengst, men rutene deres lever videre.',
+  'NORDNES — LYSESLUSEN':'Nordnes holder det siste lyset. Her skal du ikke gjemme deg, bare forstå nok til å velge bedre.',
+};
+let lastZoneEcho='';
+
+// ════════ UPDATE ════════
+let lastT=0;
+function update(ts){
+  const dt=Math.min((ts-lastT)/16.67,3);lastT=ts;
+  if(S.go)return;
+  S.tick++;
+
+  updatePlayerMovement(dt);
+  updateTutorialState(dt);
+  if(S.lessonT>0)S.lessonT=Math.max(0,S.lessonT-dt);
+  if(S.floiRideT>0)S.floiRideT=Math.max(0,S.floiRideT-dt);
+  maybeCollectTrailOrbs();
+  maybeCollectEthicPickups();
+  maybeCollectPowerPearls();
+  updateRoundState(dt);
+
+  if(!tutorialActive())S.enemyClock+=dt;
+  updateEnemyPhaseSignals();
+
+  // Bubbles
+  P.bubT-=dt;
+  if(P.bubT<=0){P.bubT=8+Math.random()*10;spawnBub(P.x+P.w/2,P.y,false);if(Math.random()>.88)snd('bubble');}
+
+  // Drones + secret Bybanen enemy
+  if(!tutorialActive())DRONES.forEach(dr=>updateEnemy(dr,dt,5,dr.label));
+  if((P.nodeId&&P.nodeId.startsWith('secret_'))||(P.nextNodeId&&P.nextNodeId.startsWith('secret_'))){
+    if(!S.secretUnlocked)activateSecretTunnelBoss();
+  }
+  if(!tutorialActive())updateSecretTunnelBoss(dt);
+
+  // Particles
+  for(let i=PARTS.length-1;i>=0;i--){
+    const p=PARTS[i];p.x+=p.vx*dt;p.y+=p.vy*dt;
+    if(p.type==='b'){p.vx+=Math.sin(ts*.001+i)*.012*dt;p.life-=p.dec*dt;if(p.y<SURFACE_Y-5||p.life<=0)PARTS.splice(i,1);}
+    else if(p.type==='j'){p.vy=Math.sin(ts*.0007+p.ph)*.28;p.vx+=(Math.random()-.5)*.004;p.life-=p.dec*dt;if(p.x<camX-200||p.life<=0)PARTS.splice(i,1);}
+  }
+  if(Math.random()<.004)spawnJelly();
+
+  // Rain
+  RAIN.forEach(r=>{
+    r.y+=r.sp*(1+S.surveillance/90)*H;r.x+=r.sp*r.wx*W;
+    if(r.y>1+r.len){r.y=-r.len-Math.random()*.2;r.x=Math.random()*WORLD_W;}
+    if(r.x>WORLD_W)r.x-=WORLD_W;
+  });
+  for(let i=RIPPLES.length-1;i>=0;i--){RIPPLES[i].r+=dt*.013;RIPPLES[i].a-=dt*.38;if(RIPPLES[i].a<=0)RIPPLES.splice(i,1);}
+  if(Math.random()<.06&&RIPPLES.length<55){
+    const rx=camX+LP+(Math.random()*(W-LP-RP));
+    RIPPLES.push({x:rx+camX,y:SURFACE_Y+Math.random()*3,r:0,a:.22});
+  }
+
+  // Interact detection
+  P.near=null;
+  INTERACTABLES.forEach(ob=>{
+    if(ob.used&&ob.type!=='gate')return;
+    if(ob.minStatus&&S.status<ob.minStatus)return;
+    const dx=Math.abs(P.x+P.w/2-ob.x),dy=Math.abs(P.y+P.h/2-ob.y);
+    if(dx<74&&dy<46&&!P.near)P.near=ob;
+  });
+  // Hint
+  const hint=document.getElementById('hint');
+  if(P.near){hint.textContent=`${lt(P.near.label)} ◈ [ E ] ${lt('UTFORSK')}`;hint.classList.add('show');}
+  else hint.classList.remove('show');
+
+  // Seen erased
+  if(!S.hasSeenErased&&P.x>3960&&P.x<4320){
+    S.hasSeenErased=true;
+    document.getElementById('btn-help').disabled=false;
+    addLog(lt('I Nygårdsparken møter du en skygjest som merket overvåkingen lenge før hen fant ordene for den.'), 'w');
+    addLog(lt('"Jeg trodde bare appene var smarte. Så skjønte jeg at de lærte rutinen min."'), 'w');
+    snd('static');checkObjs();
+  }
+
+  // Zone label
+  let zone=ZONES[0].label;
+  ZONES.forEach(z=>{if(P.x>z.x)zone=z.label;});
+  if(zone!==lastZoneEcho&&ZONE_WHISPERS[zone]){
+    lastZoneEcho=zone;
+    addLog(lt(ZONE_WHISPERS[zone]),'i');
+  }
+  document.getElementById('zone-lbl').textContent=lt(zone);
+
+  // Passive decay
+  S.guilt=cl(S.guilt-.013*dt);S.friction=cl(S.friction-.010*dt);
+  if(P.powerT>0)S.surveillance=cl(S.surveillance-.025*dt);
+  if(S.tick%160===0){
+    const pa=['MINI PRIDE-PÅMINNELSE: Kart-apper trenger ikke alltid posisjonen din hele tiden.',
+      'MINI PRIDE-PÅMINNELSE: Selv vanlige bevegelsesmønstre kan si mye om hvem du er sammen med.',
+      'MINI PRIDE-PÅMINNELSE: Queer barn skal slippe å bli profilert for å være seg selv.',
+      'MINI PRIDE-PÅMINNELSE: Det er lov å sjekke tillatelser sammen med en trygg voksen.',
+      'MINI PRIDE-PÅMINNELSE: Spør før du deler bilde, navn eller posisjon om andre.',
+      'MINI PRIDE-PÅMINNELSE: Center for Digital Narrative minner oss om at teknologi også former historier om oss.'];
+    addLog(lt(pa[Math.floor(Math.random()*pa.length)]),'i');
+  }
+
+  updateCam();updateUI();checkEndings();
+}
+
+// ════════ DRAW ════════
+function draw(ts){
+  const t=ts/1000;
+  ctx.clearRect(0,0,W,H);
+
+  // Clip to the unobscured gameplay viewport so actors stay out from under HUD text.
+  ctx.save();
+  ctx.beginPath();ctx.rect(LP,GAME_VIEW_TOP,W-LP-RP,GAME_VIEW_BOTTOM-GAME_VIEW_TOP);ctx.clip();
+
+  drawSky(t);
+  drawPrideAurora(t);
+  drawMountains(t);
+  drawAboveWaterCity(t);
+  drawFunicular(t);
+  drawRainAbove(t);
+  drawSurfaceWave(t);
+  // Underwater
+  ctx.save();ctx.beginPath();ctx.rect(LP,SURFACE_Y,W-LP-RP,H-SURFACE_Y);ctx.clip();ctx.translate(LP-camX,0);
+  drawCaustics(t);
+  drawUnicornSpirit(t);
+  drawBuildingFacades(t);
+  drawUnderwaterLandmarks(t);
+  drawTransitRoutes(t);
+  drawSeafloor(t);
+  drawKelpFields(t);
+  drawSurvZones(t);
+  drawPlatforms();
+  drawInteractables(t);
+  drawTrailOrbs(t);
+  drawEthicPickups(t);
+  drawPowerPearls(t);
+  drawObjectiveBeacon(t);
+  drawRouteAssist(t);
+  drawPatrolChambers(t);
+  drawDrones(t);
+  drawBybanenEnemy(t);
+  drawParticles(t);
+  drawPlayer(t);
+  ctx.restore();
+
+  drawDepthFog(t);
+  drawRainBelow(t);
+  drawSurfaceGlass(t); // refraction line between above/below
+
+  ctx.restore();
+  drawPanelMasks();
+}
+
+function getNearStory(ob){
+  if(!ob)return null;
+  const stories=LANG.current==='en'?{
+    checkpoint:{eyebrow:'Here and now',title:'This is where the story begins',mission:'Do this now: Explore the Bryggen gate room',copy:'The gate room shows how ordinary city routes can become digital traces over time.',tip:'Learn first. Then collect light trails and use them like Pac-Man dots through the route.'},
+    lift:{eyebrow:'Here and now',title:'Fløibanen climbs the mountainside',mission:'Do this now: Ride the line up',copy:'Fløibanen cuts up toward Fløyen the way it does in Bergen, carrying you quickly from the shore to the mountain light above the city.',tip:'Use the line when you want to lift yourself from the waterside to the top station in one move.'},
+    terminal:{eyebrow:'Here and now',title:'Collect the Mountain Beacon at Fløyen',mission:'Do this now: Explore the top station',copy:'The Mountain Beacon makes invisible signals visible enough that children and families can talk about them without technical jargon.',tip:'At the top it becomes easier to understand how presence can be measured without anyone knowing everything about you.'},
+    ulriken:{eyebrow:'Here and now',title:'See the pattern from Ulriken',mission:'Do this now: Explore the Ulriken hotspot',copy:'From Ulriken you see Bergen as a living map of time, height and habits.',tip:'This is where the game shows why small data points can become large guesses.'},
+    erased:{eyebrow:'Here and now',title:'Data can be felt in the body',mission:'Do this now: Talk to the shadow guest',copy:'The shadow guest needs language and calm, not more explanations that feel like alarms.',tip:'The most useful thing here is helping, not being perfect.'},
+    archive:{eyebrow:'Here and now',title:'The dry words matter too',mission:'Do this now: Collect the simple rule',copy:'Inside the archive lie the choices deciding how much of you gets left inside the systems.',tip:'You do not need to know everything. You only need to recognise the most important questions.'},
+    gate:{eyebrow:'Here and now',title:'Bring the light home',mission:'Do this now: Open the light lock',copy:'Nordnes is about bringing the knowledge back into everyday life, not about winning in a perfect way.',tip:'Three rules are enough: check permissions, turn off tracking you do not need, and ask before sharing about others.'},
+  }:{
+    checkpoint:{eyebrow:'Her og nå',title:'Her starter eventyret',mission:'Gjør dette nå: Utforsk Bryggen-portrommet',copy:'Portrommet viser hvordan vanlige byturer kan bli til digitale spor over tid.',tip:'Lær først. Samle så lysspor og bruk dem som Pac-Man-prikker gjennom ruten.'},
+    lift:{eyebrow:'Her og nå',title:'Fløibanen går opp fjellsiden',mission:'Gjør dette nå: Ta banen opp',copy:'Fløibanen skjærer opp mot Fløyen slik den gjør i Bergen, og tar deg raskt til fjelllyset over byen.',tip:'Bruk banen når du vil løfte deg fra sjøkanten til toppstasjonen i ett trekk.'},
+    terminal:{eyebrow:'Her og nå',title:'Hent Fjellfyret på Fløyen',mission:'Gjør dette nå: Utforsk toppstasjonen',copy:'Fjellfyret gjør usynlige signaler synlige nok til at barn og familier kan snakke om dem uten teknisk sjargong.',tip:'På toppen blir det lettere å skjønne hvordan nærvær kan måles uten at noen vet alt om deg.'},
+    ulriken:{eyebrow:'Her og nå',title:'Se mønsteret fra Ulriken',mission:'Gjør dette nå: Utforsk Ulriken-hotspoten',copy:'Fra Ulriken ser du Bergen som et levende kart av tid, høyde og vaner.',tip:'Dette er stedet der spillet viser hvorfor små datapunkter kan bli til store gjetninger.'},
+    erased:{eyebrow:'Her og nå',title:'Data kan kjennes i kroppen',mission:'Gjør dette nå: Snakk med skygjesten',copy:'Skyggjesten trenger språk og ro, ikke flere forklaringer som føles som alarmer.',tip:'Det mest lærerike her er å hjelpe, ikke å være perfekt.'},
+    archive:{eyebrow:'Her og nå',title:'De tørre ordene betyr noe',mission:'Gjør dette nå: Hent den enkle regelen',copy:'I arkivet ligger valgene som bestemmer hvor mye av deg som får bli igjen i systemene.',tip:'Du trenger ikke kunne alt. Du trenger bare å kjenne igjen de viktigste spørsmålene.'},
+    gate:{eyebrow:'Her og nå',title:'Ta lyset hjem',mission:'Gjør dette nå: Åpne lyseslusen',copy:'Nordnes handler om å ta med kunnskapen tilbake til hverdagen, ikke om å vinne på en perfekt måte.',tip:'Tre regler holder: sjekk tillatelser, slå av sporing du ikke trenger, og spør før du deler om andre.'},
+  };
+  return stories[ob.type]||null;
+}
+function getCurrentBeat(){
+  const beats=LANG.current==='en'?STORY_BEATS_EN:STORY_BEATS;
+  return getNearStory(P.near)||beats[Math.min(objIdx,beats.length-1)];
+}
+function interactableById(id){
+  return INTERACTABLES.find(ob=>ob.id===id);
+}
+function getObjectiveTarget(){
+  if(!S.completedObjectives.has('check'))return {ob:interactableById('check'),tip:{no:'Trykk E når du er ved portrommet.',en:'Press E when you reach the gate room.'}};
+  if(!S.completedObjectives.has('term')){
+    const atMountain=P.nodeId==='sky_2860'||P.nextNodeId==='sky_2860'||(P.y<LANE_Y.high-25);
+    return atMountain
+      ? {ob:interactableById('term'),tip:{no:'Utforsk toppstasjonen og hent Fjellfyret.',en:'Explore the top station and collect the Mountain Beacon.'}}
+      : {ob:interactableById('floi'),tip:{no:'Gå til Fløibanen-kai og trykk E for å ta banen opp.',en:'Go to the Fløibanen quay and press E to ride up.'}};
+  }
+  if(!S.ulrikenSeen)return {ob:interactableById('ulriken'),tip:{no:'Gå til Ulriken-hotspoten og trykk E.',en:'Go to the Ulriken hotspot and press E.'}};
+  if(!S.hasSeenErased||!S.completedObjectives.has('erased_helped'))return {ob:interactableById('erased'),tip:{no:'Gå til skygjesten i Nygårdsparken og hjelp hen.',en:'Go to the shadow guest in Nygårdsparken and help them.'}};
+  if(!S.completedObjectives.has('gate'))return {ob:interactableById('gate'),tip:{no:'Gå til Nordnes lysesluse og del lyset.',en:'Go to the Nordnes light lock and share the light.'}};
+  return null;
+}
+function getPathStep(startId,targetId){
+  if(!startId||!targetId||!node(startId)||!node(targetId))return null;
+  if(startId===targetId)return {nodeId:startId,dir:null};
+  const queue=[startId],seen=new Set([startId]),came={};
+  while(queue.length){
+    const id=queue.shift();
+    for(const [dir,nextId] of Object.entries(node(id).neighbors)){
+      if(seen.has(nextId))continue;
+      seen.add(nextId);
+      came[nextId]={from:id,dir};
+      if(nextId===targetId){
+        let cur=nextId,prev=came[cur];
+        while(prev&&prev.from!==startId){cur=prev.from;prev=came[cur];}
+        return {nodeId:cur,dir:prev?prev.dir:dir};
+      }
+      queue.push(nextId);
+    }
+  }
+  return null;
+}
+function steerTowardCurrentObjective(){
+  const target=getObjectiveTarget();
+  if(!target||!target.ob)return false;
+  if(P.near&&P.near.id===target.ob.id){
+    addLog(UI_TEXT.goalReady,'g');
+    tryInteract();
+    return true;
+  }
+  const startId=P.nextNodeId||P.nodeId;
+  if(startId===target.ob.nodeId){
+    addLog(UI_TEXT.goalReady,'g');
+    return true;
+  }
+  const step=getPathStep(startId,target.ob.nodeId);
+  if(!step||!step.dir){
+    addLog(UI_TEXT.goalNoPath,'w');
+    return false;
+  }
+  if(P.nextNodeId)P.bufferDir=step.dir;
+  else {
+    P.desiredDir=step.dir;
+    P.bufferDir=step.dir;
+  }
+  P.tapDir=step.dir;
+  addLog({no:`${UI_TEXT.goalGuide.no} ${target.ob.label}.`,en:`${UI_TEXT.goalGuide.en} ${lt(target.ob.label)}.`},'i');
+  snd('move');
+  updateUI();
+  return true;
+}
+function renderObjectivePanel(){
+  const target=document.getElementById('obj-text');
+  if(!target)return;
+  const beat=getCurrentBeat();
+  const goal=getObjectiveTarget();
+  const stepText=objIdx<OBJS.length?tr('objectiveStep',{current:Math.min(objIdx+1,OBJS.length),total:OBJS.length}):tr('objectiveDone');
+  const main=goal&&goal.ob?`${tr('goTo')}: ${lt(goal.ob.label)}`:beat.mission;
+  const hint=goal&&goal.tip?(LANG.current==='en'?goal.tip.en:goal.tip.no):beat.tip;
+  target.innerHTML=`<span class="obj-step">${stepText}</span><span class="obj-main">${main}</span><span class="obj-hint">${hint}</span>`;
+}
+function updateStoryCard(){
+  const eyebrow=document.getElementById('story-eyebrow');
+  const title=document.getElementById('story-title');
+  const mission=document.getElementById('story-mission');
+  const progress=document.getElementById('story-progress');
+  const copy=document.getElementById('story-copy');
+  const tip=document.getElementById('story-tip');
+  if(!eyebrow||!title||!mission||!progress||!copy||!tip)return;
+  const beat=getCurrentBeat();
+  const goal=getObjectiveTarget();
+  const activeIndex=Math.min(objIdx,STORY_BEATS.length-1);
+  const roundPrefix=`${tr('roundLabel')} ${S.round}`;
+  eyebrow.textContent=`${roundPrefix} · ${beat.eyebrow||tr('storyFallback',{current:activeIndex+1,total:STORY_BEATS.length})}`;
+  title.textContent=beat.title;
+  mission.textContent=goal&&goal.ob?`${tr('goTo')}: ${lt(goal.ob.label)}`:beat.mission;
+  copy.textContent=beat.copy;
+  tip.textContent=S.lessonT>0&&S.lessonText?(LANG.current==='en'?S.lessonText.en:S.lessonText.no):(goal&&goal.tip?(LANG.current==='en'?goal.tip.en:goal.tip.no):beat.tip);
+  progress.innerHTML='';
+  STORY_BEATS.forEach((_,index)=>{
+    const dot=document.createElement('span');
+    dot.className='story-dot';
+    if(index<objIdx)dot.classList.add('done');
+    else if(index===activeIndex)dot.classList.add('now');
+    progress.appendChild(dot);
+  });
+  const interactButton=document.getElementById('touch-interact');
+  if(interactButton){
+    const label=P.near?tr('explore'):tr('nextGoal');
+    interactButton.textContent=label;
+    interactButton.setAttribute('aria-label',label);
+  }
+  renderObjectivePanel();
+}
+
+// ─────────────────────────────────────────────────
+// SKY
+// ─────────────────────────────────────────────────
+function drawSky(t){
+  const g=ctx.createLinearGradient(0,0,0,SURFACE_Y);
+  // Night sky with subtle Bergen aurora-like colour gradient
+  g.addColorStop(0,'#010407');
+  g.addColorStop(.25,'#020609');
+  g.addColorStop(.55,'#02080e');
+  g.addColorStop(.85,'#030c18');
+  g.addColorStop(1,'#040e1e');
+  ctx.fillStyle=g;ctx.fillRect(LP,0,W-LP-RP,SURFACE_Y);
+
+  // Faint star field (very Bergen overcast — barely any stars)
+  ctx.fillStyle='rgba(200,220,240,.45)';
+  for(let i=0;i<60;i++){
+    const sx=(Math.sin(i*127.3)*0.5+0.5)*(W-LP-RP)+LP;
+    const sy=(Math.sin(i*312.1)*0.5+0.5)*SURFACE_Y*.65;
+    const sr=.4+Math.sin(t*.6+i)*.25;
+    ctx.globalAlpha=.08+Math.sin(t*.4+i*1.3)*.04;
+    ctx.beginPath();ctx.arc(sx,sy,sr,0,Math.PI*2);ctx.fill();
+  }
+  ctx.globalAlpha=1;
+
+  // Heavy overcast cloud layer across top
+  for(let ci=0;ci<8;ci++){
+    const cx_base=(ci*.14)*( W-LP-RP)+LP - (camX*(.02+ci*.003))%(W-LP-RP);
+    const cy=SURFACE_Y*.10+ci*SURFACE_Y*.022;
+    const cw=(W-LP-RP)*.25+Math.sin(ci*2.1)*40;
+    const ch=SURFACE_Y*.055;
+    const cg=ctx.createRadialGradient(cx_base,cy,0,cx_base,cy,cw*.55);
+    cg.addColorStop(0,`rgba(8,20,40,${.12+ci*.015})`);
+    cg.addColorStop(1,'rgba(8,20,40,0)');
+    ctx.fillStyle=cg;ctx.beginPath();ctx.ellipse(cx_base,cy,cw*.55,ch,0,0,Math.PI*2);ctx.fill();
+  }
+}
+
+function drawPrideAurora(t){
+  const bands=['255,106,128','255,165,95','255,222,118','90,228,188','106,176,255'];
+  ctx.save();
+  ctx.lineCap='round';
+  bands.forEach((band,i)=>{
+    ctx.beginPath();
+    for(let sx=LP-20;sx<=W-RP+20;sx+=16){
+      const waveY=SURFACE_Y*(0.16+i*0.045)
+        +Math.sin((sx+camX*0.05)*0.012+t*(0.26+i*0.02)+i)*11
+        +Math.sin((sx+camX*0.02)*0.025+t*0.55+i)*4;
+      if(sx===LP-20)ctx.moveTo(sx,waveY);
+      else ctx.lineTo(sx,waveY);
+    }
+    ctx.strokeStyle=`rgba(${band},${0.14-i*0.018})`;
+    ctx.shadowColor=`rgba(${band},${0.18-i*0.02})`;
+    ctx.shadowBlur=12-i;
+    ctx.lineWidth=13-i*1.6;
+    ctx.stroke();
+  });
+  ctx.shadowBlur=0;
+  ctx.restore();
+}
+
+// ─────────────────────────────────────────────────
+// BERGEN MOUNTAINS — the main visual statement
+// ─────────────────────────────────────────────────
+function drawMountains(t){
+  const VW=W-LP-RP; // viewport width
+
+  MTN_SILHOUETTES.forEach((mtn,mi)=>{
+    // Parallax scrolling: closer layers scroll faster
+    const parallax=[0.04,0.11,0.20][mi];
+    const offX=camX*parallax;
+
+    // Build the ridge path
+    ctx.beginPath();
+    const pts=mtn.pts;
+    ctx.moveTo(LP+pts[0][0]*VW-offX, pts[0][1]*SURFACE_Y);
+    for(let i=1;i<pts.length;i++){
+      ctx.lineTo(LP+pts[i][0]*VW-offX, pts[i][1]*SURFACE_Y);
+    }
+    ctx.lineTo(W-RP, SURFACE_Y);
+    ctx.lineTo(LP, SURFACE_Y);
+    ctx.closePath();
+
+    // Fill with subtle gradient per layer
+    const mg=ctx.createLinearGradient(0,0,0,SURFACE_Y);
+    const cols=[['#060f1c','#04091a'],['#040b16','#030812'],['#030910','#02070e']];
+    mg.addColorStop(0,cols[mi][0]);mg.addColorStop(1,cols[mi][1]);
+    ctx.fillStyle=mg;ctx.fill();
+
+    // Ridge edge highlight (atmospheric backscatter)
+    if(mi===0){
+      ctx.strokeStyle='rgba(50,90,140,.1)';ctx.lineWidth=1.2;
+      ctx.beginPath();
+      ctx.moveTo(LP+pts[0][0]*VW-offX, pts[0][1]*SURFACE_Y);
+      for(let i=1;i<pts.length;i++)ctx.lineTo(LP+pts[i][0]*VW-offX, pts[i][1]*SURFACE_Y);
+      ctx.stroke();
+    }
+  });
+
+  // ULRIKEN — TV tower with blinking light (tallest Bergen peak 643m)
+  {
+    const parallax=0.04;
+    const ux=LP+ULRIKEN.x*(W-LP-RP)-camX*parallax;
+    const uy=ULRIKEN.y*SURFACE_Y;
+    // Tower mast
+    ctx.strokeStyle='rgba(30,65,110,.35)';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(ux,uy);ctx.lineTo(ux,uy-SURFACE_Y*.07);ctx.stroke();
+    // Cross-arms
+    for(let ci=1;ci<3;ci++){
+      const cy=uy-SURFACE_Y*.02*ci;
+      ctx.strokeStyle='rgba(25,55,95,.25)';ctx.lineWidth=.8;
+      ctx.beginPath();ctx.moveTo(ux-8+ci*2,cy);ctx.lineTo(ux+8-ci*2,cy);ctx.stroke();
+    }
+    // Blinking red beacon
+    const blink=Math.sin(t*1.9)>0;
+    ctx.fillStyle=`rgba(200,28,38,${blink?.82:.18})`;
+    if(blink){ctx.shadowColor='rgba(200,28,38,.5)';ctx.shadowBlur=8;}
+    ctx.beginPath();ctx.arc(ux,uy-SURFACE_Y*.07,2,0,Math.PI*2);ctx.fill();
+    ctx.shadowBlur=0;
+
+    // Faint label
+    ctx.globalAlpha=.18;
+    ctx.fillStyle='rgba(80,140,200,1)';ctx.font="7px 'Share Tech Mono',monospace";
+    ctx.fillText('ULRIKEN 643m',ux+6,uy-SURFACE_Y*.04);
+    ctx.globalAlpha=1;
+  }
+
+  // FLØYEN PEAK — label + subtle cross on viewpoint
+  {
+    const parallax=0.11;
+    const fx=LP+FLOYEN.x*(W-LP-RP)-camX*parallax;
+    const fy=FLOYEN.y*SURFACE_Y;
+    ctx.globalAlpha=.14;
+    ctx.fillStyle='rgba(70,130,190,1)';ctx.font="7px 'Share Tech Mono',monospace";
+    ctx.fillText('FLØYEN 399m',fx+4,fy-6);
+    ctx.globalAlpha=1;
+    // Viewpoint platform dot
+    ctx.fillStyle='rgba(50,100,160,.25)';
+    ctx.beginPath();ctx.arc(fx,fy,2.5,0,Math.PI*2);ctx.fill();
+  }
+
+  // SNOW PATCHES on Ulriken (year-round snow in gullies)
+  {
+    const parallax=0.04;
+    SNOW_PATCHES.forEach(sp=>{
+      const sx=LP+sp.x*(W-LP-RP)-camX*parallax;
+      const sy=sp.y*SURFACE_Y;
+      ctx.beginPath();
+      ctx.moveTo(sx+sp.pts[0][0]*VW, sy+sp.pts[0][1]*SURFACE_Y);
+      sp.pts.forEach(p=>ctx.lineTo(sx+p[0]*VW, sy+p[1]*SURFACE_Y));
+      ctx.closePath();
+      ctx.fillStyle='rgba(200,220,240,.08)';ctx.fill();
+    });
+  }
+
+  // VALLEY MIST — Bergen's famous low cloud sitting in mountain hollows
+  const mistDefs=[
+    {x:.20,y:.34,r:.10},{x:.45,y:.29,r:.09},{x:.68,y:.25,r:.12},
+    {x:.30,y:.50,r:.07},{x:.56,y:.55,r:.08},{x:.78,y:.52,r:.09},
+  ];
+  mistDefs.forEach((m,i)=>{
+    const parallax=.06;
+    const mx=LP+m.x*(W-LP-RP)-camX*parallax;
+    const my=m.y*SURFACE_Y;
+    const mPulse=.5+.5*Math.sin(t*.05+i*.8);
+    const mAlpha=.04+mPulse*.03+(S.erasure/100)*.04;
+    const mg=ctx.createRadialGradient(mx,my,0,mx,my,m.r*VW);
+    mg.addColorStop(0,`rgba(40,90,140,${mAlpha})`);
+    mg.addColorStop(1,'rgba(40,90,140,0)');
+    ctx.fillStyle=mg;ctx.beginPath();ctx.ellipse(mx,my,m.r*VW,m.r*SURFACE_Y*.45,0,0,Math.PI*2);ctx.fill();
+  });
+
+  // FOG BASE — heavy mist hugging the mountain bottoms above city
+  const fogBase=ctx.createLinearGradient(0,SURFACE_Y*.68,0,SURFACE_Y*.90);
+  fogBase.addColorStop(0,'rgba(4,14,28,0)');
+  fogBase.addColorStop(.5,`rgba(4,14,28,${.08+S.erasure/800})`);
+  fogBase.addColorStop(1,'rgba(4,14,28,.22)');
+  ctx.fillStyle=fogBase;ctx.fillRect(LP,SURFACE_Y*.68,W-LP-RP,SURFACE_Y*.22);
+}
+
+// ─────────────────────────────────────────────────
+// ABOVE-WATER BERGEN CITY
+// ─────────────────────────────────────────────────
+function drawAboveWaterCity(t){
+  // Bergen city buildings silhouetted above the flood line
+  ABOVE_BLDGS.forEach((b,i)=>{
+    const bx=LP+b.x-camX*.25; // slow parallax
+    const bh=b.h*SURFACE_Y;
+    const by=SURFACE_Y-bh-2;
+    if(bx+b.w<LP||bx>W-RP)return;
+
+    // Building body
+    ctx.fillStyle='rgba(3,9,18,.95)';
+    ctx.fillRect(bx,by,b.w,bh);
+
+    // Roof line dark
+    ctx.fillStyle='rgba(1,5,10,.98)';
+    ctx.fillRect(bx,by,b.w,3);
+
+    // Amber window light (warm Bergen interior)
+    b.windows.forEach(w=>{
+      const wx=bx+w.ox*b.w*.8+3;
+      const wy=by+bh*.15+w.oy*bh*.7;
+      if(!w.lit)return;
+      const flicker=w.flick&&Math.sin(t*9+i+w.ox*10)>.75;
+      if(flicker)return;
+      const wAlpha=.10+Math.sin(t*.4+i+w.ox*5)*.03;
+      ctx.fillStyle=`rgba(220,170,70,${wAlpha})`;
+      ctx.fillRect(wx,wy,5,7);
+    });
+  });
+
+  // City glow above water — light pollution reflecting on surface from below
+  const cg=ctx.createLinearGradient(0,SURFACE_Y*.65,0,SURFACE_Y);
+  cg.addColorStop(0,'rgba(180,110,35,0)');
+  cg.addColorStop(.6,`rgba(180,110,35,${.025+S.surveillance/1200})`);
+  cg.addColorStop(1,`rgba(180,110,35,${.05+S.surveillance/900})`);
+  ctx.fillStyle=cg;ctx.fillRect(LP,SURFACE_Y*.65,W-LP-RP,SURFACE_Y*.35);
+}
+
+// ─────────────────────────────────────────────────
+// FLØIBANEN (cable car visible above + half-submerged)
+// ─────────────────────────────────────────────────
+function drawFunicular(t){
+  const parallax=.11;
+  const topX=LP+FLOYEN.x*(W-LP-RP)-camX*parallax+12;
+  const topY=FLOYEN.y*SURFACE_Y+8;
+  const baseX=topX-172;
+  const baseY=SURFACE_Y-10;
+  if(topX<LP-140||baseX>W-RP+140)return;
+
+  const activeRide=S.floiRideT>0;
+  const pulse=.5+.5*Math.sin(t*(activeRide?8.5:4.2));
+  const angle=Math.atan2(topY-baseY,topX-baseX);
+
+  ctx.strokeStyle=`rgba(255,216,150,${activeRide ? (.32+pulse*.14) : (.16+pulse*.06)})`;
+  ctx.lineWidth=2.6;
+  ctx.beginPath();ctx.moveTo(baseX,baseY);ctx.lineTo(topX,topY);ctx.stroke();
+  ctx.strokeStyle=`rgba(116,214,255,${activeRide ? (.22+pulse*.12) : (.1+pulse*.04)})`;
+  ctx.lineWidth=1.1;
+  ctx.beginPath();ctx.moveTo(baseX-8,baseY+5);ctx.lineTo(topX-8,topY+5);ctx.stroke();
+
+  ctx.fillStyle='rgba(7,18,30,.94)';
+  ctx.fillRect(baseX-16,baseY-9,34,16);
+  ctx.fillRect(topX-14,topY-11,30,14);
+  ctx.strokeStyle='rgba(148,214,255,.18)';
+  ctx.lineWidth=1;
+  ctx.strokeRect(baseX-16,baseY-9,34,16);
+  ctx.strokeRect(topX-14,topY-11,30,14);
+  ctx.fillStyle=`rgba(255,208,134,${.16+pulse*.1})`;
+  ctx.fillRect(baseX-9,baseY-4,12,6);
+  ctx.fillRect(topX-8,topY-7,12,5);
+
+  const prog=activeRide?1-S.floiRideT/120:.22+.06*Math.sin(t*.7);
+  const carX=baseX+(topX-baseX)*prog;
+  const carY=baseY+(topY-baseY)*prog;
+  if(activeRide){
+    const beam=ctx.createRadialGradient(carX,carY,4,carX,carY,34);
+    beam.addColorStop(0,`rgba(255,226,164,${.24+pulse*.18})`);
+    beam.addColorStop(1,'rgba(255,226,164,0)');
+    ctx.fillStyle=beam;
+    ctx.beginPath();ctx.arc(carX,carY,34,0,Math.PI*2);ctx.fill();
+  }
+
+  ctx.save();
+  ctx.translate(carX,carY);
+  ctx.rotate(angle);
+  ctx.fillStyle='rgba(250,244,230,.96)';
+  ctx.fillRect(-12,-9,24,18);
+  ctx.strokeStyle='rgba(255,164,96,.42)';
+  ctx.lineWidth=1.1;
+  ctx.strokeRect(-12,-9,24,18);
+  ctx.fillStyle=`rgba(95,212,255,${activeRide ? (.22+pulse*.12) : .12})`;
+  ctx.fillRect(-7,-5,14,8);
+  ctx.fillStyle=`rgba(255,218,146,${activeRide ? (.28+pulse*.16) : (.14+pulse*.06)})`;
+  ctx.fillRect(-4,4,8,3);
+  ctx.restore();
+}
+
+// ─────────────────────────────────────────────────
+// RAIN ABOVE WATER
+// ─────────────────────────────────────────────────
+function drawRainAbove(t){
+  ctx.save();ctx.rect(LP,0,W-LP-RP,SURFACE_Y+4);ctx.clip();
+  const intensity=1+S.surveillance/90;
+  RAIN.forEach(r=>{
+    const sx=r.x-camX, sy=r.y*H;
+    if(sx<LP-5||sx>W-RP+5||sy>SURFACE_Y+2)return;
+    ctx.strokeStyle=`rgba(140,200,235,${r.a*.85*intensity})`;ctx.lineWidth=.4;
+    ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx+r.len*r.wx*W*.35,sy+r.len*H*.65);ctx.stroke();
+  });
+  // Ripples at surface
+  RIPPLES.forEach(rp=>{
+    const sx=rp.x-camX;
+    if(sx<LP||sx>W-RP)return;
+    ctx.strokeStyle=`rgba(100,175,225,${rp.a*.38})`;ctx.lineWidth=.5;
+    ctx.beginPath();ctx.ellipse(sx,rp.y,rp.r*55,rp.r*12,0,0,Math.PI*2);ctx.stroke();
+  });
+  ctx.restore();
+}
+
+// ─────────────────────────────────────────────────
+// SURFACE WAVE
+// ─────────────────────────────────────────────────
+function drawSurfaceWave(t){
+  ctx.beginPath();ctx.moveTo(LP,SURFACE_Y);
+  for(let sx=LP;sx<=W-RP+16;sx+=12){
+    const wx=sx+camX;
+    const wy=SURFACE_Y+Math.sin(wx*.014+t*.65)*5+Math.sin(wx*.028+t*1.05)*2.5+Math.sin(wx*.007+t*.38)*3.5;
+    ctx.lineTo(sx,wy);
+  }
+  ctx.lineTo(W-RP,H);ctx.lineTo(LP,H);ctx.closePath();
+  const wg=ctx.createLinearGradient(0,SURFACE_Y,0,H);
+  wg.addColorStop(0,'#041826');wg.addColorStop(.2,'#021522');
+  wg.addColorStop(.65,'#010e1a');wg.addColorStop(1,'#01090f');
+  ctx.fillStyle=wg;ctx.fill();
+}
+
+function drawUnicornSpirit(t){
+  const ux=LP+(W-LP-RP)*.72;
+  const uy=SURFACE_Y+118+Math.sin(t*1.15)*12;
+  const pulse=.5+.5*Math.sin(t*2.2);
+  ctx.save();
+  ctx.translate(ux,uy);
+
+  const halo=ctx.createRadialGradient(0,0,0,0,0,150);
+  halo.addColorStop(0,`rgba(120,228,255,${.16+pulse*.05})`);
+  halo.addColorStop(.35,'rgba(120,228,255,.08)');
+  halo.addColorStop(1,'rgba(120,228,255,0)');
+  ctx.fillStyle=halo;
+  ctx.beginPath();ctx.arc(0,0,150,0,Math.PI*2);ctx.fill();
+
+  ['255,112,140','255,176,92','255,230,136','82,224,186','110,180,255'].forEach((band,i)=>{
+    ctx.strokeStyle=`rgba(${band},${.26-i*.03})`;
+    ctx.lineWidth=5-i*.55;
+    ctx.beginPath();
+    ctx.moveTo(-48,-10+i*4);
+    ctx.quadraticCurveTo(-88-Math.sin(t*1.8+i)*12,12+i*8,-122-Math.sin(t*1.2+i)*16,28+i*11);
+    ctx.stroke();
+  });
+
+  ctx.fillStyle='rgba(235,250,255,.16)';
+  ctx.beginPath();ctx.ellipse(-8,4,44,22,0,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='rgba(210,245,255,.32)';ctx.lineWidth=1.1;ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(10,-2);
+  ctx.quadraticCurveTo(28,-18,24,-36);
+  ctx.quadraticCurveTo(9,-42,-4,-24);
+  ctx.quadraticCurveTo(-3,-8,10,-2);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle='rgba(255,232,170,.34)';
+  ctx.beginPath();
+  ctx.moveTo(18,-36);ctx.lineTo(31,-59);ctx.lineTo(23,-33);
+  ctx.closePath();ctx.fill();
+
+  ['255,118,150','255,191,110','110,214,255'].forEach((band,i)=>{
+    ctx.strokeStyle=`rgba(${band},${.38-i*.08})`;
+    ctx.lineWidth=4-i*.7;
+    ctx.beginPath();
+    ctx.moveTo(2,-27+i*4);
+    ctx.quadraticCurveTo(-16-i*4,-51-i*2,-22-i*3,-22+i*7);
+    ctx.stroke();
+  });
+
+  ctx.fillStyle='rgba(246,250,255,.88)';
+  ctx.beginPath();ctx.arc(15,-25,2.2,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(75,120,170,.8)';
+  ctx.beginPath();ctx.arc(16,-25,1.1,0,Math.PI*2);ctx.fill();
+
+  ctx.strokeStyle='rgba(200,244,255,.28)';ctx.lineWidth=2.6;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(-10,17);ctx.lineTo(-22,36);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(5,18);ctx.lineTo(1,39);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(22,12);ctx.quadraticCurveTo(46,20,62,44);ctx.stroke();
+
+  for(let i=0;i<6;i++){
+    const bx=52+i*12+Math.sin(t*1.7+i)*6;
+    const by=-8+i*5+Math.cos(t*1.1+i)*8;
+    ctx.strokeStyle=`rgba(190,236,255,${.18-i*.02})`;
+    ctx.lineWidth=.8;
+    ctx.beginPath();ctx.arc(bx,by,3+i*.6,0,Math.PI*2);ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// ─────────────────────────────────────────────────
+// SURFACE GLASS — refraction shimmer
+// ─────────────────────────────────────────────────
+function drawSurfaceGlass(t){
+  ctx.save();ctx.beginPath();ctx.rect(LP,0,W-LP-RP,H);ctx.clip();
+  // Thin highlight on wave crest
+  ctx.strokeStyle='rgba(90,180,230,.22)';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(LP,SURFACE_Y);
+  for(let sx=LP;sx<=W-RP+16;sx+=12){
+    const wx=sx+camX;
+    const wy=SURFACE_Y+Math.sin(wx*.014+t*.65)*5+Math.sin(wx*.028+t*1.05)*2.5+Math.sin(wx*.007+t*.38)*3.5;
+    ctx.lineTo(sx,wy);
+  }
+  ctx.stroke();
+  // Air-water interface glow
+  const sg=ctx.createLinearGradient(0,SURFACE_Y-6,0,SURFACE_Y+18);
+  sg.addColorStop(0,'rgba(70,160,220,0)');
+  sg.addColorStop(.4,'rgba(70,160,220,.04)');
+  sg.addColorStop(.7,'rgba(50,130,190,.06)');
+  sg.addColorStop(1,'rgba(50,130,190,0)');
+  ctx.fillStyle=sg;ctx.fillRect(LP,SURFACE_Y-6,W-LP-RP,24);
+  ctx.restore();
+}
+
+// ─────────────────────────────────────────────────
+// CAUSTICS
+// ─────────────────────────────────────────────────
+function drawCaustics(t){
+  const vstX=Math.floor((camX-100)/100)*100;
+  for(let bx=vstX;bx<camX+W;bx+=90){
+    const bw=8+Math.sin(t*.28+bx*.01)*4;
+    const ba=.008+Math.sin(t*.18+bx*.008)*.003;
+    const bg=ctx.createLinearGradient(bx,SURFACE_Y,bx+bw*2.5,FLOOR_Y);
+    bg.addColorStop(0,`rgba(70,160,220,${ba*2.5})`);
+    bg.addColorStop(.5,`rgba(50,130,185,${ba})`);
+    bg.addColorStop(1,'rgba(40,110,165,0)');
+    ctx.fillStyle=bg;
+    ctx.beginPath();
+    ctx.moveTo(bx-bw*.4,SURFACE_Y);ctx.lineTo(bx+bw*.4,SURFACE_Y);
+    ctx.lineTo(bx+bw*2.8,FLOOR_Y);ctx.lineTo(bx-bw*2.8,FLOOR_Y);
+    ctx.closePath();ctx.fill();
+  }
+  // Hex caustic grid on seafloor
+  const gsize=64;
+  const gvx=Math.floor((camX-gsize)/gsize)*gsize;
+  for(let gx=gvx;gx<camX+W;gx+=gsize){
+    const dy=Math.sin(t*.16+gx*.09)*10;
+    const dx=Math.cos(t*.12+gx*.11)*8;
+    const ga=.003+Math.sin(t*.35+gx*.055)*.0015;
+    ctx.strokeStyle=`rgba(70,160,215,${ga})`;ctx.lineWidth=.5;
+    ctx.strokeRect(gx+dx,FLOOR_Y-22+dy,gsize*.68,gsize*.45);
+  }
+}
+
+// ─────────────────────────────────────────────────
+// BRYGGEN FACADES UNDERWATER
+// ─────────────────────────────────────────────────
+function drawBuildingFacades(t){
+  FACADES.forEach((f,fi)=>{
+    const bx=f.x,by=FLOOR_Y-f.h,bw=f.w,bh=f.h;
+    if(bx+bw<camX-50||bx>camX+W+50)return;
+    const depth=(FLOOR_Y-by)/FLOOR_Y;
+    const ba=Math.max(.14,.72-depth*.38);
+    const leanTop=f.lean||0;
+
+    // Body
+    ctx.fillStyle=f.col+(Math.round(ba*255).toString(16).padStart(2,'0'));
+    ctx.beginPath();
+    ctx.moveTo(bx+leanTop,by);
+    ctx.lineTo(bx+bw+leanTop*.35,by);
+    ctx.lineTo(bx+bw,FLOOR_Y);
+    ctx.lineTo(bx,FLOOR_Y);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle=f.trim||`rgba(220,190,150,${ba*.1})`;
+    ctx.lineWidth=.8;
+    ctx.stroke();
+
+    // Plank lines (vertical grain of Bryggen timber)
+    ctx.strokeStyle=`rgba(0,0,0,${ba*.45})`;ctx.lineWidth=.7;
+    for(let pi=1;pi<bw/11;pi++){
+      const px=bx+pi*11+leanTop*(1-pi/(bw/11));
+      ctx.beginPath();ctx.moveTo(px,by);ctx.lineTo(bx+pi*11,FLOOR_Y);ctx.stroke();
+    }
+
+    // Floor beams (horizontal)
+    for(let hi=1;hi<bh/52;hi++){
+      ctx.strokeStyle=`rgba(0,0,0,${ba*.35})`;ctx.lineWidth=1.8;
+      ctx.beginPath();ctx.moveTo(bx,by+hi*52);ctx.lineTo(bx+bw,by+hi*52);ctx.stroke();
+    }
+
+    // Window pairs
+    const wrows=Math.max(1,Math.floor(bh/52));
+    const wcols=Math.max(1,Math.floor(bw/20));
+    for(let wr=0;wr<wrows;wr++) for(let wc=0;wc<wcols;wc++){
+      const wy=by+10+wr*52;
+      const leanShift=leanTop*(1-(wy-by)/Math.max(bh,1));
+      const wx=bx+5+wc*20+leanShift*.45;
+      if(wx+12>bx+bw)continue;
+      const wObj=f.wins[wr*wcols+wc]||f.wins[0];
+      if(!wObj||!wObj.lit)continue;
+      const flicker=wObj.flick&&Math.sin(t*9+fi+wc+wr)>.85;
+      if(flicker)continue;
+      ctx.fillStyle=`rgba(214,170,76,${.12+ba*.08})`;
+      ctx.fillRect(wx,wy,11,16);
+    }
+
+    // Door / passage shadow to echo Bryggen's narrow alleys
+    const doorW=Math.max(12,Math.min(18,bw*.28));
+    const doorX=bx+bw*.5-doorW*.5;
+    ctx.fillStyle=`rgba(4,10,18,${ba*.82})`;
+    ctx.fillRect(doorX,FLOOR_Y-34,doorW,34);
+    ctx.strokeStyle=`rgba(210,184,142,${ba*.14})`;
+    ctx.lineWidth=.8;
+    ctx.strokeRect(doorX,FLOOR_Y-34,doorW,34);
+
+    // Gabled roof
+    ctx.beginPath();ctx.moveTo(bx-1,by+2);ctx.lineTo(bx+bw/2+leanTop*.2,by-(f.roof||bw*.38));ctx.lineTo(bx+bw+1,by+2);
+    ctx.fillStyle=`rgba(2,6,12,${ba*.92})`;ctx.fill();
+    ctx.strokeStyle=`rgba(25,60,90,${ba*.25})`;ctx.lineWidth=.7;ctx.stroke();
+    ctx.strokeStyle=`rgba(230,210,174,${ba*.16})`;
+    ctx.beginPath();ctx.moveTo(bx+bw/2+leanTop*.2,by-(f.roof||bw*.38));ctx.lineTo(bx+bw/2+leanTop*.08,by+8);ctx.stroke();
+
+    // Front boardwalk / piling rhythm
+    ctx.strokeStyle=`rgba(28,54,70,${ba*.3})`;ctx.lineWidth=1.4;
+    for(let post=0;post<3;post++){
+      const px=bx+8+post*(bw-16)/2;
+      ctx.beginPath();ctx.moveTo(px,FLOOR_Y-2);ctx.lineTo(px,FLOOR_Y+18);ctx.stroke();
+    }
+    ctx.strokeStyle=`rgba(210,190,150,${ba*.12})`;ctx.lineWidth=.8;
+    ctx.beginPath();ctx.moveTo(bx,FLOOR_Y-2);ctx.lineTo(bx+bw,FLOOR_Y-2);ctx.stroke();
+
+    // Barnacles at base
+    for(let bi=0;bi<bw;bi+=8){
+      ctx.fillStyle=`rgba(16,38,32,${ba*.55})`;
+      ctx.beginPath();ctx.arc(bx+bi+Math.sin(bi*.7)*.4,FLOOR_Y-2,2+Math.sin(bi*.9),0,Math.PI*2);ctx.fill();
+    }
+
+    // Kelp growing from facade
+    f.kelp.forEach(k=>{
+      if(bx+bw<camX-100||bx>camX+W+100)return;
+      drawKelp(bx+k.kx*bw,FLOOR_Y-4,k.h,k.sw,k.ph+t*1.1,t);
+    });
+  });
+}
+
+// ─────────────────────────────────────────────────
+// KELP
+// ─────────────────────────────────────────────────
+function drawKelp(x,y,h,sw,ph,t){
+  ctx.beginPath();ctx.moveTo(x,y);
+  for(let s=1;s<=8;s++){
+    const prog=s/8;
+    const kx=x+Math.sin(ph+prog*1.9)*sw*prog*13;
+    const ky=y-h*prog;
+    ctx.lineTo(kx,ky);
+  }
+  ctx.strokeStyle=`rgba(18,96,74,${.38+Math.sin(ph)*.08})`;
+  ctx.lineWidth=2.2;ctx.stroke();
+  // Tip bulb
+  const tipX=x+Math.sin(ph+1.9)*sw*13, tipY=y-h;
+  ctx.fillStyle='rgba(24,108,84,.48)';
+  ctx.beginPath();ctx.ellipse(tipX,tipY,3.5,6.5,Math.sin(ph)*.3,0,Math.PI*2);ctx.fill();
+}
+
+function drawKelpFields(t){
+  // Dense Nygårdsparken kelp forest (3600-4400) + scattered elsewhere
+  const spots=[
+    ...Array.from({length:46},(_,i)=>({x:3600+i*20+Math.sin(i)*12,dense:5})),
+    ...[850,1350,1900,2350,4900,5500,5900,6660,7160,9020].map(x=>({x,dense:2})),
+  ];
+  spots.forEach(ks=>{
+    if(ks.x+50<camX||ks.x>camX+W+50)return;
+    for(let d=0;d<ks.dense;d++){
+      const kx=ks.x+d*8+Math.sin(ks.x*.3+d)*6;
+      drawKelp(kx,FLOOR_Y-4,52+Math.sin(kx*.3)*28,1.4+Math.sin(kx)*.7,kx*.055,t);
+    }
+  });
+}
+
+// ─────────────────────────────────────────────────
+// SEAFLOOR
+// ─────────────────────────────────────────────────
+function drawSeafloor(t){
+  const g=ctx.createLinearGradient(0,FLOOR_Y-4,0,FLOOR_Y+62);
+  g.addColorStop(0,'#0c1c28');g.addColorStop(.4,'#08161e');g.addColorStop(1,'#060f16');
+  ctx.fillStyle=g;ctx.fillRect(camX,FLOOR_Y-4,W,72);
+  // Rocks
+  for(let rx=Math.floor(camX/42)*42;rx<camX+W;rx+=42){
+    const rh=3.5+Math.sin(rx*.28)*3.5,rw=10+Math.cos(rx*.14)*7;
+    ctx.fillStyle=`rgba(8,20,30,${.78+Math.sin(rx)*.1})`;
+    ctx.beginPath();ctx.ellipse(rx,FLOOR_Y+1,rw,rh,Math.sin(rx*.08),0,Math.PI*2);ctx.fill();
+  }
+  // Large debris
+  [{x:440,y:FLOOR_Y-18,w:55,h:15},{x:1250,y:FLOOR_Y-22,w:85,h:20},
+   {x:2100,y:FLOOR_Y-14,w:42,h:10},{x:3100,y:FLOOR_Y-18,w:65,h:14},
+   {x:4100,y:FLOOR_Y-16,w:50,h:13},{x:5000,y:FLOOR_Y-20,w:75,h:17}
+  ].forEach(d=>{
+    if(d.x+d.w<camX||d.x>camX+W)return;
+    ctx.fillStyle='rgba(5,15,24,.92)';ctx.fillRect(d.x,d.y,d.w,d.h);
+    ctx.strokeStyle='rgba(18,48,68,.38)';ctx.lineWidth=.8;ctx.strokeRect(d.x,d.y,d.w,d.h);
+  });
+}
+
+// ─────────────────────────────────────────────────
+// SURVEILLANCE ZONES
+// ─────────────────────────────────────────────────
+function drawSurvZones(t){
+  [{x:300,w:450,r:255,g:120,b:96},{x:1150,w:1300,r:255,g:196,b:108},
+  {x:4510,w:900,r:92,g:224,b:190},{x:6200,w:900,r:112,g:188,b:255},
+  {x:7520,w:760,r:255,g:134,b:172},{x:8840,w:700,r:120,g:240,b:186}
+  ].forEach(z=>{
+    if(z.x+z.w<camX||z.x>camX+W)return;
+    const p=.5+.5*Math.sin(t*1.4+z.x*.002);
+    ctx.fillStyle=`rgba(${z.r},${z.g},${z.b},${.010+p*.012})`;
+    ctx.fillRect(z.x,SURFACE_Y,z.w,FLOOR_Y-SURFACE_Y);
+    ctx.strokeStyle=`rgba(${z.r},${z.g},${z.b},${.04+p*.06})`;ctx.lineWidth=.8;
+    ctx.beginPath();ctx.moveTo(z.x,SURFACE_Y);ctx.lineTo(z.x,FLOOR_Y);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(z.x+z.w,SURFACE_Y);ctx.lineTo(z.x+z.w,FLOOR_Y);ctx.stroke();
+  });
+}
+
+// ─────────────────────────────────────────────────
+// PLATFORMS
+// ─────────────────────────────────────────────────
+function drawPlatforms(){
+  PLATS.forEach(pl=>{
+    if(pl.h>30)return;
+    if(pl.x+pl.w<camX-5||pl.x>camX+W+5)return;
+    ctx.fillStyle='rgba(6,16,26,.95)';ctx.fillRect(pl.x,pl.y,pl.w,pl.h);
+    ctx.strokeStyle='rgba(35,75,120,.28)';ctx.lineWidth=.8;ctx.strokeRect(pl.x,pl.y,pl.w,pl.h);
+    for(let bi=0;bi<pl.w;bi+=10){
+      ctx.fillStyle='rgba(12,32,26,.55)';
+      ctx.beginPath();ctx.arc(pl.x+bi,pl.y+pl.h,2.5,0,Math.PI*2);ctx.fill();
+    }
+  });
+}
+
+// ─────────────────────────────────────────────────
+// INTERACTABLES
+// ─────────────────────────────────────────────────
+function drawInteractables(t){
+  const IC={checkpoint:'⬡',lift:'⇡',terminal:'◈',ulriken:'△',erased:'✧',archive:'▣',gate:'◇'};
+  const CO={checkpoint:'255,140,104',lift:'255,214,144',terminal:'103,223,255',ulriken:'170,228,255',erased:'255,120,164',archive:'126,204,255',gate:'120,240,186'};
+  INTERACTABLES.forEach(ob=>{
+    if(ob.used&&ob.type!=='gate')return;
+    if(ob.x+60<camX||ob.x>camX+W)return;
+    const p=.5+.5*Math.sin(t*2+ob.x*.01);
+    const near=(P.near===ob);
+    const c=CO[ob.type]||'58,184,216';
+    if(near||p>.65){
+      ctx.strokeStyle=`rgba(${c},${(near?.26:.10)*p})`;
+      ctx.lineWidth=near?1.8:.8;
+      ctx.beginPath();ctx.arc(ob.x+18,ob.y+18,near?34:24+p*6,0,Math.PI*2);ctx.stroke();
+    }
+    ctx.fillStyle=`rgba(${c},${near?.9:.35+p*.35})`;
+    ctx.font=`${near?20:15}px 'Share Tech Mono',monospace`;
+    ctx.fillText(IC[ob.type]||'◎',ob.x+8,ob.y+26);
+    if(near){
+      ctx.fillStyle=`rgba(${c},.6)`;ctx.font="7px 'Share Tech Mono',monospace";
+      ctx.fillText(lt(ob.label),ob.x-18,ob.y-9);
+    }
+    // Terminal signal rings
+    if(ob.type==='terminal'&&!ob.used){
+      [40,60,82].forEach((r,i)=>{
+        ctx.strokeStyle=`rgba(58,184,216,${(.04-i*.01)*p})`;ctx.lineWidth=.5;
+        ctx.beginPath();ctx.arc(ob.x+18,ob.y+18,r+p*8,0,Math.PI*2);ctx.stroke();
+      });
+    }
+  });
+}
+
+function drawPowerPearls(t){
+  POWER_PEARLS.forEach(pearl=>{
+    if(pearl.taken)return;
+    const pulse=.5+.5*Math.sin(t*4+pearl.x*.01);
+    ctx.strokeStyle=`rgba(130,228,255,${.22+pulse*.2})`;
+    ctx.lineWidth=1.2;
+    ctx.beginPath();ctx.arc(pearl.x,pearl.y,8+pulse*5,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle=`rgba(200,244,255,${.16+pulse*.22})`;
+    ctx.beginPath();ctx.arc(pearl.x,pearl.y,4.2+pulse*1.5,0,Math.PI*2);ctx.fill();
+  });
+}
+
+function drawTrailOrbs(t){
+  TRAIL_ORBS.forEach(orb=>{
+    if(orb.taken)return;
+    const pulse=.5+.5*Math.sin(t*6+orb.x*.01);
+    ctx.fillStyle=`rgba(255,236,158,${.18+pulse*.22})`;
+    ctx.beginPath();ctx.arc(orb.x,orb.y,2.2+pulse*.9,0,Math.PI*2);ctx.fill();
+  });
+}
+
+function drawEthicPickups(t){
+  ETHIC_PICKUPS.forEach(item=>{
+    if(item.taken)return;
+    const pulse=.5+.5*Math.sin(t*4+item.x*.012);
+    ctx.save();
+    ctx.translate(item.x,item.y);
+    ctx.fillStyle=`rgba(255,210,130,${.08+pulse*.08})`;
+    ctx.strokeStyle=`rgba(255,225,154,${.48+pulse*.28})`;
+    ctx.lineWidth=1.5;
+    ctx.beginPath();
+    ctx.moveTo(-6,-12);ctx.lineTo(6,-12);ctx.quadraticCurveTo(12,-12,12,-6);
+    ctx.lineTo(12,6);ctx.quadraticCurveTo(12,12,6,12);ctx.lineTo(-6,12);
+    ctx.quadraticCurveTo(-12,12,-12,6);ctx.lineTo(-12,-6);ctx.quadraticCurveTo(-12,-12,-6,-12);
+    ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.fillStyle=`rgba(245,251,255,${.78+pulse*.16})`;
+    ctx.font='700 8px "Trebuchet MS", sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(item.icon,0,1);
+    ctx.strokeStyle=`rgba(143,230,255,${.12+pulse*.16})`;
+    ctx.beginPath();ctx.arc(0,0,18+pulse*5,0,Math.PI*2);ctx.stroke();
+    ctx.restore();
+  });
+}
+
+function drawTransitRoutes(t){
+  const seen=new Set();
+  ROUTE_NODE_LIST.forEach(route=>{
+    Object.values(node(route.id).neighbors).forEach(nextId=>{
+      const key=[route.id,nextId].sort().join(':');
+      if(seen.has(key))return;
+      seen.add(key);
+      const a=node(route.id),b=node(nextId);
+      const ay=a.y+P.h/2,by=b.y+P.h/2;
+      const secret=route.id.startsWith('secret_')&&nextId.startsWith('secret_');
+      ctx.strokeStyle=secret?`rgba(255,118,178,${.16+.05*Math.sin(t*3+a.x*.004)})`:`rgba(103,223,255,${.08+.04*Math.sin(t*2+a.x*.004)})`;
+      ctx.lineWidth=secret?3.2:2.2;
+      ctx.beginPath();ctx.moveTo(a.x+P.w/2,ay);ctx.lineTo(b.x+P.w/2,by);ctx.stroke();
+      if(secret){
+        ctx.strokeStyle='rgba(255,186,206,.14)';ctx.lineWidth=.65;
+        ctx.beginPath();ctx.moveTo(a.x+P.w/2,ay-8);ctx.lineTo(b.x+P.w/2,by-8);ctx.stroke();
+        ctx.beginPath();ctx.moveTo(a.x+P.w/2,ay+8);ctx.lineTo(b.x+P.w/2,by+8);ctx.stroke();
+      }
+    });
+  });
+  ROUTE_NODE_LIST.forEach(route=>{
+    const glow=.08+.05*Math.sin(t*3+route.x*.01);
+    ctx.fillStyle=`rgba(180,230,255,${route.id.startsWith('secret_')?.22:.12+glow})`;
+    ctx.beginPath();ctx.arc(route.x+P.w/2,route.y+P.h/2,route.id.startsWith('secret_')?4.6:3.4,0,Math.PI*2);ctx.fill();
+  });
+}
+
+function drawUnderwaterLandmarks(t){
+  LANDMARKS.forEach(mark=>{
+    if(mark.x+mark.w<camX-120||mark.x>camX+W+120)return;
+    if(mark.kind==='fishmarket'){
+      ctx.fillStyle='rgba(10,28,38,.86)';ctx.fillRect(mark.x,mark.y+34,mark.w,mark.h-34);
+      ctx.strokeStyle='rgba(90,180,220,.18)';ctx.lineWidth=1;ctx.strokeRect(mark.x,mark.y+34,mark.w,mark.h-34);
+      ctx.beginPath();ctx.moveTo(mark.x,mark.y+34);ctx.lineTo(mark.x+mark.w*.33,mark.y);ctx.lineTo(mark.x+mark.w*.66,mark.y+28);ctx.lineTo(mark.x+mark.w,mark.y-2);ctx.lineTo(mark.x+mark.w,mark.y+34);ctx.closePath();
+      ctx.fillStyle='rgba(8,18,28,.94)';ctx.fill();
+    }else if(mark.kind==='floibanen'){
+      ctx.fillStyle='rgba(8,22,34,.88)';ctx.fillRect(mark.x+28,mark.y+56,mark.w-56,mark.h-56);
+      ctx.strokeStyle='rgba(103,223,255,.18)';ctx.lineWidth=1;ctx.strokeRect(mark.x+28,mark.y+56,mark.w-56,mark.h-56);
+      ctx.fillStyle='rgba(200,170,86,.18)';ctx.fillRect(mark.x+60,mark.y+76,48,24);
+    }else if(mark.kind==='ulriken'){
+      ctx.fillStyle='rgba(10,26,40,.86)';ctx.fillRect(mark.x+72,mark.y+50,mark.w-144,mark.h-50);
+      ctx.strokeStyle='rgba(170,228,255,.18)';ctx.lineWidth=1;ctx.strokeRect(mark.x+72,mark.y+50,mark.w-144,mark.h-50);
+      ctx.strokeStyle='rgba(255,224,150,.28)';ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(mark.x+mark.w/2,mark.y+12);ctx.lineTo(mark.x+mark.w/2,mark.y+62);ctx.stroke();
+      ctx.fillStyle=`rgba(255,236,170,${.16+.08*Math.sin(t*3)})`;
+      ctx.beginPath();ctx.arc(mark.x+mark.w/2,mark.y+8,10,0,Math.PI*2);ctx.fill();
+    }else if(mark.kind==='nygard'){
+      for(let i=0;i<6;i++)drawKelp(mark.x+40+i*44,FLOOR_Y-4,84+Math.sin(i+mark.x*.01)*18,1.9,mark.x*.03+i+t*.2,t);
+    }else if(mark.kind==='marineholmen'){
+      ctx.fillStyle='rgba(8,22,34,.88)';ctx.fillRect(mark.x,mark.y+34,mark.w,mark.h-34);
+      ctx.strokeStyle='rgba(126,204,255,.2)';ctx.lineWidth=1;ctx.strokeRect(mark.x,mark.y+34,mark.w,mark.h-34);
+      for(let i=0;i<8;i++){
+        ctx.fillStyle=`rgba(146,214,255,${.08+.04*Math.sin(t*2+i)})`;
+        ctx.fillRect(mark.x+22+i*44,mark.y+54,18,44);
+      }
+    }else if(mark.kind==='puddefjord'){
+      [0,1,2].forEach(i=>{
+        const px=mark.x+40+i*128;
+        ctx.fillStyle='rgba(6,18,30,.9)';ctx.fillRect(px,mark.y+42,20,mark.h-42);
+        ctx.strokeStyle='rgba(103,223,255,.12)';ctx.strokeRect(px,mark.y+42,20,mark.h-42);
+      });
+      ctx.strokeStyle='rgba(80,160,220,.12)';ctx.lineWidth=2;
+      ctx.beginPath();ctx.moveTo(mark.x+10,mark.y+42);ctx.quadraticCurveTo(mark.x+mark.w*.45,mark.y-30,mark.x+mark.w-10,mark.y+42);ctx.stroke();
+    }else if(mark.kind==='bybanen'){
+      ctx.fillStyle='rgba(8,18,30,.92)';ctx.fillRect(mark.x,mark.y+24,mark.w,mark.h-24);
+      ctx.fillStyle='rgba(255,255,255,.04)';ctx.fillRect(mark.x+14,mark.y+36,mark.w-28,12);
+      ctx.fillRect(mark.x+14,mark.y+54,mark.w-28,7);
+    }else if(mark.kind==='nordnes'){
+      ctx.fillStyle='rgba(8,20,32,.86)';ctx.fillRect(mark.x,mark.y+36,mark.w,mark.h-36);
+      ctx.beginPath();ctx.moveTo(mark.x-2,mark.y+36);ctx.lineTo(mark.x+mark.w*.22,mark.y+6);ctx.lineTo(mark.x+mark.w*.44,mark.y+30);ctx.lineTo(mark.x+mark.w*.68,mark.y-4);ctx.lineTo(mark.x+mark.w,mark.y+36);ctx.closePath();
+      ctx.fillStyle='rgba(4,12,20,.94)';ctx.fill();
+    }
+  });
+}
+
+// ─────────────────────────────────────────────────
+// DRONES
+// ─────────────────────────────────────────────────
+function drawPatrolChambers(t){
+  DRONE_CHAMBERS.forEach(chamber=>{
+    if(chamber.x+chamber.w<camX-80||chamber.x>camX+W+80)return;
+    const drone=DRONES.find(dr=>dr.id===chamber.id);
+    if(!drone)return;
+    const pulse=.45+.55*Math.sin(t*3+chamber.x*.02);
+    const occupied=!drone.active||drone.houseT>0;
+    ctx.fillStyle=occupied?`rgba(8,22,36,${.34+pulse*.1})`:'rgba(6,16,26,.2)';
+    ctx.strokeStyle=occupied?`rgba(126,216,255,${.18+pulse*.18})`:'rgba(70,116,154,.14)';
+    ctx.lineWidth=1.2;
+    ctx.fillRect(chamber.x,chamber.y,chamber.w,chamber.h);
+    ctx.strokeRect(chamber.x,chamber.y,chamber.w,chamber.h);
+    ctx.strokeStyle=occupied?`rgba(255,226,164,${.22+pulse*.18})`:'rgba(112,144,176,.12)';
+    ctx.lineWidth=2.4;
+    ctx.beginPath();ctx.moveTo(chamber.doorX-12,chamber.doorY);ctx.lineTo(chamber.doorX+12,chamber.doorY);ctx.stroke();
+    if(occupied){
+      ctx.fillStyle=`rgba(188,240,255,${.16+pulse*.12})`;
+      ctx.fillRect(chamber.x+8,chamber.y+8,chamber.w-16,6);
+    }
+  });
+}
+
+function drawDrones(t){
+  DRONES.forEach(dr=>{
+    if(dr.x+260<camX||dr.x>camX+W+60)return;
+    const p=.5+.5*Math.sin(t*3+dr.x*.01);
+    const frightened=dr.mode==='frightened';
+    const stunned=dr.mode==='eyes';
+    const dormant=dr.mode==='dormant'||dr.mode==='house';
+    const dx=dr.dirKey==='left'?-22:22;
+    const hoverY=dr.y+Math.sin(t*4.5+dr.wobble)*5;
+
+    if(!stunned&&!dormant){
+      const cLen=frightened?120:220;
+      const cg=ctx.createRadialGradient(dr.x+dx,hoverY,8,dr.x+dx,hoverY,cLen);
+      cg.addColorStop(0,frightened?`rgba(255,191,107,.07)`:`rgba(55,180,225,.05)`);
+      cg.addColorStop(1,'rgba(50,130,180,0)');
+      ctx.fillStyle=cg;
+      ctx.beginPath();ctx.moveTo(dr.x,hoverY);
+      const ba=dr.dirKey==='left'?Math.PI:0;
+      ctx.arc(dr.x+dx,hoverY,cLen,ba-.48,ba+.48);
+      ctx.closePath();ctx.fill();
+    }
+
+    ctx.save();ctx.translate(dr.x,hoverY);if(dr.dirKey==='left')ctx.scale(-1,1);
+    ctx.globalAlpha=dormant?.42:1;
+    const hg=ctx.createLinearGradient(-19,0,19,0);
+    hg.addColorStop(0,'rgba(3,12,24,.96)');hg.addColorStop(.4,'rgba(6,20,36,.96)');hg.addColorStop(1,'rgba(2,8,18,.96)');
+    ctx.fillStyle=hg;
+    ctx.beginPath();ctx.ellipse(0,0,20,8,0,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(35,90,145,.38)';ctx.lineWidth=.9;ctx.stroke();
+    // Eye
+    ctx.fillStyle=dormant?`rgba(160,214,235,${.18+p*.04})`:stunned?`rgba(235,246,255,${.44+p*.1})`:frightened?`rgba(255,191,107,${.85+p*.08})`:`rgba(55,180,225,${.82+p*.1})`;
+    ctx.beginPath();ctx.arc(13,0,4+p*1.2,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.55)';ctx.beginPath();ctx.arc(13,0,1.4,0,Math.PI*2);ctx.fill();
+    // Thruster
+    ctx.fillStyle='rgba(2,7,15,.9)';ctx.beginPath();ctx.arc(-17,0,4.5,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle=`rgba(50,120,180,${.28+p*.18})`;ctx.lineWidth=.9;ctx.stroke();
+    const ps=t*6*(frightened?1.6:1);
+    ctx.strokeStyle=frightened?`rgba(255,191,107,${.36+p*.12})`:`rgba(55,160,205,${.3+p*.14})`;ctx.lineWidth=1.4;
+    ctx.beginPath();
+    ctx.moveTo(-17,-6);ctx.lineTo(-17+Math.cos(ps)*4,Math.sin(ps)*4);
+    ctx.moveTo(-17,6);ctx.lineTo(-17+Math.cos(ps+Math.PI)*4,Math.sin(ps+Math.PI)*4);
+    ctx.stroke();
+    if(!stunned&&!dormant&&Math.sin(t*(frightened?12:9))>.35){ctx.fillStyle=frightened?'rgba(255,191,107,.14)':'rgba(55,180,225,.12)';ctx.beginPath();ctx.arc(0,0,28,0,Math.PI*2);ctx.fill();}
+    if(dormant){ctx.strokeStyle=`rgba(160,214,235,${.08+p*.06})`;ctx.lineWidth=1;ctx.beginPath();ctx.arc(0,0,24,0,Math.PI*2);ctx.stroke();}
+    ctx.globalAlpha=1;
+    ctx.restore();
+  });
+}
+
+function drawBybanenEnemy(t){
+  if(SECRET_ENEMY.phase==='hidden')return;
+  const warning=SECRET_ENEMY.phase==='warning';
+  const charge=SECRET_ENEMY.phase==='charge';
+  const disrupted=SECRET_ENEMY.phase==='disrupted';
+  const pulse=.5+.5*Math.sin(t*(warning?6.5:charge?8.5:5.4));
+  ctx.save();ctx.translate(SECRET_ENEMY.x,SECRET_ENEMY.y);if(SECRET_ENEMY.dirKey==='left')ctx.scale(-1,1);
+  ctx.fillStyle=warning?'rgba(18,24,34,.88)':disrupted?'rgba(34,40,48,.94)':'rgba(20,108,74,.98)';ctx.fillRect(-36,-13,72,26);
+  ctx.strokeStyle=warning?'rgba(120,220,255,.38)':charge?'rgba(152,255,206,.58)':'rgba(112,232,166,.36)';ctx.lineWidth=1.2;ctx.strokeRect(-36,-13,72,26);
+  ctx.fillStyle='rgba(242,248,244,.94)';ctx.fillRect(-34,-11,68,6);
+  ctx.fillStyle='rgba(242,248,244,.92)';ctx.fillRect(-34,4,68,5);
+  ctx.fillStyle=warning?`rgba(120,220,255,${.14+pulse*.14})`:disrupted?`rgba(255,230,186,${.12+pulse*.1})`:`rgba(236,248,240,${.18+pulse*.12})`;ctx.fillRect(-18,-8,28,10);
+  ctx.fillStyle=charge?'rgba(255,214,148,.88)':'rgba(255,246,210,.72)';ctx.fillRect(16,-4,10,6);
+  for(let i=0;i<4;i++){
+    ctx.fillStyle=warning?`rgba(164,230,255,${.14+pulse*.1})`:`rgba(255,184,210,${.18+pulse*.08})`;
+    ctx.fillRect(-28+i*16,5,8,4);
+  }
+  ctx.strokeStyle=charge?`rgba(255,191,107,${.36+pulse*.22})`:'rgba(255,191,107,.28)';ctx.lineWidth=1.2;
+  ctx.beginPath();ctx.moveTo(-34,14);ctx.lineTo(34,14);ctx.stroke();
+  if(warning){
+    ctx.strokeStyle=`rgba(120,220,255,${.18+pulse*.18})`;ctx.lineWidth=2;
+    [34,54,78].forEach(r=>{ctx.beginPath();ctx.arc(26,0,r,-.28,.28);ctx.stroke();});
+  }
+  if(charge||SECRET_ENEMY.phase==='hunt'){
+    const beam=ctx.createRadialGradient(34,0,8,76,0,72);
+    beam.addColorStop(0,`rgba(255,196,144,${.22+pulse*.2})`);
+    beam.addColorStop(1,'rgba(255,196,144,0)');
+    ctx.fillStyle=beam;ctx.fillRect(10,-42,110,84);
+  }
+  if(disrupted){
+    ctx.fillStyle=`rgba(255,236,192,${.2+pulse*.08})`;
+    for(let i=0;i<5;i++)ctx.fillRect(-22+i*10,-18+Math.sin(t*12+i)*6,3,3);
+  }
+  ctx.restore();
+}
+
+function drawAssistArrow(x,y,dir,label,t){
+  const vec=DIR_VECTORS[dir]||DIR_VECTORS.right;
+  const pulse=.55+.45*Math.sin(t*6+x*.01+y*.01);
+  const tipX=vec.x*28,tipY=vec.y*28;
+  ctx.save();
+  ctx.translate(x,y-26);
+  ctx.strokeStyle=`rgba(255,234,184,${.36+pulse*.22})`;
+  ctx.fillStyle=`rgba(255,234,184,${.42+pulse*.24})`;
+  ctx.lineWidth=3;
+  ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(tipX,tipY);ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(tipX,tipY);
+  ctx.lineTo(tipX-vec.x*10-vec.y*6,tipY-vec.y*10+vec.x*6);
+  ctx.lineTo(tipX-vec.x*10+vec.y*6,tipY-vec.y*10-vec.x*6);
+  ctx.closePath();ctx.fill();
+  if(label){
+    ctx.font='700 11px "Trebuchet MS", sans-serif';
+    ctx.textAlign='center';
+    ctx.fillStyle=`rgba(255,244,214,${.62+pulse*.16})`;
+    ctx.fillText(label,0,-12);
+  }
+  ctx.restore();
+}
+
+function drawStopAssist(x,y,t){
+  const pulse=.5+.5*Math.sin(t*5+x*.014);
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.strokeStyle=`rgba(161,228,255,${.24+pulse*.24})`;
+  ctx.fillStyle=`rgba(161,228,255,${.05+pulse*.05})`;
+  ctx.lineWidth=2.2;
+  ctx.beginPath();ctx.arc(0,0,12+pulse*3,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.font='700 10px "Trebuchet MS", sans-serif';
+  ctx.textAlign='center';
+  ctx.fillStyle=`rgba(220,246,255,${.7+pulse*.12})`;
+  ctx.fillText(tr('stop').toUpperCase(),0,-18);
+  ctx.restore();
+}
+
+function drawObjectiveBeacon(t){
+  const target=getObjectiveTarget();
+  if(!target||!target.ob)return;
+  const ob=target.ob;
+  const pulse=.5+.5*Math.sin(t*4.8);
+  const playerX=P.x+P.w/2,playerY=P.y+P.h/2;
+  ctx.save();
+  ctx.setLineDash([8,10]);
+  ctx.strokeStyle=`rgba(255,231,166,${.16+pulse*.16})`;
+  ctx.lineWidth=2.4;
+  ctx.beginPath();ctx.moveTo(playerX,playerY);ctx.lineTo(ob.x,ob.y);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.translate(ob.x,ob.y);
+  ctx.strokeStyle=`rgba(255,231,166,${.55+pulse*.30})`;
+  ctx.fillStyle=`rgba(255,231,166,${.08+pulse*.08})`;
+  ctx.lineWidth=2.6;
+  ctx.beginPath();ctx.arc(0,0,24+pulse*7,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.beginPath();ctx.arc(0,0,7+pulse*2,0,Math.PI*2);ctx.fillStyle=`rgba(255,247,214,${.62+pulse*.26})`;ctx.fill();
+  ctx.font='700 10px "Trebuchet MS", sans-serif';
+  ctx.textAlign='center';
+  ctx.fillStyle=`rgba(255,247,214,${.78+pulse*.16})`;
+  ctx.fillText(tr('goTo'),0,-34);
+  ctx.fillText(lt(ob.label),0,42);
+  ctx.restore();
+}
+
+function drawRouteAssist(t){
+  if(!P.nextNodeId&&!tutorialActive())return;
+  const playerX=P.x+P.w/2,playerY=P.y+P.h/2;
+  if(P.nextNodeId){
+    const next=nodeCenter(P.nextNodeId);
+    ctx.save();
+    ctx.setLineDash([10,8]);
+    ctx.strokeStyle='rgba(255,255,255,.16)';
+    ctx.lineWidth=3;
+    ctx.beginPath();ctx.moveTo(playerX,playerY);ctx.lineTo(next.x,next.y);ctx.stroke();
+    ctx.restore();
+
+    const nextNode=node(P.nextNodeId);
+    const hasTurn=P.bufferDir&&nextNode.neighbors[P.bufferDir]&&P.bufferDir!==OPPOSITE_DIR[P.dirKey];
+    if(hasTurn)drawAssistArrow(next.x,next.y,P.bufferDir,tr('routeTurn'),t);
+    if((!anyMoveKeyHeld()||S.tutorialStage==='stop')&&!hasTurn)drawStopAssist(next.x,next.y,t);
+    return;
+  }
+  if(S.tutorialStage==='turn'){
+    const current=node(P.nodeId);
+    const previewDir=Object.keys(current.neighbors).find(dir=>dir!==P.dirKey&&dir!==OPPOSITE_DIR[P.dirKey]);
+    if(previewDir)drawAssistArrow(playerX,playerY,previewDir,tr('routeTryTurn'),t);
+  }
+}
+
+// ─────────────────────────────────────────────────
+// PARTICLES
+// ─────────────────────────────────────────────────
+function drawParticles(t){
+  PARTS.forEach(p=>{
+    ctx.globalAlpha=p.life;
+    if(p.type==='b'){
+      ctx.strokeStyle=`rgba(130,195,240,${p.life*.48})`;ctx.lineWidth=.6;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.stroke();
+      ctx.fillStyle=`rgba(180,225,255,${p.life*.05})`;ctx.fill();
+    } else if(p.type==='j'){
+      const jp=.5+.5*Math.sin(t*3+p.ph);
+      ctx.fillStyle=`rgba(80,220,195,${p.life*.1*jp})`;
+      ctx.beginPath();ctx.ellipse(p.x,p.y,p.r,p.r*.55,0,0,Math.PI);ctx.fill();
+      ctx.strokeStyle=`rgba(100,230,205,${p.life*.16})`;ctx.lineWidth=.7;ctx.stroke();
+      for(let ti=0;ti<4;ti++){
+        const tx=p.x+(ti-1.5)*p.r*.5;
+        ctx.strokeStyle=`rgba(78,212,185,${p.life*.09})`;ctx.lineWidth=.4;
+        ctx.beginPath();ctx.moveTo(tx,p.y+p.r*.55);
+        ctx.quadraticCurveTo(tx+Math.sin(t*2+ti)*7,p.y+p.r*1.35,tx,p.y+p.r*1.9);ctx.stroke();
+      }
+    }
+    ctx.globalAlpha=1;
+  });
+}
+
+// ─────────────────────────────────────────────────
+// PLAYER
+// ─────────────────────────────────────────────────
+function drawPlayer(t){
+  ctx.save();ctx.translate(P.x+P.w/2,P.y+P.h/2);if(P.dir<0)ctx.scale(-1,1);
+  const swim=Math.sin(P.anim);
+  ctx.rotate(Math.atan2(P.vy,Math.abs(P.vx))*0.28);
+  // Suit
+  const sg=ctx.createLinearGradient(-10,-14,10,14);
+  sg.addColorStop(0,'rgba(5,15,26,.96)');sg.addColorStop(1,'rgba(2,8,18,.96)');
+  ctx.fillStyle=sg;ctx.beginPath();ctx.ellipse(0,2,9,14,0,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='rgba(35,90,145,.38)';ctx.lineWidth=.8;ctx.stroke();
+  // Helmet
+  ctx.fillStyle='rgba(6,19,34,.92)';ctx.beginPath();ctx.arc(0,-12,8,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle='rgba(55,184,220,.28)';ctx.lineWidth=.9;ctx.stroke();
+  // Visor glass
+  ctx.fillStyle='rgba(55,184,220,.16)';ctx.beginPath();ctx.arc(1.5,-12,5.5,0,Math.PI*2);ctx.fill();
+  // Headlight beam
+  const hP=.7+.3*Math.sin(t*2.5);
+  const hg=ctx.createRadialGradient(9,-12,0,9,-12,18);
+  hg.addColorStop(0,`rgba(55,200,245,${.55*hP})`);hg.addColorStop(1,'rgba(55,200,245,0)');
+  ctx.fillStyle=hg;ctx.beginPath();ctx.arc(9,-12,18,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle=`rgba(200,242,255,${.88*hP})`;ctx.beginPath();ctx.arc(9,-12,2.2,0,Math.PI*2);ctx.fill();
+  // Arms
+  ctx.strokeStyle='rgba(5,15,26,.95)';ctx.lineWidth=4.5;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(-2,-2);ctx.quadraticCurveTo(-13+swim*4,-8,-17+swim*3,-4);ctx.stroke();
+  // Legs
+  ctx.lineWidth=3.8;
+  ctx.beginPath();ctx.moveTo(-1,12);ctx.quadraticCurveTo(-5+swim*4.5,17,-3+swim*2.5,21);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(2,12);ctx.quadraticCurveTo(5-swim*4.5,17,3-swim*2.5,21);ctx.stroke();
+  // Bubble trail
+  if(Math.abs(P.vx)>.3||Math.abs(P.vy)>.3){
+    ctx.fillStyle='rgba(175,225,255,.22)';
+    ctx.beginPath();ctx.arc(-11+swim*3,-4,1.8,0,Math.PI*2);ctx.fill();
+  }
+  ctx.restore();
+}
+
+// ─────────────────────────────────────────────────
+// DEPTH FOG + RAIN BELOW
+// ─────────────────────────────────────────────────
+function drawDepthFog(t){
+  // Player depth-based fog
+  const depth=(P.y-SURFACE_Y)/(FLOOR_Y-SURFACE_Y);
+  const fog=ctx.createRadialGradient(P.x-camX+LP,P.y,0,P.x-camX+LP,P.y,280);
+  fog.addColorStop(0,'rgba(1,7,14,0)');
+  fog.addColorStop(.6,`rgba(1,7,14,${depth*.22})`);
+  fog.addColorStop(1,`rgba(1,7,14,${depth*.5})`);
+  ctx.fillStyle=fog;ctx.fillRect(LP,SURFACE_Y,W-LP-RP,H-SURFACE_Y);
+
+  // Headlight forward glow in water
+  const lx=P.x-camX+LP+P.dir*18,ly=P.y+P.h/2;
+  const lg=ctx.createRadialGradient(lx,ly,0,lx,ly,150);
+  lg.addColorStop(0,'rgba(35,95,135,.055)');lg.addColorStop(1,'rgba(35,95,135,0)');
+  ctx.fillStyle=lg;ctx.fillRect(LP,SURFACE_Y,W-LP-RP,H-SURFACE_Y);
+
+  // Surveillance glow edge
+  if(S.surveillance>32){
+    const sa=(S.surveillance-32)/175;
+    ctx.strokeStyle=`rgba(58,184,216,${sa*.55})`;ctx.lineWidth=2;
+    ctx.shadowColor='rgba(58,184,216,.28)';ctx.shadowBlur=sa*28;
+    ctx.strokeRect(LP,0,W-LP-RP,H);ctx.shadowBlur=0;
+  }
+}
+
+function drawRainBelow(t){
+  // Faint rain entering the water from above — only near surface
+  ctx.save();ctx.beginPath();ctx.rect(LP,SURFACE_Y,W-LP-RP,H*.12);ctx.clip();
+  RAIN.forEach(r=>{
+    const sx=r.x-camX+LP;if(sx<LP||sx>W-RP)return;
+    const sy=r.y*H;if(sy<SURFACE_Y)return;
+    const depthFade=1-(sy-SURFACE_Y)/(H*.12);if(depthFade<=0)return;
+    ctx.strokeStyle=`rgba(70,135,180,${r.a*.18*depthFade})`;ctx.lineWidth=.3;
+    ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx+r.len*r.wx*W*.12,sy+r.len*H*.4);ctx.stroke();
+  });
+  ctx.restore();
+}
+
+// ─────────────────────────────────────────────────
+// PANEL MASKS
+// ─────────────────────────────────────────────────
+function drawPanelMasks(){
+  ctx.fillStyle='rgba(1,6,14,.98)';
+  ctx.fillRect(0,0,LP,H);
+  ctx.fillRect(W-RP,0,RP,H);
+  // Divider glows
+  const lg1=ctx.createLinearGradient(LP-2,0,LP+3,0);
+  lg1.addColorStop(0,'rgba(58,184,216,0)');lg1.addColorStop(.5,'rgba(58,184,216,.08)');lg1.addColorStop(1,'rgba(58,184,216,0)');
+  ctx.fillStyle=lg1;ctx.fillRect(LP-2,0,5,H);
+  const lg2=ctx.createLinearGradient(W-RP-2,0,W-RP+3,0);
+  lg2.addColorStop(0,'rgba(58,184,216,0)');lg2.addColorStop(.5,'rgba(58,184,216,.08)');lg2.addColorStop(1,'rgba(58,184,216,0)');
+  ctx.fillStyle=lg2;ctx.fillRect(W-RP-2,0,5,H);
+}
+
+// ════════ UI UPDATE ════════
+let logTick=0;
+const LOG_HISTORY=[];
+function normalizeLogMessage(msg){
+  if(msg&&typeof msg==='object')return msg;
+  return STRING_NO[msg]||msg;
+}
+function resolveLogMessage(msg){
+  if(msg&&typeof msg==='object')return LANG.current==='en'?(msg.en||msg.no):msg.no;
+  return lt(normalizeLogMessage(msg));
+}
+function renderLogHistory(){
+  const log=document.getElementById('elog');
+  if(!log)return;
+  log.innerHTML='';
+  LOG_HISTORY.slice(-22).slice().reverse().forEach(entry=>{
+    const e=document.createElement('div');e.className='lge '+entry.type;
+    const h=Math.floor(20+entry.tick/30).toString().padStart(2,'0');
+    const m=Math.floor((entry.tick*2)%60).toString().padStart(2,'0');
+    const s=Math.floor((entry.tick*7)%60).toString().padStart(2,'0');
+    e.innerHTML=`<span class="lts">${h}:${m}:${s}</span>${resolveLogMessage(entry.msg)}`;
+    log.appendChild(e);
+  });
+}
+function addLog(msg,type=''){
+  logTick++;
+  LOG_HISTORY.push({tick:logTick,type,msg:normalizeLogMessage(msg)});
+  renderLogHistory();
+}
+
+function updateUI(){
+  renderLanguageChrome();
+  const pairs=[['vst','status','bst'],['vsv','surveillance','bsv'],['ver','erasure','ber'],
+    ['vgu','guilt','bgu'],['vfr','friction','bfr'],['vce','censorship','bce']];
+  pairs.forEach(([vId,key,bId])=>{
+    const el=document.getElementById(vId);if(el)el.textContent=Math.round(S[key]);
+    const f=document.querySelector('#'+bId+' .sbf');if(f)f.style.width=S[key]+'%';
+  });
+  const ts=document.getElementById('tv-st'),tsu=document.getElementById('tv-sv'),te=document.getElementById('tv-er');
+  if(ts){ts.textContent=Math.round(S.status);ts.className='tsv'+(S.status<30?' danger':S.status<60?' warn':'');}
+  if(tsu){tsu.textContent=Math.round(S.surveillance);tsu.className='tsv'+(S.surveillance>70?' danger':S.surveillance>40?' warn':'');}
+  if(te){te.textContent=Math.round(S.erasure);te.className='tsv'+(S.erasure>60?' danger':S.erasure>30?' warn':'');}
+  [['sr-st',S.status<30?'danger':S.status<60?'warn':''],
+   ['sr-sv',S.surveillance>70?'high':S.surveillance>40?'warn':''],
+   ['sr-er',S.erasure>60?'danger':S.erasure>30?'warn':''],
+   ['sr-gu',S.guilt>60?'warn':''],['sr-fr',S.friction>60?'warn':''],
+   ['sr-ce',S.censorship>60?'danger':S.censorship>40?'warn':'']
+  ].forEach(([id,cls])=>{
+    const el=document.getElementById(id);if(!el)return;
+    el.classList.remove('danger','warn','high');if(cls)el.classList.add(cls);
+  });
+  // Depth + pressure instruments
+  const depth=Math.round(((P.y-SURFACE_Y)/(FLOOR_Y-SURFACE_Y))*47);
+  document.getElementById('depth-v').textContent=depth.toString().padStart(3,'0');
+  document.getElementById('press-v').textContent=(1+depth*.1).toFixed(1);
+  const ctxLabel=document.getElementById('ctx-lbl');
+  const actBtn=document.getElementById('btn-act');
+  const stopBtn=document.getElementById('btn-stop');
+  const helpBtn=document.getElementById('btn-help');
+  const touchAct=document.getElementById('touch-interact');
+  const touchStop=document.getElementById('touch-stop');
+  const touchHelper=document.getElementById('touch-helper');
+  const inSecretRoute=(P.nodeId&&P.nodeId.startsWith('secret_'))||(P.nextNodeId&&P.nextNodeId.startsWith('secret_'));
+  const bossLabel=SECRET_ENEMY.phase==='warning'?tr('bossWarning'):SECRET_ENEMY.phase==='charge'?tr('bossCharge'):SECRET_ENEMY.phase==='disrupted'?tr('bossDisrupted'):tr('bossHunt');
+  if(ctxLabel)ctxLabel.textContent=tutorialActive()?getTutorialLabel():inSecretRoute&&SECRET_ENEMY.phase!=='hidden'?bossLabel:P.powerT>0?`${tr('roundLabel')} ${S.round} · ${tr('clarityWave')} · ${tr('lightTrails')} ${S.trailCount}/${TOTAL_TRAIL_ORBS} · Etikk ${S.ethicCount}/${ETHIC_PICKUPS.length}`:`${tr('roundLabel')} ${S.round} · ${tr('patrolPhase')}: ${(getGlobalEnemyMode()==='scatter'?tr('phaseScatter'):tr('phaseChase'))} · ${tr('lightTrails')} ${S.trailCount}/${TOTAL_TRAIL_ORBS} · Etikk ${S.ethicCount}/${ETHIC_PICKUPS.length} · ${tr('clickRoute')}`;
+  if(actBtn)actBtn.innerHTML=P.near?`${tr('explore')}<span class="ak">[E]</span>`:`${tr('nextGoal')}<span class="ak">[E]</span>`;
+  if(stopBtn){
+    stopBtn.disabled=!P.nextNodeId&&!anyMoveKeyHeld();
+    stopBtn.innerHTML=`${tr('stop')}<span class="ak">[X]</span>`;
+  }
+  const mapBtn=document.getElementById('btn-map');
+  const calmBtn=document.getElementById('btn-calm');
+  if(mapBtn)mapBtn.innerHTML=`${tr('routeMap')}<span class="ak">[M]</span>`;
+  if(calmBtn)calmBtn.innerHTML=`${tr('breather')}<span class="ak">[C]</span>`;
+  if(helpBtn)helpBtn.textContent=helpBtn.disabled?tr('help'):tr('shadowguest');
+  if(touchAct){
+    const label=P.near?tr('explore'):tr('nextGoal');
+    touchAct.textContent=label;
+    touchAct.setAttribute('aria-label',label);
+  }
+  if(touchStop){
+    const label=P.nextNodeId?tr('stop'):tr('stop');
+    touchStop.textContent=label;
+    touchStop.setAttribute('aria-label',label);
+  }
+  if(touchHelper){
+    const label=helpBtn&&helpBtn.disabled?tr('help'):tr('shadowguest');
+    touchHelper.textContent=label;
+    touchHelper.setAttribute('aria-label',tr('helperMenu'));
+  }
+  updateStoryCard();
+}
+
+function updateClock(){
+  const d=new Date(),h=d.getHours().toString().padStart(2,'0'),m=d.getMinutes().toString().padStart(2,'0'),s=d.getSeconds().toString().padStart(2,'0');
+  document.getElementById('clock').textContent=`◈ ${h}:${m}:${s}`;
+}
+
+// ════════ GAME ACTIONS ════════
+function breakRule(sev=10,witnessed=true){
+  if(S.go)return;
+  if(witnessed){S.surveillance=cl(S.surveillance+sev*1.15);flash();}
+  if(sev>12)chroma();
+  snd(sev>16?'heavy':sev>8?'alarm':'beep');
+  S.status=cl(S.status-sev*.75);S.erasure=cl(S.erasure+sev*.55);
+  S.guilt=cl(S.guilt+sev*.35);S.friction=cl(S.friction+sev*.65);
+  if(S.surveillance>60||S.erasure>45)S.censorship=cl(S.censorship+sev*.45);
+  shake(sev);glAll();
+  setTimeout(()=>updateUI(),360);
+  if(S.friction>55)maybeShowFr();
+  showGW();checkEndings();
+  for(let i=0;i<5;i++)spawnBub(P.x+P.w/2,P.y-8,sev>12);
+}
+
+function obeyP(){
+  if(S.go)return;
+  S.surveillance=cl(S.surveillance-4);S.friction=cl(S.friction+2);S.censorship=cl(S.censorship+3);
+  addLog(lt('Du tok en pustepause. Sporene roer seg, men stemmen blir litt stillere.'),'i');snd('beep');updateUI();checkEndings();
+}
+
+function stopAtNextNode(){
+  if(S.go)return;
+  clearHeldDirections();
+  P.desiredDir=null;
+  P.bufferDir=null;
+  P.tapDir=null;
+  if(P.nextNodeId)addLog({no:'Du legger inn stopp i neste kryss.',en:'You set a stop at the next junction.'}, 'i');
+  updateUI();
+}
+
+function handlePrimaryAction(){
+  if(S.go)return;
+  if(P.near)tryInteract();
+  else if(!steerTowardCurrentObjective())showMoveMenu();
+}
+
+const FMS=['Appen vil vite mer enn du må dele. Pust først.','Ventebølge: sjekk personvern sammen med en voksen du stoler på.',
+  'Ruten roer seg. Det er lov å ta det steg for steg.','Noen valg trenger et ja før de deles.',
+  'Pausebølge: ikke alt må publiseres.','Trygghetsstopp: finn noen du kan være hele deg med.',
+  'Litt tregt her nede. Bruk tiden til å tenke på samtykke.','Ventebølge: hvilke spor vil du egentlig legge igjen?'];
+let frOn=false;
+function maybeShowFr(){
+  if(frOn||Math.random()>.38)return;frOn=true;
+  const msg=FMS[Math.floor(Math.random()*FMS.length)];
+  document.getElementById('frm').textContent=lt(msg);
+  const p=document.getElementById('frpop');p.classList.add('show');
+  const f=document.getElementById('frbf');const d=2300+Math.random()*3000;
+  f.style.transition=`width ${d}ms linear`;f.style.width='100%';
+  addLog({no:`Friksjon: "${msg}"`,en:`Friction: "${lt(msg)}"`},'i');
+  setTimeout(()=>{p.classList.remove('show');f.style.transition='none';f.style.width='0%';frOn=false;},d);
+}
+
+const GW=['Spør før du deler bilde, navn eller posisjon.','Queer barn fortjener trygge rom på skjerm også.',
+  'Det er lov å be en voksen om hjelp med personvern.','Fjellene husker Bergen, men apper trenger ikke alt.',
+  'Privatliv er omsorg, ikke hemmelighet.','En liten pause kan gi et klokere digitalt valg.',
+  'Noen trenger at du ser dem før skjermen gjør det.','Vær deg selv. Del med omtanke.'];
+let gwOn=false;
+function showGW(){
+  if(gwOn||S.guilt<18||Math.random()>.3)return;gwOn=true;
+  const e=document.getElementById('gwsp');
+  e.textContent=lt(GW[Math.floor(Math.random()*GW.length)]);e.classList.add('show');
+  setTimeout(()=>{e.classList.remove('show');setTimeout(()=>{gwOn=false;},700);},3200);
+}
+
+function showWarn(text){
+  const b=document.getElementById('warn-b');b.textContent='⬡ '+text+' ⬡';
+  b.classList.add('show');snd('warn');setTimeout(()=>b.classList.remove('show'),2800);
+}
+
+function showInteractPopup(title,desc,opts){
+  document.getElementById('ipt').textContent=title;
+  document.getElementById('ipd').textContent=desc;
+  const a=document.getElementById('ipa');a.innerHTML='';
+  opts.forEach(o=>{
+    const b=document.createElement('button');b.className='ab '+(o.c||'');
+    b.textContent=o.l;b.onclick=o.a;a.appendChild(b);
+  });
+  document.getElementById('ipop').classList.add('show');
+}
+function closeIP(){document.getElementById('ipop').classList.remove('show');}
+
+function tryInteract(){
+  if(!P.near||S.go)return;
+  const ob=P.near;
+  if(ob.minStatus&&S.status<ob.minStatus){
+    addLog(lt('Porten åpner seg ikke ennå. Du trenger mer glød først.'),'d');breakRule(6,true);snd('alarm');showWarn(lt('MER GLØD TRENGS'));return;
+  }
+  showInteractPopup(lt(ob.label),lt(ob.desc),ob.opts.map(o=>({l:lt(o.l),c:o.c,a:()=>{closeIP();handleAct(o.a,ob);}})));
+}
+
+function handleAct(act,ob){
+  switch(act){
+    case'comply':
+      if(!S.completedObjectives.has('check')){S.completedObjectives.add('check');addLog(lt('Bryggen-portrommet viser hvordan sted, tid og vane raskt blir til data.'),'w');S.surveillance=cl(S.surveillance+3);snd('beep');checkObjs();updateUI();}break;
+    case'ignore':breakRule(10,true);showWarn(lt('MØNSTERET FORTSETTER'));addLog(lt('Du svømte forbi portrommet. Dronene fikk fortsette å lese rutinen din i fred.'),'d');break;
+    case'ride_floi':
+      S.floiRideT=120;P.graceT=Math.max(P.graceT,90);snapPlayerToNode('sky_2860');P.nextNodeId=null;
+      addLog(lt('Fløibanen drar deg opp fjellsiden mot Fløyen. Bergen åpner seg i lys og regn bak deg.'),'i');
+      showWarn(lt('FLØIBANEN STIGER'));snd('floi');updateUI();break;
+    case'claim_fyr':
+      ob.used=true;S.completedObjectives.add('term');S.status=cl(S.status+5);S.surveillance=cl(S.surveillance-4);
+      addLog(lt('Du henter Fjellfyret. Nå blir signalene rundt byen lettere å se og snakke om.'),'g');
+      addLog(lt('Lærdom: systemer kan merke nærvær over tid uten å kjenne hele deg.'),'i');
+      showWarn(lt('FJELLFYR HENTET'));snd('success');checkObjs();updateUI();
+      for(let i=0;i<10;i++)spawnBub(ob.x+20+Math.random()*40,ob.y-20,true);break;
+    case'view_ulriken':
+      S.ulrikenSeen=true;S.surveillance=cl(S.surveillance-2);S.status=cl(S.status+2);
+      addLog(lt('Fra Ulriken ser du Bergen som et kart av tid, høyde og vaner. Slik kan små signaler bli til store mønstre.'),'i');
+      showWarn(lt('ULRIKEN HOTSPOT'));snd('beep');checkObjs();updateUI();break;
+    case'help_e':
+      ob.used=true;S.completedObjectives.add('erased_helped');breakRule(6,true);S.guilt=cl(S.guilt-10);S.status=cl(S.status+4);
+      addLog(lt('Du svømmer ved siden av skygjesten og setter ord på det som føltes uklart.'),'g');
+      addLog(lt('"Takk. Det hjelper når noen skjønner at overvåking også kan merkes i kroppen."'),'g');
+      snd('success');document.getElementById('btn-help').disabled=true;checkObjs();break;
+    case'abandon':S.guilt=cl(S.guilt+10);updateUI();addLog(lt('Du svømte videre. Boblene kjennes tyngre.'),'w');break;
+    case'copy_r':ob.used=true;breakRule(5,true);addLog(lt('Du fant tre enkle ting som faktisk hjelper: sjekk tillatelser, slå av unødig sporing og spør før du deler om andre.'),'g');S.guilt=cl(S.guilt-12);updateUI();break;
+    case'exit':S.completedObjectives.add('gate');checkObjs();S.completedObjectives.has('erased_helped')?triggerEnd('witness'):triggerEnd('erased');break;
+    case'close':break;
+  }
+}
+
+// MENU BUTTONS
+function showMoveMenu(){
+  if(S.go)return;
+  const opts=INTERACTABLES.map(ob=>({
+    l:'→ '+lt(ob.label)+(ob.minStatus&&S.status<ob.minStatus?(LANG.current==='en'?' [LOCKED]':' [SPERRET]'):''),
+    c:ob.type==='gate'?'dg':ob.type==='terminal'||ob.type==='erased'||ob.type==='lift'||ob.type==='ulriken'?'rs':'',
+    a:()=>{
+      closeIP();if(ob.minStatus&&S.status<ob.minStatus){addLog({no:'Mer glød trengs før du kan hente denne regelen.',en:'You need more glow before you can collect this rule.'},'d');return;}
+      snapPlayerToNode(ob.nodeId);P.nextNodeId=null;P.vx=0;P.vy=0;
+      addLog({no:`Du svømmer mot ${ob.label}.`,en:`You swim toward ${lt(ob.label)}.`},'i');snd('move');
+    }
+  }));
+  if(S.secretUnlocked)opts.splice(opts.length-1,0,{l:'→ '+lt('HEMMELIG BYBANETUNNEL'),c:'dg',a:()=>{closeIP();snapPlayerToNode('secret_7340');addLog({no:'Du følger ekkoet ned i den gamle Bybanetunnelen.',en:'You follow the echo down into the old light rail tunnel.'},'w');snd('move');}});
+  opts.push({l:lt('[ Flyt Her ]'),c:'',a:closeIP});
+  showInteractPopup(lt('RUTEKART'),lt('Samle lysspor som Pac-Man-prikker, ta Fløibanen opp til fjelllyset, og bruk Ulriken som utsiktshotspot når du vil forstå mønsteret.'),opts);
+}
+function showResistMenu(){
+  if(S.go)return;
+  showInteractPopup(lt('PRIDEVALG'),lt('Prøv små digitale valg: mindre sporing, mer samtykke og tydeligere ord.'),[
+    {l:lt('[ Skru Av Sporingssignal ]'),c:'dg',a:()=>{closeIP();breakRule(14,true);showWarn(LANG.current==='en'?'THE TRACKING NOTICES':'SPORINGEN MERKER DET');addLog(lt('Du slo av sporingssignalet et øyeblikk. Havet la merke til det.'),'d');}},
+    {l:lt('[ Si Høyt: Vær Deg Selv ]'),c:'rs',a:()=>{
+      closeIP();if(S.censorship>80){addLog(lt('Ordene sitter fast. Finn en trygg voksen eller venn og prøv igjen.'),'w');return;}
+      breakRule(10,true);addLog(lt('Du sa det høyt: vær deg selv. Signalet glitret gjennom vannet.'),'g');
+    }},
+    {l:lt('[ Tilbake ]'),c:'',a:closeIP},
+  ]);
+}
+function showHelpMenu(){
+  if(S.go)return;
+  const ob=INTERACTABLES.find(o=>o.id==='erased');
+  if(ob)showInteractPopup(lt('SKYGJEST'),lt('"Kan du svømme ved siden av meg? Jeg vil slippe at appene vet mer om livet mitt enn jeg selv har sagt ja til."'),[
+    {l:lt('[ Svøm Sammen Nå ]'),c:'rs',a:()=>{closeIP();handleAct('help_e',ob);}},
+    {l:lt('[ Litt Senere ]'),c:'',a:()=>{closeIP();S.guilt=cl(S.guilt+8);updateUI();addLog(lt('Du venter litt. Samvittigheten kruser videre.'),'w');}},
+  ]);
+}
+
+// ════════ OBJECTIVES & ENDINGS ════════
+function checkObjs(){
+  if(objIdx>=OBJS.length)return;
+  const o=OBJS[objIdx];
+  if(o&&o.check()){
+    const finishedText=LANG.current==='en'?OBJS_EN[objIdx].t:o.t;
+    addLog(`${lt('MINI PRIDE FULLFØRT')}: ${finishedText}`,'g');snd('success');objIdx++;
+    if(objIdx<OBJS.length){
+      const nextText=LANG.current==='en'?OBJS_EN[objIdx].t:OBJS[objIdx].t;
+      addLog(`${lt('NESTE STASJON')}: ${nextText}`,'i');
+    }else addLog(lt('HELE EVENTYRET ER FULLFØRT. Ta lyset med deg videre.'),'g');
+  }
+  renderObjectivePanel();
+}
+function checkEndings(){
+  if(S.go)return;
+  if(S.erasure>=98)triggerEnd('erased');
+  else if(S.censorship>=98)triggerEnd('compliant');
+}
+function triggerEnd(kind){
+  if(S.go)return;S.go=true;
+  const E=LANG.current==='en'?{
+    erased:{t:'LOST GLOW',c:'#ff6b78',b:'Too many drones, too little calm\nand too many traces you never had time to see\nmade the city heavy.\nTry again with more clarity bubbles,\ncalmer route choices and better pauses.'},
+    compliant:{t:'QUIET MODE',c:'#a3d8ee',b:'You moved onward by making yourself small.\nNext time you can practise clearer boundaries,\nmore help and less unnecessary tracking.\nTechnology should not require silence to feel safe.'},
+    witness:{t:'RAINBOW LIGHT',c:'#78f0ba',b:'You made it through Bergen under water\nand learned what many never get explained: \na phone can reveal habits, places and patterns\neven when you are simply living your life.\nNow you carry three rules back up:\nCheck permissions. Turn off tracking you do not need.\nAsk before sharing someone else’s photo, name or location.'},
+  }:{
+    erased:{t:'MISTET GLØD',c:'#ff6b78',b:'For mange droner, for lite ro\nog for mange spor du aldri rakk å se\ngjorde byen tung.\nPrøv igjen med flere klarhetsbobler,\nroligere rutevalg og bedre pauser.'},
+    compliant:{t:'STILLE MODUS',c:'#a3d8ee',b:'Du kom deg videre ved å gjøre deg liten.\nNeste gang kan du øve på tydeligere grenser,\nmer hjelp og mindre unødvendig sporing.\nTeknologi skal ikke kreve stillhet for å føles trygg.'},
+    witness:{t:'REGNBUELYS',c:'#78f0ba',b:'Du kom gjennom Bergen under vann\nog lærte det mange aldri får forklart: \ntelefonen kan avsløre vaner, steder og mønstre\nselv når du bare lever livet ditt.\nNå tar du tre regler med opp:\nSjekk tillatelser. Skru av sporing du ikke trenger.\nSpør før du deler andres bilde, navn eller posisjon.'},
+  };
+  const e=E[kind];
+  setTimeout(()=>{
+    const sc=document.getElementById('endscrn');
+    document.getElementById('end-t').textContent=e.t;
+    document.getElementById('end-t').style.color=e.c;
+    document.getElementById('end-b').textContent=e.b;
+    sc.classList.add('show');snd(kind==='witness'?'success':'heavy');
+  },1000);
+}
+
+// ════════ RESET ════════
+function resetGame(){
+  Object.assign(S,{status:100,surveillance:0,erasure:0,guilt:0,friction:0,censorship:0,go:false,tick:0,enemyClock:0,secretUnlocked:false,completedObjectives:new Set(),hasSeenErased:false,tutorialStage:'move',tutorialCountdown:0,tutorialTurnDir:null,lastEnemyMode:null,trailCount:0,ethicCount:0,lessonText:null,lessonT:0,round:1,roundClearing:false,roundAdvanceT:0,floiRideT:0,ulrikenSeen:false});
+  objIdx=0;logTick=0;camX=0;
+  snapPlayerToNode('low_220');P.nextNodeId=null;P.vx=0;P.vy=0;P.dir=1;P.dirKey='right';P.desiredDir=null;P.bufferDir=null;P.tapDir=null;P.powerT=0;P.graceT=480;
+  PARTS.length=0;RIPPLES.length=0;INTERACTABLES.forEach(o=>o.used=false);resetRoundCollectibles();
+  DRONES.forEach((dr,i)=>Object.assign(dr,makeDrone(DRONE_SPECS[i],i)));
+  resetSecretEnemy();
+  document.getElementById('endscrn').classList.remove('show');
+  LOG_HISTORY.length=0;
+  document.getElementById('elog').innerHTML='';
+  document.getElementById('warn-b').classList.remove('show');
+  document.getElementById('warn-b').textContent='';
+  document.getElementById('btn-help').disabled=true;
+  document.getElementById('zone-lbl').textContent=lt(ZONES[0].label);
+  lastZoneEcho='';
+  updateUI();
+  addLog(lt('MINI PRIDE STARTET. Bryggen er satt i trygg øvingsmodus før patruljene går i gang.'),'i');
+  addLog(lt('Hold en retning for å ta første strekk, sving i et kryss og slipp for å stoppe trygt.'),'i');
+  addLog(lt('Huskeregel: mobilen kan avsløre mer enn det du poster.'),'w');
+}
+
+// ════════ BOOT ════════
+function runBoot(){
+  ['bl1','bl2','bl3','bl4','bl5'].forEach((id,i)=>setTimeout(()=>document.getElementById(id).classList.add('show'),160+i*280));
+  const bar=document.getElementById('bbf'),fin=document.getElementById('bfin'),screen=document.getElementById('ldg');
+  let pct=0;const bi=setInterval(()=>{pct+=1.6;bar.style.width=Math.min(pct,100)+'%';if(pct>=100){clearInterval(bi);fin.classList.add('show');}},24);
+  setTimeout(()=>{
+    screen.classList.add('h');
+    setTimeout(()=>{
+      screen.style.display='none';
+      addLog(lt('Bergen ligger mørk og grønn over deg. Først får du en trygg øving på å gå, svinge og stoppe i Bryggen.'), 'i');
+      setTimeout(()=>addLog(lt('Når øvingen er ferdig, våkner patruljene som arkadefiender: én etter én, med egne personligheter og egne måter å lese spor på.'), 'w'),500);
+      setTimeout(()=>addLog(lt('Bryggen, Nordnes og Nygårdsparken ligger under vann i dette 2063-kartet. Fløyen og Ulriken står over vann som utsiktspunkter.'), 'i'),1100);
+      setTimeout(()=>addLog(lt('Mini Pride-regel lastet: sjekk tillatelser, slå av unødig sporing og spør før du deler.'), 'g'),1800);
+      setTimeout(()=>addLog(lt('Center for Digital Narrative minner deg om at teknologi ikke bare samler data, men også skriver historier om oss.'), 'w'),2600);
+    },750);
+  },2900);
+}
+
+// ════════ MAIN LOOP ════════
+let lastFrame=0;
+function loop(ts){lastFrame=ts;update(ts);draw(ts);requestAnimationFrame(loop);}
+
+window.addEventListener('load',()=>{
+  renderLanguageChrome();
+  runBoot();resetGame();setupTouchControls();setupPointerSteering();setInterval(updateClock,1000);
+  for(let i=0;i<3;i++)spawnJelly();
+  requestAnimationFrame(loop);
+});
+
+window.addEventListener('resize',()=>{
+  gc.width=window.innerWidth;gc.height=window.innerHeight;
+});
+</script>
+</body>
+</html>

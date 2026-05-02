@@ -2,7 +2,7 @@
 <html lang="no">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="X-Frame-Options" content="ALLOWALL">
     <title>Regnbuenatt 2026 - Den Forbudte Skogen</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -894,8 +894,8 @@
 
         .creature-card.artist-reveal-card[data-creature="draug"].show-artist .artist-image::before {
             background:
-                radial-gradient(ellipse at 50% 72%, rgba(42, 160, 210, 0.42), transparent 60%),
-                linear-gradient(180deg, transparent 0%, rgba(14, 64, 92, 0.5) 72%, rgba(210, 242, 255, 0.2) 100%);
+                radial-gradient(ellipse at 50% 72%, rgba(185, 104, 255, 0.42), transparent 60%),
+                linear-gradient(180deg, transparent 0%, rgba(52, 10, 80, 0.5) 72%, rgba(220, 180, 255, 0.2) 100%);
         }
 
         .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image::before {
@@ -2270,6 +2270,212 @@
             }
         }
 
+        /* ---------------------------------------------------------------
+           NETLIFY LANDING PAGE FORMAT FIX
+           Keeps the ticket page full-viewport and responsive on deploy.
+           --------------------------------------------------------------- */
+
+        html {
+            min-width: 0;
+            max-width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+            background: var(--forest-black) !important;
+        }
+
+        body {
+            position: relative;
+            min-width: 0;
+            width: 100%;
+            max-width: 100vw;
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            overflow-x: hidden;
+            overflow-x: clip;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(196, 212, 204, 0.08), transparent 34rem),
+                radial-gradient(circle at 12% 24%, rgba(255, 215, 0, 0.08), transparent 24rem),
+                radial-gradient(circle at 86% 14%, rgba(0, 255, 136, 0.055), transparent 30rem),
+                linear-gradient(90deg, #0a0e0d 0%, #121816 16%, #07100d 50%, #121816 84%, #0a0e0d 100%) !important;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at center, transparent 0%, transparent 52%, rgba(0, 0, 0, 0.46) 100%),
+                linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.3));
+        }
+
+        .forest-atmosphere {
+            inset: 0;
+            width: 100vw !important;
+            height: 100vh;
+            height: 100dvh;
+            min-height: 100vh;
+        }
+
+        #aurora-canvas,
+        #aurora-shader-canvas {
+            inset: 0;
+            width: 100vw !important;
+            height: 100vh !important;
+            height: 100dvh !important;
+        }
+
+        .main-container {
+            width: 100vw !important;
+            max-width: none !important;
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin-left: calc(50% - 50vw) !important;
+            margin-right: calc(50% - 50vw) !important;
+            padding-top: max(clamp(38px, 5vw, 76px), env(safe-area-inset-top));
+            padding-right: max(clamp(18px, 7vw, 138px), env(safe-area-inset-right));
+            padding-bottom: max(clamp(56px, 6vw, 96px), env(safe-area-inset-bottom));
+            padding-left: max(clamp(18px, 7vw, 138px), env(safe-area-inset-left));
+            overflow-x: clip;
+            background:
+                radial-gradient(circle at 50% 4%, rgba(196, 212, 204, 0.12), transparent 30rem),
+                radial-gradient(circle at 12% 12%, rgba(255, 215, 0, 0.08), transparent 28rem),
+                radial-gradient(circle at 88% 18%, rgba(0, 255, 136, 0.055), transparent 32rem),
+                linear-gradient(90deg, #0a0e0d 0%, #121816 10%, #07100d 50%, #121816 90%, #0a0e0d 100%) !important;
+            box-shadow: inset 0 0 0 1px rgba(196, 212, 204, 0.055);
+        }
+
+        .title-section {
+            width: min(100%, 1180px);
+            margin-bottom: clamp(44px, 6vw, 78px);
+        }
+
+        .main-title {
+            max-width: 14.5ch;
+            white-space: normal;
+            text-wrap: balance;
+            line-height: 0.92;
+            font-size: clamp(2.35rem, 5.9vw, 5.8rem);
+        }
+
+        .event-info,
+        .ticket-price,
+        .subtitle {
+            max-width: min(100%, 920px);
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .journey-text {
+            width: min(100%, 820px);
+            margin-block: clamp(42px, 5vw, 68px);
+        }
+
+        .timeline-section,
+        .witch-ep,
+        .club-seduction-section,
+        .visual-preview {
+            width: min(100%, 1200px);
+        }
+
+        .creatures-grid {
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+        }
+
+        .visual-preview {
+            height: clamp(300px, 36vw, 520px);
+        }
+
+        body.embedded-desktop .main-container {
+            width: 100vw !important;
+            max-width: none !important;
+            margin-left: calc(50% - 50vw) !important;
+            margin-right: calc(50% - 50vw) !important;
+            padding-top: max(clamp(38px, 5vw, 76px), env(safe-area-inset-top));
+            padding-right: max(clamp(18px, 7vw, 138px), env(safe-area-inset-right));
+            padding-bottom: max(clamp(56px, 6vw, 96px), env(safe-area-inset-bottom));
+            padding-left: max(clamp(18px, 7vw, 138px), env(safe-area-inset-left));
+        }
+
+        body.embedded-desktop .title-section {
+            width: min(100%, 1180px);
+            margin-bottom: clamp(44px, 6vw, 78px);
+        }
+
+        body.embedded-desktop .main-title {
+            max-width: 14.5ch;
+            font-size: clamp(2.35rem, 5.9vw, 5.8rem);
+            line-height: 0.92;
+        }
+
+        body.embedded-desktop .journey-text {
+            width: min(100%, 820px);
+        }
+
+        body.embedded-desktop .timeline-section,
+        body.embedded-desktop .witch-ep,
+        body.embedded-desktop .club-seduction-section,
+        body.embedded-desktop .visual-preview {
+            width: min(100%, 1200px);
+            max-width: 1200px;
+        }
+
+        body.embedded-desktop .creatures-grid {
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+            max-width: 1200px;
+        }
+
+        @media (min-width: 1400px) {
+            .main-container,
+            body.embedded-desktop .main-container {
+                width: 100vw !important;
+                max-width: none !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                max-width: 100%;
+            }
+
+            .main-container,
+            body.embedded-desktop .main-container {
+                width: 100%;
+                padding-top: max(42px, env(safe-area-inset-top));
+                padding-right: max(14px, env(safe-area-inset-right));
+                padding-bottom: max(54px, env(safe-area-inset-bottom));
+                padding-left: max(14px, env(safe-area-inset-left));
+            }
+
+            .title-section,
+            body.embedded-desktop .title-section {
+                margin-bottom: 38px;
+            }
+
+            .main-title,
+            body.embedded-desktop .main-title {
+                max-width: 10.5ch;
+                font-size: clamp(2rem, 13vw, 3.15rem);
+                letter-spacing: 0;
+            }
+
+            .journey-text,
+            .timeline-section,
+            .witch-ep,
+            .club-seduction-section {
+                width: 100%;
+                margin-block: 34px;
+            }
+
+            .visual-preview,
+            body.embedded-desktop .visual-preview {
+                width: 100%;
+                height: clamp(220px, 62vw, 360px);
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -2789,18 +2995,10 @@
 
         function isEmbeddedDesktopMode() {
             const params = new URLSearchParams(window.location.search);
-            const forceEmbed = params.get('embed') === '1';
-            let embedded = forceEmbed;
-            if (!embedded) {
-                try {
-                    embedded = window.self !== window.top;
-                } catch (e) {
-                    embedded = true;
-                }
-            }
-
+            const embedParam = (params.get('embed') || '').toLowerCase();
+            const forceEmbed = embedParam === '1' || embedParam === 'true' || embedParam === 'yes';
             const finePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
-            return embedded && finePointer && window.innerWidth >= 520;
+            return forceEmbed && finePointer && window.innerWidth >= 520;
         }
 
         function isMobilePerformanceMode() {
@@ -2812,6 +3010,33 @@
         let mobileLiteMode = isMobilePerformanceMode();
         document.body.classList.toggle('embedded-desktop', isEmbeddedDesktopMode());
         document.body.classList.toggle('mobile-lite', mobileLiteMode);
+
+        function syncNetlifyPreviewBackdrop() {
+            try {
+                if (window.self === window.top || !window.parent || !window.parent.document) return;
+
+                const parentDocument = window.parent.document;
+                parentDocument.documentElement.style.background = '#0a0e0d';
+                parentDocument.body.style.background = '#0a0e0d';
+                parentDocument.body.style.margin = '0';
+
+                const hostFrame = Array.from(parentDocument.querySelectorAll('iframe'))
+                    .find((frame) => frame.contentWindow === window);
+
+                if (hostFrame) {
+                    hostFrame.style.display = 'block';
+                    hostFrame.style.width = '100vw';
+                    hostFrame.style.maxWidth = 'none';
+                    hostFrame.style.margin = '0';
+                    hostFrame.style.border = '0';
+                    hostFrame.style.background = '#0a0e0d';
+                }
+            } catch (error) {
+                // Cross-origin previews cannot be styled from inside the page.
+            }
+        }
+
+        syncNetlifyPreviewBackdrop();
 
         function resizeCanvas() {
             const scale = mobileLiteMode ? 0.5 : 0.82;
