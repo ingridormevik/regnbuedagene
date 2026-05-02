@@ -1594,6 +1594,32 @@
             }
         }
 
+        .creature-card.resonance-pulse::before {
+            animation: resonancePulse 0.9s ease-out forwards !important;
+        }
+
+        @keyframes resonancePulse {
+            0% { opacity: 0.22; }
+            30% { opacity: 0.55; }
+            100% { opacity: 0.22; }
+        }
+
+        @keyframes runeRain {
+            0% { transform: translateY(0) rotate(-10deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(105vh) rotate(20deg); opacity: 0; }
+        }
+
+        body.forest-awakened {
+            animation: forestAwaken 3s ease-out forwards;
+        }
+
+        @keyframes forestAwaken {
+            0% { filter: brightness(1); }
+            15% { filter: brightness(1.18) saturate(1.3); }
+            100% { filter: brightness(1); }
+        }
+
         .ritual-rune {
             position: absolute;
             left: 50%;
@@ -2497,18 +2523,20 @@
         <div class="title-section">
             <div class="rune-top">Bergen Pride Presents</div>
             <h1 class="main-title">REGNBUENATT 2026</h1>
-            <div class="subtitle">Fra Den Fortryllede til Den Forbudte Skogen</div>
+            <div class="subtitle">Kvelden etter paraden — Den Forbudte Skogen åpner</div>
             <div class="event-info">6. Juni 2026 • Marinehagen • 22:00-02:30</div>
             <div class="ticket-price">Billetter: 295 kr (early bird) / 395 kr (døren)</div>
         </div>
 
         <!-- JOURNEY TEXT -->
         <div class="journey-text">
-            <p>Avslutningen for årets pride. Marinehagen. 6. juni, kvelden etter paraden.</p>
+            <p>Avslutningen på årets Pride. Marinehagen. 6. juni, kvelden etter paraden.</p>
+            <p>Etter en hel uke med Pride inviterer vi deg inn i en natt der du kan lande i kroppen igjen. Puste ut. Slippe skuldrene. Kjenne bassen. Finne tilbake til rytmen som alltid har vært der.</p>
             <p>Med inspirasjon fra norsk folklore og Theodor Kittelsens bildeverden, med Bergens natur som bakteppe: granittfjell, furuskog, fjord og tåke. Seks mytiske vesener våkner til live gjennom kvelden, ett etter ett, mens musikken leder deg dypere inn.</p>
             <div class="quote">
-                De mytiske vesenene har alltid vært queercoded. De lever utenfor normens grenser. På Regnbuenatt tar vi dem tilbake.
+                De mytiske vesenene har alltid levd utenfor normens grenser. De er for mye, for frie, for rare, for vakre, for ville og for vanskelige å plassere. På Regnbuenatt tar vi dem tilbake.
             </div>
+            <p>Vi kjenner oss igjen i dem. Vi er vesenene.</p>
             <p>Fra klokken 23 vil danserne Dennixx og Logan entre scenen. Følg med etterhvert som Alma, Selina, Diesel og Aftab dukker opp utover natten.</p>
         </div>
 
@@ -2519,24 +2547,16 @@
             <div class="timeline-item">
                 <div class="timeline-time">22:00–00:00</div>
                 <div class="timeline-content">
-                    <h3>The Mythical Forest</h3>
-                    <p>Witch Princess åpner med sin <em>Forest Meeting EP</em> og setter scenen.</p>
+                    <h3>The Enchanted Forest</h3>
+                    <p>Witch Princess åpner natten med sin <em>Forest Meeting EP</em> og vekker vesenene ett etter ett. Fra klokken 23 begynner de å entre scenen.</p>
                 </div>
             </div>
 
             <div class="timeline-item">
-                <div class="timeline-time">00:00–00:15</div>
+                <div class="timeline-time">00:00–02:30</div>
                 <div class="timeline-content">
-                    <h3>Overgangen</h3>
-                    <p>Den fortryllede skogen møter den forbudte, og energien skifter.</p>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-time">00:15–02:30</div>
-                <div class="timeline-content">
-                    <h3>The Forbidden Forest</h3>
-                    <p>DJ Pizza$lut tar over. Begjær uten unnskyldning og kropper som tar plass.</p>
+                    <h3>The Forbidden</h3>
+                    <p>DJ Pizza$lut + Club Seduction tar over. Alt blir mørkere, hetere og friere. Begjær uten unnskyldning og kropper som tar plass.</p>
                 </div>
             </div>
         </div>
@@ -2864,7 +2884,9 @@
             <div class="bergtatt-mobile-link">
                 <a href="bergtatt-visuals.html?preview=true" class="cta-button" target="_blank" rel="noopener noreferrer" style="font-size:0.9rem;padding:13px 24px;letter-spacing:0.12em;">Se BERGTATT-teaser</a>
             </div>
-            <div style="margin-top:12px;"><a href="https://bergenpride.ticketco.events/no/nb/e/regnbuenatt_2026" class="cta-button" target="_blank" rel="noopener noreferrer" style="font-size:0.95rem;padding:14px 26px;letter-spacing:0.14em;">Kjøp Billett</a></div>
+            <p style="margin:20px 0 8px;font-family:'Crimson Text',serif;font-size:1.1rem;line-height:1.7;color:rgba(232,236,232,0.88);font-style:italic;">Denne natten handler om å danse friere, elske kroppen mer, slippe fantasien løs og huske hvorfor vi kom hit. Ikke for å passe inn — for å leve fullt.</p>
+            <p style="margin:0 0 16px;font-family:'Cinzel',serif;font-size:0.82rem;letter-spacing:0.18em;color:var(--fossegrim-gold);text-transform:uppercase;">Den Forbudte Skogen åpner bare én natt.</p>
+            <div style="margin-top:12px;"><a href="https://bergenpride.ticketco.events/no/nb/e/regnbuenatt_2026" class="cta-button" target="_blank" rel="noopener noreferrer" style="font-size:0.95rem;padding:14px 26px;letter-spacing:0.14em;">Sikre deg billett nå</a></div>
         </div>
     </div>
 
@@ -2904,7 +2926,7 @@
             toggleLabel: { no: 'Bytt språk', en: 'Toggle language' },
             texts: [
                 ['.rune-top', { no: 'Bergen Pride Presents', en: 'Bergen Pride Presents' }],
-                ['.subtitle', { no: 'Fra Den Mytiske til Den Forbudte Skogen', en: 'From The Mythical to The Forbidden Forest' }],
+                ['.subtitle', { no: 'Kvelden etter paraden — Den Forbudte Skogen åpner', en: 'The night after the parade — The Forbidden Forest opens' }],
                 ['.event-info', { no: '6. Juni 2026 • Marinehagen • 22:00-02:30', en: 'June 6, 2026 • Marinehagen • 22:00-02:30' }],
                 ['.ticket-price', { no: 'Billetter: 295 kr (early bird) / 395 kr (døren)', en: 'Tickets: NOK 295 (early bird) / NOK 395 (door)' }],                ['.journey-text p:nth-of-type(1)', { no: 'Avslutningen for årets pride. Marinehagen. 6. juni, kvelden etter paraden.', en: 'The closing night of this year\'s Pride. Marinehagen. June 6, the evening after the parade.' }],                ['.journey-text p:nth-of-type(2)', { no: 'Med inspirasjon fra norsk folklore og Theodor Kittelsens bildeverden, med Bergens natur som bakteppe: granittfjell, furuskog, fjord og tåke. Seks mytiske vesener våkner til live gjennom kvelden, ett etter ett, mens musikken leder deg dypere inn.', en: 'Inspired by Norwegian folklore and Theodor Kittelsen\'s visual world, with Bergen\'s nature as the backdrop: granite mountains, pine forest, fjord and mist. Six mythical beings awaken through the evening, one by one, while the music leads you deeper in.' }],                ['.journey-text .quote', { no: 'De mytiske vesenene har alltid vært queercoded. De lever utenfor normens grenser. På Regnbuenatt tar vi dem tilbake.', en: 'Mythical beings have always been queer-coded. They live beyond the boundaries of the norm. At Regnbuenatt, we reclaim them.' }],                ['.journey-text p:nth-of-type(3)', { no: 'Fra klokken 23 vil danserne Dennixx og Logan entre scenen. Følg med etterhvert som Alma, Selina, Diesel og Aftab dukker opp utover natten.', en: 'From 23:00, dancers Dennixx and Logan enter the stage. Keep watching as Alma, Selina, Diesel and Aftab appear throughout the night.' }],
                 ['.witch-lead', { no: 'Witch Princess åpner Regnbuenatt med <em>Forest Meeting</em> og leder publikum inn i den mytiske skogen.', en: 'Witch Princess opens Regnbuenatt with <em>Forest Meeting</em> and leads the audience into the mythical forest.' }, true],
@@ -3278,6 +3300,11 @@ creatureCards.forEach(card => {
 
         // Legendary notification
         showLegendaryNotification(key);
+
+        // Resonance + all-awakened check
+        awakenedSet.add(key);
+        pulseResonance(card);
+        checkAllAwakened();
     };
 
     card.addEventListener('pointerup', (e) => {
@@ -3298,6 +3325,49 @@ creatureCards.forEach(card => {
     });
 
 });
+        // ---------------------------------------------------------------
+        // CONNECTED RESONANCE - All cards pulse when one awakens
+        // ---------------------------------------------------------------
+        const awakenedSet = new Set();
+
+        function pulseResonance(sourceCard) {
+            creatureCards.forEach(card => {
+                if (card === sourceCard) return;
+                card.classList.remove('resonance-pulse');
+                void card.offsetWidth;
+                card.classList.add('resonance-pulse');
+                card.addEventListener('animationend', () => card.classList.remove('resonance-pulse'), { once: true });
+            });
+        }
+
+        function checkAllAwakened() {
+            if (awakenedSet.size >= creatureCards.length) {
+                triggerForestFullyAwakened();
+            }
+        }
+
+        function triggerForestFullyAwakened() {
+            document.body.classList.add('forest-awakened');
+            setTimeout(() => document.body.classList.remove('forest-awakened'), 3000);
+            for (let i = 0; i < 24; i++) {
+                setTimeout(() => {
+                    const symbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ'];
+                    const rune = document.createElement('div');
+                    rune.className = 'global-rune-rain';
+                    rune.textContent = symbols[i % symbols.length];
+                    rune.style.cssText = `
+                        position:fixed;left:${5 + Math.random()*90}%;top:-2rem;
+                        font-family:'Cinzel',serif;font-size:${1.1+Math.random()*1.4}rem;
+                        color:var(--fossegrim-gold);pointer-events:none;z-index:9999;
+                        text-shadow:0 0 18px var(--fossegrim-gold),0 0 36px var(--fossegrim-gold);
+                        animation:runeRain ${2.2+Math.random()*1.4}s ease-in forwards;
+                    `;
+                    document.body.appendChild(rune);
+                    rune.addEventListener('animationend', () => rune.remove());
+                }, i * 90);
+            }
+        }
+
         // ---------------------------------------------------------------
         // HAPTIC VIBRATION PATTERNS - Intensifies with awakening count
         // ---------------------------------------------------------------
