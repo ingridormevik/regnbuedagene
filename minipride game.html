@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>MINI PRIDE / HAVENHJØRNING — BRYGGEN UNDER VANN</title>
+<title>CDN LÆRINGSLAB / DATASPOR — BRYGGEN UNDER VANN</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -249,21 +249,21 @@ body.mobile-ui .bs{font-size:7px;line-height:1.8;max-width:36ch;}
 
 <!-- LOADING -->
 <div id="ldg">
-  <div class="bt">MINI PRIDE / HAVENHJØRNING</div>
+  <div class="bt">CDN LÆRINGSLAB / DATASPOR</div>
   <div class="bs">BERGEN 2063 ◈ BRYGGEN, NORDNES OG NYGÅRDSPARKEN UNDER VANN ◈ FLØYEN OG ULRIKEN OVER VANN</div>
   <div class="bl" id="bl1"><span>Vekker regnbuebølgene rundt Bryggen...</span><span class="bl-ok">[OK]</span></div>
   <div class="bl" id="bl2"><span>Laster kart: Bryggen/Nordnes under vann, Fløyen/Ulriken over vann...</span><span class="bl-ok">[OK]</span></div>
-  <div class="bl" id="bl3"><span>Pakker familievett: spør før du deler bilde, navn eller posisjon...</span><span class="bl-ok">[OK]</span></div>
+  <div class="bl" id="bl3"><span>Pakker digitalt feltvett: samtykke, omsorg og kritiske spørsmål...</span><span class="bl-ok">[OK]</span></div>
   <div class="bl" id="bl4"><span>Sender sporingsfisk og signalperler i myk modus...</span><span class="bl-ok">[OK]</span></div>
   <div class="bl" id="bl5"><span>Kobler Bergen til Center for Digital Narrative...</span><span class="bl-ok">[OK]</span></div>
   <div id="bbt"><div id="bbf"></div></div>
-  <div id="bfin">MINI PRIDE ER KLAR ◈ VÆR DEG SELV TRYGT ◈ BERGEN GLITRER UNDER VANN</div>
+  <div id="bfin">CDN-LABEN ER KLAR ◈ TEKNOLOGI FORTELLER ◈ DU KAN STILLE SPØRSMÅL</div>
 </div>
 
 <!-- HUD -->
 <div id="hud">
   <div id="tb">
-    <div class="ts-brand">MINI PRIDE</div>
+    <div class="ts-brand">CDN LAB</div>
     <div class="ts"><span class="tsl">GLØD</span><span class="tsv" id="tv-st">100</span></div>
     <div class="ts"><span class="tsl">APP-SPOR</span><span class="tsv" id="tv-sv">0</span></div>
     <div class="ts"><span class="tsl">USYNLIG</span><span class="tsv" id="tv-er">0</span></div>
@@ -290,7 +290,7 @@ body.mobile-ui .bs{font-size:7px;line-height:1.8;max-width:36ch;}
     <div style="height:8px;"></div>
     <div id="press-v">0.0</div><div id="press-u">ATM TRYKK</div>
     <div style="height:1px;background:rgba(58,184,216,.07);margin:6px 0;"></div>
-    <div class="plbl">Mini Pride-logg</div>
+    <div class="plbl">CDN-lablogg</div>
     <div id="elog"></div>
   </div>
   <div id="btm">
@@ -311,12 +311,12 @@ body.mobile-ui .bs{font-size:7px;line-height:1.8;max-width:36ch;}
 </div>
 
 <div id="story-card" aria-live="polite">
-  <div id="story-eyebrow">Mini Pride-fortelling</div>
-  <div id="story-title">Hei, lille dykker!</div>
+  <div id="story-eyebrow">CDN-læringsfortelling</div>
+  <div id="story-title">Hei, feltforsker!</div>
   <div id="story-mission">Mål nå: Finn regnbueporten</div>
   <div id="story-progress" aria-hidden="true"></div>
-  <div id="story-copy">Svøm til regnbueporten og se hva telefoner og apper kan huske.</div>
-  <div id="story-tip">CDN-spor for alle aldre: Gode digitale fortellinger starter med samtykke, omsorg og trygge valg.</div>
+  <div id="story-copy">Svøm til regnbueporten og se hvordan telefoner, apper og KI kan gjøre liv om til datafortellinger.</div>
+  <div id="story-tip">CDN-spor for alle aldre: forskning blir lettere å forstå når du kan prøve systemet selv.</div>
 </div>
 
 <div id="touch-ui" aria-label="Berøringskontroller">
@@ -339,7 +339,7 @@ body.mobile-ui .bs{font-size:7px;line-height:1.8;max-width:36ch;}
 </div>
 
 <div id="frpop"><div id="frt">⬡ VENTEBØLGE</div><div id="frm"></div><div id="frbt"><div id="frbf"></div></div></div>
-<div id="endscrn"><div id="end-t"></div><div id="end-b"></div><div id="end-s">BERGEN MINI PRIDE ◈ BRYGGEN UNDER VANN ◈ EVENTYRET HVILER</div><button id="end-r" onclick="resetGame()">[ START PÅ NYTT ]</button></div>
+<div id="endscrn"><div id="end-t"></div><div id="end-b"></div><div id="end-s">CDN LÆRINGSLAB ◈ BRYGGEN UNDER VANN ◈ SPØRSMÅLENE LEVER VIDERE</div><button id="end-r" onclick="resetGame()">[ START PÅ NYTT ]</button></div>
 <div id="ipop"><div id="ipt"></div><div id="ipd"></div><div id="ipa"></div></div>
 
 <script>
@@ -357,23 +357,23 @@ const FLOOR_Y   = H-(MOBILE_MODE?80:52);
 const WORLD_W   = 9800;
 const GAME_VIEW_TOP=MOBILE_MODE?46:40;
 const GAME_VIEW_BOTTOM=H-(MOBILE_MODE?74:50);
-const MINI_PRIDE_LANG_KEY='miniPrideLanguage';
-const LANG={current:localStorage.getItem(MINI_PRIDE_LANG_KEY)==='en'?'en':'no'};
+const CDN_LEARNING_LANG_KEY='cdnLearningLanguage';
+const LANG={current:localStorage.getItem(CDN_LEARNING_LANG_KEY)==='en'?'en':'no'};
 const UI_TEXT={
-  loadingTitle:{no:'MINI PRIDE / HAVENHJØRNING',en:'MINI PRIDE / SEA UNICORN'},
+  loadingTitle:{no:'CDN LÆRINGSLAB / DATASPOR',en:'CDN LEARNING LAB / DATA TRACES'},
   loadingSubtitle:{no:'BERGEN 2063 ◈ BRYGGEN, NORDNES OG NYGÅRDSPARKEN UNDER VANN ◈ FLØYEN OG ULRIKEN OVER VANN',en:'BERGEN 2063 ◈ BRYGGEN, NORDNES AND NYGÅRDSPARKEN UNDER WATER ◈ FLØYEN AND ULRIKEN ABOVE WATER'},
   loadingLine1:{no:'Vekker regnbuebølgene rundt Bryggen...',en:'Waking the rainbow waves around Bryggen...'},
   loadingLine2:{no:'Laster kart: Bryggen/Nordnes under vann, Fløyen/Ulriken over vann...',en:'Loading map: Bryggen/Nordnes under water, Fløyen/Ulriken above water...'},
-  loadingLine3:{no:'Pakker familievett: spør før du deler bilde, navn eller posisjon...',en:'Packing family privacy rules: ask before sharing a photo, name or location...'},
+  loadingLine3:{no:'Pakker digitalt feltvett: samtykke, omsorg og kritiske spørsmål...',en:'Packing digital field skills: consent, care and critical questions...'},
   loadingLine4:{no:'Sender sporingsfisk og signalperler i myk modus...',en:'Sending tracking fish and signal pearls in soft mode...'},
   loadingLine5:{no:'Kobler Bergen til Center for Digital Narrative...',en:'Linking Bergen to the Center for Digital Narrative...'},
-  loadingReady:{no:'MINI PRIDE ER KLAR ◈ VÆR DEG SELV TRYGT ◈ BERGEN GLITRER UNDER VANN',en:'MINI PRIDE IS READY ◈ BE YOURSELF SAFELY ◈ BERGEN GLITTERS UNDER WATER'},
+  loadingReady:{no:'CDN-LABEN ER KLAR ◈ TEKNOLOGI FORTELLER ◈ DU KAN STILLE SPØRSMÅL',en:'CDN LAB IS READY ◈ TECHNOLOGY TELLS STORIES ◈ YOU CAN ASK QUESTIONS'},
   topGlow:{no:'GLØD',en:'GLOW'},
   topTrace:{no:'APP-SPOR',en:'APP TRACE'},
   topInvisible:{no:'USYNLIG',en:'INVISIBLE'},
   leftTitle:{no:'Regnbuestatus',en:'Rainbow status'},
   rightTopTitle:{no:'Havmåler',en:'Sea meter'},
-  rightLogTitle:{no:'Mini Pride-logg',en:'Mini Pride log'},
+  rightLogTitle:{no:'CDN-lablogg',en:'CDN lab log'},
   leftGlow:{no:'Glød',en:'Glow'},
   leftTrace:{no:'Digitale Spor',en:'Digital traces'},
   leftInvisible:{no:'Usynlighet',en:'Invisibility'},
@@ -398,13 +398,13 @@ const UI_TEXT={
   contextDefault:{no:'Trykk piler/WASD som i Pac-Man: retningen huskes, neste sving buffers. X stopper i neste kryss.',en:'Press arrows/WASD like Pac-Man: direction is remembered, next turn is buffered. X stops at the next junction.'},
   audioPrompt:{no:'[ KLIKK FOR Å VEKKE HAVLYDENE ]',en:'[ CLICK TO WAKE THE SEA SOUNDS ]'},
   frictionTitle:{no:'⬡ VENTEBØLGE',en:'⬡ WAITING WAVE'},
-  endSubtitle:{no:'BERGEN MINI PRIDE ◈ BRYGGEN UNDER VANN ◈ EVENTYRET HVILER',en:'BERGEN MINI PRIDE ◈ BRYGGEN UNDER WATER ◈ THE STORY RESTS'},
+  endSubtitle:{no:'CDN LÆRINGSLAB ◈ BRYGGEN UNDER VANN ◈ SPØRSMÅLENE LEVER VIDERE',en:'CDN LEARNING LAB ◈ BRYGGEN UNDER WATER ◈ THE QUESTIONS KEEP LIVING'},
   restart:{no:'[ START PÅ NYTT ]',en:'[ START AGAIN ]'},
-  storyEyebrowDefault:{no:'Mini Pride-fortelling',en:'Mini Pride story'},
-  storyTitleDefault:{no:'Hei, lille dykker!',en:'Hello, little diver!'},
+  storyEyebrowDefault:{no:'CDN-læringsfortelling',en:'CDN learning story'},
+  storyTitleDefault:{no:'Hei, feltforsker!',en:'Hello, field researcher!'},
   storyMissionDefault:{no:'Mål nå: Finn regnbueporten',en:'Goal now: Find the rainbow gate'},
-  storyCopyDefault:{no:'Svøm til regnbueporten og se hva telefoner og apper kan huske.',en:'Swim to the rainbow gate and see what phones and apps can remember.'},
-  storyTipDefault:{no:'CDN-spor for alle aldre: Gode digitale fortellinger starter med samtykke, omsorg og trygge valg.',en:'A CDN trace for all ages: good digital stories begin with consent, care and safer choices.'},
+  storyCopyDefault:{no:'Svøm til regnbueporten og se hvordan telefoner, apper og KI kan gjøre liv om til datafortellinger.',en:'Swim to the rainbow gate and see how phones, apps and AI can turn lives into data stories.'},
+  storyTipDefault:{no:'CDN-spor for alle aldre: forskning blir lettere å forstå når du kan prøve systemet selv.',en:'A CDN trace for all ages: research becomes easier to understand when you can try the system yourself.'},
   tutorialMove:{no:'TRYGG ØVING 1/3 · hold en retning for å ta første strekk',en:'SAFE PRACTICE 1/3 · hold a direction to take the first stretch'},
   tutorialTurn:{no:'TRYGG ØVING 2/3 · trykk neste retning litt tidlig og følg pilmarkøren',en:'SAFE PRACTICE 2/3 · press the next direction a little early and follow the turn marker'},
   tutorialStop:{no:'TRYGG ØVING 3/3 · slipp retningen · stopp-ringen viser hvor du stanser',en:'SAFE PRACTICE 3/3 · release the direction · the stop ring shows where you halt'},
@@ -423,12 +423,12 @@ const UI_TEXT={
   bossDisrupted:{no:'BYBANEN-BOSS · rytmen brutt, bruk vinduet nå',en:'LIGHT RAIL BOSS · rhythm disrupted, use the window now'},
   bossHunt:{no:'BYBANEN-BOSS · hold deg i bevegelse og ta sideveiene',en:'LIGHT RAIL BOSS · keep moving and use the side paths'},
   objectiveStep:{no:'Steg {current} av {total}',en:'Step {current} of {total}'},
-  objectiveDone:{no:'Mini Pride fullført',en:'Mini Pride completed'},
+  objectiveDone:{no:'CDN-lab fullført',en:'CDN lab completed'},
   storyFallback:{no:'Eventyr {current} av {total}',en:'Story {current} of {total}'},
   languageTitle:{no:'Bytt mellom norsk og engelsk',en:'Switch between Norwegian and English'},
   languageAria:{no:'Bytt språk til engelsk',en:'Switch language to Norwegian'},
-  pageTitle:{no:'MINI PRIDE / HAVENHJØRNING — BRYGGEN UNDER VANN',en:'MINI PRIDE / SEA UNICORN — BRYGGEN UNDER WATER'},
-  objectiveTrail:{no:'▸ MINI PRIDE-LØYPE',en:'▸ MINI PRIDE ROUTE'},
+  pageTitle:{no:'CDN LÆRINGSLAB / DATASPOR — BRYGGEN UNDER VANN',en:'CDN LEARNING LAB / DATA TRACES — BRYGGEN UNDER WATER'},
+  objectiveTrail:{no:'▸ CDN-LABRUTE',en:'▸ CDN LAB ROUTE'},
   touchControls:{no:'Berøringskontroller',en:'Touch controls'},
   swimUp:{no:'Svøm opp',en:'Swim up'},
   swimLeft:{no:'Svøm til venstre',en:'Swim left'},
@@ -528,12 +528,12 @@ const STRING_EN={
   'Nordnes holder det siste lyset. Her skal du ikke gjemme deg, bare forstå nok til å velge bedre.':'Nordnes holds the last light. Here you are not meant to hide, only understand enough to choose better.',
   'I Nygårdsparken møter du en skygjest som merket overvåkingen lenge før hen fant ordene for den.':'In Nygårdsparken you meet a shadow guest who felt the surveillance long before they found words for it.',
   '"Jeg trodde bare appene var smarte. Så skjønte jeg at de lærte rutinen min."':'"I thought the apps were just clever. Then I realised they had learned my routine."',
-  'MINI PRIDE-PÅMINNELSE: Kart-apper trenger ikke alltid posisjonen din hele tiden.':'MINI PRIDE REMINDER: Map apps do not always need your location all the time.',
-  'MINI PRIDE-PÅMINNELSE: Selv vanlige bevegelsesmønstre kan si mye om hvem du er sammen med.':'MINI PRIDE REMINDER: Even ordinary movement patterns can reveal a lot about who you are with.',
-  'MINI PRIDE-PÅMINNELSE: Queer barn skal slippe å bli profilert for å være seg selv.':'MINI PRIDE REMINDER: Queer children should not be profiled just for being themselves.',
-  'MINI PRIDE-PÅMINNELSE: Det er lov å sjekke tillatelser sammen med en trygg voksen.':'MINI PRIDE REMINDER: It is okay to check permissions together with a trusted adult.',
-  'MINI PRIDE-PÅMINNELSE: Spør før du deler bilde, navn eller posisjon om andre.':'MINI PRIDE REMINDER: Ask before sharing someone else’s photo, name or location.',
-  'MINI PRIDE-PÅMINNELSE: Center for Digital Narrative minner oss om at teknologi også former historier om oss.':'MINI PRIDE REMINDER: Center for Digital Narrative reminds us that technology also shapes stories about us.',
+  'CDN-LAB: Kart-apper trenger ikke alltid posisjonen din hele tiden.':'CDN LAB: Map apps do not always need your location all the time.',
+  'CDN-LAB: Selv vanlige bevegelsesmønstre kan si mye om hvem du er sammen med.':'CDN LAB: Even ordinary movement patterns can reveal a lot about who you are with.',
+  'CDN-LAB: Skeive barn og voksne skal slippe å bli profilert for å være seg selv.':'CDN LAB: Queer children and adults should not be profiled just for being themselves.',
+  'CDN-LAB: Det er lov å sjekke tillatelser sammen med en trygg voksen eller venn.':'CDN LAB: It is okay to check permissions together with a trusted adult or friend.',
+  'CDN-LAB: Spør før du deler bilde, navn eller posisjon om andre.':'CDN LAB: Ask before sharing someone else’s photo, name or location.',
+  'CDN-LAB: Center for Digital Narrative minner oss om at teknologi også former historier om oss.':'CDN LAB: Center for Digital Narrative reminds us that technology also shapes stories about us.',
   'Du tok en pustepause. Sporene roer seg, men stemmen blir litt stillere.':'You took a breather. The traces calm down, but the voice becomes a little quieter.',
   'Appen vil vite mer enn du må dele. Pust først.':'The app wants to know more than you need to share. Breathe first.',
   'Ventebølge: sjekk personvern sammen med en voksen du stoler på.':'Waiting wave: check privacy together with an adult you trust.',
@@ -544,7 +544,7 @@ const STRING_EN={
   'Litt tregt her nede. Bruk tiden til å tenke på samtykke.':'A little slow down here. Use the time to think about consent.',
   'Ventebølge: hvilke spor vil du egentlig legge igjen?':'Waiting wave: what traces do you actually want to leave behind?',
   'Spør før du deler bilde, navn eller posisjon.':'Ask before sharing a photo, name or location.',
-  'Queer barn fortjener trygge rom på skjerm også.':'Queer children deserve safe spaces on screen too.',
+  'Skeive barn og voksne fortjener trygge rom på skjerm også.':'Queer children and adults deserve safe spaces on screen too.',
   'Det er lov å be en voksen om hjelp med personvern.':'It is okay to ask an adult for help with privacy.',
   'Fjellene husker Bergen, men apper trenger ikke alt.':'The mountains remember Bergen, but apps do not need everything.',
   'Privatliv er omsorg, ikke hemmelighet.':'Privacy is care, not secrecy.',
@@ -579,18 +579,18 @@ const STRING_EN={
   '[ Svøm Sammen Nå ]':'[ Swim Together Now ]',
   '[ Litt Senere ]':'[ A Little Later ]',
   'Du venter litt. Samvittigheten kruser videre.':'You wait a little. The conscience ripples onward.',
-  'MINI PRIDE FULLFØRT':'MINI PRIDE COMPLETED',
+  'CDN-LAB FULLFØRT':'CDN LAB COMPLETED',
   'NESTE STASJON':'NEXT STOP',
   'HELE EVENTYRET ER FULLFØRT. Ta lyset med deg videre.':'THE WHOLE STORY IS COMPLETE. Carry the light with you onward.',
   'MISTET GLØD':'LOST GLOW',
   'STILLE MODUS':'QUIET MODE',
   'REGNBUELYS':'RAINBOW LIGHT',
-  'MINI PRIDE STARTET. Bryggen er satt i trygg øvingsmodus før patruljene går i gang.':'MINI PRIDE STARTED. Bryggen is set to safe practice mode before the patrols begin.',
+  'CDN-LAB STARTET. Bryggen er satt i trygg øvingsmodus før patruljene går i gang.':'CDN LAB STARTED. Bryggen is set to safe practice mode before the patrols begin.',
   'Hold en retning for å ta første strekk, sving i et kryss og slipp for å stoppe trygt.':'Hold a direction to take the first stretch, turn at a junction and release to stop safely.',
   'Bergen ligger mørk og grønn over deg. Først får du en trygg øving på å gå, svinge og stoppe i Bryggen.':'Bergen lies dark and green above you. First you get a safe practice run to move, turn and stop in Bryggen.',
   'Når øvingen er ferdig, våkner patruljene som arkadefiender: én etter én, med egne personligheter og egne måter å lese spor på.':'When the practice is over, the patrols wake like arcade enemies: one by one, each with its own personality and way of reading traces.',
   'Bryggen, Nordnes og Nygårdsparken ligger under vann i dette 2063-kartet. Fløyen og Ulriken står over vann som utsiktspunkter.':'Bryggen, Nordnes and Nygårdsparken sit under water in this 2063 map. Fløyen and Ulriken remain above water as lookout points.',
-  'Mini Pride-regel lastet: sjekk tillatelser, slå av unødig sporing og spør før du deler.':'Mini Pride rule loaded: check permissions, switch off tracking you do not need, and ask before sharing.',
+  'CDN-labregel lastet: sjekk tillatelser, slå av unødig sporing og spør før du deler.':'CDN lab rule loaded: check permissions, switch off tracking you do not need, and ask before sharing.',
   'Center for Digital Narrative minner deg om at teknologi ikke bare samler data, men også skriver historier om oss.':'Center for Digital Narrative reminds you that technology does not only collect data, it also writes stories about us.',
   'NØKK-SPORER':'NØKK TRACKER',
   'TROLLKART':'TROLL MAP',
@@ -665,11 +665,11 @@ function renderLanguageChrome(){
   const storyMission=document.getElementById('story-mission');
   const storyCopy=document.getElementById('story-copy');
   const storyTip=document.getElementById('story-tip');
-  if(storyEyebrow&&storyEyebrow.textContent.trim()==='Mini Pride-fortelling'||storyEyebrow&&storyEyebrow.textContent.trim()==='Mini Pride story')storyEyebrow.textContent=tr('storyEyebrowDefault');
-  if(storyTitle&&storyTitle.textContent.trim()==='Hei, lille dykker!'||storyTitle&&storyTitle.textContent.trim()==='Hello, little diver!')storyTitle.textContent=tr('storyTitleDefault');
+  if(storyEyebrow&&['Mini Pride-fortelling','Mini Pride story','CDN-læringsfortelling','CDN learning story'].includes(storyEyebrow.textContent.trim()))storyEyebrow.textContent=tr('storyEyebrowDefault');
+  if(storyTitle&&['Hei, lille dykker!','Hello, little diver!','Hei, feltforsker!','Hello, field researcher!'].includes(storyTitle.textContent.trim()))storyTitle.textContent=tr('storyTitleDefault');
   if(storyMission&&storyMission.textContent.trim()==='Mål nå: Finn regnbueporten'||storyMission&&storyMission.textContent.trim()==='Goal now: Find the rainbow gate')storyMission.textContent=tr('storyMissionDefault');
-  if(storyCopy&&storyCopy.textContent.trim()==='Svøm til regnbueporten og se hva telefoner og apper kan huske.'||storyCopy&&storyCopy.textContent.trim()==='Swim to the rainbow gate and see what phones and apps can remember.')storyCopy.textContent=tr('storyCopyDefault');
-  if(storyTip&&storyTip.textContent.trim()==='CDN-spor for alle aldre: Gode digitale fortellinger starter med samtykke, omsorg og trygge valg.'||storyTip&&storyTip.textContent.trim()==='A CDN trace for all ages: good digital stories begin with consent, care and safer choices.')storyTip.textContent=tr('storyTipDefault');
+  if(storyCopy&&['Svøm til regnbueporten og se hva telefoner og apper kan huske.','Swim to the rainbow gate and see what phones and apps can remember.','Svøm til regnbueporten og se hvordan telefoner, apper og KI kan gjøre liv om til datafortellinger.','Swim to the rainbow gate and see how phones, apps and AI can turn lives into data stories.'].includes(storyCopy.textContent.trim()))storyCopy.textContent=tr('storyCopyDefault');
+  if(storyTip&&['CDN-spor for alle aldre: Gode digitale fortellinger starter med samtykke, omsorg og trygge valg.','A CDN trace for all ages: good digital stories begin with consent, care and safer choices.','CDN-spor for alle aldre: forskning blir lettere å forstå når du kan prøve systemet selv.','A CDN trace for all ages: research becomes easier to understand when you can try the system yourself.'].includes(storyTip.textContent.trim()))storyTip.textContent=tr('storyTipDefault');
   const touchUi=document.getElementById('touch-ui');
   if(touchUi)touchUi.setAttribute('aria-label',tr('touchControls'));
   const ariaMap={
@@ -687,7 +687,7 @@ function renderLanguageChrome(){
 }
 function toggleLanguage(){
   LANG.current=LANG.current==='no'?'en':'no';
-  localStorage.setItem(MINI_PRIDE_LANG_KEY,LANG.current);
+  localStorage.setItem(CDN_LEARNING_LANG_KEY,LANG.current);
   renderLanguageChrome();
   updateUI();
 }
@@ -1741,16 +1741,16 @@ let objIdx=0;
 
 const STORY_BEATS=[
   {eyebrow:'Bergen 2063 · Steg 1 av 5',title:'Bryggen våkner under vann',mission:'Mål nå: Bryggen-portrommet',copy:'Bergen 2063 er fullt av lysspor, folkloremonstre og skjulte signaler. I Bryggen begynner du å lære hva mobilen kan huske om deg uten at du merker det.',tip:'Samle lysspor mens du svømmer. De gjør ruten mer Pac-Man-aktig og vekker nye fiender i bølger.'},
-  {eyebrow:'Bergen 2063 · Steg 2 av 5',title:'Ta Fløibanen til fjelllyset',mission:'Mål nå: Fløibanen-kai og toppstasjon',copy:'Når du tar Fløibanen opp, kan du hente Fjellfyret. Det gjør signalene i byen synlige nok til at barn og familier lettere kan snakke om dem.',tip:'Klarhetsbobler virker som power pellets. De snur jakten og gir deg rom til å hente viktige ting.'},
+  {eyebrow:'Bergen 2063 · Steg 2 av 5',title:'Ta Fløibanen til fjelllyset',mission:'Mål nå: Fløibanen-kai og toppstasjon',copy:'Når du tar Fløibanen opp, kan du hente Fjellfyret. Det gjør signalene i byen synlige nok til at alle kan snakke om dem uten teknisk sjargong.',tip:'Klarhetsbobler virker som power pellets. De snur jakten og gir deg rom til å hente viktige ting.'},
   {eyebrow:'Bergen 2063 · Steg 3 av 5',title:'Folkloremonstrene leser mønstre',mission:'Mål nå: Ulriken og Nygårdsparken',copy:'Nøkk-sporere, trollkart og draugnett er ikke bare monstre. De er digitale eventyrfigurer som viser hvordan små spor kan bli til store gjetninger.',tip:'På Ulriken ser du byen som et mønster. I Nygårdsparken kjenner du hva mønsteret gjør med mennesker.'},
-  {eyebrow:'Bergen 2063 · Steg 4 av 5',title:'Del roen videre',mission:'Mål nå: Hjelp skygjesten',copy:'Det mest heroiske i denne byen er ikke å være perfekt. Det er å stoppe opp, lytte og hjelpe andre når teknologien føles for nær.',tip:'Barn og familier trenger språk for personvern. Gi skygjesten ro, og ta med deg setningene videre.'},
+  {eyebrow:'Bergen 2063 · Steg 4 av 5',title:'Del roen videre',mission:'Mål nå: Hjelp skygjesten',copy:'Det mest heroiske i denne byen er ikke å være perfekt. Det er å stoppe opp, lytte og hjelpe andre når teknologien føles for nær.',tip:'Akademia blir nyttig når vanskelige ord blir til språk folk kan bruke. Gi skygjesten ro, og ta med deg setningene videre.'},
   {eyebrow:'Bergen 2063 · Steg 5 av 5',title:'Ta lyset hjem',mission:'Mål nå: Lyseslusen på Nordnes',copy:'Når du når Nordnes, er oppdraget å ta med deg det viktigste opp til overflaten: enkle regler, litt mot og et klarere blikk på sporene rundt deg.',tip:'Sjekk tillatelser. Skru av sporing du ikke trenger. Spør før du deler andres bilde, navn eller posisjon.'},
 ];
 const STORY_BEATS_EN=[
   {eyebrow:'Bergen 2063 · Step 1 of 5',title:'Bryggen wakes under water',mission:'Goal now: Bryggen gate room',copy:'Bergen 2063 is full of light trails, folklore monsters and hidden signals. In Bryggen you begin to learn what a phone can remember about you without you noticing.',tip:'Collect light trails as you swim. They make the route feel more Pac-Man-like and wake new enemies in waves.'},
-  {eyebrow:'Bergen 2063 · Step 2 of 5',title:'Take Fløibanen to the mountain light',mission:'Goal now: Fløibanen quay and top station',copy:'When you take Fløibanen up, you can collect the Mountain Beacon. It makes the city signals visible enough that children and families can talk about them more easily.',tip:'Clarity bubbles work like power pellets. They turn the chase and give you room to collect important things.'},
+  {eyebrow:'Bergen 2063 · Step 2 of 5',title:'Take Fløibanen to the mountain light',mission:'Goal now: Fløibanen quay and top station',copy:'When you take Fløibanen up, you can collect the Mountain Beacon. It makes the city signals visible enough that everyone can talk about them without technical jargon.',tip:'Clarity bubbles work like power pellets. They turn the chase and give you room to collect important things.'},
   {eyebrow:'Bergen 2063 · Step 3 of 5',title:'The folklore monsters read patterns',mission:'Goal now: Ulriken and Nygårdsparken',copy:'Nøkk trackers, troll maps and draug nets are not just monsters. They are digital story creatures showing how small traces can become big guesses.',tip:'At Ulriken you see the city as a pattern. In Nygårdsparken you feel what that pattern does to people.'},
-  {eyebrow:'Bergen 2063 · Step 4 of 5',title:'Pass the calm onward',mission:'Goal now: Help the shadow guest',copy:'The most heroic thing in this city is not being perfect. It is stopping, listening and helping others when technology feels too close.',tip:'Children and families need language for privacy. Give the shadow guest calm, and carry those sentences onward.'},
+  {eyebrow:'Bergen 2063 · Step 4 of 5',title:'Pass the calm onward',mission:'Goal now: Help the shadow guest',copy:'The most heroic thing in this city is not being perfect. It is stopping, listening and helping others when technology feels too close.',tip:'Academia becomes useful when difficult words become language people can use. Give the shadow guest calm, and carry those sentences onward.'},
   {eyebrow:'Bergen 2063 · Step 5 of 5',title:'Bring the light home',mission:'Goal now: The light lock at Nordnes',copy:'When you reach Nordnes, the mission is to bring the most important thing back to the surface: simple rules, a little courage and a clearer view of the traces around you.',tip:'Check permissions. Turn off tracking you do not need. Ask before sharing someone else’s photo, name or location.'},
 ];
 const ZONE_WHISPERS={
@@ -1852,12 +1852,12 @@ function update(ts){
   S.guilt=cl(S.guilt-.013*dt);S.friction=cl(S.friction-.010*dt);
   if(P.powerT>0)S.surveillance=cl(S.surveillance-.025*dt);
   if(S.tick%160===0){
-    const pa=['MINI PRIDE-PÅMINNELSE: Kart-apper trenger ikke alltid posisjonen din hele tiden.',
-      'MINI PRIDE-PÅMINNELSE: Selv vanlige bevegelsesmønstre kan si mye om hvem du er sammen med.',
-      'MINI PRIDE-PÅMINNELSE: Queer barn skal slippe å bli profilert for å være seg selv.',
-      'MINI PRIDE-PÅMINNELSE: Det er lov å sjekke tillatelser sammen med en trygg voksen.',
-      'MINI PRIDE-PÅMINNELSE: Spør før du deler bilde, navn eller posisjon om andre.',
-      'MINI PRIDE-PÅMINNELSE: Center for Digital Narrative minner oss om at teknologi også former historier om oss.'];
+    const pa=['CDN-LAB: Kart-apper trenger ikke alltid posisjonen din hele tiden.',
+      'CDN-LAB: Selv vanlige bevegelsesmønstre kan si mye om hvem du er sammen med.',
+      'CDN-LAB: Skeive barn og voksne skal slippe å bli profilert for å være seg selv.',
+      'CDN-LAB: Det er lov å sjekke tillatelser sammen med en trygg voksen eller venn.',
+      'CDN-LAB: Spør før du deler bilde, navn eller posisjon om andre.',
+      'CDN-LAB: Center for Digital Narrative minner oss om at teknologi også former historier om oss.'];
     addLog(lt(pa[Math.floor(Math.random()*pa.length)]),'i');
   }
 
@@ -1917,7 +1917,7 @@ function getNearStory(ob){
   const stories=LANG.current==='en'?{
     checkpoint:{eyebrow:'Here and now',title:'This is where the story begins',mission:'Do this now: Explore the Bryggen gate room',copy:'The gate room shows how ordinary city routes can become digital traces over time.',tip:'Learn first. Then collect light trails and use them like Pac-Man dots through the route.'},
     lift:{eyebrow:'Here and now',title:'Fløibanen climbs the mountainside',mission:'Do this now: Ride the line up',copy:'Fløibanen cuts up toward Fløyen the way it does in Bergen, carrying you quickly from the shore to the mountain light above the city.',tip:'Use the line when you want to lift yourself from the waterside to the top station in one move.'},
-    terminal:{eyebrow:'Here and now',title:'Collect the Mountain Beacon at Fløyen',mission:'Do this now: Explore the top station',copy:'The Mountain Beacon makes invisible signals visible enough that children and families can talk about them without technical jargon.',tip:'At the top it becomes easier to understand how presence can be measured without anyone knowing everything about you.'},
+    terminal:{eyebrow:'Here and now',title:'Collect the Mountain Beacon at Fløyen',mission:'Do this now: Explore the top station',copy:'The Mountain Beacon makes invisible signals visible enough that everyone can talk about them without technical jargon.',tip:'At the top it becomes easier to understand how presence can be measured without anyone knowing everything about you.'},
     ulriken:{eyebrow:'Here and now',title:'See the pattern from Ulriken',mission:'Do this now: Explore the Ulriken hotspot',copy:'From Ulriken you see Bergen as a living map of time, height and habits.',tip:'This is where the game shows why small data points can become large guesses.'},
     erased:{eyebrow:'Here and now',title:'Data can be felt in the body',mission:'Do this now: Talk to the shadow guest',copy:'The shadow guest needs language and calm, not more explanations that feel like alarms.',tip:'The most useful thing here is helping, not being perfect.'},
     archive:{eyebrow:'Here and now',title:'The dry words matter too',mission:'Do this now: Collect the simple rule',copy:'Inside the archive lie the choices deciding how much of you gets left inside the systems.',tip:'You do not need to know everything. You only need to recognise the most important questions.'},
@@ -1925,7 +1925,7 @@ function getNearStory(ob){
   }:{
     checkpoint:{eyebrow:'Her og nå',title:'Her starter eventyret',mission:'Gjør dette nå: Utforsk Bryggen-portrommet',copy:'Portrommet viser hvordan vanlige byturer kan bli til digitale spor over tid.',tip:'Lær først. Samle så lysspor og bruk dem som Pac-Man-prikker gjennom ruten.'},
     lift:{eyebrow:'Her og nå',title:'Fløibanen går opp fjellsiden',mission:'Gjør dette nå: Ta banen opp',copy:'Fløibanen skjærer opp mot Fløyen slik den gjør i Bergen, og tar deg raskt til fjelllyset over byen.',tip:'Bruk banen når du vil løfte deg fra sjøkanten til toppstasjonen i ett trekk.'},
-    terminal:{eyebrow:'Her og nå',title:'Hent Fjellfyret på Fløyen',mission:'Gjør dette nå: Utforsk toppstasjonen',copy:'Fjellfyret gjør usynlige signaler synlige nok til at barn og familier kan snakke om dem uten teknisk sjargong.',tip:'På toppen blir det lettere å skjønne hvordan nærvær kan måles uten at noen vet alt om deg.'},
+    terminal:{eyebrow:'Her og nå',title:'Hent Fjellfyret på Fløyen',mission:'Gjør dette nå: Utforsk toppstasjonen',copy:'Fjellfyret gjør usynlige signaler synlige nok til at alle kan snakke om dem uten teknisk sjargong.',tip:'På toppen blir det lettere å skjønne hvordan nærvær kan måles uten at noen vet alt om deg.'},
     ulriken:{eyebrow:'Her og nå',title:'Se mønsteret fra Ulriken',mission:'Gjør dette nå: Utforsk Ulriken-hotspoten',copy:'Fra Ulriken ser du Bergen som et levende kart av tid, høyde og vaner.',tip:'Dette er stedet der spillet viser hvorfor små datapunkter kan bli til store gjetninger.'},
     erased:{eyebrow:'Her og nå',title:'Data kan kjennes i kroppen',mission:'Gjør dette nå: Snakk med skygjesten',copy:'Skyggjesten trenger språk og ro, ikke flere forklaringer som føles som alarmer.',tip:'Det mest lærerike her er å hjelpe, ikke å være perfekt.'},
     archive:{eyebrow:'Her og nå',title:'De tørre ordene betyr noe',mission:'Gjør dette nå: Hent den enkle regelen',copy:'I arkivet ligger valgene som bestemmer hvor mye av deg som får bli igjen i systemene.',tip:'Du trenger ikke kunne alt. Du trenger bare å kjenne igjen de viktigste spørsmålene.'},
@@ -3297,7 +3297,7 @@ function maybeShowFr(){
   setTimeout(()=>{p.classList.remove('show');f.style.transition='none';f.style.width='0%';frOn=false;},d);
 }
 
-const GW=['Spør før du deler bilde, navn eller posisjon.','Queer barn fortjener trygge rom på skjerm også.',
+const GW=['Spør før du deler bilde, navn eller posisjon.','Skeive barn og voksne fortjener trygge rom på skjerm også.',
   'Det er lov å be en voksen om hjelp med personvern.','Fjellene husker Bergen, men apper trenger ikke alt.',
   'Privatliv er omsorg, ikke hemmelighet.','En liten pause kan gi et klokere digitalt valg.',
   'Noen trenger at du ser dem før skjermen gjør det.','Vær deg selv. Del med omtanke.'];
@@ -3408,7 +3408,7 @@ function checkObjs(){
   const o=OBJS[objIdx];
   if(o&&o.check()){
     const finishedText=LANG.current==='en'?OBJS_EN[objIdx].t:o.t;
-    addLog(`${lt('MINI PRIDE FULLFØRT')}: ${finishedText}`,'g');snd('success');objIdx++;
+    addLog(`${lt('CDN-LAB FULLFØRT')}: ${finishedText}`,'g');snd('success');objIdx++;
     if(objIdx<OBJS.length){
       const nextText=LANG.current==='en'?OBJS_EN[objIdx].t:OBJS[objIdx].t;
       addLog(`${lt('NESTE STASJON')}: ${nextText}`,'i');
@@ -3459,7 +3459,7 @@ function resetGame(){
   document.getElementById('zone-lbl').textContent=lt(ZONES[0].label);
   lastZoneEcho='';
   updateUI();
-  addLog(lt('MINI PRIDE STARTET. Bryggen er satt i trygg øvingsmodus før patruljene går i gang.'),'i');
+  addLog(lt('CDN-LAB STARTET. Bryggen er satt i trygg øvingsmodus før patruljene går i gang.'),'i');
   addLog(lt('Hold en retning for å ta første strekk, sving i et kryss og slipp for å stoppe trygt.'),'i');
   addLog(lt('Huskeregel: mobilen kan avsløre mer enn det du poster.'),'w');
 }
@@ -3476,7 +3476,7 @@ function runBoot(){
       addLog(lt('Bergen ligger mørk og grønn over deg. Først får du en trygg øving på å gå, svinge og stoppe i Bryggen.'), 'i');
       setTimeout(()=>addLog(lt('Når øvingen er ferdig, våkner patruljene som arkadefiender: én etter én, med egne personligheter og egne måter å lese spor på.'), 'w'),500);
       setTimeout(()=>addLog(lt('Bryggen, Nordnes og Nygårdsparken ligger under vann i dette 2063-kartet. Fløyen og Ulriken står over vann som utsiktspunkter.'), 'i'),1100);
-      setTimeout(()=>addLog(lt('Mini Pride-regel lastet: sjekk tillatelser, slå av unødig sporing og spør før du deler.'), 'g'),1800);
+      setTimeout(()=>addLog(lt('CDN-labregel lastet: sjekk tillatelser, slå av unødig sporing og spør før du deler.'), 'g'),1800);
       setTimeout(()=>addLog(lt('Center for Digital Narrative minner deg om at teknologi ikke bare samler data, men også skriver historier om oss.'), 'w'),2600);
     },750);
   },2900);
