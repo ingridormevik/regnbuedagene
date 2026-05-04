@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pride Park 2026 - Instagram Reel</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    gap: 18px;
+    padding: 22px;
+    background:
+      radial-gradient(circle at 50% 15%, rgba(0, 190, 160, .14), transparent 34%),
+      radial-gradient(circle at 80% 78%, rgba(255, 80, 170, .12), transparent 30%),
+      #020407;
+    color: #f3ead8;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+  .stage {
+    width: min(420px, calc(100vw - 30px));
+    aspect-ratio: 9 / 16;
+    border: 1px solid rgba(128, 255, 222, .28);
+    background: #020407;
+    box-shadow: 0 22px 90px rgba(0,0,0,.75), 0 0 38px rgba(0,220,190,.08);
+  }
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  button, a {
+    border: 1px solid rgba(128, 255, 222, .45);
+    background: rgba(4, 12, 14, .85);
+    color: #aefbe8;
+    padding: 10px 14px;
+    font: 700 11px/1.2 "Courier New", monospace;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  button:hover, a:hover { background: rgba(0, 220, 190, .12); }
+  .note {
+    max-width: 520px;
+    color: rgba(243,234,216,.7);
+    font: 13px/1.5 "Courier New", monospace;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div class="stage"><canvas id="reel" width="1080" height="1920"></canvas></div>
+  <div class="controls">
+    <button id="record">Record 15s Reel</button>
+    <button id="restart">Restart Preview</button>
+    <a href="pride-park-spill-2026.html">Open Game</a>
+  </div>
+  <div class="note" id="status">9:16 canvas reel. Record creates a browser video file when supported.</div>
+
+<script>
+(() => {
+  const canvas = document.getElementById('reel');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const TAU = Math.PI * 2;
+  const status = document.getElementById('status');
+  const startAt = { value: performance.now() };
+  const ASSETS = {
+    pride: 'assets/bergenpride.png',
+    mini: 'assets/minipride.png',
+    nokken: 'assets/nokken.png',
+    huldra: 'assets/huldra.png',
+    fosse: 'assets/fossegrimen.png',
+    draugen: 'assets/draugen.png',
+    mare: 'assets/mare.png',
+    troll: 'assets/bergtrollet.png'
+  };
+  const imgs = {};
+  Object.entries(ASSETS).forEach(([k, src]) => {
+    const img = new Image();
+    img.src = src;
+    imgs[k] = img;
+  });
+
+  const rain = Array.from({ length: 170 }, (_, i) => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    z: .35 + Math.random() * .9,
+    l: 20 + Math.random() * 58,
+    a: .08 + Math.random() * .18,
+    s: 2.3 + Math.random() * 4.7,
+    i
+  }));
+  const sparks = Array.from({ length: 80 }, (_, i) => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    r: .8 + Math.random() * 2.2,
+    p: Math.random() * TAU,
+    i
+  }));
+  const creatures = [
+    ['nokken', 'Nokken'], ['huldra', 'Huldra'], ['fosse', 'Fossegrimen'],
+    ['draugen', 'Draugen'], ['mare', 'Mare'], ['troll', 'Bergtrollet']
+  ];
+  const prideCols = ['#ff406f','#ffae40','#ffe76a','#64e896','#4de0ff','#a982ff'];
+
+  function ease(x) { return x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3); }
+  function pulse(t, start, dur) { return ease((t - start) / dur) * (1 - ease((t - start - dur) / dur)); }
+  function coverImage(img, x, y, w, h, alpha = 1) {
+    if (!img || !img.complete || !img.naturalWidth) return;
+    const ir = img.naturalWidth / img.naturalHeight;
+    const r = w / h;
+    let sw = img.naturalWidth, sh = img.naturalHeight, sx = 0, sy = 0;
+    if (ir > r) { sw = img.naturalHeight * r; sx = (img.naturalWidth - sw) / 2; }
+    else { sh = img.naturalWidth / r; sy = (img.naturalHeight - sh) / 2; }
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+    ctx.restore();
+  }
+  function containImage(img, x, y, w, h, alpha = 1) {
+    if (!img || !img.complete || !img.naturalWidth) return;
+    const s = Math.min(w / img.naturalWidth, h / img.naturalHeight);
+    const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+    ctx.restore();
+  }
+  function text(txt, x, y, size, opts = {}) {
+    ctx.save();
+    ctx.globalAlpha = opts.a ?? 1;
+    ctx.fillStyle = opts.fill || '#f6ead8';
+    ctx.textAlign = opts.align || 'left';
+    ctx.textBaseline = opts.base || 'alphabetic';
+    ctx.font = `${opts.weight || 400} ${size}px ${opts.font || 'Georgia, Times New Roman, serif'}`;
+    if (opts.shadow) {
+      ctx.shadowBlur = opts.shadow;
+      ctx.shadowColor = opts.shadowColor || opts.fill || '#ffffff';
+    }
+    ctx.fillText(txt, x, y);
+    ctx.restore();
+  }
+  function drawBackground(t) {
+    const g = ctx.createLinearGradient(0, 0, W, H);
+    g.addColorStop(0, '#020407');
+    g.addColorStop(.42, '#061211');
+    g.addColorStop(.72, '#110915');
+    g.addColorStop(1, '#020407');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.save();
+    ctx.globalAlpha = .28;
+    ctx.strokeStyle = 'rgba(120,255,220,.11)';
+    ctx.lineWidth = 1.2;
+    for (let i = 0; i < 11; i++) {
+      ctx.beginPath();
+      const y = 260 + i * 115 + Math.sin(t * .7 + i) * 18;
+      for (let x = -80; x <= W + 80; x += 42) {
+        const py = y + Math.sin(x * .009 + t * 1.1 + i) * (24 + i * 2);
+        if (x === -80) ctx.moveTo(x, py);
+        else ctx.lineTo(x, py);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    const rg = ctx.createRadialGradient(W * .52, H * .26, 0, W * .52, H * .26, H * .55);
+    rg.addColorStop(0, 'rgba(0,224,190,.18)');
+    rg.addColorStop(.34, 'rgba(105,108,255,.07)');
+    rg.addColorStop(.72, 'rgba(255,80,180,.045)');
+    rg.addColorStop(1, 'transparent');
+    ctx.fillStyle = rg;
+    ctx.fillRect(0, 0, W, H);
+  }
+  function drawWeather(t) {
+    ctx.save();
+    ctx.globalCompositeOperation = 'screen';
+    rain.forEach(d => {
+      d.y += d.s * d.z;
+      d.x += 1.8 * d.z;
+      if (d.y > H + 80) { d.y = -80; d.x = Math.random() * W; }
+      if (d.x > W + 80) d.x = -80;
+      const a = d.a * (.75 + .25 * Math.sin(t * 2 + d.i));
+      const gr = ctx.createLinearGradient(d.x, d.y, d.x + d.l * .42, d.y + d.l);
+      gr.addColorStop(0, 'rgba(180,240,230,0)');
+      gr.addColorStop(.55, `rgba(180,240,230,${a})`);
+      gr.addColorStop(1, `rgba(255,225,185,${a * .5})`);
+      ctx.strokeStyle = gr;
+      ctx.lineWidth = .8 + d.z * 1.1;
+      ctx.beginPath();
+      ctx.moveTo(d.x, d.y);
+      ctx.lineTo(d.x + d.l * .42, d.y + d.l);
+      ctx.stroke();
+    });
+    sparks.forEach(s => {
+      const col = prideCols[s.i % prideCols.length];
+      const tw = Math.max(0, Math.sin(t * 3.2 + s.p));
+      ctx.fillStyle = col;
+      ctx.globalAlpha = .05 + tw * .42;
+      ctx.shadowBlur = 18;
+      ctx.shadowColor = col;
+      ctx.beginPath();
+      ctx.arc(s.x + Math.sin(t + s.p) * 16, s.y + Math.cos(t * .8 + s.p) * 22, s.r, 0, TAU);
+      ctx.fill();
+    });
+    ctx.restore();
+  }
+  function drawLogoRing(t, x, y, r, a) {
+    ctx.save();
+    ctx.globalAlpha = a;
+    for (let i = 0; i < 6; i++) {
+      ctx.strokeStyle = prideCols[i];
+      ctx.globalAlpha = a * (.14 + i * .012);
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(x, y, r + i * 12 + Math.sin(t * 2 + i) * 5, -TAU * .16 + i * .2, TAU * .62 + i * .2);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  function drawCreatureWheel(t, reveal) {
+    const cx = W / 2, cy = H * .56;
+    creatures.forEach(([key, name], i) => {
+      const angle = -Math.PI / 2 + i * TAU / creatures.length + Math.sin(t * .35) * .04;
+      const rr = 310 + Math.sin(t * 1.4 + i) * 10;
+      const x = cx + Math.cos(angle) * rr;
+      const y = cy + Math.sin(angle) * rr;
+      const on = reveal > i / creatures.length;
+      const p = ease((reveal - i / creatures.length) * creatures.length);
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(.82 + p * .22, .82 + p * .22);
+      ctx.globalAlpha = on ? .9 : .20;
+      ctx.beginPath();
+      ctx.arc(0, 0, 94, 0, TAU);
+      ctx.fillStyle = 'rgba(0,0,0,.38)';
+      ctx.fill();
+      ctx.strokeStyle = on ? prideCols[i] : 'rgba(160,255,220,.18)';
+      ctx.lineWidth = on ? 3 : 1;
+      ctx.shadowBlur = on ? 26 : 0;
+      ctx.shadowColor = prideCols[i];
+      ctx.stroke();
+      ctx.clip();
+      containImage(imgs[key], -82, -82, 164, 164, on ? 1 : .28);
+      ctx.restore();
+      if (on && p > .85) text(name.toUpperCase(), x, y + 136, 22, {
+        align: 'center', fill: '#e9d7b4', font: '"Courier New", monospace', weight: 700, a: .65
+      });
+    });
+  }
+  function drawFrame(now) {
+    const t = ((now - startAt.value) / 1000) % 15;
+    drawBackground(t);
+    drawWeather(t);
+
+    ctx.save();
+    ctx.strokeStyle = 'rgba(128,255,222,.28)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(56, 68, W - 112, H - 136);
+    ctx.restore();
+
+    containImage(imgs.pride, 54, 46, 162, 92, .95);
+    text('PRIDE PARK 2026', W - 70, 86, 23, { align: 'right', fill: '#b8ffe9', font: '"Courier New", monospace', weight: 700, a: .8 });
+
+    const intro = pulse(t, 0, 2.4);
+    const hunt = pulse(t, 2.1, 4.7);
+    const beings = pulse(t, 4.2, 5.3);
+    const mini = pulse(t, 8.7, 3.2);
+    const cta = ease((t - 11.5) / 2.2);
+
+    if (intro > .02) {
+      text('DEN', 92, 410 - intro * 20, 126, { fill: '#fff8e9', a: intro, shadow: 20, shadowColor: 'rgba(255,255,255,.28)' });
+      const grad = ctx.createLinearGradient(92, 500, 830, 700);
+      grad.addColorStop(0, '#b8ffe9'); grad.addColorStop(.45, '#4de0ff'); grad.addColorStop(1, '#d18cff');
+      text('MYTISKE', 92, 540, 118, { fill: grad, a: intro, shadow: 24, shadowColor: 'rgba(79,224,255,.32)' });
+      text('SKOGEN', 92, 670, 118, { fill: grad, a: intro, shadow: 24, shadowColor: 'rgba(209,140,255,.32)' });
+      text('Et levende kart for Bergen Pride', 100, 755, 34, { fill: '#e8d7bb', a: intro * .9, font: '"Courier New", monospace' });
+    }
+
+    if (hunt > .04) {
+      const a = hunt;
+      text('6 SKJULTE VESENER', W / 2, 330, 42, { align: 'center', fill: '#ffdf8b', a, font: '"Courier New", monospace', weight: 700, shadow: 18, shadowColor: 'rgba(255,190,80,.35)' });
+      drawCreatureWheel(t, Math.min(1, (t - 2.4) / 5.3));
+      text('Trykk. Oppdag. Se parken forandre seg.', W / 2, 1420, 36, { align: 'center', fill: '#f3ead8', a: a * .9 });
+    }
+
+    if (beings > .02) {
+      const scanY = 380 + ((t * 260) % 920);
+      const scan = ctx.createLinearGradient(0, scanY - 70, 0, scanY + 70);
+      scan.addColorStop(0, 'rgba(0,255,214,0)');
+      scan.addColorStop(.5, `rgba(0,255,214,${beings * .10})`);
+      scan.addColorStop(1, 'rgba(0,255,214,0)');
+      ctx.fillStyle = scan;
+      ctx.fillRect(70, scanY - 70, W - 140, 140);
+    }
+
+    if (mini > .03) {
+      const x = W / 2, y = H * .56;
+      drawLogoRing(t, x, y, 150, mini);
+      containImage(imgs.mini, x - 138, y - 138, 276, 276, mini);
+      text('MINI PRIDE', x, y + 240, 52, { align: 'center', fill: '#ffd2ea', a: mini, font: '"Courier New", monospace', weight: 700, shadow: 24, shadowColor: 'rgba(255,80,180,.42)' });
+      text('familier · venner · hele byen', x, y + 300, 31, { align: 'center', fill: '#f3ead8', a: mini * .88 });
+    }
+
+    if (cta > .02) {
+      ctx.save();
+      ctx.globalAlpha = cta;
+      const g = ctx.createLinearGradient(100, H - 360, W - 100, H - 190);
+      g.addColorStop(0, 'rgba(0,220,190,.24)');
+      g.addColorStop(.5, 'rgba(255,220,110,.17)');
+      g.addColorStop(1, 'rgba(255,80,170,.20)');
+      ctx.fillStyle = g;
+      ctx.fillRect(90, H - 370, W - 180, 230);
+      ctx.strokeStyle = 'rgba(160,255,225,.48)';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(90, H - 370, W - 180, 230);
+      ctx.restore();
+      text('SPILL NÅ', W / 2, H - 295, 58, { align: 'center', fill: '#b8ffe9', a: cta, font: '"Courier New", monospace', weight: 700, shadow: 24, shadowColor: 'rgba(0,255,214,.35)' });
+      text('ingridormevik.github.io/regnbuedagene', W / 2, H - 230, 27, { align: 'center', fill: '#f3ead8', a: cta * .9, font: '"Courier New", monospace' });
+    }
+
+    requestAnimationFrame(drawFrame);
+  }
+  requestAnimationFrame(drawFrame);
+
+  document.getElementById('restart').addEventListener('click', () => {
+    startAt.value = performance.now();
+  });
+
+  document.getElementById('record').addEventListener('click', async () => {
+    if (!canvas.captureStream || !window.MediaRecorder) {
+      status.textContent = 'MediaRecorder is not supported in this browser.';
+      return;
+    }
+    startAt.value = performance.now();
+    const stream = canvas.captureStream(30);
+    const types = ['video/mp4;codecs=h264', 'video/webm;codecs=vp9', 'video/webm;codecs=vp8', 'video/webm'];
+    const mimeType = types.find(type => MediaRecorder.isTypeSupported(type)) || '';
+    const chunks = [];
+    const recorder = new MediaRecorder(stream, mimeType ? { mimeType } : undefined);
+    recorder.ondataavailable = ev => { if (ev.data && ev.data.size) chunks.push(ev.data); };
+    recorder.onstop = () => {
+      const type = recorder.mimeType || 'video/webm';
+      const blob = new Blob(chunks, { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pride-park-promo-reel.${type.includes('mp4') ? 'mp4' : 'webm'}`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+      status.textContent = 'Reel recorded.';
+    };
+    recorder.start();
+    status.textContent = 'Recording 15 seconds...';
+    setTimeout(() => recorder.stop(), 15000);
+  });
+})();
+</script>
+</body>
+</html>
