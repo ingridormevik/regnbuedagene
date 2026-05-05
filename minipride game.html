@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>CDN LÆRINGSLAB / DATASPOR — BRYGGEN UNDER VANN</title>
+<title>CDN LÆRINGSLAB / DATASPOR — BERGEN FRA FJORD TIL FJELL</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -47,13 +47,13 @@ canvas{display:block;position:absolute;inset:0;}
   display:flex;flex-direction:column;gap:9px;pointer-events:none;backdrop-filter:blur(14px);box-shadow:18px 0 34px rgba(0,0,0,.18);}
 #lp::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
   background:linear-gradient(90deg,rgba(255,203,139,.55),transparent);opacity:.22;}
-.plbl{font-family:var(--disp);font-size:7px;letter-spacing:4.6px;color:rgba(226,242,250,.66);
+.plbl{font-family:var(--disp);font-size:8px;letter-spacing:3.2px;color:rgba(226,242,250,.74);
   text-transform:uppercase;display:flex;align-items:center;gap:6px;}
 .plbl::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,203,139,.18),transparent);}
 .sr{display:flex;flex-direction:column;gap:3px;}
 .srh{display:flex;justify-content:space-between;align-items:baseline;}
-.srn{font-size:7.5px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);font-family:var(--plex);transition:color .4s;}
-.srv{font-size:10px;font-weight:500;font-family:var(--plex);color:rgba(58,184,216,.4);min-width:24px;text-align:right;transition:color .3s;}
+.srn{font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--dim);font-family:var(--plex);transition:color .4s;}
+.srv{font-size:11px;font-weight:500;font-family:var(--plex);color:rgba(58,184,216,.48);min-width:24px;text-align:right;transition:color .3s;}
 .sbt{height:2px;background:rgba(255,255,255,.05);border-radius:999px;overflow:hidden;}
 .sbf{height:100%;transition:width .5s cubic-bezier(.4,0,.2,1);position:relative;}
 .sbf::after{content:'';position:absolute;right:-1px;top:-1px;bottom:-1px;width:2px;background:inherit;filter:brightness(2.2);}
@@ -71,7 +71,7 @@ canvas{display:block;position:absolute;inset:0;}
 #obj-text .obj-main{display:block;font-size:10px;line-height:1.45;color:#f4fbff;margin-bottom:7px;font-family:var(--serif);letter-spacing:.2px;}
 #obj-text .obj-hint{display:block;font-size:7px;line-height:1.7;color:rgba(255,214,164,.94);}
 #metric-help{border:1px solid rgba(132,212,245,.10);border-radius:12px;padding:7px 8px;background:rgba(255,255,255,.025);
-  color:rgba(222,242,250,.74);font-size:6.5px;line-height:1.55;font-family:var(--plex);}
+  color:rgba(222,242,250,.82);font-size:8.5px;line-height:1.55;font-family:var(--plex);}
 #metric-help b{color:rgba(255,221,176,.92);font-weight:500;}
 /* RIGHT */
 #rp{position:fixed;right:0;top:40px;bottom:50px;width:146px;background:linear-gradient(180deg,rgba(7,18,31,.92),rgba(5,15,26,.74));
@@ -85,7 +85,7 @@ canvas{display:block;position:absolute;inset:0;}
 #press-u{font-size:6.5px;letter-spacing:2px;color:var(--dim);}
 #elog{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:3px;
   scrollbar-width:thin;scrollbar-color:rgba(58,184,216,.08) transparent;}
-.lge{font-size:7.5px;line-height:1.72;padding:5px 7px;border-left:1px solid rgba(132,212,245,.12);
+.lge{font-size:9px;line-height:1.62;padding:5px 7px;border-left:1px solid rgba(132,212,245,.12);
   color:#b8d8e8;animation:lgi .2s ease;font-family:var(--plex);border-radius:0 12px 12px 0;background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));}
 @keyframes lgi{from{opacity:0;transform:translateX(4px);}to{opacity:1;transform:none;}}
 .lge.w{border-color:var(--amber);background:rgba(184,112,24,.07);color:var(--amber);}
@@ -155,6 +155,29 @@ canvas{display:block;position:absolute;inset:0;}
 #end-s{font-size:7px;letter-spacing:4px;color:var(--dim);opacity:.28;text-transform:uppercase;font-family:var(--disp);}
 #end-r{font-family:var(--plex);font-size:8px;letter-spacing:3px;text-transform:uppercase;padding:9px 24px;border:1px solid rgba(58,184,216,.09);background:transparent;color:var(--dim);cursor:pointer;margin-top:10px;transition:all .25s;}
 #end-r:hover{border-color:var(--fjord);color:var(--fjord);}
+/* ACCESSIBILITY / SETTINGS HUB */
+#accessibility-menu{position:relative;margin-left:8px;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;z-index:210;pointer-events:all;}
+#accessibility-menu>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;min-height:32px;padding:7px 10px;border:1px solid rgba(143,230,255,.28);border-radius:12px;background:linear-gradient(180deg,rgba(8,22,34,.96),rgba(4,13,23,.90));color:#e9fbff;box-shadow:0 10px 28px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.05);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;}
+#accessibility-menu>summary::-webkit-details-marker{display:none;}
+#accessibility-menu>summary::after{content:"+";color:var(--amber);font-size:14px;line-height:1;}
+#accessibility-menu[open]>summary::after{content:"-";}
+.access-menu-body{position:absolute;top:calc(100% + 8px);right:0;width:min(330px,calc(100vw - 20px));padding:12px;border:1px solid rgba(143,230,255,.24);border-radius:14px;background:linear-gradient(180deg,rgba(6,18,31,.98),rgba(4,12,22,.95));box-shadow:0 22px 70px rgba(0,0,0,.52),inset 0 0 34px rgba(255,255,255,.025);backdrop-filter:blur(16px);display:grid;gap:10px;}
+.access-menu-section{display:grid;gap:8px;padding:10px;border:1px solid rgba(255,255,255,.07);border-radius:10px;background:rgba(255,255,255,.035);}
+.access-menu-section>span{font-size:12px;font-weight:800;letter-spacing:.04em;color:#e8fbff;text-transform:uppercase;}
+.access-menu-section button{appearance:none;border:1px solid rgba(143,230,255,.22);border-radius:10px;background:rgba(143,230,255,.065);color:#edfaff;min-height:34px;padding:8px 10px;font:700 12px/1.2 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-align:left;cursor:pointer;}
+.access-menu-section button:hover,.access-menu-section button:focus-visible{outline:none;border-color:rgba(255,203,139,.55);background:rgba(255,203,139,.10);}
+.access-menu-section button[aria-pressed="true"]{border-color:rgba(146,245,199,.62);background:rgba(146,245,199,.13);color:#f3fff9;}
+body.readable-mode #story-copy{display:block;}
+body.readable-mode #story-card{max-width:520px;opacity:.96;}
+body.readable-mode #story-title{font-size:24px;}
+body.readable-mode #story-mission,body.readable-mode #story-tip{font-size:10px;letter-spacing:.04em;line-height:1.6;}
+body.readable-mode #obj-text .obj-main{font-size:14px;font-family:var(--disp);}
+body.readable-mode #obj-text .obj-hint,body.readable-mode #metric-help,body.readable-mode .lge,body.readable-mode #ipd{font-size:11px;line-height:1.65;}
+body.readable-mode .ab{font-size:10px;letter-spacing:.08em;}
+body.high-contrast{--text:#fff;--dim:#b9d8e6;--panel:rgba(1,8,14,.92);--panel-strong:rgba(1,8,14,.98);}
+body.high-contrast #story-card,body.high-contrast #lp,body.high-contrast #rp,body.high-contrast #tb,body.high-contrast #btm,body.high-contrast #ipop{background:rgba(1,8,14,.96);border-color:rgba(255,255,255,.32);}
+body.high-contrast .lge,body.high-contrast #ipd,body.high-contrast #story-tip,body.high-contrast #obj-text{color:#fff;}
+body.reduced-motion *,body.reduced-motion *::before,body.reduced-motion *::after{animation:none!important;transition:none!important;}
 /* LOADING */
 #ldg{position:fixed;inset:0;background:radial-gradient(circle at 20% 18%,rgba(255,190,126,.12),transparent 24%),radial-gradient(circle at 78% 12%,rgba(111,224,255,.12),transparent 28%),linear-gradient(180deg,#030811,#05111c 44%,#030a12 100%);z-index:9950;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:60px 80px;transition:opacity .7s;}
 #ldg.h{opacity:0;pointer-events:none;}
@@ -215,6 +238,8 @@ body.mobile-ui .tsv{font-size:10px;}
 body.mobile-ui #zone-lbl{border-right:none;padding-right:0;margin-right:0;max-width:118px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:6.5px;letter-spacing:2px;}
 body.mobile-ui #clock{display:none;}
 body.mobile-ui #lang-toggle{padding:6px 8px;font-size:6.5px;letter-spacing:1.4px;}
+body.mobile-ui #accessibility-menu{margin-left:4px;}
+body.mobile-ui #accessibility-menu>summary{min-height:30px;padding:6px 8px;font-size:8px;letter-spacing:.05em;}
 body.mobile-ui #lp,body.mobile-ui #rp{width:12px;top:46px;bottom:78px;padding:0;background:transparent;border:none;}
 body.mobile-ui #lp::before,body.mobile-ui #rp::before{display:none;}
 body.mobile-ui #lp > *,body.mobile-ui #rp > *{display:none !important;}
@@ -227,6 +252,8 @@ body.mobile-ui #story-title{font-size:15px;letter-spacing:1px;}
 body.mobile-ui #story-mission{font-size:8px;letter-spacing:1.6px;margin-bottom:6px;}
 body.mobile-ui #story-copy{font-size:10px;line-height:1.72;max-width:none;}
 body.mobile-ui #story-tip{font-size:8.3px;line-height:1.65;}
+body.mobile-ui.readable-mode #story-title{font-size:18px;}
+body.mobile-ui.readable-mode #story-mission,body.mobile-ui.readable-mode #story-tip,body.mobile-ui.readable-mode #story-copy{font-size:11px;line-height:1.55;letter-spacing:.02em;}
 body.mobile-ui #story-progress{margin:8px 0 9px;gap:5px;}
 body.mobile-ui .story-dot{width:9px;height:9px;}
 body.mobile-ui #touch-ui{left:12px;right:12px;bottom:84px;}
@@ -250,9 +277,9 @@ body.mobile-ui .bs{font-size:7px;line-height:1.8;max-width:36ch;}
 <!-- LOADING -->
 <div id="ldg">
   <div class="bt">CDN LÆRINGSLAB / DATASPOR</div>
-  <div class="bs">BERGEN 2063 ◈ BRYGGEN, NORDNES OG NYGÅRDSPARKEN UNDER VANN ◈ FLØYEN OG ULRIKEN OVER VANN</div>
+  <div class="bs">BERGEN 2063 ◈ BRYGGEN, FESTPLASSEN, NORDNES OG NYGÅRDSPARKEN I VANNSONEN ◈ FLØYEN OG ULRIKEN I FJELLSONEN</div>
   <div class="bl" id="bl1"><span>Vekker regnbuebølgene rundt Bryggen...</span><span class="bl-ok">[OK]</span></div>
-  <div class="bl" id="bl2"><span>Laster kart: Bryggen/Nordnes under vann, Fløyen/Ulriken over vann...</span><span class="bl-ok">[OK]</span></div>
+  <div class="bl" id="bl2"><span>Laster kart: sentrum, park, fjord og fjell etter Bergen-geografien...</span><span class="bl-ok">[OK]</span></div>
   <div class="bl" id="bl3"><span>Pakker digitalt feltvett: samtykke, omsorg og kritiske spørsmål...</span><span class="bl-ok">[OK]</span></div>
   <div class="bl" id="bl4"><span>Sender sporingsfisk og signalperler i myk modus...</span><span class="bl-ok">[OK]</span></div>
   <div class="bl" id="bl5"><span>Kobler Bergen til Center for Digital Narrative...</span><span class="bl-ok">[OK]</span></div>
@@ -271,6 +298,26 @@ body.mobile-ui .bs{font-size:7px;line-height:1.8;max-width:36ch;}
     <div id="zone-lbl">BRYGGEN REGENBUEBRYGGE</div>
     <div id="clock">◈ 20:44:00</div>
     <button id="lang-toggle" type="button" onclick="toggleLanguage()" aria-label="Bytt språk">NOR/ENG</button>
+    <details id="accessibility-menu">
+      <summary id="access-menu-title">Tilgjengelighet</summary>
+      <div class="access-menu-body">
+        <section class="access-menu-section">
+          <span id="access-menu-reading">Lesbarhet</span>
+          <button id="access-readable" type="button" aria-pressed="false" onclick="toggleAccessOption('readable')">Større tekst / forklaring</button>
+          <button id="access-contrast" type="button" aria-pressed="false" onclick="toggleAccessOption('contrast')">Høy kontrast</button>
+        </section>
+        <section class="access-menu-section">
+          <span id="access-menu-gameplay">Spillro</span>
+          <button id="access-easy" type="button" aria-pressed="false" onclick="toggleAccessOption('easy')">Roligere patruljer</button>
+          <button id="access-motion" type="button" aria-pressed="false" onclick="toggleAccessOption('motion')">Mindre bevegelse</button>
+        </section>
+        <section class="access-menu-section">
+          <span id="access-menu-audio">Lyd</span>
+          <button id="access-music" type="button" aria-pressed="false" onclick="toggleAccessOption('music')">Musikk av/på</button>
+          <button id="access-sfx" type="button" aria-pressed="false" onclick="toggleAccessOption('sfx')">SFX av/på</button>
+        </section>
+      </div>
+    </details>
   </div>
   <div id="lp">
     <div class="plbl">Regnbuestatus</div>
@@ -339,7 +386,7 @@ body.mobile-ui .bs{font-size:7px;line-height:1.8;max-width:36ch;}
 </div>
 
 <div id="frpop"><div id="frt">⬡ VENTEBØLGE</div><div id="frm"></div><div id="frbt"><div id="frbf"></div></div></div>
-<div id="endscrn"><div id="end-t"></div><div id="end-b"></div><div id="end-s">CDN LÆRINGSLAB ◈ BRYGGEN UNDER VANN ◈ SPØRSMÅLENE LEVER VIDERE</div><button id="end-r" onclick="resetGame()">[ START PÅ NYTT ]</button></div>
+<div id="endscrn"><div id="end-t"></div><div id="end-b"></div><div id="end-s">CDN LÆRINGSLAB ◈ BERGEN FRA FJORD TIL FJELL ◈ SPØRSMÅLENE LEVER VIDERE</div><button id="end-r" onclick="resetGame()">[ START PÅ NYTT ]</button></div>
 <div id="ipop"><div id="ipt"></div><div id="ipd"></div><div id="ipa"></div></div>
 
 <script>
@@ -351,6 +398,7 @@ const W=gc.width, H=gc.height;
 const FORCE_MOBILE=new URLSearchParams(window.location.search).get('mobile')==='1';
 const MOBILE_MODE=FORCE_MOBILE||window.innerWidth<=900||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches&&window.innerWidth<=1100);
 if(MOBILE_MODE)document.body.classList.add('mobile-ui');
+const PERF_SCALE=MOBILE_MODE ? .68 : 1;
 const LP=MOBILE_MODE?12:156, RP=MOBILE_MODE?12:146;           // left/right panel widths
 const SURFACE_Y = Math.round(H*(MOBILE_MODE?0.33:0.38)); // surface line moves a bit up on small screens
 const FLOOR_Y   = H-(MOBILE_MODE?80:52);
@@ -359,11 +407,13 @@ const GAME_VIEW_TOP=MOBILE_MODE?46:40;
 const GAME_VIEW_BOTTOM=H-(MOBILE_MODE?74:50);
 const CDN_LEARNING_LANG_KEY='cdnLearningLanguage';
 const LANG={current:localStorage.getItem(CDN_LEARNING_LANG_KEY)==='en'?'en':'no'};
+const ACCESS_KEY='cdnLearningAccess';
+const ACCESS={readable:true,contrast:false,easy:true,motion:false,music:true,sfx:true,...JSON.parse(localStorage.getItem(ACCESS_KEY)||'{}')};
 const UI_TEXT={
   loadingTitle:{no:'CDN LÆRINGSLAB / DATASPOR',en:'CDN LEARNING LAB / DATA TRACES'},
-  loadingSubtitle:{no:'BERGEN 2063 ◈ BRYGGEN, NORDNES OG NYGÅRDSPARKEN UNDER VANN ◈ FLØYEN OG ULRIKEN OVER VANN',en:'BERGEN 2063 ◈ BRYGGEN, NORDNES AND NYGÅRDSPARKEN UNDER WATER ◈ FLØYEN AND ULRIKEN ABOVE WATER'},
-  loadingLine1:{no:'Vekker regnbuebølgene rundt Bryggen...',en:'Waking the rainbow waves around Bryggen...'},
-  loadingLine2:{no:'Laster kart: Bryggen/Nordnes under vann, Fløyen/Ulriken over vann...',en:'Loading map: Bryggen/Nordnes under water, Fløyen/Ulriken above water...'},
+  loadingSubtitle:{no:'BERGEN 2063 ◈ BRYGGEN, FESTPLASSEN, NORDNES OG NYGÅRDSPARKEN I VANNSONEN ◈ FLØYEN OG ULRIKEN I FJELLSONEN',en:'BERGEN 2063 ◈ BRYGGEN, FESTPLASSEN, NORDNES AND NYGÅRDSPARKEN IN THE FLOOD ZONE ◈ FLØYEN AND ULRIKEN IN THE MOUNTAIN ZONE'},
+  loadingLine1:{no:'Vekker regnbuebølgene rundt Bryggen og Festplassen...',en:'Waking the rainbow waves around Bryggen and Festplassen...'},
+  loadingLine2:{no:'Laster kart: sentrum, park, fjord og fjell etter Bergen-geografien...',en:'Loading map: city centre, park, fjord and mountain from Bergen geography...'},
   loadingLine3:{no:'Pakker digitalt feltvett: samtykke, omsorg og kritiske spørsmål...',en:'Packing digital field skills: consent, care and critical questions...'},
   loadingLine4:{no:'Sender sporingsfisk og signalperler i myk modus...',en:'Sending tracking fish and signal pearls in soft mode...'},
   loadingLine5:{no:'Kobler Bergen til Center for Digital Narrative...',en:'Linking Bergen to the Center for Digital Narrative...'},
@@ -397,8 +447,18 @@ const UI_TEXT={
   shadowguest:{no:'Skyggjesten',en:'Shadow guest'},
   contextDefault:{no:'Trykk piler/WASD som i Pac-Man: retningen huskes, neste sving buffers. X stopper i neste kryss.',en:'Press arrows/WASD like Pac-Man: direction is remembered, next turn is buffered. X stops at the next junction.'},
   audioPrompt:{no:'[ KLIKK FOR Å VEKKE HAVLYDENE ]',en:'[ CLICK TO WAKE THE SEA SOUNDS ]'},
+  accessTitle:{no:'Tilgjengelighet',en:'Accessibility'},
+  accessReading:{no:'Lesbarhet',en:'Readability'},
+  accessGameplay:{no:'Spillro',en:'Calmer play'},
+  accessAudio:{no:'Lyd',en:'Audio'},
+  accessReadable:{no:'Større tekst / forklaring',en:'Larger text / explanation'},
+  accessContrast:{no:'Høy kontrast',en:'High contrast'},
+  accessEasy:{no:'Roligere patruljer',en:'Calmer patrols'},
+  accessMotion:{no:'Mindre bevegelse',en:'Reduced motion'},
+  accessMusic:{no:'Musikk av/på',en:'Music on/off'},
+  accessSfx:{no:'SFX av/på',en:'SFX on/off'},
   frictionTitle:{no:'⬡ VENTEBØLGE',en:'⬡ WAITING WAVE'},
-  endSubtitle:{no:'CDN LÆRINGSLAB ◈ BRYGGEN UNDER VANN ◈ SPØRSMÅLENE LEVER VIDERE',en:'CDN LEARNING LAB ◈ BRYGGEN UNDER WATER ◈ THE QUESTIONS KEEP LIVING'},
+  endSubtitle:{no:'CDN LÆRINGSLAB ◈ BERGEN FRA FJORD TIL FJELL ◈ SPØRSMÅLENE LEVER VIDERE',en:'CDN LEARNING LAB ◈ BERGEN FROM FJORD TO MOUNTAIN ◈ THE QUESTIONS KEEP LIVING'},
   restart:{no:'[ START PÅ NYTT ]',en:'[ START AGAIN ]'},
   storyEyebrowDefault:{no:'CDN-læringsfortelling',en:'CDN learning story'},
   storyTitleDefault:{no:'Hei, feltforsker!',en:'Hello, field researcher!'},
@@ -427,7 +487,7 @@ const UI_TEXT={
   storyFallback:{no:'Eventyr {current} av {total}',en:'Story {current} of {total}'},
   languageTitle:{no:'Bytt mellom norsk og engelsk',en:'Switch between Norwegian and English'},
   languageAria:{no:'Bytt språk til engelsk',en:'Switch language to Norwegian'},
-  pageTitle:{no:'CDN LÆRINGSLAB / DATASPOR — BRYGGEN UNDER VANN',en:'CDN LEARNING LAB / DATA TRACES — BRYGGEN UNDER WATER'},
+  pageTitle:{no:'CDN LÆRINGSLAB / DATASPOR — BERGEN FRA FJORD TIL FJELL',en:'CDN LEARNING LAB / DATA TRACES — BERGEN FROM FJORD TO MOUNTAIN'},
   objectiveTrail:{no:'▸ CDN-LABRUTE',en:'▸ CDN LAB ROUTE'},
   touchControls:{no:'Berøringskontroller',en:'Touch controls'},
   swimUp:{no:'Svøm opp',en:'Swim up'},
@@ -448,7 +508,8 @@ const STRING_EN={
   'BRYGGEN — SJØBODRADEN':'BRYGGEN — WHARF ROW',
   'SANDVIKEN — SJØBODER OG SMYG':'SANDVIKEN — BOATHOUSES AND LANES',
   'FISKETORGET — APPSTRØMMER':'FISH MARKET — APP STREAMS',
-  'FLØIBANEN — OVER VANN':'FLØIBANEN — ABOVE WATER',
+  'FLØIBANEN — FJELLSIDE':'FLØIBANEN — MOUNTAINSIDE',
+  'FESTPLASSEN — BYROM OG SIGNALER':'FESTPLASSEN — CIVIC SPACE AND SIGNALS',
   'NYGÅRDSPARKEN — MØNSTER OG MINNER':'NYGÅRDSPARKEN — PATTERNS AND MEMORIES',
   'BERGENHUS — TILLATELSESARKIV':'BERGENHUS — PERMISSION ARCHIVE',
   'MARINEHOLMEN — WI-FI-BELTET':'MARINEHOLMEN — WI-FI BELT',
@@ -458,19 +519,23 @@ const STRING_EN={
   'BRYGGEN PORTROM':'BRYGGEN GATE ROOM',
   'FLØIBANEN KAI':'FLØIBANEN QUAY',
   'FLØIBANEN TOPPSTASJON':'FLØIBANEN TOP STATION',
-  'ULRIKEN HOTSPOT':'ULRIKEN HOTSPOT',
+  'FJELLUTSYN':'MOUNTAIN VIEWPOINT',
   'SKYGJEST I NYGÅRDPARKEN':'SHADOW GUEST IN NYGÅRDPARKEN',
   'BERGENHUS TILLATELSESARKIV':'BERGENHUS PERMISSION ARCHIVE',
+  'CDN GLASSHUSET':'CDN GLASS HOUSE',
   'NORDNES LYSESLUSE':'NORDNES LIGHT LOCK',
   'Portrommet viser første del av mysteriet: mobilen kan huske ruter, tider og stopp selv når du bare er ute i byen.':'The gate room shows the first part of the mystery: your phone can remember routes, times and stops even when you are simply out in the city.',
   '[ Se Hvilke Spor Mobilen Lager ]':'[ See What Traces the Phone Leaves ]',
   '[ Bare Svøm Videre ]':'[ Just Keep Swimming ]',
+  'Ved Fløibanen-kai mister du undervannsutstyret ved land og tar banen opp fjellsiden. Fløyen ligger i fjellbakgrunnen, og Fjellfyret gjør usynlige signaler lettere å forstå.':'At the Fløibanen quay you lose the underwater gear on shore and take the line up the mountainside. Fløyen sits in the mountain background, and the Mountain Beacon makes invisible signals easier to understand.',
   'Ta Fløibanen opp fjellsiden til toppstasjonen på Fløyen. Der ligger Fjellfyret, et lys som gjør usynlige signaler lettere å forstå.':'Take Fløibanen up the mountainside to the top station at Fløyen. There the Mountain Beacon waits, a light that makes invisible signals easier to understand.',
   '[ Ta Fløibanen Opp ]':'[ Ride Fløibanen Up ]',
   '[ Vent Litt ]':'[ Wait A Moment ]',
+  'På toppstasjonen står du uten undervannsutstyr, oppe på fjellsiden med utsyn over byen. Fjellfyret lærer deg hvordan nettverk, nærvær og små signaler blir til fortellinger over tid.':'At the top station you stand without underwater gear, up on the mountainside with a view of the city. The Mountain Beacon teaches how networks, presence and small signals become stories over time.',
   'På toppstasjonen på Fløyen venter Fjellfyret. Det lærer deg hvordan byen kan kjenne igjen nærvær med nettverk og små signaler over tid.':'At the top station at Fløyen the Mountain Beacon is waiting. It teaches you how the city can recognise presence through networks and small signals over time.',
   '[ Hent Fjellfyret ]':'[ Collect the Mountain Beacon ]',
   '[ Se Deg Om ]':'[ Look Around ]',
+  'Fra fjellutsynet ser du Bergen som et levende kart. Her oppe blir det tydelig hvordan sted, høyde, tid og korte digitale looper kan bli til mønstre.':'From the mountain viewpoint you see Bergen as a living map. Up here it becomes clear how place, height, time and short digital loops can become patterns.',
   'Fra Ulriken ser du Bergen som et levende kart. Her blir det tydelig hvordan sted, høyde og tid kan bli til mønstre.':'From Ulriken you see Bergen as a living map. Here it becomes clear how place, height and time can become patterns.',
   '[ Se Utsynskartet ]':'[ See the View Map ]',
   '"Først trodde jeg bare appene var smarte. Så skjønte jeg at de hadde lært rutene mine uten at jeg merket det."':'"At first I thought the apps were just clever. Then I realised they had learned my routes without me noticing."',
@@ -479,6 +544,11 @@ const STRING_EN={
   'Her ligger ordene som styrer mye av det digitale livet: tillatelser, annonse-ID og deling. Kjedelige ord, men viktige valg.':'Here lie the words that govern much of digital life: permissions, ad ID and sharing. Dry words, but important choices.',
   '[ Hent Den Enkle Regelen ]':'[ Collect the Simple Rule ]',
   '[ Senere ]':'[ Later ]',
+  'I glasshuset ved forskningsaksen møter du en CDN-forsker som samler trådene: spill, KI, digital litteratur, elektronisk kunst, nettverkskultur og fortellinger om hvem vi får være.':'In the glass house by the research axis you meet a CDN researcher who gathers the threads: games, AI, electronic literature, digital art, network culture and stories about who we get to be.',
+  '[ Møt CDN-Forskeren ]':'[ Meet the CDN Researcher ]',
+  'CDN-forskeren gir deg Narrativkjernen: forskning er ikke bare svar. Det er en måte å lage bedre spørsmål sammen, slik at teknologi kan bli mer rettferdig, mer lekende og mer menneskelig.':'The CDN researcher gives you the Narrative Core: research is not only answers. It is a way to make better questions together, so technology can become more fair, more playful and more human.',
+  'Narrativkjernen viser hvordan overvåkning, KI, spill, digital litteratur og nettverkskultur henger sammen i livene våre.':'The Narrative Core shows how surveillance, AI, games, electronic literature and network culture connect inside our lives.',
+  'Buekorpsdykkerne trommer i parken. Lyden lekker gjennom vannet som om korpset øver i rommet ved siden av.':'The buekorps divers drum in the park. The sound leaks through the water as if the corps is practising in the next room.',
   'Her tar du med lyset opp igjen: sjekk tillatelser, slå av sporing du ikke trenger, og spør før du deler om andre.':'Here you bring the light back up: check permissions, switch off tracking you do not need, and ask before sharing about others.',
   '[ Del Lyset Med Bergen ]':'[ Share the Light With Bergen ]',
   '[ Bli Litt Til ]':'[ Stay A Little Longer ]',
@@ -497,10 +567,10 @@ const STRING_EN={
   'Der satt svingen. Slipp retningen, så stopper du trygt i neste kryss.':'That turn landed well. Release the direction and you will stop safely at the next junction.',
   'Perfekt. Nå kan du gå, svinge og stoppe. Patruljene starter om et øyeblikk.':'Perfect. Now you can move, turn and stop. The patrols start in a moment.',
   'Bryggen-patruljene er aktive. Startbukten er fortsatt rolig nok til å hente pusten.':'The Bryggen patrols are active. The starting cove is still calm enough to catch your breath.',
-  'Trollkart våkner når flere lysspor tennes. Nå prøver kartet å gjette hvor du skal.':'The troll map wakes when more light trails ignite. Now the map is trying to guess where you are going.',
+  'Kartdronen våkner når flere lysspor tennes. Nå prøver systemet å gjette hvor du skal.':'The map drone wakes when more light trails ignite. Now the system is trying to guess where you are going.',
   'Huldra-Signal glir ut av åsen. Nå lytter byen til rytmen i bevegelsen din.':'Huldra Signal slips out of the hillside. Now the city is listening to the rhythm of your movement.',
   'Maremønster finner lukten av vane. Nå teller ikke bare ett stopp, men hele mønsteret.':'The Mare Pattern catches the scent of habit. Now it is not just one stop that matters, but the whole pattern.',
-  'Draugnett løfter seg i nettverket. Nå svarer byen med skjulte forbindelser.':'The draug net rises inside the network. Now the city answers with hidden connections.',
+  'Nettverksdronen løfter seg i systemet. Nå svarer byen med skjulte forbindelser.':'The network drone rises inside the system. Now the city answers with hidden connections.',
   'Fjordvette glitrer i dypet. Selv åpne flater føles fulle av øyne.':'A fjord spirit glitters in the depth. Even open spaces feel full of eyes.',
   'Patruljene sprer seg mellom brygger og smug. Dette er pusterommet mellom jaktene.':'The patrols spread between wharves and lanes. This is the breathing space between chases.',
   'Patruljene låser seg på sporene dine. Nå føles byen mer våken, mer nysgjerrig, mindre tilfeldig.':'The patrols lock onto your traces. Now the city feels more awake, more curious, less random.',
@@ -512,7 +582,7 @@ const STRING_EN={
   'Skinnene finner tonen igjen. Bybanen samler seg og går tilbake til jakten.':'The tracks find their tone again. The light rail regroups and returns to the chase.',
   'Du tok en klarhetsboble. Dronene mister rytmen i noen sekunder.':'You collected a clarity bubble. The drones lose their rhythm for a few seconds.',
   'Du samler første lysspor. Nå føles ruten tydeligere.':'You collect the first light trail. Now the route feels clearer.',
-  'Flere lysspor tenner byen. Nye folklorefiender kan våkne når mønsteret blir tydeligere.':'More light trails ignite the city. New folklore enemies can wake when the pattern becomes clearer.',
+  'Flere lysspor tenner byen. Nye droner kan våkne når mønsteret blir tydeligere.':'More light trails ignite the city. New drones can wake when the pattern becomes clearer.',
   'Halvveis. Bergen 2063 gløder som et Pac-Man-labyrintkart rundt deg.':'Halfway there. Bergen 2063 glows around you like a Pac-Man maze.',
   'Nå er nesten hele ruten tent. Hold øye med sideveier og klarhetsbobler.':'Now almost the whole route is lit. Watch the side paths and the clarity bubbles.',
   'Alle lysspor er tent. Nå leser du byen like godt som den prøver å lese deg.':'All light trails are lit. Now you read the city as well as it tries to read you.',
@@ -554,9 +624,12 @@ const STRING_EN={
   'Porten åpner seg ikke ennå. Du trenger mer glød først.':'The gate does not open yet. You need more glow first.',
   'Bryggen-portrommet viser hvordan sted, tid og vane raskt blir til data.':'The Bryggen gate room shows how place, time and habit quickly become data.',
   'Du svømte forbi portrommet. Dronene fikk fortsette å lese rutinen din i fred.':'You swam past the gate room. The drones got to keep reading your routine in peace.',
+  'Du legger igjen undervannsutstyret ved land. Fløibanen drar deg opp fjellsiden mot Fløyen, der Bergen åpner seg i lys og regn bak deg.':'You leave the underwater gear on shore. Fløibanen pulls you up the mountainside toward Fløyen, where Bergen opens in light and rain behind you.',
   'Fløibanen drar deg opp fjellsiden mot Fløyen. Bergen åpner seg i lys og regn bak deg.':'Fløibanen pulls you up the mountainside toward Fløyen. Bergen opens in light and rain behind you.',
   'Du henter Fjellfyret. Nå blir signalene rundt byen lettere å se og snakke om.':'You collect the Mountain Beacon. Now the signals around the city are easier to see and talk about.',
   'Lærdom: systemer kan merke nærvær over tid uten å kjenne hele deg.':'Lesson: systems can notice presence over time without knowing everything about you.',
+  'Fra fjellutsynet ser du Bergen som et kart av tid, høyde, regler og rytmer. Slik blir spillmekanikk, korte looper og digital litteratur til en fortelling du må navigere selv.':'From the mountain viewpoint you see Bergen as a map of time, height, rules and rhythms. This is how game mechanics, short loops and electronic literature become a story you have to navigate yourself.',
+  'Du finner Bergensnøkkelen: et fremtidig bykompass som kobler Festplassen, Nygårdsparken, Fløyen og Marineholmen til ett lesbart nettverk.':'You find the Bergen Key: a future city compass linking Festplassen, Nygårdsparken, Fløyen and Marineholmen into one readable network.',
   'Fra Ulriken ser du Bergen som et kart av tid, høyde og vaner. Slik kan små signaler bli til store mønstre.':'From Ulriken you see Bergen as a map of time, height and habits. That is how small signals can become large patterns.',
   'Du svømmer ved siden av skygjesten og setter ord på det som føltes uklart.':'You swim beside the shadow guest and find words for what felt unclear.',
   '"Takk. Det hjelper når noen skjønner at overvåking også kan merkes i kroppen."':'"Thank you. It helps when someone understands that surveillance can also be felt in the body."',
@@ -564,7 +637,8 @@ const STRING_EN={
   'Du fant tre enkle ting som faktisk hjelper: sjekk tillatelser, slå av unødig sporing og spør før du deler om andre.':'You found three simple things that actually help: check permissions, switch off tracking you do not need, and ask before sharing about others.',
   '[ Flyt Her ]':'[ Drift Here ]',
   'HEMMELIG BYBANETUNNEL':'SECRET LIGHT RAIL TUNNEL',
-  'Samle lysspor som Pac-Man-prikker, ta Fløibanen opp til fjelllyset, og bruk Ulriken som utsiktshotspot når du vil forstå mønsteret.':'Collect light trails like Pac-Man dots, take Fløibanen up to the mountain light, and use Ulriken as a lookout hotspot when you want to understand the pattern.',
+  'Samle lysspor som Pac-Man-prikker, legg fra deg undervannsutstyret ved Fløibanen, klatre opp til fjelllyset og bruk fjellutsynet når du vil forstå mønsteret.':'Collect light trails like Pac-Man dots, leave the underwater gear at Fløibanen, climb to the mountain light and use the mountain viewpoint when you want to understand the pattern.',
+  'Samle lysspor som Pac-Man-prikker, ta Fløibanen opp til fjelllyset, og bruk fjellutsynet når du vil forstå mønsteret.':'Collect light trails like Pac-Man dots, take Fløibanen up to the mountain light, and use the mountain viewpoint when you want to understand the pattern.',
   'RUTEKART':'ROUTE MAP',
   'PRIDEVALG':'PRIDE CHOICES',
   'Prøv små digitale valg: mindre sporing, mer samtykke og tydeligere ord.':'Try small digital choices: less tracking, more consent and clearer language.',
@@ -589,14 +663,17 @@ const STRING_EN={
   'Hold en retning for å ta første strekk, sving i et kryss og slipp for å stoppe trygt.':'Hold a direction to take the first stretch, turn at a junction and release to stop safely.',
   'Bergen ligger mørk og grønn over deg. Først får du en trygg øving på å gå, svinge og stoppe i Bryggen.':'Bergen lies dark and green above you. First you get a safe practice run to move, turn and stop in Bryggen.',
   'Når øvingen er ferdig, våkner patruljene som arkadefiender: én etter én, med egne personligheter og egne måter å lese spor på.':'When the practice is over, the patrols wake like arcade enemies: one by one, each with its own personality and way of reading traces.',
-  'Bryggen, Nordnes og Nygårdsparken ligger under vann i dette 2063-kartet. Fløyen og Ulriken står over vann som utsiktspunkter.':'Bryggen, Nordnes and Nygårdsparken sit under water in this 2063 map. Fløyen and Ulriken remain above water as lookout points.',
+  'Bryggen, Festplassen, Nordnes og Nygårdsparken ligger i vannsonen i dette 2063-kartet. Fløyen og Ulriken ligger i fjellsonen og gir utsyn.':'Bryggen, Festplassen, Nordnes and Nygårdsparken sit in the flood zone in this 2063 map. Fløyen and Ulriken sit in the mountain zone and give you a view.',
+  'Festplassen ligger i sentrum av byrommet. Når folk samles her, blir nettverkskultur synlig: hvem filmer, hvem deler, hvem blir gjenkjent.':'Festplassen sits in the centre of the civic space. When people gather here, network culture becomes visible: who films, who shares, who gets recognised.',
+  'Fløibanen går fra sjøkanten opp mot Fløyen. Her skifter spillet fra svømming til fjellside og utsikt.':'Fløibanen runs from the waterside up toward Fløyen. Here the game shifts from swimming to mountainside and viewpoint.',
+  'Nygårdsparken ligger sør for sentrum og tett på studentbyen. Buekorps-rytmer, parkstier og appspor viser hvordan kultur også kan bli data.':'Nygårdsparken sits south of the centre and close to the student city. Buekorps rhythms, park paths and app traces show how culture can become data too.',
   'CDN-labregel lastet: sjekk tillatelser, slå av unødig sporing og spør før du deler.':'CDN lab rule loaded: check permissions, switch off tracking you do not need, and ask before sharing.',
   'Center for Digital Narrative minner deg om at teknologi ikke bare samler data, men også skriver historier om oss.':'Center for Digital Narrative reminds you that technology does not only collect data, it also writes stories about us.',
   'NØKK-SPORER':'NØKK TRACKER',
-  'TROLLKART':'TROLL MAP',
+  'TROLLKART':'MAP DRONE',
   'HULDRA-SIGNAL':'HULDRA SIGNAL',
   'MAREMØNSTER':'MARE PATTERN',
-  'DRAUGNETT':'DRAUG NET',
+  'DRAUGNETT':'NETWORK DRONE',
   'FJORDVETTE':'FJORD SPIRIT',
   'Bybanen under vann':'Light rail under water',
   'UTFORSK':'EXPLORE'
@@ -654,6 +731,22 @@ function renderLanguageChrome(){
     langToggle.title=tr('languageTitle');
     langToggle.setAttribute('aria-label',tr('languageAria'));
   }
+  const accessMap={
+    'access-menu-title':'accessTitle',
+    'access-menu-reading':'accessReading',
+    'access-menu-gameplay':'accessGameplay',
+    'access-menu-audio':'accessAudio',
+    'access-readable':'accessReadable',
+    'access-contrast':'accessContrast',
+    'access-easy':'accessEasy',
+    'access-motion':'accessMotion',
+    'access-music':'accessMusic',
+    'access-sfx':'accessSfx'
+  };
+  Object.entries(accessMap).forEach(([id,key])=>{
+    const el=document.getElementById(id);
+    if(el)el.textContent=tr(key);
+  });
   const objBox=document.getElementById('obj-box');
   if(objBox)objBox.dataset.label=tr('objectiveTrail');
   const metricHelp=document.getElementById('metric-help');
@@ -684,6 +777,7 @@ function renderLanguageChrome(){
     if(el)el.setAttribute('aria-label',tr(key));
   });
   renderLogHistory();
+  applyAccessSettings();
 }
 function toggleLanguage(){
   LANG.current=LANG.current==='no'?'en':'no';
@@ -692,8 +786,57 @@ function toggleLanguage(){
   updateUI();
 }
 
+function applyAccessSettings(){
+  document.body.classList.toggle('readable-mode',!!ACCESS.readable);
+  document.body.classList.toggle('high-contrast',!!ACCESS.contrast);
+  document.body.classList.toggle('reduced-motion',!!ACCESS.motion);
+  [
+    ['access-readable',ACCESS.readable],
+    ['access-contrast',ACCESS.contrast],
+    ['access-easy',ACCESS.easy],
+    ['access-motion',ACCESS.motion],
+    ['access-music',ACCESS.music],
+    ['access-sfx',ACCESS.sfx]
+  ].forEach(([id,on])=>{
+    const el=document.getElementById(id);
+    if(el)el.setAttribute('aria-pressed',on?'true':'false');
+  });
+  if(labMusic){
+    labMusic.muted=!ACCESS.music;
+    labMusic.volume=ACCESS.music ? .26 : 0;
+  }
+  if(dG&&AC)dG.gain.setTargetAtTime(ACCESS.sfx ? .025 : 0,AC.currentTime,.04);
+}
+function toggleAccessOption(option){
+  ACCESS[option]=!ACCESS[option];
+  localStorage.setItem(ACCESS_KEY,JSON.stringify(ACCESS));
+  applyAccessSettings();
+  if(option==='music'&&ACCESS.music&&AC)startLabMusic();
+}
+
 // ════════ AUDIO ════════
-let AC=null,dG=null,audioOK=false;
+let AC=null,dG=null,audioOK=false,bueAudio=null,bueStep=-1,bueLastLog=false;
+const LAB_TRACKS=[
+  'audio/Epic Systems Ascend (Remastered).mp3',
+  'audio/Epic Systems Ascend (Remastered) (1).mp3',
+  'audio/Epic Systems Ascend (Remastered x2).mp3',
+  'audio/Fjord and Fiber  (Remastered).mp3'
+];
+let labMusic=null,labTrackIndex=0;
+function startLabMusic(){
+  if(labMusic||!LAB_TRACKS.length)return;
+  labMusic=new Audio();
+  labMusic.volume=ACCESS.music ? .26 : 0;
+  labMusic.muted=!ACCESS.music;
+  labMusic.preload='metadata';
+  labMusic.addEventListener('ended',()=>{
+    labTrackIndex=(labTrackIndex+1)%LAB_TRACKS.length;
+    labMusic.src=LAB_TRACKS[labTrackIndex];
+    labMusic.play().catch(()=>{});
+  });
+  labMusic.src=LAB_TRACKS[labTrackIndex];
+  labMusic.play().catch(()=>{});
+}
 function initAudio(){
   if(AC)return;
   try{
@@ -702,30 +845,73 @@ function initAudio(){
     document.getElementById('aprmpt').style.opacity='0';
     const O=(f,tp)=>{const o=AC.createOscillator();o.type=tp;o.frequency.value=f;return o;};
     const o1=O(36,'sawtooth'),o2=O(54,'sine'),o3=O(72,'triangle');
-    dG=AC.createGain();dG.gain.value=.025;
+    dG=AC.createGain();dG.gain.value=ACCESS.sfx ? .025 : 0;
     const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=85;lp.Q.value=5;
     [o1,o2,o3].forEach(o=>{o.connect(lp);});lp.connect(dG);dG.connect(AC.destination);
     const lfo=AC.createOscillator(),lg=AC.createGain();
     lfo.frequency.value=.055;lg.gain.value=.004;lfo.connect(lg);lg.connect(dG.gain);
     [o1,o2,o3,lfo].forEach(o=>o.start());
+    initBuekorpsAudio();
+    startLabMusic();
   }catch(e){}
 }
+function initBuekorpsAudio(){
+  if(bueAudio||!AC)return;
+  const gain=AC.createGain(),filter=AC.createBiquadFilter(),comp=AC.createDynamicsCompressor();
+  gain.gain.value=0;
+  filter.type='lowpass';
+  filter.frequency.value=620;
+  filter.Q.value=.45;
+  filter.connect(gain);gain.connect(comp);comp.connect(AC.destination);
+  bueAudio={gain,filter,lastPulse:0};
+}
+function updateBuekorpsAudio(dt){
+  if(!AC||!bueAudio)return;
+  const dx=(P.x+P.w/2)-BUEKORPS_CENTER.x,dy=(P.y+P.h/2)-BUEKORPS_CENTER.y;
+  const dist=Math.hypot(dx,dy);
+  const near=cl(1-dist/BUEKORPS_CENTER.r,0,1);
+  const muffled=near*near*(ACCESS.sfx ? .42 : 0);
+  bueAudio.gain.gain.setTargetAtTime(muffled,AC.currentTime,.28);
+  bueAudio.filter.frequency.setTargetAtTime(360+near*720,AC.currentTime,.22);
+  if(near>.34&&!bueLastLog){
+    bueLastLog=true;
+    addLog(lt('Buekorpsdykkerne trommer i parken. Lyden lekker gjennom vannet som om korpset øver i rommet ved siden av.'),'i');
+  }else if(near<.18)bueLastLog=false;
+  if(!ACCESS.sfx||near<=.05)return;
+  const step=Math.floor(AC.currentTime*3.6)%8;
+  if(step===bueStep)return;
+  bueStep=step;
+  const t=AC.currentTime+.01;
+  const drumGain=AC.createGain(),noiseGain=AC.createGain(),osc=AC.createOscillator(),noise=AC.createBufferSource();
+  const buf=AC.createBuffer(1,Math.max(1,Math.floor(AC.sampleRate*.045)),AC.sampleRate);
+  const data=buf.getChannelData(0);
+  for(let i=0;i<data.length;i++)data[i]=(Math.random()-.5)*(1-i/data.length);
+  noise.buffer=buf;
+  osc.type=step%4===0?'triangle':'square';
+  osc.frequency.value=step%4===0?96:(step%2===0?188:238);
+  drumGain.gain.setValueAtTime((step%4===0 ? .075 : .038)*near,t);
+  drumGain.gain.exponentialRampToValueAtTime(.001,t+.13);
+  noiseGain.gain.setValueAtTime((step%2===0 ? .055 : .028)*near,t);
+  noiseGain.gain.exponentialRampToValueAtTime(.001,t+.06);
+  osc.connect(drumGain);noise.connect(noiseGain);drumGain.connect(bueAudio.filter);noiseGain.connect(bueAudio.filter);
+  osc.start(t);osc.stop(t+.14);noise.start(t);noise.stop(t+.07);
+}
 function tone(f,d,tp='sine',g=.035,off=0){
-  if(!audioOK)return;const t=AC.currentTime;
+  if(!audioOK||!ACCESS.sfx)return;const t=AC.currentTime;
   const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);
   o.type=tp;o.frequency.value=f;
   gn.gain.setValueAtTime(g,t+off);gn.gain.exponentialRampToValueAtTime(.001,t+off+d);
   o.start(t+off);o.stop(t+off+d+.01);
 }
 function swp(f1,f2,d,tp='sine',g=.035,off=0){
-  if(!audioOK)return;const t=AC.currentTime;
+  if(!audioOK||!ACCESS.sfx)return;const t=AC.currentTime;
   const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);
   o.type=tp;o.frequency.setValueAtTime(f1,t+off);o.frequency.exponentialRampToValueAtTime(f2,t+off+d);
   gn.gain.setValueAtTime(g,t+off);gn.gain.exponentialRampToValueAtTime(.001,t+off+d);
   o.start(t+off);o.stop(t+off+d+.01);
 }
 function snd(type){
-  if(!audioOK)return;
+  if(!audioOK||!ACCESS.sfx)return;
   const s={
     move:()=>swp(200,160,.14,'sine',.012),
     floi:()=>{
@@ -793,6 +979,7 @@ function queueDirectionFromKey(key){
   if(dir&&typeof P!=='undefined'){
     P.desiredDir=dir;
     P.bufferDir=dir;
+    haptic(8);
   }
 }
 
@@ -825,9 +1012,13 @@ function anyMoveKeyHeld(){
 function markTouchButton(id,active){
   const el=document.getElementById(id);if(el)el.classList.toggle('active',active);
 }
+function haptic(pattern=12){
+  if(!MOBILE_MODE||!ACCESS.sfx||!navigator.vibrate)return;
+  try{navigator.vibrate(pattern);}catch(e){}
+}
 function bindTouchHold(id,key){
   const el=document.getElementById(id);if(!el)return;
-  const down=e=>{e.preventDefault();initAudio();setHeldKey(key,true);markTouchButton(id,true);};
+  const down=e=>{e.preventDefault();initAudio();haptic(10);setHeldKey(key,true);markTouchButton(id,true);};
   const up=e=>{e.preventDefault();setHeldKey(key,false);markTouchButton(id,false);};
   el.addEventListener('pointerdown',down);
   el.addEventListener('pointerup',up);
@@ -836,7 +1027,7 @@ function bindTouchHold(id,key){
 }
 function bindTouchTap(id,handler){
   const el=document.getElementById(id);if(!el)return;
-  el.addEventListener('pointerdown',e=>{e.preventDefault();initAudio();markTouchButton(id,true);});
+  el.addEventListener('pointerdown',e=>{e.preventDefault();initAudio();haptic(16);markTouchButton(id,true);});
   el.addEventListener('pointerup',e=>{e.preventDefault();markTouchButton(id,false);handler();});
   el.addEventListener('pointercancel',()=>markTouchButton(id,false));
   el.addEventListener('pointerleave',()=>markTouchButton(id,false));
@@ -870,6 +1061,7 @@ function getCanvasIntent(clientX,clientY){
 }
 
 function setupPointerSteering(){
+  let lastTap=0;
   gc.addEventListener('pointerdown',e=>{
     if(S.go)return;
     if(e.pointerType==='mouse'&&e.button!==0)return;
@@ -877,6 +1069,16 @@ function setupPointerSteering(){
     const intent=getCanvasIntent(e.clientX,e.clientY);
     if(!intent)return;
     initAudio();
+    haptic(8);
+    const now=performance.now();
+    if(e.pointerType!=='mouse'&&now-lastTap<320){
+      lastTap=0;
+      if(P.near)tryInteract();
+      else stopAtNextNode();
+      haptic([12,35,12]);
+      return;
+    }
+    lastTap=now;
     if(intent.type==='stop'){
       stopAtNextNode();
       return;
@@ -889,20 +1091,21 @@ function setupPointerSteering(){
 const S={status:100,surveillance:0,erasure:0,guilt:0,friction:0,censorship:0,
   go:false,tick:0,enemyClock:0,secretUnlocked:false,completedObjectives:new Set(),hasSeenErased:false,
   tutorialStage:'move',tutorialCountdown:0,tutorialTurnDir:null,lastEnemyMode:null,trailCount:0,ethicCount:0,lessonText:null,lessonT:0,
-  round:1,roundClearing:false,roundAdvanceT:0,floiRideT:0,ulrikenSeen:false};
+  round:1,roundClearing:false,roundAdvanceT:0,floiRideT:0,ulrikenSeen:false,finalVistaSeen:false};
 const MAX=100;
 const cl=(v,lo=0,hi=MAX)=>Math.max(lo,Math.min(hi,v));
 
 function getRoundDifficulty(){
   const r=Math.max(1,S.round||1);
+  const ease=ACCESS.easy ? .78 : 1;
   return {
-    speed:1+Math.min(1.45,(r-1)*.13),
-    release:Math.max(.34,1-(r-1)*.09),
-    scatter:Math.max(.45,1-(r-1)*.08),
-    chase:1+Math.min(.75,(r-1)*.10),
-    power:Math.max(220,430-(r-1)*42),
-    grace:Math.max(42,92-(r-1)*6),
-    tag:Math.min(44,35+(r-1)*1.2)
+    speed:(1+Math.min(1.05,(r-1)*.10))*ease,
+    release:Math.max(.46,1-(r-1)*.07),
+    scatter:Math.max(.56,1-(r-1)*.06),
+    chase:(1+Math.min(.55,(r-1)*.08))*ease,
+    power:Math.max(260,480-(r-1)*34),
+    grace:Math.max(68,126-(r-1)*5),
+    tag:ACCESS.easy?27:Math.min(38,32+(r-1)*1.0)
   };
 }
 
@@ -956,6 +1159,12 @@ for(let i=0;i<28;i++){
   });
 }
 
+const AIR_DRONES=[
+  {x:2840,y:.30,amp:12,sp:.75,ph:.3,label:'CDN'},
+  {x:3280,y:.22,amp:16,sp:.62,ph:1.8,label:'NETT'},
+  {x:3570,y:.27,amp:10,sp:.82,ph:2.7,label:'KI'}
+];
+
 // Fløibanen cable car track (world x coords)
 const FUNI_X1=350, FUNI_Y1=SURFACE_Y-8;   // lower station (Bryggen side)
 const FUNI_X2=240+350, FUNI_Y2=SURFACE_Y*0.42; // upper station (Fløyen side)
@@ -965,7 +1174,8 @@ const ZONES=[
   {x:0,   label:'BRYGGEN — SJØBODRADEN'},
   {x:980, label:'SANDVIKEN — SJØBODER OG SMYG'},
   {x:1620,label:'FISKETORGET — APPSTRØMMER'},
-  {x:2660,label:'FLØIBANEN — OVER VANN'},
+  {x:2660,label:'FLØIBANEN — FJELLSIDE'},
+  {x:3300,label:'FESTPLASSEN — BYROM OG SIGNALER'},
   {x:3920,label:'NYGÅRDSPARKEN — MØNSTER OG MINNER'},
   {x:5160,label:'BERGENHUS — TILLATELSESARKIV'},
   {x:6260,label:'MARINEHOLMEN — WI-FI-BELTET'},
@@ -975,7 +1185,7 @@ const ZONES=[
 ];
 
 const LANE_Y={
-  sky:FLOOR_Y-250,
+  sky:SURFACE_Y-62,
   high:FLOOR_Y-200,
   mid:FLOOR_Y-150,
   low:FLOOR_Y-102,
@@ -1054,26 +1264,28 @@ const FACADES=BRYGGEN_ROW.map((f,i)=>({
 
 const LANDMARKS=[
   {kind:'fishmarket',x:1420,y:FLOOR_Y-128,w:320,h:96},
+  {kind:'festplassen',x:3260,y:FLOOR_Y-116,w:340,h:92},
   {kind:'nygard',x:3940,y:FLOOR_Y-172,w:360,h:124},
   {kind:'marineholmen',x:6200,y:FLOOR_Y-162,w:420,h:130},
+  {kind:'cdn',x:5580,y:FLOOR_Y-184,w:360,h:150},
   {kind:'puddefjord',x:7000,y:FLOOR_Y-196,w:420,h:170},
   {kind:'bybanen',x:7580,y:FLOOR_Y-70,w:640,h:70},
   {kind:'nordnes',x:8980,y:FLOOR_Y-148,w:260,h:118},
 ];
-const FLOIBANEN_LINE={baseX:2480,baseY:FLOOR_Y-82,topX:2868,topY:FLOOR_Y-250};
+const FLOIBANEN_LINE={baseX:2480,baseY:FLOOR_Y-82,topX:2868,topY:LANE_Y.sky};
 
 const INTERACTABLES=[
   {id:'check',nodeId:'low_620',x:620,y:LANE_Y.low-18,type:'checkpoint',label:'BRYGGEN PORTROM',
    desc:'Portrommet viser første del av mysteriet: mobilen kan huske ruter, tider og stopp selv når du bare er ute i byen.',used:false,
    opts:[{l:'[ Se Hvilke Spor Mobilen Lager ]',c:'',a:'comply'},{l:'[ Bare Svøm Videre ]',c:'rs',a:'ignore'}]},
   {id:'floi',nodeId:'low_2860',x:2860,y:LANE_Y.low-18,type:'lift',label:'FLØIBANEN KAI',
-    desc:'Ta Fløibanen opp fjellsiden til toppstasjonen på Fløyen. Der ligger Fjellfyret, et lys som gjør usynlige signaler lettere å forstå.',used:false,
+    desc:'Ved Fløibanen-kai mister du undervannsutstyret ved land og tar banen opp fjellsiden. Fløyen ligger i fjellbakgrunnen, og Fjellfyret gjør usynlige signaler lettere å forstå.',used:false,
    opts:[{l:'[ Ta Fløibanen Opp ]',c:'rs',a:'ride_floi'},{l:'[ Vent Litt ]',c:'',a:'close'}]},
   {id:'term',nodeId:'sky_2860',x:2860,y:LANE_Y.sky-18,type:'terminal',label:'FLØIBANEN TOPPSTASJON',
-    desc:'På toppstasjonen på Fløyen venter Fjellfyret. Det lærer deg hvordan byen kan kjenne igjen nærvær med nettverk og små signaler over tid.',used:false,
+    desc:'På toppstasjonen står du uten undervannsutstyr, oppe på fjellsiden med utsyn over byen. Fjellfyret lærer deg hvordan nettverk, nærvær og små signaler blir til fortellinger over tid.',used:false,
    opts:[{l:'[ Hent Fjellfyret ]',c:'rs',a:'claim_fyr'},{l:'[ Se Deg Om ]',c:'',a:'close'}]},
-  {id:'ulriken',nodeId:'sky_3420',x:3420,y:LANE_Y.sky-18,type:'ulriken',label:'ULRIKEN HOTSPOT',
-   desc:'Fra Ulriken ser du Bergen som et levende kart. Her blir det tydelig hvordan sted, høyde og tid kan bli til mønstre.',used:false,
+  {id:'ulriken',nodeId:'sky_3420',x:3420,y:LANE_Y.sky-18,type:'ulriken',label:'FJELLUTSYN',
+   desc:'Fra fjellutsynet ser du Bergen som et levende kart. Her oppe blir det tydelig hvordan sted, høyde, tid og korte digitale looper kan bli til mønstre.',used:false,
    opts:[{l:'[ Se Utsynskartet ]',c:'rs',a:'view_ulriken'},{l:'[ Tilbake ]',c:'',a:'close'}]},
   {id:'erased',nodeId:'mid_4140',x:4140,y:LANE_Y.mid-18,type:'erased',label:'SKYGJEST I NYGÅRDPARKEN',
    desc:'"Først trodde jeg bare appene var smarte. Så skjønte jeg at de hadde lært rutene mine uten at jeg merket det."',used:false,
@@ -1081,6 +1293,9 @@ const INTERACTABLES=[
   {id:'arch',nodeId:'high_5340',x:5340,y:LANE_Y.high-18,type:'archive',label:'BERGENHUS TILLATELSESARKIV',
    desc:'Her ligger ordene som styrer mye av det digitale livet: tillatelser, annonse-ID og deling. Kjedelige ord, men viktige valg.',used:false,minStatus:55,
    opts:[{l:'[ Hent Den Enkle Regelen ]',c:'rs',a:'copy_r'},{l:'[ Senere ]',c:'',a:'close'}]},
+  {id:'cdnmentor',nodeId:'high_5900',x:5900,y:LANE_Y.high-18,type:'cdnmentor',label:'CDN GLASSHUSET',
+   desc:'I glasshuset ved forskningsaksen møter du en CDN-forsker som samler trådene: spill, KI, digital litteratur, elektronisk kunst, nettverkskultur og fortellinger om hvem vi får være.',used:false,
+   opts:[{l:'[ Møt CDN-Forskeren ]',c:'rs',a:'meet_cdn'},{l:'[ Senere ]',c:'',a:'close'}]},
   {id:'gate',nodeId:'mid_9240',x:9240,y:LANE_Y.mid-18,type:'gate',label:'NORDNES LYSESLUSE',
    desc:'Her tar du med lyset opp igjen: sjekk tillatelser, slå av sporing du ikke trenger, og spør før du deler om andre.',used:false,
    opts:[{l:'[ Del Lyset Med Bergen ]',c:'dg',a:'exit'},{l:'[ Bli Litt Til ]',c:'',a:'close'}]},
@@ -1106,12 +1321,24 @@ const ETHIC_PICKUPS=[
   {id:'ask',nodeId:'mid_1180',icon:'?',no:'Samtykke først',en:'Consent first',lessonNo:'Spør før du deler bilde, navn eller posisjon. Et ja skal være tydelig, frivillig og mulig å trekke tilbake.',lessonEn:'Ask before sharing a photo, name or location. A yes should be clear, voluntary and possible to take back.',effect:'guilt'},
   {id:'min',nodeId:'high_1760',icon:'-',no:'Del mindre',en:'Share less',lessonNo:'Dataminimering betyr: gi appen bare det den trenger akkurat nå, ikke hele livet ditt.',lessonEn:'Data minimisation means: give the app only what it needs right now, not your whole life.',effect:'surveillance'},
   {id:'loc',nodeId:'low_3420',icon:'L',no:'Posisjon er privat',en:'Location is private',lessonNo:'Kartdata kan vise skole, hjem, venner og vaner. Bruk "mens appen er i bruk" når det holder.',lessonEn:'Map data can reveal school, home, friends and habits. Use "while using the app" when that is enough.',effect:'surveillance'},
+  {id:'net',nodeId:'mid_3420',icon:'N',no:'Nettverkskultur',en:'Network culture',lessonNo:'På Festplassen blir et møte til et nettverk: tagger, delinger og ansikter kan koble folk raskere enn de selv merker.',lessonEn:'At Festplassen a gathering becomes a network: tags, shares and faces can connect people faster than they notice.',effect:'surveillance'},
+  {id:'lit',nodeId:'high_3420',icon:'TXT',no:'Digital litteratur',en:'Digital literature',lessonNo:'Elektronisk litteratur lar deg lese ved å handle. Ruten, valgene og pausene dine blir en del av fortellingen.',lessonEn:'Electronic literature lets you read by acting. Your route, choices and pauses become part of the story.',effect:'status'},
   {id:'ai',nodeId:'high_4700',icon:'AI',no:'AI gjetter',en:'AI guesses',lessonNo:'AI kan ta feil, men likevel høres sikker ut. Spør: hvem tjener på denne gjetningen?',lessonEn:'AI can be wrong and still sound confident. Ask: who benefits from this guess?',effect:'erasure'},
+  {id:'game',nodeId:'low_4140',icon:'G',no:'Spill som forskning',en:'Games as research',lessonNo:'Spill viser regler med kroppen. Når en patrulje leser ruten din, lærer du overvåkning som mekanikk, ikke bare som ord.',lessonEn:'Games show rules through the body. When a patrol reads your route, you learn surveillance as a mechanic, not just a word.',effect:'guilt'},
+  {id:'bue',nodeId:'mid_4140',icon:'B',no:'Buekorps-minne',en:'Buekorps memory',lessonNo:'Buekorps-rytmen i Nygårdsparken minner deg om at bykultur også er data: lyd, ruter, fellesskap og hvem som får ta plass.',lessonEn:'The buekorps rhythm in Nygårdsparken reminds you that city culture is data too: sound, routes, community and who gets to take space.',effect:'status'},
   {id:'adult',nodeId:'mid_5900',icon:'+',no:'Be om hjelp',en:'Ask for help',lessonNo:'Digital trygghet er ikke en solo-boss. Be en trygg voksen eller venn se på innstillinger sammen med deg.',lessonEn:'Digital safety is not a solo boss. Ask a trusted adult or friend to check settings with you.',effect:'status'},
   {id:'report',nodeId:'high_7340',icon:'!',no:'Si fra',en:'Speak up',lessonNo:'Hvis noe føles utrygt: stopp, ta skjermbilde, blokker, rapporter og snakk med noen du stoler på.',lessonEn:'If something feels unsafe: stop, screenshot, block, report and talk to someone you trust.',effect:'censorship'},
   {id:'bias',nodeId:'mid_8040',icon:'=',no:'Rettferdighet',en:'Fairness',lessonNo:'Systemer kan behandle folk ulikt. Spør alltid hvem som blir sett, og hvem som blir gjort usynlig.',lessonEn:'Systems can treat people differently. Always ask who gets seen, and who gets made invisible.',effect:'erasure'},
   {id:'joy',nodeId:'high_8820',icon:'<3',no:'Teknologi skal hjelpe',en:'Tech should help',lessonNo:'God teknologi gjør rommet større for mennesker, ikke mindre. Pride handler også om digitale rom.',lessonEn:'Good technology makes more room for people, not less. Pride is also about digital spaces.',effect:'status'},
 ].map(item=>({...item,x:node(item.nodeId).x+9,y:node(item.nodeId).y+4,taken:false}));
+
+const BUEKORPS_NPCS=Array.from({length:13},(_,i)=>({
+  x:3970+(i%7)*24+(i>6?12:0),
+  y:LANE_Y.mid+18+Math.floor(i/7)*28,
+  ph:i*.7,
+  drum:i%3===0?'bass':i%3===1?'snare':'flag'
+}));
+const BUEKORPS_CENTER={x:4050,y:LANE_Y.mid+36,r:620};
 
 // Platforms (world coords)
 const PLATS=[
@@ -1151,12 +1378,12 @@ const PLATS=[
 ];
 
 const DRONE_SPECS=[
-  {id:'dr-1',label:'NØKK-SPORER',startNodeId:'high_620',initialNextNodeId:'high_1180',scatterNodeId:'high_620',personality:'shadow',speed:3.78,releaseAfter:0,releaseDots:0},
-  {id:'dr-2',label:'TROLLKART',startNodeId:'low_1180',initialNextNodeId:'low_1760',scatterNodeId:'high_1760',personality:'ambush',speed:3.86,releaseAfter:40,releaseDots:2},
-  {id:'dr-3',label:'HULDRA-SIGNAL',startNodeId:'mid_2860',initialNextNodeId:'mid_3420',scatterNodeId:'sky_2860',personality:'ahead',speed:3.94,releaseAfter:120,releaseDots:5},
-  {id:'dr-4',label:'MAREMØNSTER',startNodeId:'high_4140',initialNextNodeId:'high_5340',scatterNodeId:'high_4140',personality:'bashful',speed:3.72,releaseAfter:240,releaseDots:8},
-  {id:'dr-5',label:'DRAUGNETT',startNodeId:'mid_6460',initialNextNodeId:'mid_7340',scatterNodeId:'mid_9240',personality:'crosscut',speed:3.88,releaseAfter:360,releaseDots:11},
-  {id:'dr-6',label:'FJORDVETTE',startNodeId:'low_7340',initialNextNodeId:'low_8820',scatterNodeId:'low_9240',personality:'lookout',speed:3.84,releaseAfter:500,releaseDots:14},
+  {id:'dr-1',label:'NØKK-SPORER',startNodeId:'high_620',initialNextNodeId:'high_1180',scatterNodeId:'high_620',personality:'shadow',speed:3.16,releaseAfter:0,releaseDots:0},
+  {id:'dr-2',label:'TROLLKART',startNodeId:'low_1180',initialNextNodeId:'low_1760',scatterNodeId:'high_1760',personality:'ambush',speed:3.20,releaseAfter:80,releaseDots:4},
+  {id:'dr-3',label:'HULDRA-SIGNAL',startNodeId:'mid_2860',initialNextNodeId:'mid_3420',scatterNodeId:'sky_2860',personality:'ahead',speed:3.24,releaseAfter:190,releaseDots:8},
+  {id:'dr-4',label:'MAREMØNSTER',startNodeId:'high_4140',initialNextNodeId:'high_5340',scatterNodeId:'high_4140',personality:'bashful',speed:3.12,releaseAfter:330,releaseDots:12},
+  {id:'dr-5',label:'DRAUGNETT',startNodeId:'mid_6460',initialNextNodeId:'mid_7340',scatterNodeId:'mid_9240',personality:'crosscut',speed:3.22,releaseAfter:500,releaseDots:16},
+  {id:'dr-6',label:'FJORDVETTE',startNodeId:'low_7340',initialNextNodeId:'low_8820',scatterNodeId:'low_9240',personality:'lookout',speed:3.18,releaseAfter:680,releaseDots:20},
 ];
 
 // ════════ PARTICLES ════════
@@ -1175,7 +1402,7 @@ function spawnJelly(){
 }
 
 // ════════ RAIN (Bergen: 2500mm/år) ════════
-const RAIN=Array.from({length:480},()=>({
+const RAIN=Array.from({length:Math.round(480*PERF_SCALE)},()=>({
   x:Math.random()*WORLD_W, y:Math.random()*(H+80)-40,
   len:.014+Math.random()*.011, sp:.0017+Math.random()*.0015,
   a:.07+Math.random()*.11, wx:.24+Math.random()*.14
@@ -1185,7 +1412,7 @@ const RIPPLES=[];
 // ════════ PLAYER ════════
 const P={
   x:220,y:LANE_Y.low,vx:0,vy:0,w:18,h:28,dir:1,dirKey:'right',desiredDir:null,bufferDir:null,
-  nodeId:'low_220',nextNodeId:null,speed:5.05,anim:0,bubT:0,near:null,powerT:0,graceT:480,tapDir:null
+  nodeId:'low_220',nextNodeId:null,speed:5.45,anim:0,bubT:0,near:null,powerT:0,graceT:620,tapDir:null
 };
 
 function nodeCenter(nodeId){
@@ -1621,9 +1848,10 @@ function maybeCollectPowerPearls(){
     if(pearl.taken)return;
     if(Math.hypot(player.x-pearl.x,player.y-pearl.y)<20){
       pearl.taken=true;P.powerT=getRoundDifficulty().power;S.surveillance=cl(S.surveillance-4);
-      showWarn(lt('KLARHETSBØLGE'));
-      addLog(lt('Du tok en klarhetsboble. Dronene mister rytmen i noen sekunder.'), 'g');
-      snd('success');
+  showWarn(lt('KLARHETSBØLGE'));
+  addLog(lt('Du tok en klarhetsboble. Dronene mister rytmen i noen sekunder.'), 'g');
+  haptic([18,24,18]);
+  snd('success');
     }
   });
 }
@@ -1639,7 +1867,7 @@ function maybeCollectTrailOrbs(){
       if([1,6,12,18,TOTAL_TRAIL_ORBS].includes(S.trailCount)){
         const notes={
           1:'Du samler første lysspor. Nå føles ruten tydeligere.',
-          6:'Flere lysspor tenner byen. Nye folklorefiender kan våkne når mønsteret blir tydeligere.',
+          6:'Flere lysspor tenner byen. Nye droner kan våkne når mønsteret blir tydeligere.',
           12:'Halvveis. Bergen 2063 gløder som et Pac-Man-labyrintkart rundt deg.',
           18:'Nå er nesten hele ruten tent. Hold øye med sideveier og klarhetsbobler.',
         };
@@ -1666,6 +1894,7 @@ function maybeCollectEthicPickups(){
       S.lessonT=420;
       addLog({no:`ETIKKBRIKKE ${S.ethicCount}/${ETHIC_PICKUPS.length}: ${item.no} — ${item.lessonNo}`,en:`ETHICS TOKEN ${S.ethicCount}/${ETHIC_PICKUPS.length}: ${item.en} — ${item.lessonEn}`},'g');
       showWarn(title);
+      haptic([12,20,12]);
       snd('success');
     }
   });
@@ -1725,40 +1954,49 @@ function updateRoundState(dt){
 // ════════ OBJECTIVES ════════
 const OBJS=[
   {t:'Finn Bryggen-portrommet og oppdag hva mobilen kan huske om ruter og stopp.',check:()=>S.completedObjectives.has('check')},
-  {t:'Ta Fløibanen opp og hent Fjellfyret på toppstasjonen.',check:()=>S.completedObjectives.has('term')},
-  {t:'Besøk Ulriken og Nygårdsparken for å se hvordan mønstre blir til historier.',check:()=>S.hasSeenErased&&S.ulrikenSeen},
+  {t:'Legg fra deg undervannsutstyret ved Fløibanen, dra opp fjellsiden og hent Fjellfyret.',check:()=>S.completedObjectives.has('term')},
+  {t:'Klatre til fjellutsynet og videre gjennom Festplassen og Nygårdsparken for å se hvordan mønstre blir til historier.',check:()=>S.hasSeenErased&&S.ulrikenSeen},
+  {t:'Møt CDN-forskeren i glasshuset og hent Narrativkjernen.',check:()=>S.completedObjectives.has('cdnmentor')},
   {t:'Hjelp skygjesten med ro, språk og mot.',check:()=>S.completedObjectives.has('erased_helped')},
   {t:'Ta lyset med hjem gjennom lyseslusen på Nordnes.',check:()=>S.completedObjectives.has('gate')},
+  {t:'Gå opp til det siste fjellutsynet og se hele Bergen som et spillbart narrativ.',check:()=>S.finalVistaSeen},
 ];
 const OBJS_EN=[
   {t:'Find the Bryggen gate room and discover what a phone can remember about routes and stops.'},
-  {t:'Ride Fløibanen up and collect the Mountain Beacon at the top station.'},
-  {t:'Visit Ulriken and Nygårdsparken to see how patterns become stories.'},
+  {t:'Leave the underwater gear at Fløibanen, ascend the mountainside and collect the Mountain Beacon.'},
+  {t:'Climb to the mountain viewpoint and onward through Festplassen and Nygårdsparken to see how patterns become stories.'},
+  {t:'Meet the CDN researcher in the glass house and collect the Narrative Core.'},
   {t:'Help the shadow guest with calm, language and courage.'},
   {t:'Bring the light home through the light lock at Nordnes.'},
+  {t:'Go up to the final mountain viewpoint and see all of Bergen as a playable narrative.'},
 ];
 let objIdx=0;
 
 const STORY_BEATS=[
-  {eyebrow:'Bergen 2063 · Steg 1 av 5',title:'Bryggen våkner under vann',mission:'Mål nå: Bryggen-portrommet',copy:'Bergen 2063 er fullt av lysspor, folkloremonstre og skjulte signaler. I Bryggen begynner du å lære hva mobilen kan huske om deg uten at du merker det.',tip:'Samle lysspor mens du svømmer. De gjør ruten mer Pac-Man-aktig og vekker nye fiender i bølger.'},
-  {eyebrow:'Bergen 2063 · Steg 2 av 5',title:'Ta Fløibanen til fjelllyset',mission:'Mål nå: Fløibanen-kai og toppstasjon',copy:'Når du tar Fløibanen opp, kan du hente Fjellfyret. Det gjør signalene i byen synlige nok til at alle kan snakke om dem uten teknisk sjargong.',tip:'Klarhetsbobler virker som power pellets. De snur jakten og gir deg rom til å hente viktige ting.'},
-  {eyebrow:'Bergen 2063 · Steg 3 av 5',title:'Folkloremonstrene leser mønstre',mission:'Mål nå: Ulriken og Nygårdsparken',copy:'Nøkk-sporere, trollkart og draugnett er ikke bare monstre. De er digitale eventyrfigurer som viser hvordan små spor kan bli til store gjetninger.',tip:'På Ulriken ser du byen som et mønster. I Nygårdsparken kjenner du hva mønsteret gjør med mennesker.'},
-  {eyebrow:'Bergen 2063 · Steg 4 av 5',title:'Del roen videre',mission:'Mål nå: Hjelp skygjesten',copy:'Det mest heroiske i denne byen er ikke å være perfekt. Det er å stoppe opp, lytte og hjelpe andre når teknologien føles for nær.',tip:'Akademia blir nyttig når vanskelige ord blir til språk folk kan bruke. Gi skygjesten ro, og ta med deg setningene videre.'},
-  {eyebrow:'Bergen 2063 · Steg 5 av 5',title:'Ta lyset hjem',mission:'Mål nå: Lyseslusen på Nordnes',copy:'Når du når Nordnes, er oppdraget å ta med deg det viktigste opp til overflaten: enkle regler, litt mot og et klarere blikk på sporene rundt deg.',tip:'Sjekk tillatelser. Skru av sporing du ikke trenger. Spør før du deler andres bilde, navn eller posisjon.'},
+  {eyebrow:'Bergen 2063 · Steg 1 av 7',title:'Bryggen våkner under vann',mission:'Mål nå: Bryggen-portrommet',copy:'Bergen 2063 er fullt av lysspor, patruljedroner og skjulte signaler. I Bryggen begynner du å lære hva mobilen kan huske om deg uten at du merker det.',tip:'Samle lysspor mens du svømmer. De gjør ruten mer Pac-Man-aktig og vekker nye droner i bølger.'},
+  {eyebrow:'Bergen 2063 · Steg 2 av 7',title:'Fra vann til fjell',mission:'Mål nå: Fløibanen-kai og toppstasjon',copy:'Ved land mister du undervannsutstyret. Du tar Fløibanen opp fjellsiden, og Fjellfyret gjør signalene i byen synlige nok til at alle kan snakke om dem uten teknisk sjargong.',tip:'Klarhetsbobler virker som power pellets. De snur jakten og gir deg rom til å hente viktige ting.'},
+  {eyebrow:'Bergen 2063 · Steg 3 av 7',title:'CDN blir spillbar forskning',mission:'Mål nå: Fjellutsynet, Festplassen og Nygårdsparken',copy:'Sporingsdroner, kartdroner og nettverksdroner er digitale systemer i eventyrdrakt. Mekanikkene er inspirert av Jesper Juul, Frans Mäyrä og ludosis: regler som skaper mening, korte TikTok-aktige looper og en Scott Rettberg-aktig elektronisk litteratur der du navigerer fortellingen selv. Nå kobles spill, KI, digital litteratur og nettverkskultur til Bergen-geografien.',tip:'Ved fjellutsynet ser du byen som et mønster. Ved Festplassen ser du nettverkene. I Nygårdsparken kjenner du hva mønsteret gjør med mennesker, også gjennom buekorps-rytmer og byminner.'},
+  {eyebrow:'Bergen 2063 · Steg 4 av 7',title:'Møt CDN-forskeren',mission:'Mål nå: CDN Glasshuset',copy:'I glasshuset samles forskningsgruppene til én stemme: fortellinger er infrastruktur. Spill lar deg prøve regler, KI viser hvordan gjetninger får makt, digital litteratur gjør leseren aktiv, og nettverkskultur viser hvem som blir koblet til hvem.',tip:'Hent Narrativkjernen. Den gjør resten av ruten lettere å lese som forskning du kan føle, ikke bare pugge.'},
+  {eyebrow:'Bergen 2063 · Steg 5 av 7',title:'Del roen videre',mission:'Mål nå: Hjelp skygjesten',copy:'Det mest heroiske i denne byen er ikke å være perfekt. Det er å stoppe opp, lytte og hjelpe andre når teknologien føles for nær.',tip:'Akademia blir nyttig når vanskelige ord blir til språk folk kan bruke. Gi skygjesten ro, og ta med deg setningene videre.'},
+  {eyebrow:'Bergen 2063 · Steg 6 av 7',title:'Ta lyset hjem',mission:'Mål nå: Lyseslusen på Nordnes',copy:'Når du når Nordnes, er oppdraget å ta med deg det viktigste opp til overflaten: enkle regler, litt mot og et klarere blikk på sporene rundt deg.',tip:'Sjekk tillatelser. Skru av sporing du ikke trenger. Spør før du deler andres bilde, navn eller posisjon.'},
+  {eyebrow:'Bergen 2063 · Steg 7 av 7',title:'Siste utsyn over Bergen',mission:'Mål nå: Fjellutsynet',copy:'Til slutt går du opp igjen. Ikke for å rømme fra byen, men for å se hele systemet: fjord, park, glasshus, droner, buekorpsrytmer og menneskene som nekter å bli redusert til datapunkter.',tip:'Trykk Utforsk ved fjellutsynet. Da lukker spillet seg som et kart som endelig lar deg lese tilbake.'},
 ];
 const STORY_BEATS_EN=[
-  {eyebrow:'Bergen 2063 · Step 1 of 5',title:'Bryggen wakes under water',mission:'Goal now: Bryggen gate room',copy:'Bergen 2063 is full of light trails, folklore monsters and hidden signals. In Bryggen you begin to learn what a phone can remember about you without you noticing.',tip:'Collect light trails as you swim. They make the route feel more Pac-Man-like and wake new enemies in waves.'},
-  {eyebrow:'Bergen 2063 · Step 2 of 5',title:'Take Fløibanen to the mountain light',mission:'Goal now: Fløibanen quay and top station',copy:'When you take Fløibanen up, you can collect the Mountain Beacon. It makes the city signals visible enough that everyone can talk about them without technical jargon.',tip:'Clarity bubbles work like power pellets. They turn the chase and give you room to collect important things.'},
-  {eyebrow:'Bergen 2063 · Step 3 of 5',title:'The folklore monsters read patterns',mission:'Goal now: Ulriken and Nygårdsparken',copy:'Nøkk trackers, troll maps and draug nets are not just monsters. They are digital story creatures showing how small traces can become big guesses.',tip:'At Ulriken you see the city as a pattern. In Nygårdsparken you feel what that pattern does to people.'},
-  {eyebrow:'Bergen 2063 · Step 4 of 5',title:'Pass the calm onward',mission:'Goal now: Help the shadow guest',copy:'The most heroic thing in this city is not being perfect. It is stopping, listening and helping others when technology feels too close.',tip:'Academia becomes useful when difficult words become language people can use. Give the shadow guest calm, and carry those sentences onward.'},
-  {eyebrow:'Bergen 2063 · Step 5 of 5',title:'Bring the light home',mission:'Goal now: The light lock at Nordnes',copy:'When you reach Nordnes, the mission is to bring the most important thing back to the surface: simple rules, a little courage and a clearer view of the traces around you.',tip:'Check permissions. Turn off tracking you do not need. Ask before sharing someone else’s photo, name or location.'},
+  {eyebrow:'Bergen 2063 · Step 1 of 7',title:'Bryggen wakes under water',mission:'Goal now: Bryggen gate room',copy:'Bergen 2063 is full of light trails, patrol drones and hidden signals. In Bryggen you begin to learn what a phone can remember about you without you noticing.',tip:'Collect light trails as you swim. They make the route feel more Pac-Man-like and wake new drones in waves.'},
+  {eyebrow:'Bergen 2063 · Step 2 of 7',title:'From water to mountain',mission:'Goal now: Fløibanen quay and top station',copy:'On shore you lose the underwater gear. You take Fløibanen up the mountainside, and the Mountain Beacon makes the city signals visible enough that everyone can talk about them without technical jargon.',tip:'Clarity bubbles work like power pellets. They turn the chase and give you room to collect important things.'},
+  {eyebrow:'Bergen 2063 · Step 3 of 7',title:'CDN becomes playable research',mission:'Goal now: Mountain viewpoint, Festplassen and Nygårdsparken',copy:'Tracking drones, map drones and network drones are digital systems in story costume. The mechanics are inspired by Jesper Juul, Frans Mäyrä and ludosis: rules that make meaning, short TikTok-like loops and Scott Rettberg-like electronic literature where you navigate the story yourself. Now games, AI, electronic literature and network culture connect to Bergen geography.',tip:'At the mountain viewpoint you see the city as a pattern. At Festplassen you see the networks. In Nygårdsparken you feel what the pattern does to people, through buekorps rhythms and city memory too.'},
+  {eyebrow:'Bergen 2063 · Step 4 of 7',title:'Meet the CDN researcher',mission:'Goal now: CDN Glass House',copy:'In the glass house the research groups gather into one voice: narratives are infrastructure. Games let you test rules, AI shows how guesses gain power, electronic literature makes the reader active, and network culture shows who gets connected to whom.',tip:'Collect the Narrative Core. It makes the rest of the route easier to read as research you can feel, not just memorise.'},
+  {eyebrow:'Bergen 2063 · Step 5 of 7',title:'Pass the calm onward',mission:'Goal now: Help the shadow guest',copy:'The most heroic thing in this city is not being perfect. It is stopping, listening and helping others when technology feels too close.',tip:'Academia becomes useful when difficult words become language people can use. Give the shadow guest calm, and carry those sentences onward.'},
+  {eyebrow:'Bergen 2063 · Step 6 of 7',title:'Bring the light home',mission:'Goal now: The light lock at Nordnes',copy:'When you reach Nordnes, the mission is to bring the most important thing back to the surface: simple rules, a little courage and a clearer view of the traces around you.',tip:'Check permissions. Turn off tracking you do not need. Ask before sharing someone else’s photo, name or location.'},
+  {eyebrow:'Bergen 2063 · Step 7 of 7',title:'Final view over Bergen',mission:'Goal now: Mountain viewpoint',copy:'At the end you climb again. Not to escape the city, but to see the whole system: fjord, park, glass house, drones, buekorps rhythms and the people who refuse to be reduced to data points.',tip:'Press Explore at the mountain viewpoint. The game closes like a map that finally lets you read back.'},
 ];
 const ZONE_WHISPERS={
   'BRYGGEN — SJØBODRADEN':'Bryggen knirker over deg. Under plankene føles det som om byen allerede husker hvor du pleier å stoppe.',
   'SANDVIKEN — SJØBODER OG SMYG':'Sandviken er trang og vakker. Her blir en rute fort til et mønster noen andre kan lese.',
   'FISKETORGET — APPSTRØMMER':'Ved Fisketorget flyter folk, signaler og vaner sammen som om markedet aldri stenger.',
-  'FLØIBANEN — OVER VANN':'Fløyen ligger over vann. Fløibanen er et løft opp til utsikt, ikke en undervannsby.',
-  'NYGÅRDSPARKEN — MØNSTER OG MINNER':'Parken er mykere enn patruljene. Her handler historien mindre om data og mer om hvordan data kjennes.',
+  'FLØIBANEN — FJELLSIDE':'Fløibanen går fra sjøkanten opp mot Fløyen. Her skifter spillet fra svømming til fjellside og utsikt.',
+  'FESTPLASSEN — BYROM OG SIGNALER':'Festplassen ligger i sentrum av byrommet. Når folk samles her, blir nettverkskultur synlig: hvem filmer, hvem deler, hvem blir gjenkjent.',
+  'NYGÅRDSPARKEN — MØNSTER OG MINNER':'Nygårdsparken ligger sør for sentrum og tett på studentbyen. Buekorps-rytmer, parkstier og appspor viser hvordan kultur også kan bli data.',
   'BERGENHUS — TILLATELSESARKIV':'Murene ved Bergenhus holder på gamle løfter. Appene gjør det motsatte: de ber fort og husker lenge.',
   'MARINEHOLMEN — WI-FI-BELTET':'Marineholmen gløder av forskning og rutere. Nettet kjennes nesten som vær her nede.',
   'PUDDEFJORDEN — EKKOSONEN':'Over den mørke fjorden kommer ekkoene sent. Spor sprer seg lenger her enn du tror.',
@@ -1778,6 +2016,7 @@ function update(ts){
   updateTutorialState(dt);
   if(S.lessonT>0)S.lessonT=Math.max(0,S.lessonT-dt);
   if(S.floiRideT>0)S.floiRideT=Math.max(0,S.floiRideT-dt);
+  updateBuekorpsAudio(dt);
   maybeCollectTrailOrbs();
   maybeCollectEthicPickups();
   maybeCollectPowerPearls();
@@ -1803,7 +2042,7 @@ function update(ts){
     if(p.type==='b'){p.vx+=Math.sin(ts*.001+i)*.012*dt;p.life-=p.dec*dt;if(p.y<SURFACE_Y-5||p.life<=0)PARTS.splice(i,1);}
     else if(p.type==='j'){p.vy=Math.sin(ts*.0007+p.ph)*.28;p.vx+=(Math.random()-.5)*.004;p.life-=p.dec*dt;if(p.x<camX-200||p.life<=0)PARTS.splice(i,1);}
   }
-  if(Math.random()<.004)spawnJelly();
+  if(Math.random()<.004*PERF_SCALE)spawnJelly();
 
   // Rain
   RAIN.forEach(r=>{
@@ -1878,6 +2117,7 @@ function draw(ts){
   drawMountains(t);
   drawAboveWaterCity(t);
   drawFunicular(t);
+  drawAirDrones(t);
   drawRainAbove(t);
   drawSurfaceWave(t);
   // Underwater
@@ -1891,6 +2131,7 @@ function draw(ts){
   drawKelpFields(t);
   drawSurvZones(t);
   drawPlatforms();
+  drawBuekorpsNpcs(t);
   drawInteractables(t);
   drawTrailOrbs(t);
   drawEthicPickups(t);
@@ -1901,9 +2142,10 @@ function draw(ts){
   drawDrones(t);
   drawBybanenEnemy(t);
   drawParticles(t);
-  drawPlayer(t);
+  if(P.y>=SURFACE_Y)drawPlayer(t);
   ctx.restore();
 
+  drawAboveWaterRouteActors(t);
   drawDepthFog(t);
   drawRainBelow(t);
   drawSurfaceGlass(t); // refraction line between above/below
@@ -1916,19 +2158,21 @@ function getNearStory(ob){
   if(!ob)return null;
   const stories=LANG.current==='en'?{
     checkpoint:{eyebrow:'Here and now',title:'This is where the story begins',mission:'Do this now: Explore the Bryggen gate room',copy:'The gate room shows how ordinary city routes can become digital traces over time.',tip:'Learn first. Then collect light trails and use them like Pac-Man dots through the route.'},
-    lift:{eyebrow:'Here and now',title:'Fløibanen climbs the mountainside',mission:'Do this now: Ride the line up',copy:'Fløibanen cuts up toward Fløyen the way it does in Bergen, carrying you quickly from the shore to the mountain light above the city.',tip:'Use the line when you want to lift yourself from the waterside to the top station in one move.'},
-    terminal:{eyebrow:'Here and now',title:'Collect the Mountain Beacon at Fløyen',mission:'Do this now: Explore the top station',copy:'The Mountain Beacon makes invisible signals visible enough that everyone can talk about them without technical jargon.',tip:'At the top it becomes easier to understand how presence can be measured without anyone knowing everything about you.'},
-    ulriken:{eyebrow:'Here and now',title:'See the pattern from Ulriken',mission:'Do this now: Explore the Ulriken hotspot',copy:'From Ulriken you see Bergen as a living map of time, height and habits.',tip:'This is where the game shows why small data points can become large guesses.'},
+    lift:{eyebrow:'Here and now',title:'Leave the gear and go up',mission:'Do this now: Ride the line up',copy:'At the shore the underwater gear falls away. Fløibanen carries you toward Fløyen, with the mountains behind the city and above the water.',tip:'Use the line when the mission moves from swimming to climbing and looking back at the pattern.'},
+    terminal:{eyebrow:'Here and now',title:'Collect the Mountain Beacon at Fløyen',mission:'Do this now: Explore the top station',copy:'The Mountain Beacon turns CDN research into an action: invisible signals become visible enough to discuss, challenge and retell.',tip:'At the top it becomes easier to understand how presence can be measured without anyone knowing everything about you.'},
+    ulriken:{eyebrow:'Here and now',title:'See the whole pattern',mission:'Do this now: Read the mountain view',copy:'From the mountain viewpoint, rules, routes and loops become a playable narrative map with Bergen below your view.',tip:'This is where Juul, Mäyrä, ludosis, Rettberg and short-form platform logic become mechanics you can feel.'},
     erased:{eyebrow:'Here and now',title:'Data can be felt in the body',mission:'Do this now: Talk to the shadow guest',copy:'The shadow guest needs language and calm, not more explanations that feel like alarms.',tip:'The most useful thing here is helping, not being perfect.'},
     archive:{eyebrow:'Here and now',title:'The dry words matter too',mission:'Do this now: Collect the simple rule',copy:'Inside the archive lie the choices deciding how much of you gets left inside the systems.',tip:'You do not need to know everything. You only need to recognise the most important questions.'},
+    cdnmentor:{eyebrow:'Here and now',title:'Meet the CDN researcher',mission:'Do this now: Collect the Narrative Core',copy:'The glass house turns research into a meeting: games, AI, electronic literature, digital art and network culture become one question about how technology tells stories about people.',tip:'This is the CDN moment: research becomes something you can carry into the rest of the route.'},
     gate:{eyebrow:'Here and now',title:'Bring the light home',mission:'Do this now: Open the light lock',copy:'Nordnes is about bringing the knowledge back into everyday life, not about winning in a perfect way.',tip:'Three rules are enough: check permissions, turn off tracking you do not need, and ask before sharing about others.'},
   }:{
     checkpoint:{eyebrow:'Her og nå',title:'Her starter eventyret',mission:'Gjør dette nå: Utforsk Bryggen-portrommet',copy:'Portrommet viser hvordan vanlige byturer kan bli til digitale spor over tid.',tip:'Lær først. Samle så lysspor og bruk dem som Pac-Man-prikker gjennom ruten.'},
-    lift:{eyebrow:'Her og nå',title:'Fløibanen går opp fjellsiden',mission:'Gjør dette nå: Ta banen opp',copy:'Fløibanen skjærer opp mot Fløyen slik den gjør i Bergen, og tar deg raskt til fjelllyset over byen.',tip:'Bruk banen når du vil løfte deg fra sjøkanten til toppstasjonen i ett trekk.'},
-    terminal:{eyebrow:'Her og nå',title:'Hent Fjellfyret på Fløyen',mission:'Gjør dette nå: Utforsk toppstasjonen',copy:'Fjellfyret gjør usynlige signaler synlige nok til at alle kan snakke om dem uten teknisk sjargong.',tip:'På toppen blir det lettere å skjønne hvordan nærvær kan måles uten at noen vet alt om deg.'},
-    ulriken:{eyebrow:'Her og nå',title:'Se mønsteret fra Ulriken',mission:'Gjør dette nå: Utforsk Ulriken-hotspoten',copy:'Fra Ulriken ser du Bergen som et levende kart av tid, høyde og vaner.',tip:'Dette er stedet der spillet viser hvorfor små datapunkter kan bli til store gjetninger.'},
+    lift:{eyebrow:'Her og nå',title:'Legg fra deg utstyret og gå opp',mission:'Gjør dette nå: Ta banen opp',copy:'Ved land faller undervannsutstyret av. Fløibanen tar deg mot Fløyen, med fjellene i bakgrunnen og byen under deg.',tip:'Bruk banen når oppdraget går fra svømming til klatring og utsyn over mønsteret.'},
+    terminal:{eyebrow:'Her og nå',title:'Hent Fjellfyret på Fløyen',mission:'Gjør dette nå: Utforsk toppstasjonen',copy:'Fjellfyret gjør CDN-forskning til handling: usynlige signaler blir synlige nok til å diskuteres, utfordres og fortelles på nytt.',tip:'På toppen blir det lettere å skjønne hvordan nærvær kan måles uten at noen vet alt om deg.'},
+    ulriken:{eyebrow:'Her og nå',title:'Se hele mønsteret',mission:'Gjør dette nå: Les fjellutsynet',copy:'Fra fjellutsynet blir regler, ruter og looper til et spillbart narrativkart med Bergen under blikket ditt.',tip:'Her blir Juul, Mäyrä, ludosis, Rettberg og kortform-logikk til mekanikker du kan kjenne.'},
     erased:{eyebrow:'Her og nå',title:'Data kan kjennes i kroppen',mission:'Gjør dette nå: Snakk med skygjesten',copy:'Skyggjesten trenger språk og ro, ikke flere forklaringer som føles som alarmer.',tip:'Det mest lærerike her er å hjelpe, ikke å være perfekt.'},
     archive:{eyebrow:'Her og nå',title:'De tørre ordene betyr noe',mission:'Gjør dette nå: Hent den enkle regelen',copy:'I arkivet ligger valgene som bestemmer hvor mye av deg som får bli igjen i systemene.',tip:'Du trenger ikke kunne alt. Du trenger bare å kjenne igjen de viktigste spørsmålene.'},
+    cdnmentor:{eyebrow:'Her og nå',title:'Møt CDN-forskeren',mission:'Gjør dette nå: Hent Narrativkjernen',copy:'Glasshuset gjør forskning til et møte: spill, KI, digital litteratur, elektronisk kunst og nettverkskultur blir ett spørsmål om hvordan teknologi forteller historier om mennesker.',tip:'Dette er CDN-øyeblikket: forskning blir noe du kan bære med deg videre gjennom ruten.'},
     gate:{eyebrow:'Her og nå',title:'Ta lyset hjem',mission:'Gjør dette nå: Åpne lyseslusen',copy:'Nordnes handler om å ta med kunnskapen tilbake til hverdagen, ikke om å vinne på en perfekt måte.',tip:'Tre regler holder: sjekk tillatelser, slå av sporing du ikke trenger, og spør før du deler om andre.'},
   };
   return stories[ob.type]||null;
@@ -1948,9 +2192,11 @@ function getObjectiveTarget(){
       ? {ob:interactableById('term'),tip:{no:'Utforsk toppstasjonen og hent Fjellfyret.',en:'Explore the top station and collect the Mountain Beacon.'}}
       : {ob:interactableById('floi'),tip:{no:'Gå til Fløibanen-kai og trykk E for å ta banen opp.',en:'Go to the Fløibanen quay and press E to ride up.'}};
   }
-  if(!S.ulrikenSeen)return {ob:interactableById('ulriken'),tip:{no:'Gå til Ulriken-hotspoten og trykk E.',en:'Go to the Ulriken hotspot and press E.'}};
+  if(!S.ulrikenSeen)return {ob:interactableById('ulriken'),tip:{no:'Gå til fjellutsynet og trykk E.',en:'Go to the mountain viewpoint and press E.'}};
+  if(!S.completedObjectives.has('cdnmentor'))return {ob:interactableById('cdnmentor'),tip:{no:'Gå til CDN Glasshuset og møt forskeren.',en:'Go to the CDN Glass House and meet the researcher.'}};
   if(!S.hasSeenErased||!S.completedObjectives.has('erased_helped'))return {ob:interactableById('erased'),tip:{no:'Gå til skygjesten i Nygårdsparken og hjelp hen.',en:'Go to the shadow guest in Nygårdsparken and help them.'}};
   if(!S.completedObjectives.has('gate'))return {ob:interactableById('gate'),tip:{no:'Gå til Nordnes lysesluse og del lyset.',en:'Go to the Nordnes light lock and share the light.'}};
+  if(!S.finalVistaSeen)return {ob:interactableById('ulriken'),tip:{no:'Gå opp til fjellutsynet for siste lesning av Bergen.',en:'Go up to the mountain viewpoint for the final reading of Bergen.'}};
   return null;
 }
 function getPathStep(startId,targetId){
@@ -2324,6 +2570,31 @@ function drawFunicular(t){
   ctx.restore();
 }
 
+function drawAirDrones(t){
+  AIR_DRONES.forEach((dr,i)=>{
+    const sx=LP+dr.x-camX*.18;
+    if(sx<LP-80||sx>W-RP+80)return;
+    const sy=SURFACE_Y*dr.y+Math.sin(t*dr.sp+dr.ph)*dr.amp;
+    const p=.5+.5*Math.sin(t*3.5+dr.ph);
+    ctx.save();
+    ctx.translate(sx,sy);
+    ctx.globalAlpha=.42+p*.18;
+    ctx.strokeStyle='rgba(174,233,255,.38)';
+    ctx.lineWidth=1.4;
+    ctx.beginPath();ctx.arc(-11,0,8+p*2,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.arc(11,0,8+p*2,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle='rgba(5,18,28,.92)';
+    ctx.beginPath();ctx.ellipse(0,0,17,7,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=`rgba(255,224,156,${.26+p*.18})`;
+    ctx.beginPath();ctx.arc(0,0,3.2,0,Math.PI*2);ctx.fill();
+    ctx.font='800 7px system-ui, sans-serif';
+    ctx.textAlign='center';
+    ctx.fillStyle='rgba(221,247,255,.58)';
+    ctx.fillText(dr.label,0,-12);
+    ctx.restore();
+  });
+}
+
 // ─────────────────────────────────────────────────
 // RAIN ABOVE WATER
 // ─────────────────────────────────────────────────
@@ -2554,6 +2825,19 @@ function drawBuildingFacades(t){
     ctx.strokeStyle=`rgba(25,60,90,${ba*.25})`;ctx.lineWidth=.7;ctx.stroke();
     ctx.strokeStyle=`rgba(230,210,174,${ba*.16})`;
     ctx.beginPath();ctx.moveTo(bx+bw/2+leanTop*.2,by-(f.roof||bw*.38));ctx.lineTo(bx+bw/2+leanTop*.08,by+8);ctx.stroke();
+    if(fi%3===0){
+      ctx.fillStyle=`rgba(255,222,150,${ba*.24})`;
+      ctx.fillRect(bx+6,by+28,Math.max(22,bw-12),10);
+      ctx.font='800 6px system-ui, sans-serif';
+      ctx.textAlign='center';
+      ctx.fillStyle=`rgba(50,18,12,${ba*.64})`;
+      ctx.fillText(fi===0?'BRYGGEN':'HANSA',bx+bw*.5,by+36);
+    }
+    if(fi%4===1){
+      ctx.strokeStyle=`rgba(255,222,150,${ba*.22})`;ctx.lineWidth=1.2;
+      ctx.beginPath();ctx.arc(bx+bw*.52,by+24,7,0,Math.PI*2);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(bx+bw*.45,by+24);ctx.lineTo(bx+bw*.59,by+24);ctx.stroke();
+    }
 
     // Front boardwalk / piling rhythm
     ctx.strokeStyle=`rgba(28,54,70,${ba*.3})`;ctx.lineWidth=1.4;
@@ -2670,12 +2954,51 @@ function drawPlatforms(){
   });
 }
 
+function drawBuekorpsNpcs(t){
+  if(BUEKORPS_CENTER.x<camX-180||BUEKORPS_CENTER.x>camX+W+180)return;
+  const beat=Math.floor(t*3.6)%8;
+  BUEKORPS_NPCS.forEach((npc,i)=>{
+    const bob=Math.sin(t*3.6+i)*1.4;
+    const strike=(beat+i)%4===0;
+    ctx.save();
+    ctx.translate(npc.x,npc.y+bob);
+    ctx.fillStyle='rgba(255,226,180,.92)';
+    ctx.beginPath();ctx.arc(0,-17,5.4,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(90,210,245,.34)';ctx.lineWidth=1.1;
+    ctx.beginPath();ctx.arc(0,-17,7.2,0,Math.PI*2);ctx.stroke();
+    ctx.fillStyle='rgba(174,28,42,.96)';
+    ctx.beginPath();ctx.ellipse(0,-5,6.4,11,0,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='rgba(255,222,112,.86)';
+    ctx.fillRect(-5,-11,10,2);ctx.fillRect(-1,-14,2,18);
+    ctx.fillStyle='rgba(8,15,27,.96)';
+    ctx.fillRect(-5,6,4,13);ctx.fillRect(1,6,4,13);
+    if(npc.drum==='flag'){
+      ctx.strokeStyle='rgba(255,230,150,.8)';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(7,-16);ctx.lineTo(7,11);ctx.stroke();
+      ctx.fillStyle='rgba(174,28,42,.72)';
+      ctx.beginPath();ctx.moveTo(8,-15);ctx.lineTo(24,-10);ctx.lineTo(8,-4);ctx.closePath();ctx.fill();
+    }else{
+      ctx.fillStyle=npc.drum==='bass'?'rgba(245,235,210,.88)':'rgba(235,240,245,.92)';
+      ctx.beginPath();ctx.ellipse(0,2,npc.drum==='bass'?8:6,npc.drum==='bass'?6:4,0,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle='rgba(255,222,112,.7)';ctx.lineWidth=1;
+      ctx.beginPath();ctx.ellipse(0,2,npc.drum==='bass'?8:6,npc.drum==='bass'?6:4,0,0,Math.PI*2);ctx.stroke();
+      ctx.strokeStyle='rgba(255,230,150,.9)';ctx.lineWidth=1.2;
+      ctx.beginPath();ctx.moveTo(-6,-7);ctx.lineTo(strike?-1:2,0);ctx.moveTo(6,-7);ctx.lineTo(strike?1:-2,0);ctx.stroke();
+    }
+    ctx.restore();
+  });
+  const pulse=.5+.5*Math.sin(t*3.6);
+  ctx.font='800 10px system-ui, sans-serif';ctx.textAlign='center';
+  ctx.fillStyle=`rgba(255,244,214,${.36+pulse*.16})`;
+  ctx.fillText('BUEKORPSDYKKERE',BUEKORPS_CENTER.x,BUEKORPS_CENTER.y-54);
+}
+
 // ─────────────────────────────────────────────────
 // INTERACTABLES
 // ─────────────────────────────────────────────────
 function drawInteractables(t){
-  const IC={checkpoint:'⬡',lift:'⇡',terminal:'◈',ulriken:'△',erased:'✧',archive:'▣',gate:'◇'};
-  const CO={checkpoint:'255,140,104',lift:'255,214,144',terminal:'103,223,255',ulriken:'170,228,255',erased:'255,120,164',archive:'126,204,255',gate:'120,240,186'};
+  const IC={checkpoint:'⬡',lift:'⇡',terminal:'◈',ulriken:'△',erased:'✧',archive:'▣',cdnmentor:'◆',gate:'◇'};
+  const CO={checkpoint:'255,140,104',lift:'255,214,144',terminal:'103,223,255',ulriken:'170,228,255',erased:'255,120,164',archive:'126,204,255',cdnmentor:'255,224,156',gate:'120,240,186'};
   INTERACTABLES.forEach(ob=>{
     if(ob.used&&ob.type!=='gate')return;
     if(ob.x+60<camX||ob.x>camX+W)return;
@@ -2795,8 +3118,37 @@ function drawUnderwaterLandmarks(t){
       ctx.beginPath();ctx.moveTo(mark.x+mark.w/2,mark.y+12);ctx.lineTo(mark.x+mark.w/2,mark.y+62);ctx.stroke();
       ctx.fillStyle=`rgba(255,236,170,${.16+.08*Math.sin(t*3)})`;
       ctx.beginPath();ctx.arc(mark.x+mark.w/2,mark.y+8,10,0,Math.PI*2);ctx.fill();
+    }else if(mark.kind==='festplassen'){
+      ctx.fillStyle='rgba(8,22,34,.82)';ctx.fillRect(mark.x,mark.y+42,mark.w,mark.h-42);
+      ctx.strokeStyle='rgba(255,224,156,.22)';ctx.lineWidth=1.2;ctx.strokeRect(mark.x,mark.y+42,mark.w,mark.h-42);
+      ctx.fillStyle='rgba(255,224,156,.12)';
+      ctx.beginPath();ctx.ellipse(mark.x+mark.w*.5,mark.y+42,mark.w*.38,16,0,0,Math.PI*2);ctx.fill();
+      ['FESTPLASSEN','BYROM'].forEach((txt,i)=>{
+        ctx.font='800 11px system-ui, sans-serif';ctx.textAlign='center';
+        ctx.fillStyle=`rgba(255,244,214,${.38-i*.08})`;
+        ctx.fillText(txt,mark.x+mark.w*.5,mark.y+30+i*16);
+      });
+      for(let i=0;i<5;i++){
+        const px=mark.x+52+i*54,py=mark.y+70+Math.sin(t*2+i)*3;
+        ctx.fillStyle='rgba(143,230,255,.16)';
+        ctx.beginPath();ctx.arc(px,py,8,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='rgba(143,230,255,.18)';
+        ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(mark.x+mark.w*.5,mark.y+54);ctx.stroke();
+      }
     }else if(mark.kind==='nygard'){
       for(let i=0;i<6;i++)drawKelp(mark.x+40+i*44,FLOOR_Y-4,84+Math.sin(i+mark.x*.01)*18,1.9,mark.x*.03+i+t*.2,t);
+      for(let i=0;i<4;i++){
+        const bx=mark.x+70+i*62,by=mark.y+56+Math.sin(t*3+i)*2;
+        ctx.strokeStyle='rgba(255,224,156,.28)';ctx.lineWidth=2;
+        ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(bx,by+34);ctx.stroke();
+        ctx.fillStyle='rgba(255,224,156,.20)';
+        ctx.beginPath();ctx.arc(bx+12,by+18,9,0,Math.PI*2);ctx.fill();
+        ctx.strokeStyle='rgba(255,224,156,.24)';
+        ctx.beginPath();ctx.arc(bx+12,by+18,9,0,Math.PI*2);ctx.stroke();
+      }
+      ctx.font='800 11px system-ui, sans-serif';ctx.textAlign='center';
+      ctx.fillStyle='rgba(255,244,214,.42)';
+      ctx.fillText('BUEKORPS / NYGÅRDSPARKEN',mark.x+mark.w*.5,mark.y+32);
     }else if(mark.kind==='marineholmen'){
       ctx.fillStyle='rgba(8,22,34,.88)';ctx.fillRect(mark.x,mark.y+34,mark.w,mark.h-34);
       ctx.strokeStyle='rgba(126,204,255,.2)';ctx.lineWidth=1;ctx.strokeRect(mark.x,mark.y+34,mark.w,mark.h-34);
@@ -2804,6 +3156,27 @@ function drawUnderwaterLandmarks(t){
         ctx.fillStyle=`rgba(146,214,255,${.08+.04*Math.sin(t*2+i)})`;
         ctx.fillRect(mark.x+22+i*44,mark.y+54,18,44);
       }
+    }else if(mark.kind==='cdn'){
+      ctx.fillStyle='rgba(5,17,28,.76)';ctx.fillRect(mark.x,mark.y+30,mark.w,mark.h-30);
+      const gg=ctx.createLinearGradient(mark.x,mark.y,mark.x+mark.w,mark.y+mark.h);
+      gg.addColorStop(0,'rgba(170,235,255,.20)');
+      gg.addColorStop(.5,'rgba(255,255,255,.07)');
+      gg.addColorStop(1,'rgba(104,210,255,.16)');
+      ctx.fillStyle=gg;ctx.fillRect(mark.x+18,mark.y+42,mark.w-36,mark.h-54);
+      ctx.strokeStyle='rgba(180,236,255,.32)';ctx.lineWidth=1.2;ctx.strokeRect(mark.x+18,mark.y+42,mark.w-36,mark.h-54);
+      for(let i=1;i<6;i++){
+        const gx=mark.x+18+i*(mark.w-36)/6;
+        ctx.strokeStyle='rgba(226,248,255,.12)';
+        ctx.beginPath();ctx.moveTo(gx,mark.y+42);ctx.lineTo(gx,mark.y+mark.h-12);ctx.stroke();
+      }
+      ctx.fillStyle=`rgba(255,224,156,${.22+.08*Math.sin(t*2.2)})`;
+      ctx.beginPath();ctx.arc(mark.x+mark.w*.58,mark.y+mark.h*.43,18,0,Math.PI*2);ctx.fill();
+      ctx.font='900 14px system-ui, sans-serif';ctx.textAlign='center';
+      ctx.fillStyle='rgba(255,250,230,.62)';
+      ctx.fillText('CDN',mark.x+mark.w*.5,mark.y+28);
+      ctx.font='800 9px system-ui, sans-serif';
+      ctx.fillStyle='rgba(210,244,255,.46)';
+      ctx.fillText('GLASSHUSET / UiB',mark.x+mark.w*.5,mark.y+mark.h-18);
     }else if(mark.kind==='puddefjord'){
       [0,1,2].forEach(i=>{
         const px=mark.x+40+i*128;
@@ -3025,6 +3398,35 @@ function drawRouteAssist(t){
   }
 }
 
+function drawAboveWaterRouteActors(t){
+  ctx.save();
+  ctx.beginPath();ctx.rect(LP,GAME_VIEW_TOP,W-LP-RP,Math.max(1,SURFACE_Y-GAME_VIEW_TOP));ctx.clip();
+  ctx.translate(LP-camX,0);
+  ctx.strokeStyle='rgba(255,224,156,.26)';
+  ctx.lineWidth=3;
+  ctx.setLineDash([12,10]);
+  ctx.beginPath();
+  ctx.moveTo(2860+P.w/2,LANE_Y.sky+P.h/2);
+  ctx.lineTo(3420+P.w/2,LANE_Y.sky+P.h/2);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  ['term','ulriken'].forEach(id=>{
+    const ob=interactableById(id);
+    if(!ob)return;
+    const pulse=.5+.5*Math.sin(t*4+ob.x*.01);
+    ctx.fillStyle=`rgba(255,231,166,${.18+pulse*.08})`;
+    ctx.strokeStyle=`rgba(255,231,166,${.52+pulse*.2})`;
+    ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(ob.x,ob.y,18+pulse*4,0,Math.PI*2);ctx.fill();ctx.stroke();
+    ctx.font='800 11px system-ui, sans-serif';
+    ctx.textAlign='center';
+    ctx.fillStyle='rgba(255,250,226,.92)';
+    ctx.fillText(lt(ob.label),ob.x,ob.y-25);
+  });
+  if(P.y<SURFACE_Y)drawPlayer(t);
+  ctx.restore();
+}
+
 // ─────────────────────────────────────────────────
 // PARTICLES
 // ─────────────────────────────────────────────────
@@ -3056,8 +3458,31 @@ function drawParticles(t){
 // ─────────────────────────────────────────────────
 function drawPlayer(t){
   ctx.save();ctx.translate(P.x+P.w/2,P.y+P.h/2);if(P.dir<0)ctx.scale(-1,1);
+  const aboveWater=P.y<SURFACE_Y;
   const swim=Math.sin(P.anim);
-  ctx.rotate(Math.atan2(P.vy,Math.abs(P.vx))*0.28);
+  ctx.rotate(aboveWater?0:Math.atan2(P.vy,Math.abs(P.vx))*0.28);
+  if(aboveWater){
+    const step=Math.sin(P.anim)*2.5;
+    ctx.fillStyle='rgba(255,232,198,.96)';
+    ctx.beginPath();ctx.arc(0,-12,6.5,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='rgba(142,230,255,.92)';
+    ctx.beginPath();ctx.ellipse(0,5,8,12,0,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle='rgba(255,232,198,.90)';ctx.lineWidth=3;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(-4,0);ctx.lineTo(-12,7+step);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(4,0);ctx.lineTo(12,7-step);ctx.stroke();
+    ctx.strokeStyle='rgba(12,22,32,.95)';ctx.lineWidth=3.4;
+    ctx.beginPath();ctx.moveTo(-4,12);ctx.lineTo(-8,23-step);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(4,12);ctx.lineTo(8,23+step);ctx.stroke();
+    ctx.fillStyle='rgba(255,224,156,.88)';
+    ctx.beginPath();ctx.arc(-12,20,3,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(12,20,3,0,Math.PI*2);ctx.fill();
+    ctx.font='800 9px system-ui, sans-serif';
+    ctx.textAlign='center';
+    ctx.fillStyle='rgba(255,250,226,.86)';
+    ctx.fillText(LANG.current==='en'?'NO DIVE GEAR':'UTEN DYKKEUTSTYR',0,-25);
+    ctx.restore();
+    return;
+  }
   // Suit
   const sg=ctx.createLinearGradient(-10,-14,10,14);
   sg.addColorStop(0,'rgba(5,15,26,.96)');sg.addColorStop(1,'rgba(2,8,18,.96)');
@@ -3198,8 +3623,18 @@ function updateUI(){
   });
   // Depth + pressure instruments
   const depth=Math.round(((P.y-SURFACE_Y)/(FLOOR_Y-SURFACE_Y))*47);
-  document.getElementById('depth-v').textContent=depth.toString().padStart(3,'0');
-  document.getElementById('press-v').textContent=(1+depth*.1).toFixed(1);
+  const depthValue=document.getElementById('depth-v');
+  const depthUnit=document.getElementById('depth-u');
+  const pressureValue=document.getElementById('press-v');
+  if(depth<0){
+    if(depthValue)depthValue.textContent=Math.abs(depth).toString().padStart(3,'0');
+    if(depthUnit)depthUnit.textContent=LANG.current==='en'?'METRES IN MOUNTAIN ZONE':'METER I FJELLSONEN';
+    if(pressureValue)pressureValue.textContent='1.0';
+  }else{
+    if(depthValue)depthValue.textContent=depth.toString().padStart(3,'0');
+    if(depthUnit)depthUnit.textContent=tr('depthUnit');
+    if(pressureValue)pressureValue.textContent=(1+depth*.1).toFixed(1);
+  }
   const ctxLabel=document.getElementById('ctx-lbl');
   const actBtn=document.getElementById('btn-act');
   const stopBtn=document.getElementById('btn-stop');
@@ -3342,18 +3777,26 @@ function handleAct(act,ob){
     case'ignore':breakRule(10,true);showWarn(lt('MØNSTERET FORTSETTER'));addLog(lt('Du svømte forbi portrommet. Dronene fikk fortsette å lese rutinen din i fred.'),'d');break;
     case'ride_floi':
       S.floiRideT=120;P.graceT=Math.max(P.graceT,90);snapPlayerToNode('sky_2860');P.nextNodeId=null;
-      addLog(lt('Fløibanen drar deg opp fjellsiden mot Fløyen. Bergen åpner seg i lys og regn bak deg.'),'i');
+      addLog(lt('Du legger igjen undervannsutstyret ved land. Fløibanen drar deg opp fjellsiden mot Fløyen, der Bergen åpner seg i lys og regn bak deg.'),'i');
       showWarn(lt('FLØIBANEN STIGER'));snd('floi');updateUI();break;
     case'claim_fyr':
       ob.used=true;S.completedObjectives.add('term');S.status=cl(S.status+5);S.surveillance=cl(S.surveillance-4);
       addLog(lt('Du henter Fjellfyret. Nå blir signalene rundt byen lettere å se og snakke om.'),'g');
       addLog(lt('Lærdom: systemer kan merke nærvær over tid uten å kjenne hele deg.'),'i');
+      addLog(lt('Du finner Bergensnøkkelen: et fremtidig bykompass som kobler Festplassen, Nygårdsparken, Fløyen og Marineholmen til ett lesbart nettverk.'),'g');
       showWarn(lt('FJELLFYR HENTET'));snd('success');checkObjs();updateUI();
       for(let i=0;i<10;i++)spawnBub(ob.x+20+Math.random()*40,ob.y-20,true);break;
     case'view_ulriken':
       S.ulrikenSeen=true;S.surveillance=cl(S.surveillance-2);S.status=cl(S.status+2);
-      addLog(lt('Fra Ulriken ser du Bergen som et kart av tid, høyde og vaner. Slik kan små signaler bli til store mønstre.'),'i');
-      showWarn(lt('ULRIKEN HOTSPOT'));snd('beep');checkObjs();updateUI();break;
+      addLog(lt('Fra fjellutsynet ser du Bergen som et kart av tid, høyde, regler og rytmer. Slik blir spillmekanikk, korte looper og digital litteratur til en fortelling du må navigere selv.'),'i');
+      if(S.completedObjectives.has('gate')){
+        S.finalVistaSeen=true;
+        checkObjs();updateUI();snd('success');
+        triggerEnd('witness');
+      }else{
+        showWarn(lt('FJELLUTSYN'));snd('beep');checkObjs();updateUI();
+      }
+      break;
     case'help_e':
       ob.used=true;S.completedObjectives.add('erased_helped');breakRule(6,true);S.guilt=cl(S.guilt-10);S.status=cl(S.status+4);
       addLog(lt('Du svømmer ved siden av skygjesten og setter ord på det som føltes uklart.'),'g');
@@ -3361,7 +3804,15 @@ function handleAct(act,ob){
       snd('success');document.getElementById('btn-help').disabled=true;checkObjs();break;
     case'abandon':S.guilt=cl(S.guilt+10);updateUI();addLog(lt('Du svømte videre. Boblene kjennes tyngre.'),'w');break;
     case'copy_r':ob.used=true;breakRule(5,true);addLog(lt('Du fant tre enkle ting som faktisk hjelper: sjekk tillatelser, slå av unødig sporing og spør før du deler om andre.'),'g');S.guilt=cl(S.guilt-12);updateUI();break;
-    case'exit':S.completedObjectives.add('gate');checkObjs();S.completedObjectives.has('erased_helped')?triggerEnd('witness'):triggerEnd('erased');break;
+    case'meet_cdn':
+      ob.used=true;S.completedObjectives.add('cdnmentor');S.status=cl(S.status+8);S.surveillance=cl(S.surveillance-6);S.erasure=cl(S.erasure-6);
+      addLog(lt('CDN-forskeren gir deg Narrativkjernen: forskning er ikke bare svar. Det er en måte å lage bedre spørsmål sammen, slik at teknologi kan bli mer rettferdig, mer lekende og mer menneskelig.'),'g');
+      addLog(lt('Narrativkjernen viser hvordan overvåkning, KI, spill, digital litteratur og nettverkskultur henger sammen i livene våre.'),'i');
+      showWarn(LANG.current==='en'?'NARRATIVE CORE':'NARRATIVKJERNE');snd('success');checkObjs();updateUI();break;
+    case'exit':
+      S.completedObjectives.add('gate');checkObjs();S.status=cl(S.status+4);
+      addLog({no:'Lyset er delt ved Nordnes. Nå gjenstår siste utsyn: gå opp igjen og les hele Bergen som et levende narrativ.',en:'The light is shared at Nordnes. One final view remains: go back up and read all of Bergen as a living narrative.'},'g');
+      showWarn(LANG.current==='en'?'FINAL VIEW':'SISTE UTSYN');snd('success');updateUI();break;
     case'close':break;
   }
 }
@@ -3371,16 +3822,16 @@ function showMoveMenu(){
   if(S.go)return;
   const opts=INTERACTABLES.map(ob=>({
     l:'→ '+lt(ob.label)+(ob.minStatus&&S.status<ob.minStatus?(LANG.current==='en'?' [LOCKED]':' [SPERRET]'):''),
-    c:ob.type==='gate'?'dg':ob.type==='terminal'||ob.type==='erased'||ob.type==='lift'||ob.type==='ulriken'?'rs':'',
+    c:ob.type==='gate'?'dg':ob.type==='terminal'||ob.type==='erased'||ob.type==='lift'||ob.type==='ulriken'||ob.type==='cdnmentor'?'rs':'',
     a:()=>{
       closeIP();if(ob.minStatus&&S.status<ob.minStatus){addLog({no:'Mer glød trengs før du kan hente denne regelen.',en:'You need more glow before you can collect this rule.'},'d');return;}
       snapPlayerToNode(ob.nodeId);P.nextNodeId=null;P.vx=0;P.vy=0;
-      addLog({no:`Du svømmer mot ${ob.label}.`,en:`You swim toward ${lt(ob.label)}.`},'i');snd('move');
+      addLog({no:`Du beveger deg mot ${ob.label}.`,en:`You move toward ${lt(ob.label)}.`},'i');snd('move');
     }
   }));
   if(S.secretUnlocked)opts.splice(opts.length-1,0,{l:'→ '+lt('HEMMELIG BYBANETUNNEL'),c:'dg',a:()=>{closeIP();snapPlayerToNode('secret_7340');addLog({no:'Du følger ekkoet ned i den gamle Bybanetunnelen.',en:'You follow the echo down into the old light rail tunnel.'},'w');snd('move');}});
   opts.push({l:lt('[ Flyt Her ]'),c:'',a:closeIP});
-  showInteractPopup(lt('RUTEKART'),lt('Samle lysspor som Pac-Man-prikker, ta Fløibanen opp til fjelllyset, og bruk Ulriken som utsiktshotspot når du vil forstå mønsteret.'),opts);
+  showInteractPopup(lt('RUTEKART'),lt('Samle lysspor som Pac-Man-prikker, legg fra deg undervannsutstyret ved Fløibanen, klatre opp til fjelllyset og bruk fjellutsynet når du vil forstå mønsteret.'),opts);
 }
 function showResistMenu(){
   if(S.go)return;
@@ -3426,11 +3877,11 @@ function triggerEnd(kind){
   const E=LANG.current==='en'?{
     erased:{t:'LOST GLOW',c:'#ff6b78',b:'Too many drones, too little calm\nand too many traces you never had time to see\nmade the city heavy.\nTry again with more clarity bubbles,\ncalmer route choices and better pauses.'},
     compliant:{t:'QUIET MODE',c:'#a3d8ee',b:'You moved onward by making yourself small.\nNext time you can practise clearer boundaries,\nmore help and less unnecessary tracking.\nTechnology should not require silence to feel safe.'},
-    witness:{t:'RAINBOW LIGHT',c:'#78f0ba',b:'You made it through Bergen under water\nand learned what many never get explained: \na phone can reveal habits, places and patterns\neven when you are simply living your life.\nNow you carry three rules back up:\nCheck permissions. Turn off tracking you do not need.\nAsk before sharing someone else’s photo, name or location.'},
+    witness:{t:'CITY READ BACK',c:'#78f0ba',b:'From the mountain viewpoint, Bergen is no longer just a map.\nIt is a living narrative system: Bryggen remembers routes,\nFestplassen becomes a network, the glass house turns research into questions,\nand the park keeps its buekorps rhythm through the water.\nYou have learned the core: technology tells stories about us.\nNow you can answer back with consent, care, play and clearer rules.'},
   }:{
     erased:{t:'MISTET GLØD',c:'#ff6b78',b:'For mange droner, for lite ro\nog for mange spor du aldri rakk å se\ngjorde byen tung.\nPrøv igjen med flere klarhetsbobler,\nroligere rutevalg og bedre pauser.'},
     compliant:{t:'STILLE MODUS',c:'#a3d8ee',b:'Du kom deg videre ved å gjøre deg liten.\nNeste gang kan du øve på tydeligere grenser,\nmer hjelp og mindre unødvendig sporing.\nTeknologi skal ikke kreve stillhet for å føles trygg.'},
-    witness:{t:'REGNBUELYS',c:'#78f0ba',b:'Du kom gjennom Bergen under vann\nog lærte det mange aldri får forklart: \ntelefonen kan avsløre vaner, steder og mønstre\nselv når du bare lever livet ditt.\nNå tar du tre regler med opp:\nSjekk tillatelser. Skru av sporing du ikke trenger.\nSpør før du deler andres bilde, navn eller posisjon.'},
+    witness:{t:'BERGEN LESER TILBAKE',c:'#78f0ba',b:'Fra fjellutsynet er Bergen ikke bare et kart lenger.\nDet er et levende narrativsystem: Bryggen husker ruter,\nFestplassen blir nettverk, glasshuset gjør forskning til spørsmål,\nog parken holder buekorpsrytmen gjennom vannet.\nDu har lært kjernen: teknologi forteller historier om oss.\nNå kan du svare tilbake med samtykke, omsorg, lek og tydeligere regler.'},
   };
   const e=E[kind];
   setTimeout(()=>{
@@ -3444,7 +3895,7 @@ function triggerEnd(kind){
 
 // ════════ RESET ════════
 function resetGame(){
-  Object.assign(S,{status:100,surveillance:0,erasure:0,guilt:0,friction:0,censorship:0,go:false,tick:0,enemyClock:0,secretUnlocked:false,completedObjectives:new Set(),hasSeenErased:false,tutorialStage:'move',tutorialCountdown:0,tutorialTurnDir:null,lastEnemyMode:null,trailCount:0,ethicCount:0,lessonText:null,lessonT:0,round:1,roundClearing:false,roundAdvanceT:0,floiRideT:0,ulrikenSeen:false});
+  Object.assign(S,{status:100,surveillance:0,erasure:0,guilt:0,friction:0,censorship:0,go:false,tick:0,enemyClock:0,secretUnlocked:false,completedObjectives:new Set(),hasSeenErased:false,tutorialStage:'move',tutorialCountdown:0,tutorialTurnDir:null,lastEnemyMode:null,trailCount:0,ethicCount:0,lessonText:null,lessonT:0,round:1,roundClearing:false,roundAdvanceT:0,floiRideT:0,ulrikenSeen:false,finalVistaSeen:false});
   objIdx=0;logTick=0;camX=0;
   snapPlayerToNode('low_220');P.nextNodeId=null;P.vx=0;P.vy=0;P.dir=1;P.dirKey='right';P.desiredDir=null;P.bufferDir=null;P.tapDir=null;P.powerT=0;P.graceT=480;
   PARTS.length=0;RIPPLES.length=0;INTERACTABLES.forEach(o=>o.used=false);resetRoundCollectibles();
@@ -3475,7 +3926,7 @@ function runBoot(){
       screen.style.display='none';
       addLog(lt('Bergen ligger mørk og grønn over deg. Først får du en trygg øving på å gå, svinge og stoppe i Bryggen.'), 'i');
       setTimeout(()=>addLog(lt('Når øvingen er ferdig, våkner patruljene som arkadefiender: én etter én, med egne personligheter og egne måter å lese spor på.'), 'w'),500);
-      setTimeout(()=>addLog(lt('Bryggen, Nordnes og Nygårdsparken ligger under vann i dette 2063-kartet. Fløyen og Ulriken står over vann som utsiktspunkter.'), 'i'),1100);
+      setTimeout(()=>addLog(lt('Bryggen, Festplassen, Nordnes og Nygårdsparken ligger i vannsonen i dette 2063-kartet. Fløyen og Ulriken ligger i fjellsonen og gir utsyn.'), 'i'),1100);
       setTimeout(()=>addLog(lt('CDN-labregel lastet: sjekk tillatelser, slå av unødig sporing og spør før du deler.'), 'g'),1800);
       setTimeout(()=>addLog(lt('Center for Digital Narrative minner deg om at teknologi ikke bare samler data, men også skriver historier om oss.'), 'w'),2600);
     },750);
