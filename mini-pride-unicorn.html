@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mini Pride - Magic Robot Unicorn Goes Pride Park</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    color-scheme: light;
+    --sky-top: #ffe8d8;
+    --sky-bottom: #fff8ef;
+    --grass: #dff6c6;
+    --leaf: #58b66d;
+    --leaf-deep: #317d52;
+    --pond: #7fd7ea;
+    --sun: #ffb44f;
+    --coral: #ff7e79;
+    --berry: #e85f82;
+    --ink: #14353e;
+    --muted: #4f6d74;
+    --card: rgba(255, 255, 255, 0.8);
+    --card-strong: rgba(255, 255, 255, 0.92);
+    --line: rgba(20, 53, 62, 0.12);
+    --shadow: 0 24px 60px rgba(33, 72, 81, 0.18);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 10% 10%, rgba(255, 180, 79, 0.24), transparent 26%),
+      radial-gradient(circle at 90% 14%, rgba(127, 215, 234, 0.26), transparent 24%),
+      radial-gradient(circle at 70% 90%, rgba(232, 95, 130, 0.15), transparent 24%),
+      linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 52%, #f7ffe8 100%);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", sans-serif;
+  }
+
+  body.large-type {
+    font-size: 1.08rem;
+  }
+
+  body.high-contrast {
+    --sky-top: #fff7d9;
+    --sky-bottom: #ffffff;
+    --grass: #f2ffd4;
+    --pond: #89e9ff;
+    --ink: #072027;
+    --muted: #20414a;
+    --card: rgba(255, 255, 255, 0.94);
+    --card-strong: rgba(255, 255, 255, 0.98);
+    --line: rgba(7, 32, 39, 0.18);
+    --shadow: 0 20px 50px rgba(7, 32, 39, 0.16);
+  }
+
+  button,
+  input {
+    font: inherit;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  canvas:focus-visible {
+    outline: 3px solid rgba(232, 95, 130, 0.55);
+    outline-offset: 2px;
+  }
+
+  .page-shell {
+    width: min(1320px, 100%);
+    margin: 0 auto;
+    padding: max(18px, env(safe-area-inset-top)) clamp(16px, 3vw, 32px) max(18px, env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: minmax(300px, 390px) minmax(0, 1fr);
+    gap: clamp(18px, 3vw, 26px);
+  }
+
+  .intro-panel,
+  .stage-panel,
+  .footer-strip {
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    background: var(--card);
+    backdrop-filter: blur(14px);
+    box-shadow: var(--shadow);
+  }
+
+  .intro-panel {
+    padding: 24px;
+    display: grid;
+    gap: 18px;
+    align-content: start;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    width: fit-content;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(20, 53, 62, 0.12);
+    background: rgba(255, 255, 255, 0.68);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--berry);
+  }
+
+  .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 16px;
+  }
+
+  h1,
+  h2 {
+    margin: 0;
+    font-family: "Fraunces", serif;
+    line-height: 0.95;
+  }
+
+  h1 {
+    font-size: clamp(2.3rem, 4.4vw, 4.3rem);
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 2.5vw, 2.3rem);
+  }
+
+  .lang-toggle,
+  .reset-button {
+    border: 1px solid rgba(20, 53, 62, 0.14);
+    background: var(--card-strong);
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  }
+
+  .lang-toggle:hover,
+  .reset-button:hover,
+  .touch-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(232, 95, 130, 0.32);
+    box-shadow: 0 12px 26px rgba(232, 95, 130, 0.15);
+  }
+
+  .lede,
+  .stage-copy p,
+  .parent-note,
+  .status-note {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .meta-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .meta-card {
+    padding: 16px 18px;
+    border-radius: 22px;
+    border: 1px solid rgba(20, 53, 62, 0.08);
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  .meta-card strong,
+  .stage-kicker,
+  .progress-kicker {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--berry);
+  }
+
+  .progress-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 12px;
+  }
+
+  .progress-line b {
+    font-size: 2rem;
+    font-family: "Baloo 2", cursive;
+    line-height: 1;
+  }
+
+  .progress-track {
+    height: 12px;
+    margin-top: 12px;
+    border-radius: 999px;
+    overflow: hidden;
+    background: rgba(20, 53, 62, 0.08);
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--coral), var(--sun), #7ad9ff);
+    transition: width 220ms ease;
+  }
+
+  .settings-grid {
+    display: grid;
+    gap: 10px;
+  }
+
+  .setting-chip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(20, 53, 62, 0.08);
+    background: rgba(255, 255, 255, 0.58);
+  }
+
+  .setting-chip input {
+    inline-size: 18px;
+    block-size: 18px;
+    accent-color: var(--berry);
+  }
+
+  .next-stop-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    width: fit-content;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(20, 53, 62, 0.08);
+    background: rgba(255, 255, 255, 0.68);
+    font-weight: 600;
+  }
+
+  .stage-panel {
+    padding: 18px;
+    display: grid;
+    gap: 16px;
+  }
+
+  .stage-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .stage-copy {
+    display: grid;
+    gap: 8px;
+  }
+
+  .stage-kicker {
+    margin-bottom: 0;
+  }
+
+  .canvas-wrap {
+    position: relative;
+    border-radius: 28px;
+    overflow: hidden;
+    border: 1px solid rgba(20, 53, 62, 0.08);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.35)),
+      linear-gradient(180deg, rgba(255, 228, 216, 0.92), rgba(223, 246, 198, 0.92));
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1200 / 760;
+    cursor: pointer;
+    touch-action: none;
+  }
+
+  .overlay-card {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    width: min(340px, calc(100% - 36px));
+    padding: 16px 18px;
+    border-radius: 22px;
+    background: var(--card-strong);
+    border: 1px solid rgba(20, 53, 62, 0.1);
+    box-shadow: 0 18px 40px rgba(33, 72, 81, 0.16);
+  }
+
+  .overlay-card[hidden] {
+    display: none;
+  }
+
+  .overlay-card strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 1.15rem;
+  }
+
+  .overlay-card p {
+    margin: 0;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .touch-pad {
+    display: none;
+    gap: 10px;
+    grid-template-columns: repeat(3, minmax(0, 72px));
+    justify-content: center;
+    margin: 2px auto 0;
+  }
+
+  .touch-btn {
+    min-height: 62px;
+    border-radius: 22px;
+    border: 1px solid rgba(20, 53, 62, 0.12);
+    background: var(--card-strong);
+    color: var(--ink);
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .touch-btn.blank {
+    visibility: hidden;
+  }
+
+  .footer-strip {
+    grid-column: 1 / -1;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .parent-note,
+  .status-note {
+    flex: 1 1 0;
+  }
+
+  @media (max-width: 980px) {
+    .page-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .footer-strip {
+      flex-direction: column;
+    }
+  }
+
+  @media (pointer: coarse), (max-width: 760px) {
+    .touch-pad {
+      display: grid;
+    }
+
+    .stage-top {
+      flex-direction: column;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="page-shell">
+    <aside class="intro-panel">
+      <div class="eyebrow" id="eyebrow"></div>
+      <div class="top-row">
+        <div>
+          <h1 id="title"></h1>
+        </div>
+        <button class="lang-toggle" id="lang-toggle" type="button"></button>
+      </div>
+      <p class="lede" id="lede"></p>
+
+      <div class="meta-grid">
+        <section class="meta-card">
+          <span class="progress-kicker" id="progress-kicker"></span>
+          <div class="progress-line">
+            <div>
+              <b id="progress-count">0/6</b>
+            </div>
+            <span id="progress-copy"></span>
+          </div>
+          <div class="progress-track" aria-hidden="true">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+        </section>
+
+        <section class="meta-card">
+          <strong id="controls-title"></strong>
+          <p id="controls-copy"></p>
+        </section>
+      </div>
+
+      <section class="settings-grid" aria-label="Accessibility settings">
+        <label class="setting-chip"><input type="checkbox" id="setting-guide" /> <span id="setting-guide-label"></span></label>
+        <label class="setting-chip"><input type="checkbox" id="setting-calm" /> <span id="setting-calm-label"></span></label>
+        <label class="setting-chip"><input type="checkbox" id="setting-large" /> <span id="setting-large-label"></span></label>
+        <label class="setting-chip"><input type="checkbox" id="setting-contrast" /> <span id="setting-contrast-label"></span></label>
+      </section>
+
+      <div class="next-stop-pill" id="next-stop"></div>
+    </aside>
+
+    <main class="stage-panel">
+      <div class="stage-top">
+        <div class="stage-copy">
+          <span class="stage-kicker" id="stage-kicker"></span>
+          <h2 id="stage-title"></h2>
+          <p id="stage-text"></p>
+        </div>
+        <button class="reset-button" id="reset-button" type="button"></button>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="stage" width="1200" height="760" tabindex="0"></canvas>
+        <div class="overlay-card" id="overlay-card" hidden>
+          <strong id="overlay-title"></strong>
+          <p id="overlay-text"></p>
+        </div>
+      </div>
+
+      <div class="touch-pad" id="touch-pad" aria-label="Touch controls">
+        <button class="touch-btn blank" type="button" tabindex="-1">•</button>
+        <button class="touch-btn" type="button" data-dir="up" aria-label="Up">↑</button>
+        <button class="touch-btn blank" type="button" tabindex="-1">•</button>
+        <button class="touch-btn" type="button" data-dir="left" aria-label="Left">←</button>
+        <button class="touch-btn" type="button" data-dir="down" aria-label="Down">↓</button>
+        <button class="touch-btn" type="button" data-dir="right" aria-label="Right">→</button>
+      </div>
+    </main>
+
+    <footer class="footer-strip">
+      <p class="parent-note" id="parent-note"></p>
+      <p class="status-note" id="status-note"></p>
+    </footer>
+  </div>
+
+<script>
+const LANG_KEY = 'miniPrideUnicornLang';
+const SETTINGS_KEY = 'miniPrideUnicornSettings';
+const PROGRESS_KEY = 'miniPrideUnicornProgress';
+
+const DEFAULT_SETTINGS = {
+  guide: true,
+  calm: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  large: false,
+  contrast: false,
+};
+
+const COPY = {
+  no: {
+    eyebrow: 'Mini Pride / egen spillsti',
+    title: 'Magic Robot Unicorn Goes Pride Park',
+    lede: 'En separat Mini Pride-rute med null fiender, null tidspress og seks vennlige stopp i Nygårdsparken. Trykk på stien eller bruk piler for å gli mellom glimmervennene.',
+    progressKicker: 'Vennestopp funnet',
+    progressDone: 'Hele ruten lyser',
+    progressGo: 'Rolig utforsking i eget tempo',
+    controlsTitle: 'Slik spiller du',
+    controlsCopy: 'Trykk på et glødende stopp for å gli dit, eller bruk piler/WASD. Når enhjørningen kommer nær en venn, åpnes historien automatisk. Det finnes ingen tapsmodus her.',
+    stageKicker: 'Mini Pride-høydepunkt',
+    defaultStageTitle: 'Følg regnbuestien gjennom parken',
+    defaultStageText: 'Hvert stopp låser opp en liten scene med omsorg, farger og fellesskap. De neste stoppene vises tydelig hvis du vil ha guide.',
+    reset: 'Start glideturen på nytt',
+    nextPrefix: 'Neste glød',
+    allFound: 'Alle seks venner er møtt. Nå er parken helt tent.',
+    parentNote: 'Foreldrenotat: Denne versjonen er laget for Mini Pride. Ingen fiender, ingen skremmeeffekter og ingen nedtelling. Den fungerer best som en rolig, delt oppdagelsesreise på mobil eller nettbrett.',
+    statusBase: 'Tips: Du kan stoppe når som helst. Fremdriften lagres i nettleseren til du nullstiller.',
+    completeTitle: 'Hele Mini Pride-ruten er tent',
+    completeText: 'Regnbueporten, historieteltet og alle glimmervennene er klare. Nå kan du spille om igjen eller bare gli rundt og nyte parken.',
+    settingGuide: 'Vis glødeguide til neste stopp',
+    settingCalm: 'Roligere bevegelse og færre blink',
+    settingLarge: 'Større tekst',
+    settingContrast: 'Høyere kontrast',
+    canvasLabel: 'Mini Pride-spillflate med enhjørning og seks vennlige stopp',
+    langToggle: 'EN',
+    foundWord: 'funnet',
+    stops: {
+      gate: {
+        title: 'Regnbueporten',
+        text: 'Porten åpner seg med et varmt fargeskift. Her starter Mini Pride med ro, nysgjerrighet og plass til å være liten eller stor akkurat som du er.'
+      },
+      bubbles: {
+        title: 'Bobleengen',
+        text: 'Bobleselen hopper gjennom små dammer og minner deg på at lek ikke trenger hastverk. En pause kan også være en del av eventyret.'
+      },
+      stories: {
+        title: 'Historieteltet',
+        text: 'Historiefuglen samler korte fortellinger fra Pride Park. Her blir ord til glitrende bannere som sier at alle familier kan høre til.'
+      },
+      drums: {
+        title: 'Trommehjorten',
+        text: 'Trommehjorten holder rytmen myk og stødig. Når du følger takten, blir hele stien lettere å lese på både mobil og nettbrett.'
+      },
+      hugs: {
+        title: 'Klemmetrappa',
+        text: 'Skykatten sitter på trappa og deler ut mot. Dette stoppet handler om å finne et sted der kroppen kan slappe av og smilet får lande først.'
+      },
+      stars: {
+        title: 'Stjernescenen',
+        text: 'På den siste scenen samler enhjørningen alle vennene til et mykt finale-lys. Ingen vinner over noen andre her. Hele poenget er å lyse sammen.'
+      }
+    }
+  },
+  en: {
+    eyebrow: 'Mini Pride / standalone route',
+    title: 'Magic Robot Unicorn Goes Pride Park',
+    lede: 'A separate Mini Pride route with zero enemies, zero countdowns and six friendly stops in Nygårdsparken. Tap the path or use the arrow keys to glide between the glitter friends.',
+    progressKicker: 'Friend stops found',
+    progressDone: 'The whole route is glowing',
+    progressGo: 'Gentle exploring at your own pace',
+    controlsTitle: 'How to play',
+    controlsCopy: 'Tap a glowing stop to glide there, or use arrow keys/WASD. When the unicorn comes near a friend, the scene opens automatically. There is no lose state here.',
+    stageKicker: 'Mini Pride highlight',
+    defaultStageTitle: 'Follow the rainbow trail through the park',
+    defaultStageText: 'Each stop unlocks a small scene about care, colour and community. The next stop is always easy to spot when guide mode is on.',
+    reset: 'Restart the glide',
+    nextPrefix: 'Next glow',
+    allFound: 'All six friends have been met. The whole park is lit.',
+    parentNote: 'Parent note: this version is made for Mini Pride. No enemies, no scare effects and no countdown. It works best as a calm shared exploration on phone or tablet.',
+    statusBase: 'Tip: you can stop at any time. Progress stays in the browser until you reset it.',
+    completeTitle: 'The whole Mini Pride route is glowing',
+    completeText: 'The Rainbow Gate, Story Tent and every glitter friend are ready. You can restart or simply keep gliding around the park.',
+    settingGuide: 'Show glow guide to the next stop',
+    settingCalm: 'Calmer motion and fewer sparkles',
+    settingLarge: 'Larger text',
+    settingContrast: 'Higher contrast',
+    canvasLabel: 'Mini Pride game area with a unicorn and six friendly stops',
+    langToggle: 'NO',
+    foundWord: 'found',
+    stops: {
+      gate: {
+        title: 'Rainbow Gate',
+        text: 'The gate opens with a warm colour shift. Mini Pride starts here with calm, curiosity and room to be exactly as small or big as you feel.'
+      },
+      bubbles: {
+        title: 'Bubble Meadow',
+        text: 'The bubble seal hops through tiny ponds and reminds you that play does not need hurry. A pause can also be part of the adventure.'
+      },
+      stories: {
+        title: 'Story Tent',
+        text: 'The story bird gathers short tales from Pride Park. Here, words become glitter banners saying that every family can belong.'
+      },
+      drums: {
+        title: 'Drum Deer',
+        text: 'The drum deer keeps the rhythm soft and steady. When you follow the beat, the route becomes easier to read on both phone and tablet.'
+      },
+      hugs: {
+        title: 'Hug Steps',
+        text: 'The cloud cat sits on the steps and shares courage. This stop is about finding a place where your body can soften before the smile lands.'
+      },
+      stars: {
+        title: 'Star Stage',
+        text: 'At the final stage the unicorn gathers every friend into one soft finale glow. Nobody wins over anybody else here. The whole point is shining together.'
+      }
+    }
+  }
+};
+
+const STOPS = [
+  { id: 'gate', x: 188, y: 532, radius: 58, color: '#ff9278' },
+  { id: 'bubbles', x: 360, y: 610, radius: 56, color: '#7ed8ed' },
+  { id: 'stories', x: 560, y: 486, radius: 58, color: '#ffbd57' },
+  { id: 'drums', x: 742, y: 610, radius: 58, color: '#f56b88' },
+  { id: 'hugs', x: 920, y: 420, radius: 58, color: '#8ed976' },
+  { id: 'stars', x: 1050, y: 276, radius: 62, color: '#7dcbff' },
+];
+
+const TRAIL = [
+  { x: 108, y: 604 },
+  { x: 188, y: 532 },
+  { x: 278, y: 578 },
+  { x: 360, y: 610 },
+  { x: 470, y: 560 },
+  { x: 560, y: 486 },
+  { x: 652, y: 544 },
+  { x: 742, y: 610 },
+  { x: 826, y: 536 },
+  { x: 920, y: 420 },
+  { x: 990, y: 332 },
+  { x: 1050, y: 276 },
+];
+
+const state = {
+  lang: localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'no',
+  settings: loadSettings(),
+  found: new Set(loadProgress()),
+  activeStopId: null,
+  hoveredStopId: null,
+  overlayExpiresAt: 0,
+  player: { x: 108, y: 604, targetX: null, targetY: null },
+  keys: new Set(),
+  sparkleSeed: 0,
+};
+
+const canvas = document.getElementById('stage');
+const ctx = canvas.getContext('2d');
+const overlayCard = document.getElementById('overlay-card');
+const overlayTitle = document.getElementById('overlay-title');
+const overlayText = document.getElementById('overlay-text');
+
+function loadSettings() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
+    return { ...DEFAULT_SETTINGS, ...parsed };
+  } catch {
+    return { ...DEFAULT_SETTINGS };
+  }
+}
+
+function loadProgress() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(PROGRESS_KEY) || '[]');
+    return Array.isArray(parsed) ? parsed.filter(id => STOPS.some(stop => stop.id === id)) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveSettings() {
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings));
+}
+
+function saveProgress() {
+  localStorage.setItem(PROGRESS_KEY, JSON.stringify([...state.found]));
+}
+
+function copy() {
+  return COPY[state.lang];
+}
+
+function stopCopy(stopId) {
+  return copy().stops[stopId];
+}
+
+function nextStop() {
+  return STOPS.find(stop => !state.found.has(stop.id)) || null;
+}
+
+function setLanguage(lang) {
+  state.lang = lang;
+  localStorage.setItem(LANG_KEY, lang);
+  syncUi();
+}
+
+function toggleSetting(key, value) {
+  state.settings[key] = value;
+  saveSettings();
+  syncUi();
+}
+
+function syncUi() {
+  const text = copy();
+  document.documentElement.lang = state.lang;
+  document.title = text.title;
+  document.body.classList.toggle('large-type', !!state.settings.large);
+  document.body.classList.toggle('high-contrast', !!state.settings.contrast);
+  document.getElementById('eyebrow').textContent = text.eyebrow;
+  document.getElementById('title').textContent = text.title;
+  document.getElementById('lede').textContent = text.lede;
+  document.getElementById('progress-kicker').textContent = text.progressKicker;
+  document.getElementById('controls-title').textContent = text.controlsTitle;
+  document.getElementById('controls-copy').textContent = text.controlsCopy;
+  document.getElementById('stage-kicker').textContent = text.stageKicker;
+  document.getElementById('reset-button').textContent = text.reset;
+  document.getElementById('parent-note').textContent = text.parentNote;
+  document.getElementById('status-note').textContent = text.statusBase;
+  document.getElementById('lang-toggle').textContent = text.langToggle;
+  document.getElementById('lang-toggle').setAttribute('aria-label', text.langToggle === 'EN' ? 'Switch to English' : 'Bytt til norsk');
+  document.getElementById('setting-guide-label').textContent = text.settingGuide;
+  document.getElementById('setting-calm-label').textContent = text.settingCalm;
+  document.getElementById('setting-large-label').textContent = text.settingLarge;
+  document.getElementById('setting-contrast-label').textContent = text.settingContrast;
+  document.getElementById('setting-guide').checked = !!state.settings.guide;
+  document.getElementById('setting-calm').checked = !!state.settings.calm;
+  document.getElementById('setting-large').checked = !!state.settings.large;
+  document.getElementById('setting-contrast').checked = !!state.settings.contrast;
+  canvas.setAttribute('aria-label', text.canvasLabel);
+  updateNarrativePanel();
+  updateProgressPanel();
+}
+
+function updateProgressPanel() {
+  const text = copy();
+  const count = state.found.size;
+  document.getElementById('progress-count').textContent = `${count}/6`;
+  document.getElementById('progress-copy').textContent = count === STOPS.length ? text.progressDone : text.progressGo;
+  document.getElementById('progress-fill').style.width = `${(count / STOPS.length) * 100}%`;
+  const target = nextStop();
+  document.getElementById('next-stop').textContent = target ? `${text.nextPrefix}: ${stopCopy(target.id).title}` : text.allFound;
+}
+
+function updateNarrativePanel() {
+  const text = copy();
+  const active = state.activeStopId ? stopCopy(state.activeStopId) : null;
+  const complete = state.found.size === STOPS.length;
+  document.getElementById('stage-title').textContent = complete ? text.completeTitle : active ? active.title : text.defaultStageTitle;
+  document.getElementById('stage-text').textContent = complete ? text.completeText : active ? active.text : text.defaultStageText;
+}
+
+function showOverlay(stopId) {
+  const stopText = stopCopy(stopId);
+  overlayTitle.textContent = stopText.title;
+  overlayText.textContent = stopText.text;
+  overlayCard.hidden = false;
+  state.overlayExpiresAt = performance.now() + 3200;
+}
+
+function hideOverlay() {
+  overlayCard.hidden = true;
+}
+
+function unlockStop(stopId) {
+  state.activeStopId = stopId;
+  if (!state.found.has(stopId)) {
+    state.found.add(stopId);
+    saveProgress();
+    showOverlay(stopId);
+  }
+  updateProgressPanel();
+  updateNarrativePanel();
+}
+
+function resetGame() {
+  state.found.clear();
+  state.activeStopId = null;
+  state.player.x = 108;
+  state.player.y = 604;
+  state.player.targetX = null;
+  state.player.targetY = null;
+  hideOverlay();
+  saveProgress();
+  updateProgressPanel();
+  updateNarrativePanel();
+}
+
+function getCanvasPoint(event) {
+  const rect = canvas.getBoundingClientRect();
+  const clientX = event.clientX ?? (event.touches && event.touches[0] ? event.touches[0].clientX : rect.left);
+  const clientY = event.clientY ?? (event.touches && event.touches[0] ? event.touches[0].clientY : rect.top);
+  return {
+    x: ((clientX - rect.left) / rect.width) * canvas.width,
+    y: ((clientY - rect.top) / rect.height) * canvas.height,
+  };
+}
+
+function clampPlayer() {
+  state.player.x = Math.max(54, Math.min(canvas.width - 54, state.player.x));
+  state.player.y = Math.max(96, Math.min(canvas.height - 64, state.player.y));
+}
+
+function aimAt(x, y) {
+  state.player.targetX = x;
+  state.player.targetY = y;
+}
+
+function handleCanvasPress(event) {
+  const point = getCanvasPoint(event);
+  const closeStop = STOPS.find(stop => Math.hypot(point.x - stop.x, point.y - stop.y) < stop.radius + 18);
+  if (closeStop) {
+    aimAt(closeStop.x, closeStop.y);
+    if (Math.hypot(state.player.x - closeStop.x, state.player.y - closeStop.y) < closeStop.radius + 6) {
+      unlockStop(closeStop.id);
+    }
+  } else {
+    aimAt(point.x, point.y);
+  }
+}
+
+function updateMovement(dt) {
+  const speed = state.settings.calm ? 150 : 210;
+  let dx = 0;
+  let dy = 0;
+  if (state.keys.has('arrowup') || state.keys.has('w')) dy -= 1;
+  if (state.keys.has('arrowdown') || state.keys.has('s')) dy += 1;
+  if (state.keys.has('arrowleft') || state.keys.has('a')) dx -= 1;
+  if (state.keys.has('arrowright') || state.keys.has('d')) dx += 1;
+
+  if (dx || dy) {
+    const len = Math.hypot(dx, dy);
+    state.player.x += (dx / len) * speed * dt;
+    state.player.y += (dy / len) * speed * dt;
+    state.player.targetX = null;
+    state.player.targetY = null;
+  } else if (state.player.targetX !== null && state.player.targetY !== null) {
+    const tx = state.player.targetX - state.player.x;
+    const ty = state.player.targetY - state.player.y;
+    const dist = Math.hypot(tx, ty);
+    if (dist < 6) {
+      state.player.x = state.player.targetX;
+      state.player.y = state.player.targetY;
+      state.player.targetX = null;
+      state.player.targetY = null;
+    } else {
+      state.player.x += (tx / dist) * speed * dt;
+      state.player.y += (ty / dist) * speed * dt;
+    }
+  }
+
+  clampPlayer();
+}
+
+function updateUnlocks(now) {
+  state.hoveredStopId = null;
+  STOPS.forEach(stop => {
+    const distance = Math.hypot(state.player.x - stop.x, state.player.y - stop.y);
+    if (distance < stop.radius + 10) {
+      state.hoveredStopId = stop.id;
+      unlockStop(stop.id);
+    }
+  });
+
+  if (!overlayCard.hidden && now > state.overlayExpiresAt) {
+    hideOverlay();
+  }
+}
+
+function drawSky(now) {
+  const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  sky.addColorStop(0, '#ffe5d5');
+  sky.addColorStop(0.48, '#fff7e8');
+  sky.addColorStop(1, '#f5ffd6');
+  ctx.fillStyle = sky;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  const sunX = canvas.width - 160;
+  const sunY = 132;
+  ctx.fillStyle = 'rgba(255, 180, 79, 0.18)';
+  ctx.beginPath();
+  ctx.arc(sunX, sunY, 96, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = '#ffb44f';
+  ctx.beginPath();
+  ctx.arc(sunX, sunY, 52, 0, Math.PI * 2);
+  ctx.fill();
+
+  const cloudOffset = state.settings.calm ? 0 : Math.sin(now * 0.00018) * 10;
+  drawCloud(180 + cloudOffset, 124, 84);
+  drawCloud(460 - cloudOffset * 0.5, 92, 68);
+  drawCloud(812 + cloudOffset * 0.7, 158, 74);
+}
+
+function drawCloud(x, y, size) {
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.78)';
+  ctx.beginPath();
+  ctx.arc(x, y, size * 0.42, Math.PI * 0.5, Math.PI * 1.5);
+  ctx.arc(x + size * 0.38, y - size * 0.1, size * 0.34, Math.PI, Math.PI * 2);
+  ctx.arc(x + size * 0.7, y, size * 0.28, Math.PI * 1.5, Math.PI * 0.5);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawHills() {
+  ctx.fillStyle = '#9cde8a';
+  ctx.beginPath();
+  ctx.moveTo(0, 560);
+  ctx.bezierCurveTo(120, 500, 220, 486, 370, 540);
+  ctx.bezierCurveTo(520, 590, 650, 650, 860, 536);
+  ctx.bezierCurveTo(980, 468, 1100, 456, 1200, 510);
+  ctx.lineTo(1200, 760);
+  ctx.lineTo(0, 760);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.fillStyle = '#67bd6f';
+  ctx.beginPath();
+  ctx.moveTo(0, 620);
+  ctx.bezierCurveTo(150, 560, 300, 610, 480, 652);
+  ctx.bezierCurveTo(640, 688, 870, 664, 1020, 602);
+  ctx.bezierCurveTo(1110, 566, 1166, 560, 1200, 576);
+  ctx.lineTo(1200, 760);
+  ctx.lineTo(0, 760);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawPond() {
+  ctx.fillStyle = 'rgba(127, 215, 234, 0.82)';
+  ctx.beginPath();
+  ctx.ellipse(314, 666, 120, 42, -0.08, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawTrail(now) {
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.lineWidth = 24;
+  const trail = ctx.createLinearGradient(120, 520, 1060, 300);
+  trail.addColorStop(0, 'rgba(255, 126, 121, 0.9)');
+  trail.addColorStop(0.32, 'rgba(255, 180, 79, 0.92)');
+  trail.addColorStop(0.65, 'rgba(126, 216, 237, 0.94)');
+  trail.addColorStop(1, 'rgba(142, 217, 118, 0.95)');
+  ctx.strokeStyle = trail;
+  ctx.beginPath();
+  TRAIL.forEach((point, index) => {
+    if (index === 0) ctx.moveTo(point.x, point.y);
+    else ctx.lineTo(point.x, point.y);
+  });
+  ctx.stroke();
+
+  ctx.lineWidth = 8;
+  ctx.setLineDash([14, 14]);
+  ctx.strokeStyle = `rgba(255, 255, 255, ${state.settings.calm ? 0.24 : 0.36 + Math.sin(now * 0.004) * 0.05})`;
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawGuide() {
+  if (!state.settings.guide) return;
+  const target = nextStop();
+  if (!target) return;
+  ctx.strokeStyle = 'rgba(20, 53, 62, 0.2)';
+  ctx.lineWidth = 4;
+  ctx.setLineDash([8, 14]);
+  ctx.beginPath();
+  ctx.moveTo(state.player.x, state.player.y);
+  ctx.lineTo(target.x, target.y);
+  ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function drawStops(now) {
+  STOPS.forEach((stop, index) => {
+    const found = state.found.has(stop.id);
+    const hover = state.hoveredStopId === stop.id;
+    const pulse = state.settings.calm ? 0 : (Math.sin(now * 0.004 + index) + 1) * 0.5;
+    ctx.save();
+    ctx.translate(stop.x, stop.y);
+    ctx.fillStyle = stop.color + '33';
+    ctx.beginPath();
+    ctx.arc(0, 0, stop.radius + 16 + pulse * 4, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = stop.color;
+    ctx.beginPath();
+    ctx.arc(0, 0, stop.radius - 18, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,0.88)';
+    ctx.beginPath();
+    ctx.arc(-10, -10, 10, 0, Math.PI * 2);
+    ctx.arc(10, -10, 10, 0, Math.PI * 2);
+    ctx.arc(0, 10, 12, 0, Math.PI * 2);
+    ctx.fill();
+    if (found) {
+      ctx.fillStyle = 'rgba(20, 53, 62, 0.78)';
+      ctx.font = '700 22px "IBM Plex Sans"';
+      ctx.textAlign = 'center';
+      ctx.fillText('✓', 0, 8);
+    }
+    if (hover || (!found && index === 0)) {
+      ctx.strokeStyle = 'rgba(20, 53, 62, 0.24)';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.arc(0, 0, stop.radius + 8, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    ctx.fillStyle = 'rgba(20, 53, 62, 0.84)';
+    ctx.font = '700 16px "IBM Plex Sans"';
+    ctx.textAlign = 'center';
+    ctx.fillText(stopCopy(stop.id).title, stop.x, stop.y + stop.radius + 28);
+  });
+}
+
+function drawTrees() {
+  const trees = [
+    [82, 520, 0.9], [144, 470, 1], [420, 430, 0.88], [690, 458, 0.95], [870, 350, 0.82], [1122, 250, 0.78]
+  ];
+  trees.forEach(([x, y, scale]) => {
+    ctx.fillStyle = '#835a43';
+    ctx.fillRect(x - 7 * scale, y, 14 * scale, 56 * scale);
+    ctx.fillStyle = '#58b66d';
+    ctx.beginPath();
+    ctx.arc(x, y - 10 * scale, 34 * scale, 0, Math.PI * 2);
+    ctx.arc(x - 24 * scale, y + 8 * scale, 24 * scale, 0, Math.PI * 2);
+    ctx.arc(x + 24 * scale, y + 8 * scale, 24 * scale, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
+
+function drawSparkles(now) {
+  if (state.settings.calm) return;
+  for (let index = 0; index < 26; index += 1) {
+    const baseX = 90 + ((index * 87) % 1020);
+    const baseY = 160 + ((index * 61) % 420);
+    const driftX = Math.sin(now * 0.0009 + index) * 8;
+    const driftY = Math.cos(now * 0.0011 + index * 0.4) * 6;
+    const size = 2 + (Math.sin(now * 0.004 + index) + 1) * 1.5;
+    ctx.fillStyle = index % 3 === 0 ? 'rgba(255, 180, 79, 0.9)' : index % 3 === 1 ? 'rgba(126, 216, 237, 0.9)' : 'rgba(232, 95, 130, 0.88)';
+    ctx.beginPath();
+    ctx.arc(baseX + driftX, baseY + driftY, size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function drawUnicorn(now) {
+  const bob = state.settings.calm ? 0 : Math.sin(now * 0.005) * 3.5;
+  const x = state.player.x;
+  const y = state.player.y + bob;
+
+  ctx.save();
+  ctx.translate(x, y);
+
+  const next = nextStop();
+  const trailColor = next ? next.color : '#ffb44f';
+  ctx.strokeStyle = trailColor;
+  ctx.lineWidth = 10;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(-44, 6);
+  ctx.bezierCurveTo(-68, 14, -84, 4, -104, 18);
+  ctx.stroke();
+
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 38, 26, -0.06, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(34, -18, 20, 17, 0.1, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#ffd56b';
+  ctx.beginPath();
+  ctx.moveTo(36, -42);
+  ctx.lineTo(48, -16);
+  ctx.lineTo(31, -20);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.strokeStyle = '#ff7e79';
+  ctx.lineWidth = 8;
+  ctx.beginPath();
+  ctx.moveTo(-10, -18);
+  ctx.bezierCurveTo(0, -48, 24, -48, 34, -20);
+  ctx.stroke();
+  ctx.strokeStyle = '#7fd7ea';
+  ctx.beginPath();
+  ctx.moveTo(-4, -20);
+  ctx.bezierCurveTo(6, -44, 24, -42, 30, -16);
+  ctx.stroke();
+
+  ctx.fillStyle = '#19333d';
+  ctx.beginPath();
+  ctx.arc(42, -18, 3.4, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#7fd7ea';
+  ctx.fillRect(-4, -8, 18, 12);
+  ctx.fillStyle = '#14353e';
+  ctx.fillRect(-2, -6, 14, 8);
+
+  ctx.strokeStyle = '#14353e';
+  ctx.lineWidth = 6;
+  [[-20, 18], [-2, 20], [16, 18], [30, 16]].forEach(([lx, ly]) => {
+    ctx.beginPath();
+    ctx.moveTo(lx, ly);
+    ctx.lineTo(lx - 2, ly + 22);
+    ctx.stroke();
+  });
+
+  ctx.restore();
+}
+
+function drawBadge() {
+  ctx.save();
+  ctx.translate(1040, 96);
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.72)';
+  ctx.beginPath();
+  ctx.roundRect(-96, -34, 192, 68, 22);
+  ctx.fill();
+  ctx.fillStyle = '#14353e';
+  ctx.textAlign = 'center';
+  ctx.font = '700 16px "IBM Plex Sans"';
+  ctx.fillText(copy().progressKicker, 0, -6);
+  ctx.font = '700 28px "Baloo 2"';
+  ctx.fillText(`${state.found.size}/6`, 0, 24);
+  ctx.restore();
+}
+
+function draw(now) {
+  drawSky(now);
+  drawSparkles(now);
+  drawHills();
+  drawPond();
+  drawTrail(now);
+  drawGuide();
+  drawTrees();
+  drawStops(now);
+  drawUnicorn(now);
+  drawBadge();
+}
+
+let lastTime = performance.now();
+function frame(now) {
+  const dt = Math.min(0.032, (now - lastTime) / 1000);
+  lastTime = now;
+  updateMovement(dt);
+  updateUnlocks(now);
+  draw(now);
+  requestAnimationFrame(frame);
+}
+
+document.getElementById('lang-toggle').addEventListener('click', () => {
+  setLanguage(state.lang === 'no' ? 'en' : 'no');
+});
+
+document.getElementById('reset-button').addEventListener('click', resetGame);
+document.getElementById('setting-guide').addEventListener('change', event => toggleSetting('guide', event.target.checked));
+document.getElementById('setting-calm').addEventListener('change', event => toggleSetting('calm', event.target.checked));
+document.getElementById('setting-large').addEventListener('change', event => toggleSetting('large', event.target.checked));
+document.getElementById('setting-contrast').addEventListener('change', event => toggleSetting('contrast', event.target.checked));
+
+canvas.addEventListener('pointerdown', event => {
+  canvas.focus();
+  handleCanvasPress(event);
+});
+
+canvas.addEventListener('pointermove', event => {
+  const point = getCanvasPoint(event);
+  const hovered = STOPS.find(stop => Math.hypot(point.x - stop.x, point.y - stop.y) < stop.radius + 18);
+  state.hoveredStopId = hovered ? hovered.id : null;
+});
+
+window.addEventListener('keydown', event => {
+  const key = event.key.toLowerCase();
+  if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd'].includes(key)) {
+    event.preventDefault();
+    state.keys.add(key);
+  }
+});
+
+window.addEventListener('keyup', event => {
+  state.keys.delete(event.key.toLowerCase());
+});
+
+document.querySelectorAll('.touch-btn[data-dir]').forEach(button => {
+  const dirKey = button.dataset.dir;
+  const key = dirKey === 'up' ? 'arrowup' : dirKey === 'down' ? 'arrowdown' : dirKey === 'left' ? 'arrowleft' : 'arrowright';
+  const add = () => state.keys.add(key);
+  const remove = () => state.keys.delete(key);
+  button.addEventListener('pointerdown', add);
+  button.addEventListener('pointerup', remove);
+  button.addEventListener('pointerleave', remove);
+  button.addEventListener('pointercancel', remove);
+});
+
+syncUi();
+updateProgressPanel();
+updateNarrativePanel();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
