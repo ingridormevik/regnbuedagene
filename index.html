@@ -1611,6 +1611,16 @@
             100% { transform: translateY(105vh) rotate(20deg); opacity: 0; }
         }
 
+        .global-rune-rain {
+            will-change: transform, opacity;
+            contain: strict;
+        }
+
+        .ritual-rune {
+            will-change: transform, opacity;
+            contain: layout style;
+        }
+
         body.forest-awakened {
             animation: forestAwaken 3s ease-out forwards;
         }
@@ -3333,9 +3343,11 @@ creatureCards.forEach(card => {
         function triggerForestFullyAwakened() {
             document.body.classList.add('forest-awakened');
             setTimeout(() => document.body.classList.remove('forest-awakened'), 3000);
-            for (let i = 0; i < 24; i++) {
+            const symbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ'];
+            const count = mobileLiteMode ? 6 : 12;
+            const gap = mobileLiteMode ? 220 : 140;
+            for (let i = 0; i < count; i++) {
                 setTimeout(() => {
-                    const symbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ'];
                     const rune = document.createElement('div');
                     rune.className = 'global-rune-rain';
                     rune.textContent = symbols[i % symbols.length];
@@ -3343,12 +3355,12 @@ creatureCards.forEach(card => {
                         position:fixed;left:${5 + Math.random()*90}%;top:-2rem;
                         font-family:'Cinzel',serif;font-size:${1.1+Math.random()*1.4}rem;
                         color:var(--fossegrim-gold);pointer-events:none;z-index:9999;
-                        text-shadow:0 0 18px var(--fossegrim-gold),0 0 36px var(--fossegrim-gold);
-                        animation:runeRain ${2.2+Math.random()*1.4}s ease-in forwards;
+                        text-shadow:0 0 18px var(--fossegrim-gold);
+                        animation:runeRain ${2.4+Math.random()*1.2}s ease-in forwards;
                     `;
                     document.body.appendChild(rune);
                     rune.addEventListener('animationend', () => rune.remove());
-                }, i * 90);
+                }, i * gap);
             }
         }
 
@@ -3910,13 +3922,14 @@ creatureCards.forEach(card => {
 
             const symbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ'];
             const rect = card.getBoundingClientRect();
+            const runeCount = mobileLiteMode ? 3 : 5;
 
-            for (let i = 0; i < 7; i++) {
+            for (let i = 0; i < runeCount; i++) {
                 const rune = document.createElement('div');
                 rune.className = 'ritual-rune';
                 rune.textContent = symbols[(i + count) % symbols.length];
-                rune.style.setProperty('--tx', `${(x - rect.left - rect.width / 2) + Math.cos((i / 7) * Math.PI * 2) * (36 + i * 10)}px`);
-                rune.style.setProperty('--ty', `${(y - rect.top - rect.height / 2) + Math.sin((i / 7) * Math.PI * 2) * (32 + i * 8)}px`);
+                rune.style.setProperty('--tx', `${(x - rect.left - rect.width / 2) + Math.cos((i / runeCount) * Math.PI * 2) * (36 + i * 10)}px`);
+                rune.style.setProperty('--ty', `${(y - rect.top - rect.height / 2) + Math.sin((i / runeCount) * Math.PI * 2) * (32 + i * 8)}px`);
                 card.appendChild(rune);
                 setTimeout(() => rune.remove(), 1250);
             }
