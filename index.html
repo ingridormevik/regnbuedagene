@@ -310,6 +310,8 @@
             backdrop-filter: blur(10px);
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
+            will-change: transform;
+            transform: translateZ(0);
         }
 
         .creature-card::before {
@@ -2071,7 +2073,8 @@
             }
 
             .creature-card {
-                backdrop-filter: blur(6px);
+                backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
                 transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
             }
 
@@ -3083,9 +3086,24 @@
         let time = 0;
         let auroraFrameToggle = false;
         let _auroraActive = false;
+        let _scrolling = false;
+        let _scrollTimer = null;
+        window.addEventListener('scroll', () => {
+            _scrolling = true;
+            clearTimeout(_scrollTimer);
+            _scrollTimer = setTimeout(() => {
+                _scrolling = false;
+                if (!_auroraActive && !document.hidden) {
+                    _auroraActive = true;
+                    requestAnimationFrame(drawAurora);
+                }
+            }, 120);
+        }, { passive: true });
+
         function drawAurora() {
             const mobileMode = mobileLiteMode;
             if (document.hidden) { _auroraActive = false; return; }
+            if (_scrolling) { _auroraActive = false; return; }
             _auroraActive = true;
             if (mobileMode) {
                 auroraFrameToggle = !auroraFrameToggle;
