@@ -2,7 +2,7 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
 <title>CDN LÆRINGSLAB / DATASPOR — BERGEN FRA FJORD TIL FJELL</title>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -600,6 +600,1543 @@ body.mobile-ui #aprmpt {
   }
 }
 
+/* ROTATE DEVICE OVERLAY CSS */
+#rotate-device-overlay{
+  position:fixed;
+  inset:0;
+  z-index:12000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:
+    max(24px,calc(18px + env(safe-area-inset-top)))
+    max(18px,calc(18px + env(safe-area-inset-right)))
+    max(24px,calc(18px + env(safe-area-inset-bottom)))
+    max(18px,calc(18px + env(safe-area-inset-left)));
+  width:100%;
+  height:100vh;
+  height:100dvh;
+  height:var(--app-height,100dvh);
+  min-height:100vh;
+  min-height:100dvh;
+  min-height:var(--app-height,100dvh);
+  overflow:hidden;
+  pointer-events:none;
+  overscroll-behavior:contain;
+  background:
+    radial-gradient(circle at 18% 16%,rgba(255,191,107,.14),transparent 28%),
+    radial-gradient(circle at 82% 22%,rgba(143,230,255,.15),transparent 34%),
+    linear-gradient(180deg,rgba(2,8,13,.94),rgba(3,10,18,.985) 48%,rgba(1,6,12,.985));
+  backdrop-filter:blur(24px) saturate(128%);
+  -webkit-backdrop-filter:blur(24px) saturate(128%);
+}
+#rotate-device-overlay::before{
+  content:'';
+  position:absolute;
+  inset:8% 6%;
+  border:1px solid rgba(143,230,255,.08);
+  border-radius:32px;
+  background:
+    linear-gradient(125deg,rgba(255,255,255,.02),rgba(255,255,255,0)),
+    radial-gradient(circle at 50% 100%,rgba(143,230,255,.08),transparent 46%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.02);
+  pointer-events:none;
+}
+#rotate-device-overlay[aria-hidden="false"]{
+  display:flex;
+  pointer-events:auto;
+}
+.rotate-device-card{
+  position:relative;
+  width:min(100%,420px);
+  max-width:420px;
+  padding:22px 22px 24px;
+  border-radius:28px;
+  border:1px solid rgba(143,230,255,.18);
+  background:
+    linear-gradient(180deg,rgba(8,19,32,.96),rgba(5,13,23,.93)),
+    radial-gradient(circle at top,rgba(255,203,139,.06),transparent 48%);
+  box-shadow:0 34px 70px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.05),0 0 0 1px rgba(255,255,255,.02);
+  text-align:center;
+  color:var(--text);
+  overflow:hidden;
+  isolation:isolate;
+}
+.rotate-device-card::before{
+  content:attr(data-rotate-kicker);
+  position:relative;
+  display:block;
+  margin-bottom:14px;
+  font-family:var(--disp);
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:3.2px;
+  text-transform:uppercase;
+  color:rgba(255,203,139,.88);
+}
+.rotate-device-card::after{
+  content:'';
+  position:absolute;
+  inset:auto -14% -34% 18%;
+  height:170px;
+  background:radial-gradient(circle,rgba(111,224,255,.16) 0%,rgba(111,224,255,0) 72%);
+  pointer-events:none;
+  z-index:-1;
+}
+.rotate-device-icon{
+  position:relative;
+  width:76px;
+  height:110px;
+  margin:0 auto 20px;
+  border-radius:22px;
+  border:2px solid rgba(255,243,220,.58);
+  background:
+    linear-gradient(180deg,rgba(239,249,255,.16),rgba(239,249,255,.05)),
+    linear-gradient(135deg,rgba(143,230,255,.18),rgba(255,203,139,.08));
+  box-shadow:0 22px 36px rgba(0,0,0,.24),inset 0 0 0 6px rgba(3,12,22,.48),0 0 18px rgba(143,230,255,.10);
+  transform-origin:50% 56%;
+  animation:rotateDevicePhone 2.8s cubic-bezier(.4,0,.2,1) infinite;
+}
+.rotate-device-icon::before{
+  content:'';
+  position:absolute;
+  top:9px;
+  left:50%;
+  width:28px;
+  height:4px;
+  border-radius:999px;
+  background:rgba(255,255,255,.48);
+  transform:translateX(-50%);
+}
+.rotate-device-icon::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  bottom:10px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.46);
+  transform:translateX(-50%);
+}
+.rotate-device-title{
+  position:relative;
+  margin:0 0 12px;
+  font-family:var(--serif);
+  font-size:clamp(28px,6vw,34px);
+  font-weight:700;
+  line-height:1.05;
+  letter-spacing:.01em;
+  color:#f7fcff;
+  text-wrap:balance;
+}
+.rotate-device-text{
+  position:relative;
+  max-width:30ch;
+  margin:0 auto;
+  font-family:var(--disp);
+  font-size:clamp(13px,3.3vw,15px);
+  line-height:1.68;
+  color:rgba(231,248,255,.82);
+}
+body.rotate-overlay-active{
+  overflow:hidden;
+}
+body.rotate-overlay-active #gc,
+body.rotate-overlay-active #hud,
+body.rotate-overlay-active #story-card,
+body.rotate-overlay-active #touch-ui,
+body.rotate-overlay-active #ipop,
+body.rotate-overlay-active #frpop,
+body.rotate-overlay-active #endscrn,
+body.rotate-overlay-active #ldg{
+  filter:blur(6px) saturate(.72) brightness(.55);
+  transition:filter .22s ease,opacity .22s ease;
+}
+body.rotate-overlay-active #hud,
+body.rotate-overlay-active #story-card,
+body.rotate-overlay-active #touch-ui,
+body.rotate-overlay-active #ipop,
+body.rotate-overlay-active #frpop,
+body.rotate-overlay-active #endscrn,
+body.rotate-overlay-active #ldg{
+  pointer-events:none;
+}
+@keyframes rotateDevicePhone{
+  0%,18%,100%{transform:rotate(0deg) scale(1);}
+  36%,64%{transform:rotate(90deg) scale(.98);}
+  78%{transform:rotate(86deg) scale(1);}
+}
+@media (max-width:480px){
+  #rotate-device-overlay{
+    padding:
+      max(20px,calc(12px + env(safe-area-inset-top)))
+      max(14px,calc(14px + env(safe-area-inset-right)))
+      max(20px,calc(14px + env(safe-area-inset-bottom)))
+      max(14px,calc(14px + env(safe-area-inset-left)));
+  }
+  .rotate-device-card{
+    border-radius:24px;
+    padding:20px 18px 22px;
+  }
+  .rotate-device-card::before{
+    font-size:9px;
+    letter-spacing:2.6px;
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .rotate-device-icon,
+  body.rotate-overlay-active #gc,
+  body.rotate-overlay-active #hud,
+  body.rotate-overlay-active #story-card,
+  body.rotate-overlay-active #touch-ui,
+  body.rotate-overlay-active #ipop,
+  body.rotate-overlay-active #frpop,
+  body.rotate-overlay-active #endscrn,
+  body.rotate-overlay-active #ldg{
+    animation:none !important;
+    transition:none !important;
+  }
+}
+
+/* MOBILE LAYOUT FIX */
+@media (max-width:1024px){
+  body.mobile-layout{
+    --mobile-safe-top:max(10px,env(safe-area-inset-top));
+    --mobile-safe-right:max(12px,env(safe-area-inset-right));
+    --mobile-safe-bottom:max(12px,env(safe-area-inset-bottom));
+    --mobile-safe-left:max(12px,env(safe-area-inset-left));
+    --mobile-hud-h:106px;
+    --mobile-secondary-dock:64px;
+    --mobile-controls-h:216px;
+    --mobile-hud-measured:0px;
+    --mobile-secondary-dock-measured:0px;
+    --mobile-controls-measured:0px;
+    --mobile-story-gap:8px;
+    --mobile-hud-offset:max(var(--mobile-hud-h),var(--mobile-hud-measured));
+    --mobile-secondary-dock-offset:max(var(--mobile-secondary-dock),var(--mobile-secondary-dock-measured));
+    --mobile-controls-offset:max(var(--mobile-controls-h),var(--mobile-controls-measured));
+    min-height:100dvh;
+    overflow-x:hidden;
+  }
+  body.mobile-layout.mobile-landscape{
+    --mobile-hud-h:74px;
+    --mobile-secondary-dock:58px;
+    --mobile-controls-h:152px;
+  }
+  body.mobile-layout #lp,
+  body.mobile-layout #rp{
+    width:0 !important;
+    padding:0 !important;
+    border:none !important;
+    background:transparent !important;
+    box-shadow:none !important;
+  }
+  body.mobile-layout #lp::before,
+  body.mobile-layout #rp::before,
+  body.mobile-layout #lp > *,
+  body.mobile-layout #rp > *{
+    display:none !important;
+  }
+  body.mobile-layout #tb,
+  body.mobile-layout #story-card,
+  body.mobile-layout #touch-pad,
+  body.mobile-layout #touch-actions,
+  body.mobile-layout #btm,
+  body.mobile-layout #ipop,
+  body.mobile-layout #frpop{
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+  }
+  body.mobile-layout #warn-b{
+    top:calc(var(--mobile-hud-offset) + var(--mobile-story-gap));
+    max-width:calc(100vw - var(--mobile-safe-left) - var(--mobile-safe-right));
+    white-space:normal;
+    text-align:center;
+  }
+  body.mobile-layout #ipop{
+    left:var(--mobile-safe-left);
+    right:var(--mobile-safe-right);
+    transform:none;
+    bottom:calc(var(--mobile-safe-bottom) + var(--mobile-controls-offset) + var(--mobile-secondary-dock-offset) + 20px);
+    min-width:0;
+    max-height:min(44svh,340px);
+    overflow-y:auto;
+    padding:16px 16px 14px;
+  }
+  body.mobile-layout #frpop{
+    width:min(92vw,430px);
+    min-width:0;
+    max-height:min(82svh,520px);
+    overflow-y:auto;
+    padding:22px 18px;
+  }
+  body.mobile-layout #hint,
+  body.mobile-layout #gwsp,
+  body.mobile-layout #aprmpt{
+    left:50%;
+    bottom:calc(var(--mobile-safe-bottom) + var(--mobile-controls-offset) + var(--mobile-secondary-dock-offset) + 26px) !important;
+    max-width:min(82vw,44ch);
+    text-align:center;
+    line-height:1.5;
+  }
+  body.mobile-layout #aprmpt{font-size:8px;}
+  body.mobile-layout #ldg{
+    padding:
+      calc(var(--mobile-safe-top) + 28px)
+      var(--mobile-safe-right)
+      calc(var(--mobile-safe-bottom) + var(--mobile-controls-offset) + var(--mobile-secondary-dock-offset) + 36px)
+      var(--mobile-safe-left);
+    align-items:flex-start;
+    justify-content:flex-end;
+  }
+  body.mobile-layout .bt{
+    font-size:clamp(2rem,8vw,4.25rem);
+    line-height:1.04;
+    letter-spacing:.04em;
+    max-width:10ch;
+    text-wrap:balance;
+  }
+  body.mobile-layout .bs{
+    font-size:clamp(.72rem,2.4vw,.92rem);
+    line-height:1.7;
+    letter-spacing:.18em;
+    max-width:40ch;
+  }
+  body.mobile-layout .bl{
+    gap:10px;
+    flex-wrap:wrap;
+    font-size:clamp(.82rem,2.6vw,.98rem);
+    line-height:1.65;
+  }
+  body.mobile-layout #bbt{width:min(100%,320px);}
+
+  /* MOBILE HUD FIX */
+  body.mobile-layout #tb{
+    top:0;
+    left:0;
+    right:0;
+    height:auto !important;
+    min-height:0;
+    padding:calc(var(--mobile-safe-top) + 8px) var(--mobile-safe-right) 10px var(--mobile-safe-left) !important;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    align-items:stretch;
+    background:linear-gradient(180deg,rgba(4,13,23,.98),rgba(5,15,26,.92));
+    box-shadow:0 16px 34px rgba(0,0,0,.26);
+  }
+  body.mobile-layout .tfill,
+  body.mobile-layout #clock{
+    display:none !important;
+  }
+  body.mobile-layout .ts-brand{
+    order:1;
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    min-height:32px;
+    margin:0;
+    padding:0 10px;
+    border:1px solid rgba(132,212,245,.18);
+    border-right:none;
+    border-radius:999px;
+    background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
+    font-size:11px;
+    letter-spacing:3px;
+  }
+  body.mobile-layout #zone-lbl{
+    order:2;
+    flex:1 1 160px;
+    min-width:0;
+    margin:0;
+    padding:0 12px;
+    min-height:32px;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    font-size:8.5px;
+    letter-spacing:1.7px;
+  }
+  body.mobile-layout #lang-toggle{
+    order:3;
+    min-height:32px;
+    padding:0 12px;
+    font-size:8.5px;
+    letter-spacing:.14em;
+  }
+  body.mobile-layout #accessibility-menu{
+    order:4;
+    margin-left:0;
+  }
+  body.mobile-layout #accessibility-menu>summary{
+    min-height:32px;
+    padding:0 10px;
+    border-radius:999px;
+    font-size:8.5px;
+    letter-spacing:.08em;
+  }
+  body.mobile-layout .ts{
+    order:5;
+    flex:1 1 calc(33.333% - 6px);
+    min-width:0;
+    height:auto;
+    padding:8px 10px;
+    gap:3px;
+    align-items:flex-start;
+    justify-content:flex-start;
+    flex-direction:column;
+    border-right:none;
+    border:1px solid rgba(132,212,245,.12);
+    border-radius:16px;
+    background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));
+  }
+  body.mobile-layout .tsl{
+    font-size:6px;
+    letter-spacing:.18em;
+  }
+  body.mobile-layout .tsv{
+    font-size:12px;
+    letter-spacing:.02em;
+  }
+  body.mobile-layout .access-menu-body{
+    left:var(--mobile-safe-left) !important;
+    right:var(--mobile-safe-right) !important;
+    bottom:calc(var(--mobile-safe-bottom) + 8px) !important;
+    top:auto !important;
+    width:auto !important;
+    max-height:min(62svh,460px) !important;
+    overflow-y:auto !important;
+  }
+  body.mobile-layout.mobile-landscape #tb{
+    padding-bottom:8px !important;
+  }
+  body.mobile-layout.mobile-landscape .ts{
+    flex:1 1 84px;
+    flex-direction:row;
+    align-items:baseline;
+    gap:6px;
+  }
+  body.mobile-layout.mobile-landscape #zone-lbl{
+    flex:1 1 180px;
+  }
+
+  /* MOBILE STORY SCREEN FIX */
+  body.mobile-layout #story-card{
+    top:calc(var(--mobile-hud-offset) + var(--mobile-story-gap)) !important;
+    left:var(--mobile-safe-left) !important;
+    right:var(--mobile-safe-right) !important;
+    bottom:auto !important;
+    width:auto;
+    max-width:none;
+    max-height:min(28svh,216px);
+    padding:14px 14px 16px;
+    border-radius:22px;
+    opacity:.97;
+    pointer-events:auto;
+    overflow-x:hidden;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    background:linear-gradient(180deg,rgba(5,17,29,.95),rgba(4,11,21,.90));
+    box-shadow:0 22px 48px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  body.mobile-layout #story-card::before{
+    top:-8px;
+    height:38px;
+    filter:blur(12px);
+  }
+  body.mobile-layout #story-card::after{
+    inset:auto -12% -18% 45%;
+    height:66px;
+  }
+  body.mobile-layout #story-card::-webkit-scrollbar{
+    width:6px;
+  }
+  body.mobile-layout #story-card::-webkit-scrollbar-thumb{
+    background:rgba(143,230,255,.18);
+    border-radius:999px;
+  }
+  body.mobile-layout #story-eyebrow{
+    font-size:clamp(.56rem,1.8vw,.72rem);
+    letter-spacing:.24em;
+    margin-bottom:7px;
+  }
+  body.mobile-layout #story-title{
+    font-size:clamp(1.35rem,5vw,2rem);
+    line-height:1.02;
+    margin-bottom:7px;
+    text-wrap:balance;
+  }
+  body.mobile-layout #story-mission{
+    font-size:clamp(.72rem,2.5vw,.9rem);
+    line-height:1.45;
+    letter-spacing:.14em;
+    margin-bottom:8px;
+  }
+  body.mobile-layout #story-progress{
+    gap:4px;
+    margin:8px 0 10px;
+  }
+  body.mobile-layout .story-dot{
+    width:8px;
+    height:8px;
+  }
+  body.mobile-layout #story-copy{
+    display:block;
+    font-size:clamp(.94rem,3vw,1.04rem);
+    line-height:1.55;
+    max-width:none;
+    margin-bottom:8px;
+    color:rgba(232,244,252,.82);
+  }
+  body.mobile-layout #story-tip{
+    font-size:clamp(.88rem,2.8vw,.98rem);
+    line-height:1.55;
+    max-width:none;
+    color:rgba(255,226,181,.94);
+  }
+  body.mobile-layout.readable-mode #story-card{
+    max-height:min(40svh,320px);
+  }
+  body.mobile-layout.readable-mode #story-title{
+    font-size:clamp(1.5rem,5vw,2.15rem);
+  }
+  body.mobile-layout.mobile-landscape #story-card{
+    top:calc(var(--mobile-hud-offset) + 6px) !important;
+    right:auto !important;
+    width:min(44vw,450px);
+    max-height:min(38svh,230px);
+  }
+  body.mobile-layout.mobile-landscape #story-copy{
+    font-size:clamp(.86rem,2.2vw,.96rem);
+  }
+  body.mobile-layout.mobile-landscape #story-tip{
+    font-size:clamp(.78rem,2vw,.9rem);
+  }
+  body.mobile-layout #endscrn{
+    padding:
+      calc(var(--mobile-safe-top) + 28px)
+      var(--mobile-safe-right)
+      calc(var(--mobile-safe-bottom) + 24px)
+      var(--mobile-safe-left);
+    justify-content:center;
+    gap:14px;
+    text-align:center;
+    overflow-y:auto;
+  }
+  body.mobile-layout #endscrn > *{
+    width:min(100%,560px);
+  }
+  body.mobile-layout #end-t{
+    max-width:10ch;
+    margin:0 auto;
+    font-size:clamp(2rem,8vw,4.5rem);
+    line-height:.92;
+    letter-spacing:clamp(4px,1.2vw,10px);
+    text-wrap:balance;
+    white-space:normal;
+  }
+  body.mobile-layout #end-b{
+    max-width:34ch;
+    margin:0 auto;
+    font-size:clamp(.96rem,3.3vw,1.12rem);
+    line-height:1.68;
+    letter-spacing:.02em;
+    color:rgba(233,243,249,.78);
+  }
+  body.mobile-layout #end-s{
+    max-width:34ch;
+    margin:0 auto;
+    font-size:clamp(.6rem,2vw,.76rem);
+    line-height:1.6;
+    letter-spacing:.22em;
+  }
+  body.mobile-layout #end-r{
+    min-height:52px;
+    padding:12px 24px;
+    border-radius:999px;
+    font-size:clamp(.74rem,2.4vw,.9rem);
+    letter-spacing:.18em;
+    color:#e5f9ff;
+    border-color:rgba(143,230,255,.28);
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));
+  }
+
+  /* MOBILE CONTROLS FIX */
+  body.mobile-layout #touch-ui{
+    display:grid !important;
+    grid-template-columns:minmax(162px,46%) minmax(0,1fr);
+    gap:12px;
+    left:var(--mobile-safe-left);
+    right:var(--mobile-safe-right);
+    bottom:calc(var(--mobile-safe-bottom) + var(--mobile-secondary-dock-offset) + 12px) !important;
+    align-items:end;
+  }
+  body.mobile-layout #touch-pad,
+  body.mobile-layout #touch-actions{
+    pointer-events:all;
+    border:1px solid rgba(132,212,245,.16);
+    background:linear-gradient(180deg,rgba(6,17,29,.95),rgba(4,12,22,.90));
+    border-radius:26px;
+    padding:10px;
+    box-shadow:0 18px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);
+  }
+  body.mobile-layout #touch-pad{
+    grid-template-columns:56px 56px 56px;
+    grid-template-rows:56px 56px 56px;
+    gap:8px;
+    justify-content:center;
+  }
+  body.mobile-layout #touch-actions{
+    gap:10px;
+  }
+  body.mobile-layout .touch-btn,
+  body.mobile-layout .touch-action-btn{
+    min-width:56px;
+    min-height:56px;
+    border-radius:18px;
+    font-size:20px;
+  }
+  body.mobile-layout .touch-action-btn{
+    padding:0 12px;
+    line-height:1.15;
+    text-align:center;
+  }
+  body.mobile-layout #touch-interact{
+    min-height:62px;
+    font-size:12px;
+    letter-spacing:.12em;
+    color:#fff6e0;
+    border-color:rgba(255,203,139,.34);
+    background:linear-gradient(180deg,rgba(79,49,14,.96),rgba(38,22,10,.92));
+    box-shadow:0 18px 28px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.05);
+  }
+  body.mobile-layout #touch-stop,
+  body.mobile-layout #touch-helper{
+    font-size:10px;
+  }
+  body.mobile-layout #touch-helper{
+    border-color:rgba(143,230,255,.18);
+    color:#dff7ff;
+    background:linear-gradient(180deg,rgba(14,27,41,.96),rgba(7,17,28,.92));
+  }
+  body.mobile-layout #btm{
+    left:var(--mobile-safe-left);
+    right:var(--mobile-safe-right);
+    bottom:var(--mobile-safe-bottom);
+    height:auto !important;
+    min-height:0;
+    padding:8px;
+    gap:8px;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    align-items:stretch;
+    border:1px solid rgba(132,212,245,.14);
+    border-radius:24px;
+    background:linear-gradient(180deg,rgba(6,16,28,.95),rgba(4,12,23,.92));
+    box-shadow:0 -8px 26px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.04);
+    overflow:visible !important;
+  }
+  body.mobile-layout #btn-act,
+  body.mobile-layout #btn-stop,
+  body.mobile-layout #btn-help,
+  body.mobile-layout #bf,
+  body.mobile-layout #ctx-lbl{
+    display:none !important;
+  }
+  body.mobile-layout #btm .ab{
+    flex:0 0 auto;
+    min-height:48px;
+    min-width:0;
+    max-width:none;
+    padding:12px 12px;
+    font-size:10px;
+    letter-spacing:.14em;
+    white-space:normal;
+  }
+  body.mobile-layout #btn-map{
+    border-style:dashed;
+  }
+  body.mobile-layout #btn-calm{
+    color:var(--amber);
+  }
+  body.mobile-layout.mobile-landscape #touch-ui{
+    grid-template-columns:minmax(172px,34%) minmax(0,1fr);
+    bottom:calc(var(--mobile-safe-bottom) + var(--mobile-secondary-dock-offset) + 10px) !important;
+  }
+  body.mobile-layout.mobile-landscape #touch-pad{
+    grid-template-columns:48px 48px 48px;
+    grid-template-rows:48px 48px 48px;
+  }
+  body.mobile-layout.mobile-landscape .touch-btn{
+    min-width:48px;
+    min-height:48px;
+    font-size:18px;
+  }
+  body.mobile-layout.mobile-landscape .touch-action-btn{
+    min-height:48px;
+  }
+  body.mobile-layout.mobile-landscape #touch-interact{
+    min-height:56px;
+  }
+  body.mobile-layout.mobile-landscape #btm{
+    width:min(360px,calc(100vw - var(--mobile-safe-left) - var(--mobile-safe-right)));
+    left:auto;
+  }
+}
+
+@media (max-width:768px){
+  body.mobile-layout{
+    --mobile-hud-h:98px;
+    --mobile-controls-h:204px;
+  }
+  body.mobile-layout.mobile-landscape{
+    --mobile-hud-h:70px;
+    --mobile-controls-h:144px;
+  }
+  body.mobile-layout .ts-brand{
+    font-size:10px;
+    padding:0 8px;
+  }
+  body.mobile-layout .ts{
+    padding:8px 8px;
+  }
+  body.mobile-layout #zone-lbl{
+    font-size:8px;
+  }
+}
+
+@media (max-width:560px){
+  body.mobile-layout{
+    --mobile-hud-h:92px;
+    --mobile-secondary-dock:60px;
+    --mobile-controls-h:192px;
+  }
+  body.mobile-layout.mobile-landscape{
+    --mobile-hud-h:68px;
+    --mobile-secondary-dock:54px;
+    --mobile-controls-h:136px;
+  }
+  body.mobile-layout #tb{
+    gap:6px;
+  }
+  body.mobile-layout .ts{
+    flex:1 1 calc(33.333% - 4px);
+    padding:7px 8px;
+    border-radius:14px;
+  }
+  body.mobile-layout #zone-lbl{
+    flex-basis:100%;
+  }
+  body.mobile-layout #lang-toggle,
+  body.mobile-layout #accessibility-menu>summary{
+    min-height:30px;
+    font-size:8px;
+  }
+  body.mobile-layout #story-card{
+    padding:12px 12px 14px;
+    border-radius:20px;
+    max-height:min(26svh,190px);
+  }
+  body.mobile-layout #touch-ui{
+    grid-template-columns:minmax(146px,44%) minmax(0,1fr);
+    gap:10px;
+  }
+  body.mobile-layout #touch-pad{
+    grid-template-columns:52px 52px 52px;
+    grid-template-rows:52px 52px 52px;
+    gap:6px;
+    padding:8px;
+  }
+  body.mobile-layout .touch-btn,
+  body.mobile-layout .touch-action-btn{
+    min-width:52px;
+    min-height:52px;
+  }
+  body.mobile-layout #touch-interact{
+    min-height:58px;
+  }
+  body.mobile-layout #btm .ab{
+    min-height:46px;
+    font-size:9px;
+    padding:10px 10px;
+  }
+  body.mobile-layout #end-t{
+    font-size:clamp(2rem,10vw,3.65rem);
+    max-width:9ch;
+  }
+  body.mobile-layout #end-b{
+    font-size:clamp(.94rem,4vw,1.04rem);
+  }
+}
+
+#story-toggle,
+#story-summary{
+  display:none;
+}
+
+#story-scroll{
+  position:relative;
+  z-index:1;
+}
+
+@media (max-width: 768px) {
+  body.mobile-layout{
+    --top-ui-space:190px;
+    --bottom-ui-space:210px;
+  }
+
+  html,
+  body{
+    overflow-x:hidden !important;
+  }
+
+  canvas#gc{
+    z-index:1;
+  }
+
+  body.mobile-layout #tb{
+    z-index:80 !important;
+  }
+
+  body.mobile-layout #story-card,
+  body.mobile-layout .quest-card,
+  body.mobile-layout .story-card,
+  body.mobile-layout .mission-card{
+    position:fixed !important;
+    top:calc(env(safe-area-inset-top) + 74px) !important;
+    left:12px !important;
+    right:12px !important;
+    width:auto !important;
+    max-width:none !important;
+    max-height:26vh !important;
+    overflow:hidden !important;
+    padding:14px 16px !important;
+    z-index:50 !important;
+    pointer-events:none !important;
+    border-radius:20px !important;
+    opacity:.97;
+  }
+
+  body.mobile-layout #story-card::after{
+    inset:auto -12% -16% 48%;
+    height:54px;
+  }
+
+  body.mobile-layout #story-toggle{
+    display:inline-flex;
+    position:absolute;
+    top:8px;
+    right:8px;
+    min-height:28px;
+    padding:0 10px;
+    align-items:center;
+    justify-content:center;
+    border:1px solid rgba(132,212,245,.22);
+    border-radius:999px;
+    background:linear-gradient(180deg,rgba(12,24,37,.94),rgba(6,15,26,.88));
+    color:#eaf9ff;
+    font-family:var(--disp);
+    font-size:.66rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    box-shadow:0 10px 22px rgba(0,0,0,.2);
+    pointer-events:auto;
+    z-index:3;
+  }
+
+  body.mobile-layout #story-summary{
+    display:none;
+    position:relative;
+    z-index:2;
+    min-height:24px;
+    padding-right:84px;
+    color:#eef9ff;
+    font-family:var(--disp);
+    font-size:clamp(.74rem,3vw,.95rem);
+    line-height:1.25;
+    letter-spacing:.03em;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    pointer-events:none;
+  }
+
+  body.mobile-layout #story-scroll{
+    display:block;
+    max-height:calc(26vh - 20px);
+    overflow-y:auto;
+    padding-right:4px;
+    pointer-events:auto;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+    mask-image:linear-gradient(to bottom, #000 0%, #000 82%, transparent 100%);
+    -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 82%, transparent 100%);
+  }
+
+  body.mobile-layout #story-scroll::after{
+    content:'';
+    position:sticky;
+    left:0;
+    right:0;
+    bottom:0;
+    display:block;
+    height:18px;
+    margin-top:-18px;
+    background:linear-gradient(180deg,rgba(4,12,22,0),rgba(4,12,22,.96));
+    pointer-events:none;
+  }
+
+  body.mobile-layout #story-eyebrow{
+    font-size:.54rem;
+    letter-spacing:.2em;
+    margin-bottom:4px;
+  }
+
+  body.mobile-layout #story-title{
+    font-size:clamp(1.05rem,4.6vw,1.42rem);
+    line-height:1.04;
+    margin-bottom:4px;
+    padding-right:86px;
+  }
+
+  body.mobile-layout #story-mission{
+    font-size:clamp(.64rem,2.6vw,.82rem);
+    line-height:1.35;
+    letter-spacing:.12em;
+    margin-bottom:6px;
+    padding-right:86px;
+  }
+
+  body.mobile-layout #story-progress{
+    gap:4px;
+    margin:6px 0 7px;
+  }
+
+  body.mobile-layout .story-dot{
+    width:7px;
+    height:7px;
+  }
+
+  body.mobile-layout #story-copy{
+    font-size:clamp(.78rem,2.9vw,.92rem) !important;
+    line-height:1.42;
+    margin-bottom:6px;
+  }
+
+  body.mobile-layout #story-tip{
+    font-size:clamp(.72rem,2.7vw,.86rem);
+    line-height:1.42;
+  }
+
+  body.mobile-layout #story-card.is-collapsed,
+  body.mobile-layout .quest-card.is-collapsed,
+  body.mobile-layout .story-card.is-collapsed,
+  body.mobile-layout .mission-card.is-collapsed{
+    max-height:44px !important;
+    min-height:44px;
+    overflow:hidden !important;
+    padding:10px 14px !important;
+  }
+
+  body.mobile-layout #story-card.is-collapsed #story-scroll{
+    display:none;
+  }
+
+  body.mobile-layout #story-card.is-collapsed #story-summary{
+    display:flex;
+    align-items:center;
+  }
+
+  body.mobile-layout #story-card.is-collapsed #story-toggle{
+    top:7px;
+    right:8px;
+  }
+
+  body.mobile-layout #btm{
+    display:none !important;
+  }
+
+  body.mobile-layout #touch-ui,
+  body.mobile-layout .mobile-controls,
+  body.mobile-layout .control-dock,
+  body.mobile-layout .game-controls{
+    position:fixed !important;
+    left:12px !important;
+    right:12px !important;
+    bottom:calc(env(safe-area-inset-bottom) + 14px) !important;
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:14px !important;
+    align-items:end !important;
+    z-index:70 !important;
+    pointer-events:auto !important;
+    background:none !important;
+    border:none !important;
+    box-shadow:none !important;
+    padding:0 !important;
+  }
+
+  body.mobile-layout #touch-left-stack{
+    display:grid;
+    gap:10px;
+    align-items:end;
+  }
+
+  body.mobile-layout #touch-pad{
+    width:max-content;
+    padding:10px;
+    border-radius:24px;
+    grid-template-columns:58px 58px 58px !important;
+    grid-template-rows:58px 58px 58px !important;
+    gap:8px !important;
+    background:linear-gradient(180deg,rgba(6,17,29,.95),rgba(4,12,22,.90));
+    border:1px solid rgba(132,212,245,.16);
+    box-shadow:0 18px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);
+  }
+
+  body.mobile-layout #touch-utility{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+
+  body.mobile-layout #touch-actions{
+    display:grid !important;
+    grid-template-columns:1fr;
+    gap:10px;
+    padding:10px;
+    border-radius:24px;
+    background:linear-gradient(180deg,rgba(6,17,29,.95),rgba(4,12,22,.90));
+    border:1px solid rgba(132,212,245,.16);
+    box-shadow:0 18px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.04);
+    align-items:stretch;
+  }
+
+  body.mobile-layout .dpad button,
+  body.mobile-layout #touch-pad .touch-btn{
+    width:58px !important;
+    height:58px !important;
+    min-width:58px !important;
+    min-height:58px !important;
+    border-radius:18px !important;
+  }
+
+  body.mobile-layout .action-buttons button,
+  body.mobile-layout #touch-utility .touch-action-btn{
+    min-height:54px !important;
+    width:100% !important;
+    min-width:0 !important;
+    font-size:clamp(0.75rem, 3vw, 1rem) !important;
+    letter-spacing:0.14em !important;
+    border-radius:18px !important;
+    padding:0 12px !important;
+  }
+
+  body.mobile-layout #touch-map{
+    border-style:dashed;
+  }
+
+  body.mobile-layout #touch-calm{
+    border-color:rgba(255,203,139,.32);
+    color:#fff2d6;
+    background:linear-gradient(180deg,rgba(79,49,14,.94),rgba(38,22,10,.90));
+  }
+
+  body.mobile-layout #touch-interact{
+    color:#fff6e0;
+    border-color:rgba(255,203,139,.34);
+    background:linear-gradient(180deg,rgba(79,49,14,.96),rgba(38,22,10,.92));
+  }
+
+  body.mobile-layout #touch-helper{
+    color:#dff7ff;
+  }
+}
+
+@media (max-width: 390px) {
+  body.mobile-layout #touch-ui,
+  body.mobile-layout .mobile-controls,
+  body.mobile-layout .control-dock,
+  body.mobile-layout .game-controls{
+    gap:10px !important;
+  }
+
+  body.mobile-layout .dpad button,
+  body.mobile-layout #touch-pad .touch-btn{
+    width:52px !important;
+    height:52px !important;
+    min-width:52px !important;
+    min-height:52px !important;
+  }
+
+  body.mobile-layout #touch-pad{
+    grid-template-columns:52px 52px 52px !important;
+    grid-template-rows:52px 52px 52px !important;
+    gap:6px !important;
+  }
+}
+
+/* LANDSCAPE-FIRST MOBILE GAME FIX */
+.game-shell,
+.game-screen,
+.fullscreen{
+  min-height:100vh;
+  min-height:100dvh;
+}
+
+#sr-gu,
+#sr-fr,
+#sr-ce{
+  display:none !important;
+}
+
+#obj-box{
+  flex:1 1 auto;
+  min-height:0;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  #rotate-device-overlay,
+  .orientation-gate {
+    display:flex !important;
+  }
+
+  #gc,
+  #hud,
+  #story-card,
+  #touch-ui,
+  #btm,
+  #ipop,
+  #frpop,
+  #endscrn {
+    opacity:0.15;
+    pointer-events:none;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape) {
+  :root {
+    --top-hud-height:54px;
+    --bottom-control-height:86px;
+    --side-padding:12px;
+  }
+
+  #rotate-device-overlay,
+  .orientation-gate {
+    display:none !important;
+  }
+
+  html,
+  body {
+    width:100%;
+    height:100%;
+    overflow:hidden !important;
+    background:#020711;
+  }
+
+  body.mobile-layout {
+    --top-ui-space:54px !important;
+    --bottom-ui-space:86px !important;
+    --mobile-hud-h:54px !important;
+    --mobile-secondary-dock:0px !important;
+    --mobile-controls-h:86px !important;
+  }
+
+  #gc,
+  canvas,
+  #gameCanvas,
+  .game-canvas {
+    position:absolute !important;
+    left:0 !important;
+    top:var(--top-hud-height) !important;
+    width:100vw !important;
+    height:calc(100dvh - var(--top-hud-height) - var(--bottom-control-height)) !important;
+    z-index:1 !important;
+  }
+
+  #tb,
+  .topbar,
+  .game-topbar,
+  .hud-top {
+    position:fixed !important;
+    top:0 !important;
+    left:0 !important;
+    right:0 !important;
+    height:54px !important;
+    min-height:54px !important;
+    z-index:80 !important;
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    align-items:center !important;
+    gap:8px !important;
+    padding:6px 10px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+  }
+
+  #tb *,
+  .topbar *,
+  .game-topbar *,
+  .hud-top * {
+    font-size:clamp(0.62rem, 1.5vw, 0.82rem) !important;
+    white-space:nowrap !important;
+  }
+
+  #tb button,
+  .topbar button,
+  .game-topbar button,
+  .hud-top button {
+    min-height:36px !important;
+    padding:6px 10px !important;
+    border-radius:999px !important;
+  }
+
+  #tb .ts-brand {
+    order:0 !important;
+    flex:0 0 auto !important;
+    min-height:36px !important;
+    letter-spacing:.16em !important;
+  }
+
+  #tb .ts {
+    order:1 !important;
+    flex:0 0 auto !important;
+    min-width:72px !important;
+    height:36px !important;
+    padding:5px 8px !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    gap:5px !important;
+    border-radius:999px !important;
+  }
+
+  #zone-lbl {
+    order:2 !important;
+    flex:1 0 170px !important;
+    min-height:36px !important;
+    max-width:260px !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+
+  #lang-toggle,
+  #accessibility-menu {
+    flex:0 0 auto !important;
+  }
+
+  .access-menu-body {
+    position:fixed !important;
+    top:60px !important;
+    right:12px !important;
+    bottom:92px !important;
+    left:auto !important;
+    width:min(360px, 42vw) !important;
+    max-height:none !important;
+    overflow-y:auto !important;
+  }
+
+  #story-card,
+  .story-card,
+  .mission-card,
+  .quest-card,
+  .round-card {
+    position:fixed !important;
+    top:58px !important;
+    left:12px !important;
+    right:auto !important;
+    width:min(340px, 42vw) !important;
+    max-height:calc(100dvh - 160px) !important;
+    overflow-y:auto !important;
+    padding:12px 14px !important;
+    border-radius:18px !important;
+    z-index:40 !important;
+    font-size:0.78rem !important;
+    line-height:1.35 !important;
+    pointer-events:auto !important;
+  }
+
+  #story-card h1,
+  .story-card h1,
+  .mission-card h1,
+  .quest-card h1,
+  .round-card h1,
+  #story-title {
+    font-size:clamp(1rem, 2.2vw, 1.45rem) !important;
+    line-height:1.05 !important;
+    margin:0 0 6px !important;
+  }
+
+  #story-card p,
+  .story-card p,
+  .mission-card p,
+  .quest-card p,
+  .round-card p,
+  #story-copy,
+  #story-tip,
+  #story-mission {
+    font-size:clamp(0.72rem, 1.4vw, 0.86rem) !important;
+    line-height:1.35 !important;
+    margin:6px 0 !important;
+  }
+
+  #story-toggle {
+    display:inline-flex !important;
+    position:absolute !important;
+    top:8px !important;
+    right:8px !important;
+    z-index:3 !important;
+    pointer-events:auto !important;
+  }
+
+  #story-card.is-collapsed,
+  .story-card.is-collapsed,
+  .mission-card.is-collapsed,
+  .quest-card.is-collapsed {
+    width:min(310px, 38vw) !important;
+    max-height:44px !important;
+    min-height:44px !important;
+    overflow:hidden !important;
+    padding:10px 14px !important;
+  }
+
+  #story-card.is-collapsed #story-scroll {
+    display:none !important;
+  }
+
+  #story-card.is-collapsed #story-summary {
+    display:flex !important;
+    align-items:center !important;
+    min-height:24px !important;
+    padding-right:78px !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+  }
+
+  #touch-ui,
+  .controls-layer,
+  .mobile-controls,
+  .game-controls,
+  .control-dock {
+    position:fixed !important;
+    left:12px !important;
+    right:12px !important;
+    bottom:8px !important;
+    height:78px !important;
+    z-index:70 !important;
+    display:grid !important;
+    grid-template-columns:180px 1fr 240px !important;
+    align-items:end !important;
+    gap:12px !important;
+    pointer-events:none !important;
+    background:none !important;
+    border:none !important;
+    box-shadow:none !important;
+    padding:0 !important;
+  }
+
+  #touch-left-stack {
+    grid-column:1 !important;
+    display:block !important;
+    pointer-events:auto !important;
+    transform:scale(0.78) !important;
+    transform-origin:left bottom !important;
+  }
+
+  #touch-pad,
+  .dpad,
+  .route-controls {
+    pointer-events:auto !important;
+    grid-template-columns:46px 46px 46px !important;
+    grid-template-rows:46px 46px 46px !important;
+    gap:6px !important;
+    padding:8px !important;
+    transform:none !important;
+  }
+
+  #touch-utility {
+    display:none !important;
+  }
+
+  #touch-actions,
+  .action-buttons,
+  .goal-controls,
+  .right-controls {
+    grid-column:3 !important;
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    gap:8px !important;
+    pointer-events:auto !important;
+    padding:8px !important;
+  }
+
+  #touch-helper {
+    grid-column:1 / -1 !important;
+  }
+
+  .action-buttons button,
+  .goal-controls button,
+  .right-controls button,
+  .game-controls button {
+    min-height:42px !important;
+    padding:6px 10px !important;
+    border-radius:16px !important;
+    font-size:clamp(0.64rem, 1.6vw, 0.82rem) !important;
+    letter-spacing:0.12em !important;
+  }
+
+  .dpad button,
+  .route-controls button,
+  #touch-pad .touch-btn {
+    width:46px !important;
+    height:46px !important;
+    min-width:46px !important;
+    min-height:46px !important;
+  }
+
+  #btm,
+  .legacy-controls,
+  .old-controls,
+  .debug-controls,
+  .ghost-controls,
+  .controls-copy {
+    display:none !important;
+    pointer-events:none !important;
+  }
+
+  [aria-hidden="true"],
+  .hidden,
+  .is-hidden {
+    pointer-events:none !important;
+  }
+
+  #endscrn,
+  .lost-screen,
+  .game-over-screen,
+  .end-screen,
+  .failure-overlay,
+  .result-overlay {
+    position:fixed !important;
+    inset:0 !important;
+    z-index:120 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    text-align:center !important;
+    padding:56px 24px 86px !important;
+    overflow:hidden !important;
+    background:rgba(1, 5, 12, 0.88) !important;
+  }
+
+  #endscrn:not(.show) {
+    opacity:0 !important;
+    pointer-events:none !important;
+  }
+
+  #endscrn.show {
+    opacity:1 !important;
+    pointer-events:all !important;
+  }
+
+  #endscrn > *,
+  .lost-screen .content,
+  .game-over-screen .content,
+  .end-screen .content,
+  .failure-overlay .content,
+  .result-overlay .content {
+    width:min(680px, 88vw) !important;
+    max-height:calc(100dvh - 120px) !important;
+    overflow-y:auto !important;
+    margin:0 auto !important;
+  }
+
+  #end-t,
+  body.game-ended h1,
+  .cdn-learning-lab-end h1,
+  .lost-glow-title,
+  #lostGlowTitle,
+  .lost-screen h1,
+  .game-over-screen h1,
+  .end-screen h1,
+  .failure-overlay h1,
+  .result-overlay h1 {
+    position:relative !important;
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+    transform:none !important;
+    display:block !important;
+    width:100% !important;
+    text-align:center !important;
+    font-size:clamp(2.4rem, 8vw, 5.4rem) !important;
+    line-height:0.95 !important;
+    letter-spacing:0.16em !important;
+    margin:0 auto 18px !important;
+    padding:0 !important;
+    max-width:100% !important;
+    word-break:normal !important;
+  }
+
+  #end-b,
+  .lost-screen p,
+  .game-over-screen p,
+  .end-screen p,
+  .failure-overlay p,
+  .result-overlay p {
+    font-size:clamp(0.82rem, 2vw, 1rem) !important;
+    line-height:1.45 !important;
+    max-width:560px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+
+  #end-r,
+  .lost-screen button,
+  .game-over-screen button,
+  .end-screen button,
+  .failure-overlay button,
+  .result-overlay button {
+    min-height:44px !important;
+    padding:10px 22px !important;
+    margin-top:14px !important;
+  }
+
+  #ipop,
+  .passage-panel,
+  .creature-panel,
+  .info-panel,
+  .modal,
+  .story-panel,
+  .accessibility-panel {
+    position:fixed !important;
+    top:62px !important;
+    right:14px !important;
+    bottom:92px !important;
+    left:auto !important;
+    width:min(420px, 44vw) !important;
+    max-height:none !important;
+    overflow-y:auto !important;
+    z-index:100 !important;
+    border-radius:22px !important;
+    -webkit-overflow-scrolling:touch !important;
+  }
+
+  #ipop img,
+  .passage-panel img,
+  .creature-panel img,
+  .info-panel img,
+  .modal img,
+  .story-panel img {
+    max-width:100% !important;
+    max-height:34dvh !important;
+    height:auto !important;
+    object-fit:contain !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -616,6 +2153,16 @@ body.mobile-ui #aprmpt {
   window.addEventListener('resize',setH);
   window.addEventListener('orientationchange',function(){setTimeout(setH,250);});
 })();</script>
+
+<!-- ROTATE DEVICE OVERLAY HTML -->
+<div id="rotate-device-overlay" aria-hidden="true">
+  <div class="rotate-device-card" data-rotate-kicker="" aria-live="polite">
+    <div class="rotate-device-icon" aria-hidden="true"></div>
+    <h2 class="rotate-device-title" id="rotate-device-title"></h2>
+    <p class="rotate-device-text" id="rotate-device-text"></p>
+  </div>
+</div>
+
 <canvas id="gc"></canvas>
 
 <!-- LOADING -->
@@ -633,7 +2180,7 @@ body.mobile-ui #aprmpt {
 
 <!-- HUD -->
 <div id="hud">
-  <div id="tb">
+  <div id="tb" class="mobile-hud">
     <div class="ts-brand">CDN LAB</div>
     <div class="ts"><span class="tsl">GLØD</span><span class="tsv" id="tv-st">100</span></div>
     <div class="ts"><span class="tsl">APP-SPOR</span><span class="tsv" id="tv-sv">0</span></div>
@@ -684,9 +2231,9 @@ body.mobile-ui #aprmpt {
     <div class="plbl">CDN-lablogg</div>
     <div id="elog"></div>
   </div>
-  <div id="btm">
+  <div id="btm" class="mobile-panel mobile-secondary-controls">
     <button class="ab" id="btn-map" onclick="showMoveMenu()">Rutekart<span class="ak">[M]</span></button>
-    <button class="ab rs" id="btn-act" onclick="handlePrimaryAction()">Gå til mål<span class="ak">[E]</span></button>
+    <button class="ab rs" id="btn-act" onclick="handlePrimaryAction()">Gå til mål<span class="ak">[SPACE]</span></button>
     <button class="ab" id="btn-stop" onclick="stopAtNextNode()">Stopp<span class="ak">[X]</span></button>
     <button class="ab" id="btn-calm" onclick="obeyP()">Pustepause<span class="ak">[C]</span></button>
     <button class="ab dg" id="btn-help" onclick="showHelpMenu()" disabled>Hjelp</button>
@@ -701,17 +2248,22 @@ body.mobile-ui #aprmpt {
   <div id="aprmpt">[ KLIKK FOR Å VEKKE HAVLYDENE ]</div>
 </div>
 
-<div id="story-card" aria-live="polite">
-  <div id="story-eyebrow">CDN-læringsfortelling</div>
-  <div id="story-title">Hei, feltforsker!</div>
-  <div id="story-mission">Mål nå: Finn regnbueporten</div>
-  <div id="story-progress" aria-hidden="true"></div>
-  <div id="story-copy">Svøm til regnbueporten og se hvordan telefoner, apper og KI kan gjøre liv om til datafortellinger.</div>
-  <div id="story-tip">CDN-spor for alle aldre: forskning blir lettere å forstå når du kan prøve systemet selv.</div>
+<div id="story-card" class="mobile-panel mobile-story-screen story-card quest-card mission-card" aria-live="polite">
+  <button type="button" id="story-toggle" onclick="toggleStoryCardCollapsed()">MINIMER</button>
+  <div id="story-summary" aria-hidden="true"></div>
+  <div id="story-scroll">
+    <div id="story-eyebrow">CDN-læringsfortelling</div>
+    <div id="story-title">Hei, feltforsker!</div>
+    <div id="story-mission">Mål nå: Finn regnbueporten</div>
+    <div id="story-progress" aria-hidden="true"></div>
+    <div id="story-copy">Svøm til regnbueporten og se hvordan telefoner, apper og KI kan gjøre liv om til datafortellinger.</div>
+    <div id="story-tip">CDN-spor for alle aldre: forskning blir lettere å forstå når du kan prøve systemet selv.</div>
+  </div>
 </div>
 
-<div id="touch-ui" aria-label="Berøringskontroller">
-  <div id="touch-pad">
+<div id="touch-ui" class="mobile-controls control-dock game-controls" aria-label="Berøringskontroller">
+  <div id="touch-left-stack">
+    <div id="touch-pad" class="dpad">
     <button class="touch-btn ghost" aria-hidden="true" tabindex="-1"></button>
     <button class="touch-btn" id="touch-up" aria-label="Svøm opp">↑</button>
     <button class="touch-btn ghost" aria-hidden="true" tabindex="-1"></button>
@@ -721,8 +2273,13 @@ body.mobile-ui #aprmpt {
     <button class="touch-btn ghost" aria-hidden="true" tabindex="-1"></button>
     <button class="touch-btn" id="touch-down" aria-label="Svøm ned">↓</button>
     <button class="touch-btn ghost" aria-hidden="true" tabindex="-1"></button>
+    </div>
+    <div id="touch-utility">
+      <button class="touch-action-btn alt" id="touch-map" aria-label="Åpne rutekart">Rutekart</button>
+      <button class="touch-action-btn calm" id="touch-calm" aria-label="Pustepause">Pustepause</button>
+    </div>
   </div>
-  <div id="touch-actions">
+  <div id="touch-actions" class="action-buttons">
     <button class="touch-action-btn" id="touch-interact" aria-label="Utforsk her">Utforsk</button>
     <button class="touch-action-btn" id="touch-stop" aria-label="Stopp i neste kryss">Stopp</button>
     <button class="touch-action-btn alt" id="touch-helper" aria-label="Åpne hjelp eller valg">Hjelp</button>
@@ -730,7 +2287,7 @@ body.mobile-ui #aprmpt {
 </div>
 
 <div id="frpop"><div id="frt">⬡ VENTEBØLGE</div><div id="frm"></div><div id="frbt"><div id="frbf"></div></div></div>
-<div id="endscrn"><div id="end-t"></div><div id="end-b"></div><div id="end-s">CDN LÆRINGSLAB ◈ BERGEN FRA FJORD TIL FJELL ◈ SPØRSMÅLENE LEVER VIDERE</div><button id="end-r" onclick="resetGame()">[ START PÅ NYTT ]</button></div>
+<div id="endscrn" class="mobile-story-screen"><div id="end-t"></div><div id="end-b"></div><div id="end-s">CDN LÆRINGSLAB ◈ BERGEN FRA FJORD TIL FJELL ◈ SPØRSMÅLENE LEVER VIDERE</div><button id="end-r" onclick="resetGame()">[ START PÅ NYTT ]</button></div>
 <div id="ipop"><div id="ipt"></div><div id="ipd"></div><div id="ipa"></div></div>
 
 <script>
@@ -748,8 +2305,36 @@ const SURFACE_Y = Math.round(H*(MOBILE_MODE?0.33:0.38)); // surface line moves a
 const FLOOR_Y   = H-(MOBILE_MODE?80:52);
 const WORLD_W   = 9800;
 const cdnLogoImg = new Image(); cdnLogoImg.src = 'assets/CDN.avif';
-const GAME_VIEW_TOP=MOBILE_MODE?46:40;
-const GAME_VIEW_BOTTOM=H-(MOBILE_MODE?74:50);
+let GAME_VIEW_TOP=MOBILE_MODE?46:40;
+let GAME_VIEW_BOTTOM=H-(MOBILE_MODE?74:50);
+
+function resizeCanvasForMobileLandscape(){
+  const isMobileLandscape=window.innerWidth<=900&&window.innerWidth>window.innerHeight;
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  let cssWidth=window.innerWidth;
+  let cssHeight=window.innerHeight;
+
+  if(isMobileLandscape){
+    const topHud=54;
+    const bottomControls=86;
+    cssHeight=window.innerHeight-topHud-bottomControls;
+    gc.style.position='absolute';
+    gc.style.left='0px';
+    gc.style.top=topHud+'px';
+    gc.style.width=cssWidth+'px';
+    gc.style.height=cssHeight+'px';
+  }else{
+    gc.style.position='';
+    gc.style.left='';
+    gc.style.top='';
+    gc.style.width='';
+    gc.style.height='';
+  }
+
+  gc.width=Math.floor(cssWidth*dpr);
+  gc.height=Math.floor(cssHeight*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
 const CDN_LEARNING_LANG_KEY='cdnLearningLanguage';
 const LANG={current:localStorage.getItem(CDN_LEARNING_LANG_KEY)==='en'?'en':'no'};
 const ACCESS_KEY='cdnLearningAccess';
@@ -775,22 +2360,24 @@ const UI_TEXT={
   leftConscience:{no:'Samvittighet',en:'Conscience'},
   leftWaves:{no:'Ventebølger',en:'Waiting waves'},
   leftSilence:{no:'Taushetspress',en:'Silence pressure'},
-  metricHelp:{no:'<b>Glød</b> er trygg energi. <b>App-spor</b> er hvor mye byen leser ruten din. <b>Usynlighet</b> øker når du blir presset bort. <b>Samvittighet</b>, <b>Ventebølger</b> og <b>Taushetspress</b> viser stress fra valg, venting og å måtte gjøre seg liten.',en:'<b>Glow</b> is safe energy. <b>App trace</b> is how much the city reads your route. <b>Invisibility</b> rises when you are pushed out. <b>Conscience</b>, <b>Waiting waves</b> and <b>Silence pressure</b> show stress from choices, delays and having to make yourself small.'},
+  metricHelp:{no:'<b>Glød</b> er trygg energi. <b>App-spor</b> er hvor mye byen leser ruten din. <b>Usynlighet</b> øker når du blir presset bort.',en:'<b>Glow</b> is safe energy. <b>App trace</b> is how much the city reads your route. <b>Invisibility</b> rises when you are pushed out.'},
   defaultObjective:{no:'Start reisen ved Bryggen og se hva telefoner og apper kan legge igjen av spor.',en:'Start at Bryggen and see what phones and apps can leave behind.'},
   depthUnit:{no:'METER UNDER OVERFLATEN',en:'METRES BELOW THE SURFACE'},
   pressureUnit:{no:'ATM TRYKK',en:'ATM PRESSURE'},
   routeMap:{no:'Rutekart',en:'Route map'},
   nextGoal:{no:'Gå til mål',en:'Go to goal'},
   goTo:{no:'GÅ TIL',en:'GO TO'},
-  goalReady:{no:'Du er ved målet. Trykk Utforsk.',en:'You are at the goal. Press Explore.'},
+  goalReady:{no:'Du er ved målet. Trykk Space for å utforske.',en:'You are at the goal. Press Space to explore.'},
   goalGuide:{no:'Målkompasset peker mot',en:'The goal compass points to'},
   goalNoPath:{no:'Rutekartet finner ikke veien herfra. Åpne Rutekart.',en:'The route map cannot find a path from here. Open Route map.'},
   explore:{no:'Utforsk',en:'Explore'},
+  mobileClick:{no:'Klikk',en:'Click'},
+  mobileClickExplore:{no:'Klikk Utforsk',en:'Click Explore'},
   stop:{no:'Stopp',en:'Stop'},
   breather:{no:'Pustepause',en:'Breather'},
   help:{no:'Hjelp',en:'Help'},
   shadowguest:{no:'Skyggjesten',en:'Shadow guest'},
-  contextDefault:{no:'Trykk piler/WASD som i Pac-Man: retningen huskes, neste sving buffers. X stopper i neste kryss.',en:'Press arrows/WASD like Pac-Man: direction is remembered, next turn is buffered. X stops at the next junction.'},
+  contextDefault:{no:'Trykk piler/WASD som i Pac-Man: retningen huskes, neste sving buffers. Space utforsker og X stopper i neste kryss.',en:'Press arrows/WASD like Pac-Man: direction is remembered, next turn is buffered. Space explores and X stops at the next junction.'},
   audioPrompt:{no:'[ KLIKK FOR Å VEKKE HAVLYDENE ]',en:'[ CLICK TO WAKE THE SEA SOUNDS ]'},
   accessTitle:{no:'Tilgjengelighet',en:'Accessibility'},
   accessReading:{no:'Lesbarhet',en:'Readability'},
@@ -832,6 +2419,9 @@ const UI_TEXT={
   storyFallback:{no:'Eventyr {current} av {total}',en:'Story {current} of {total}'},
   languageTitle:{no:'Bytt mellom norsk og engelsk',en:'Switch between Norwegian and English'},
   languageAria:{no:'Bytt språk til engelsk',en:'Switch language to Norwegian'},
+  rotateOverlayKicker:{no:'Snu mobilen for å spille',en:'Rotate your device to play'},
+  rotateOverlayTitle:{no:'Snu mobilen',en:'Rotate your device'},
+  rotateOverlayText:{no:'Dette er et liggende spill. Roter skjermen for å spille Bergen 2063.',en:'This is a landscape game. Rotate your screen to play Bergen 2063.'},
   pageTitle:{no:'CDN LÆRINGSLAB / DATASPOR — BERGEN FRA FJORD TIL FJELL',en:'CDN LEARNING LAB / DATA TRACES — BERGEN FROM FJORD TO MOUNTAIN'},
   objectiveTrail:{no:'▸ CDN-LABRUTE',en:'▸ CDN LAB ROUTE'},
   touchControls:{no:'Berøringskontroller',en:'Touch controls'},
@@ -841,7 +2431,11 @@ const UI_TEXT={
   swimDown:{no:'Svøm ned',en:'Swim down'},
   helperMenu:{no:'Åpne hjelp eller valg',en:'Open help or options'},
   routeTurn:{no:'SVING',en:'TURN'},
-  routeTryTurn:{no:'PRØV SVING',en:'TRY TURN'}
+  routeTryTurn:{no:'PRØV SVING',en:'TRY TURN'},
+  storyMinimize:{no:'MINIMER',en:'MINIMIZE'},
+  storyShow:{no:'VIS',en:'SHOW'},
+  safeNodeHint:{no:'TRYGG NODE · skanning sender deg hit tilbake',en:'SAFE NODE · scans send you back here'},
+  safeNodeReturn:{no:'TILBAKE TIL TRYGG NODE',en:'BACK TO SAFE NODE'}
 };
 function tr(key,vars){
   const entry=UI_TEXT[key];
@@ -1027,6 +2621,66 @@ const STRING_NO=Object.fromEntries(Object.entries(STRING_EN).map(([no,en])=>[en,
 function lt(text){
   return LANG.current==='en'?(STRING_EN[text]||text):text;
 }
+function readCssPixels(name,fallback){
+  const value=parseFloat(getComputedStyle(document.body).getPropertyValue(name));
+  return Number.isFinite(value)?value:fallback;
+}
+function updateGameViewportBounds(){
+  const defaultTop=MOBILE_MODE?46:40;
+  const defaultBottom=H-(MOBILE_MODE?74:50);
+  if(!document.body.classList.contains('mobile-layout')){
+    GAME_VIEW_TOP=defaultTop;
+    GAME_VIEW_BOTTOM=defaultBottom;
+    return;
+  }
+  const topSpace=Math.max(defaultTop,Math.round(readCssPixels('--top-ui-space',190)));
+  const bottomSpace=Math.max(110,Math.round(readCssPixels('--bottom-ui-space',210)));
+  GAME_VIEW_TOP=topSpace;
+  GAME_VIEW_BOTTOM=Math.max(topSpace+120,H-bottomSpace);
+}
+function isMobileLandscapeGame(){
+  return document.body.classList.contains('mobile-layout')&&document.body.classList.contains('mobile-landscape');
+}
+function primaryActionPrompt(){
+  return isMobileLandscapeGame()?tr('mobileClick'):'SPACE';
+}
+function goalReadyMessage(){
+  return isMobileLandscapeGame()
+    ? {no:'Du er ved målet. Klikk Utforsk.',en:'You are at the goal. Click Explore.'}
+    : UI_TEXT.goalReady;
+}
+const STORY_CARD_STATE={collapsed:true};
+function getStoryCardSummaryText(){
+  const target=getObjectiveTarget();
+  if(target&&target.ob)return `${tr('roundLabel')} ${S.round} · ${LANG.current==='en'?'Go to':'Gå til'} ${lt(target.ob.label)}`;
+  const beat=getCurrentBeat();
+  return `${tr('roundLabel')} ${S.round} · ${beat.title}`;
+}
+function syncStoryCardChrome(){
+  const story=document.getElementById('story-card');
+  const toggle=document.getElementById('story-toggle');
+  const summary=document.getElementById('story-summary');
+  if(!story)return;
+  const collapsed=!!STORY_CARD_STATE.collapsed&&document.body.classList.contains('mobile-layout');
+  story.classList.toggle('is-collapsed',collapsed);
+  if(toggle){
+    toggle.textContent=collapsed?tr('storyShow'):tr('storyMinimize');
+    toggle.setAttribute('aria-expanded',collapsed?'false':'true');
+    toggle.setAttribute('aria-label',collapsed?tr('storyShow'):tr('storyMinimize'));
+  }
+  if(summary){
+    summary.textContent=getStoryCardSummaryText();
+    summary.setAttribute('aria-hidden',collapsed?'false':'true');
+  }
+}
+function setStoryCardCollapsed(collapsed){
+  STORY_CARD_STATE.collapsed=!!collapsed;
+  syncStoryCardChrome();
+  measureResponsiveChrome();
+}
+function toggleStoryCardCollapsed(){
+  setStoryCardCollapsed(!STORY_CARD_STATE.collapsed);
+}
 function renderLanguageChrome(){
   document.documentElement.lang=LANG.current;
   document.title=tr('pageTitle');
@@ -1121,6 +2775,18 @@ function renderLanguageChrome(){
     const el=document.getElementById(id);
     if(el)el.setAttribute('aria-label',tr(key));
   });
+  const touchMap=document.getElementById('touch-map');
+  const touchCalm=document.getElementById('touch-calm');
+  if(touchMap){
+    touchMap.textContent=tr('routeMap');
+    touchMap.setAttribute('aria-label',tr('routeMap'));
+  }
+  if(touchCalm){
+    touchCalm.textContent=tr('breather');
+    touchCalm.setAttribute('aria-label',tr('breather'));
+  }
+  syncStoryCardChrome();
+  updateRotateOverlayLanguage();
   renderLogHistory();
   applyAccessSettings();
 }
@@ -1129,6 +2795,7 @@ function toggleLanguage(){
   localStorage.setItem(CDN_LEARNING_LANG_KEY,LANG.current);
   renderLanguageChrome();
   updateUI();
+  queueResponsiveAppState();
 }
 
 function applyAccessSettings(){
@@ -1303,7 +2970,7 @@ document.addEventListener('keydown',e=>{K[e.key]=true;K[e.code]=true;
   queueDirectionFromKey(e.code);
   queueDirectionFromKey(e.key);
   if(!S.go){
-    if(e.key==='e'||e.key==='E')tryInteract();
+    if(e.code==='Space'||e.key===' '){e.preventDefault();handlePrimaryAction();}
     if(e.key==='m'||e.key==='M')showMoveMenu();
     if(e.key==='r'||e.key==='R')showResistMenu();
     if(e.key==='c'||e.key==='C')obeyP();
@@ -1319,6 +2986,7 @@ const DIR_FROM_KEY={
 };
 const DIR_VECTORS={left:{x:-1,y:0},right:{x:1,y:0},up:{x:0,y:-1},down:{x:0,y:1}};
 const OPPOSITE_DIR={left:'right',right:'left',up:'down',down:'up'};
+const DIR_GLYPHS={left:'←',right:'→',up:'↑',down:'↓'};
 function queueDirectionFromKey(key){
   const dir=DIR_FROM_KEY[key];
   if(dir&&typeof P!=='undefined'){
@@ -1411,6 +3079,8 @@ function setupTouchControls(){
   bindTouchHold('touch-right','ArrowRight');
   bindTouchHold('touch-up','ArrowUp');
   bindTouchHold('touch-down','ArrowDown');
+  bindTouchTap('touch-map',()=>showMoveMenu());
+  bindTouchTap('touch-calm',()=>obeyP());
   bindTouchTap('touch-interact',()=>handlePrimaryAction());
   bindTouchTap('touch-stop',()=>stopAtNextNode());
   bindTouchTap('touch-helper',()=>{
@@ -1435,12 +3105,10 @@ function getCanvasIntent(clientX,clientY){
 
 function setupPointerSteering(){
   let lastTap=0;
-  gc.addEventListener('pointerdown',e=>{
-    if(S.go)return;
-    if(e.pointerType==='mouse'&&e.button!==0)return;
-    if(document.getElementById('ipop').classList.contains('show'))return;
+  let activePointer=null;
+  function handleCanvasPointerIntent(e){
     const intent=getCanvasIntent(e.clientX,e.clientY);
-    if(!intent)return;
+    if(!intent)return false;
     initAudio();
     haptic(8);
     const now=performance.now();
@@ -1449,14 +3117,54 @@ function setupPointerSteering(){
       if(P.near)tryInteract();
       else stopAtNextNode();
       haptic([12,35,12]);
-      return;
+      return true;
     }
     lastTap=now;
     if(intent.type==='stop'){
       stopAtNextNode();
-      return;
+      return true;
     }
     queueTapDirection(intent.dir);
+    return true;
+  }
+  gc.addEventListener('pointerdown',e=>{
+    if(S.go)return;
+    if(e.pointerType==='mouse'&&e.button!==0)return;
+    if(document.getElementById('ipop').classList.contains('show'))return;
+    if(e.pointerType==='mouse'){
+      handleCanvasPointerIntent(e);
+      return;
+    }
+    const intent=getCanvasIntent(e.clientX,e.clientY);
+    if(!intent)return;
+    initAudio();
+    activePointer={id:e.pointerId,startX:e.clientX,startY:e.clientY,swiped:false};
+    if(gc.setPointerCapture){
+      try{gc.setPointerCapture(e.pointerId);}catch(err){}
+    }
+  });
+  gc.addEventListener('pointermove',e=>{
+    if(!activePointer||activePointer.id!==e.pointerId||activePointer.swiped||S.go)return;
+    const dx=e.clientX-activePointer.startX;
+    const dy=e.clientY-activePointer.startY;
+    if(Math.hypot(dx,dy)<26)return;
+    const dir=Math.abs(dx)>Math.abs(dy)?(dx<0?'left':'right'):(dy<0?'up':'down');
+    queueTapDirection(dir);
+    haptic([10,20,10]);
+    activePointer.swiped=true;
+  });
+  gc.addEventListener('pointerup',e=>{
+    if(!activePointer||activePointer.id!==e.pointerId)return;
+    const swiped=activePointer.swiped;
+    activePointer=null;
+    if(gc.releasePointerCapture){
+      try{gc.releasePointerCapture(e.pointerId);}catch(err){}
+    }
+    if(swiped)return;
+    handleCanvasPointerIntent(e);
+  });
+  gc.addEventListener('pointercancel',e=>{
+    if(activePointer&&activePointer.id===e.pointerId)activePointer=null;
   });
 }
 
@@ -1673,13 +3381,14 @@ const INTERACTABLES=[
    desc:'Her tar du med lyset opp igjen: sjekk tillatelser, slå av sporing du ikke trenger, og spør før du deler om andre.',used:false,
    opts:[{l:'[ Del Lyset Med Bergen ]',c:'dg',a:'exit'},{l:'[ Bli Litt Til ]',c:'',a:'close'}]},
 ];
+const SAFE_NODE_IDS=new Set(['low_220',...INTERACTABLES.map(ob=>ob.nodeId)]);
 
 const POWER_PEARLS=[
-  {id:'pearl-bryggen',nodeId:'high_1180',taken:false},
-  {id:'pearl-torget',nodeId:'mid_1760',taken:false},
-  {id:'pearl-ulriken',nodeId:'mid_3420',taken:false},
-  {id:'pearl-marine',nodeId:'mid_6460',taken:false},
-  {id:'pearl-secret',nodeId:'secret_8040',taken:false},
+  {id:'pearl-bryggen',nodeId:'high_1180',taken:false,nameNo:'BRYGGEN-BØLGE',nameEn:'BRYGGEN WAVE',color:'255,203,139'},
+  {id:'pearl-torget',nodeId:'mid_1760',taken:false,nameNo:'TORGBØLGE',nameEn:'MARKET WAVE',color:'143,230,255'},
+  {id:'pearl-ulriken',nodeId:'mid_3420',taken:false,nameNo:'FJELLKLARHET',nameEn:'MOUNTAIN CLARITY',color:'214,244,255'},
+  {id:'pearl-marine',nodeId:'mid_6460',taken:false,nameNo:'FORSKNINGSGLØD',nameEn:'RESEARCH GLOW',color:'146,245,199'},
+  {id:'pearl-secret',nodeId:'secret_8040',taken:false,nameNo:'TUNNELSKIFTE',nameEn:'TUNNEL SHIFT',color:'255,136,178'},
 ].map(pearl=>({
   ...pearl,
   x:node(pearl.nodeId).x+9,
@@ -1785,7 +3494,8 @@ const RIPPLES=[];
 // ════════ PLAYER ════════
 const P={
   x:220,y:LANE_Y.low,vx:0,vy:0,w:18,h:28,dir:1,dirKey:'right',desiredDir:null,bufferDir:null,
-  nodeId:'low_220',nextNodeId:null,speed:5.45,anim:0,bubT:0,near:null,powerT:0,graceT:620,tapDir:null
+  nodeId:'low_220',nextNodeId:null,speed:5.45,anim:0,bubT:0,near:null,powerT:0,graceT:620,tapDir:null,
+  lastSafeNodeId:'low_220',safePulseT:120,safeReturnT:0
 };
 
 function nodeCenter(nodeId){
@@ -1796,6 +3506,34 @@ function distSq(a,b){const dx=a.x-b.x,dy=a.y-b.y;return dx*dx+dy*dy;}
 function snapPlayerToNode(nodeId){
   const n=node(nodeId);
   P.x=n.x;P.y=n.y;P.nodeId=nodeId;P.nextNodeId=null;
+  rememberSafeNode(nodeId);
+}
+function isSafeNode(nodeId){
+  return !!nodeId&&SAFE_NODE_IDS.has(nodeId);
+}
+function rememberSafeNode(nodeId){
+  if(!isSafeNode(nodeId))return false;
+  const changed=P.lastSafeNodeId!==nodeId;
+  P.lastSafeNodeId=nodeId;
+  P.safePulseT=Math.max(P.safePulseT,changed?150:96);
+  return changed;
+}
+function sendPlayerToLastSafeNode(label){
+  const safeNodeId=isSafeNode(P.lastSafeNodeId)?P.lastSafeNodeId:'low_220';
+  snapPlayerToNode(safeNodeId);
+  P.desiredDir=null;
+  P.bufferDir=null;
+  P.tapDir=null;
+  P.vx=0;
+  P.vy=0;
+  P.dir=1;
+  P.dirKey='right';
+  P.graceT=Math.max(P.graceT,getRoundDifficulty().grace+28);
+  P.safeReturnT=150;
+  updateCam();
+  addLog({no:`${label}: skanningen sender deg tilbake til siste trygge node.`,en:`${lt(label)}: the scan sends you back to the last safe node.`}, 'd');
+  showWarn(tr('safeNodeReturn'));
+  haptic([16,36,16]);
 }
 function makeDrone(spec,index){
   const start=nodeCenter(spec.startNodeId);
@@ -2046,6 +3784,8 @@ function updatePlayerMovement(dt){
   const prevX=P.x,prevY=P.y;
   if(P.powerT>0)P.powerT=Math.max(0,P.powerT-dt);
   if(P.graceT>0)P.graceT=Math.max(0,P.graceT-dt);
+  if(P.safePulseT>0)P.safePulseT=Math.max(0,P.safePulseT-dt);
+  if(P.safeReturnT>0)P.safeReturnT=Math.max(0,P.safeReturnT-dt);
   if(P.nextNodeId&&P.bufferDir&&P.bufferDir===OPPOSITE_DIR[P.dirKey]){
     const backTarget=P.nodeId;
     P.nodeId=P.nextNodeId;
@@ -2065,6 +3805,7 @@ function updatePlayerMovement(dt){
     if(step>=dist){
       const arrivedDir=P.dirKey;
       P.x=target.x;P.y=target.y;P.nodeId=P.nextNodeId;P.nextNodeId=null;
+      rememberSafeNode(P.nodeId);
       noteTutorialArrival(arrivedDir);
       if(P.tapDir===arrivedDir)P.tapDir=null;
       const next=choosePlayerNextNode();
@@ -2152,7 +3893,7 @@ function maybeTagPlayer(enemy,severity,label){
   if(enemy.stunnedT>0)return;
   breakRule(severity,true);
   P.graceT=getRoundDifficulty().grace;
-  addLog({no:`${label}: mobilen din sendte fra seg et mønster du ikke så selv.`,en:`${lt(label)}: your phone gave off a pattern you could not see yourself.`}, 'd');
+  sendPlayerToLastSafeNode(label);
 }
 function updateEnemy(enemy,dt,severity,label){
   maybeReleaseEnemy(enemy);
@@ -2221,10 +3962,10 @@ function maybeCollectPowerPearls(){
     if(pearl.taken)return;
     if(Math.hypot(player.x-pearl.x,player.y-pearl.y)<20){
       pearl.taken=true;P.powerT=getRoundDifficulty().power;S.surveillance=cl(S.surveillance-4);
-  showWarn(lt('KLARHETSBØLGE'));
-  addLog(lt('Du tok en klarhetsboble. Dronene mister rytmen i noen sekunder.'), 'g');
-  haptic([18,24,18]);
-  snd('success');
+      showWarn(LANG.current==='en'?pearl.nameEn:pearl.nameNo);
+      addLog({no:`${pearl.nameNo}: klarhetsbølgen gjør patruljene lesbare og snur jakten i noen sekunder.`,en:`${pearl.nameEn}: the clarity wave makes the patrols readable and flips the chase for a few seconds.`}, 'g');
+      haptic([18,24,18]);
+      snd('success');
     }
   });
 }
@@ -2281,7 +4022,7 @@ function resetRoundCollectibles(){
 
 function resetRoundActors(){
   snapPlayerToNode('low_220');
-  P.nextNodeId=null;P.vx=0;P.vy=0;P.dir=1;P.dirKey='right';P.desiredDir=null;P.bufferDir=null;P.tapDir=null;P.powerT=0;P.graceT=240;
+  P.nextNodeId=null;P.vx=0;P.vy=0;P.dir=1;P.dirKey='right';P.desiredDir=null;P.bufferDir=null;P.tapDir=null;P.powerT=0;P.graceT=240;P.lastSafeNodeId='low_220';P.safePulseT=120;P.safeReturnT=0;
   DRONES.forEach((dr,i)=>Object.assign(dr,makeDrone(DRONE_SPECS[i],i)));
   resetSecretEnemy();
   camX=0;
@@ -2352,7 +4093,7 @@ const STORY_BEATS=[
   {eyebrow:'Bergen 2063 · Steg 4 av 7',title:'Møt CDN-forskeren',mission:'Mål nå: CDN Glasshuset',copy:'I glasshuset samles forskningsgruppene til én stemme: fortellinger er infrastruktur. Spill lar deg prøve regler, KI viser hvordan gjetninger får makt, digital litteratur gjør leseren aktiv, og nettverkskultur viser hvem som blir koblet til hvem.',tip:'Hent Narrativkjernen. Den gjør resten av ruten lettere å lese som forskning du kan føle, ikke bare pugge.'},
   {eyebrow:'Bergen 2063 · Steg 5 av 7',title:'Del roen videre',mission:'Mål nå: Hjelp skygjesten',copy:'Det mest heroiske i denne byen er ikke å være perfekt. Det er å stoppe opp, lytte og hjelpe andre når teknologien føles for nær.',tip:'Akademia blir nyttig når vanskelige ord blir til språk folk kan bruke. Gi skygjesten ro, og ta med deg setningene videre.'},
   {eyebrow:'Bergen 2063 · Steg 6 av 7',title:'Ta lyset hjem',mission:'Mål nå: Lyseslusen på Nordnes',copy:'Når du når Nordnes, er oppdraget å ta med deg det viktigste opp til overflaten: enkle regler, litt mot og et klarere blikk på sporene rundt deg.',tip:'Sjekk tillatelser. Skru av sporing du ikke trenger. Spør før du deler andres bilde, navn eller posisjon.'},
-  {eyebrow:'Bergen 2063 · Steg 7 av 7',title:'Siste utsyn over Bergen',mission:'Mål nå: Fjellutsynet',copy:'Til slutt går du opp igjen. Ikke for å rømme fra byen, men for å se hele systemet: fjord, park, glasshus, droner, buekorpsrytmer og menneskene som nekter å bli redusert til datapunkter.',tip:'Trykk Utforsk ved fjellutsynet. Da lukker spillet seg som et kart som endelig lar deg lese tilbake.'},
+  {eyebrow:'Bergen 2063 · Steg 7 av 7',title:'Siste utsyn over Bergen',mission:'Mål nå: Fjellutsynet',copy:'Til slutt går du opp igjen. Ikke for å rømme fra byen, men for å se hele systemet: fjord, park, glasshus, droner, buekorpsrytmer og menneskene som nekter å bli redusert til datapunkter.',tip:'Trykk Space ved fjellutsynet. Da lukker spillet seg som et kart som endelig lar deg lese tilbake.'},
 ];
 const STORY_BEATS_EN=[
   {eyebrow:'Bergen 2063 · Step 1 of 7',title:'Bryggen wakes under water',mission:'Goal now: Bryggen gate room',copy:'Bergen 2063 is full of light trails, patrol drones and hidden signals. In Bryggen you begin to learn what a phone can remember about you without you noticing.',tip:'Collect light trails as you swim. They make the route feel more Pac-Man-like and wake new drones in waves.'},
@@ -2361,7 +4102,7 @@ const STORY_BEATS_EN=[
   {eyebrow:'Bergen 2063 · Step 4 of 7',title:'Meet the CDN researcher',mission:'Goal now: CDN Glass House',copy:'In the glass house the research groups gather into one voice: narratives are infrastructure. Games let you test rules, AI shows how guesses gain power, electronic literature makes the reader active, and network culture shows who gets connected to whom.',tip:'Collect the Narrative Core. It makes the rest of the route easier to read as research you can feel, not just memorise.'},
   {eyebrow:'Bergen 2063 · Step 5 of 7',title:'Pass the calm onward',mission:'Goal now: Help the shadow guest',copy:'The most heroic thing in this city is not being perfect. It is stopping, listening and helping others when technology feels too close.',tip:'Academia becomes useful when difficult words become language people can use. Give the shadow guest calm, and carry those sentences onward.'},
   {eyebrow:'Bergen 2063 · Step 6 of 7',title:'Bring the light home',mission:'Goal now: The light lock at Nordnes',copy:'When you reach Nordnes, the mission is to bring the most important thing back to the surface: simple rules, a little courage and a clearer view of the traces around you.',tip:'Check permissions. Turn off tracking you do not need. Ask before sharing someone else’s photo, name or location.'},
-  {eyebrow:'Bergen 2063 · Step 7 of 7',title:'Final view over Bergen',mission:'Goal now: Mountain viewpoint',copy:'At the end you climb again. Not to escape the city, but to see the whole system: fjord, park, glass house, drones, buekorps rhythms and the people who refuse to be reduced to data points.',tip:'Press Explore at the mountain viewpoint. The game closes like a map that finally lets you read back.'},
+  {eyebrow:'Bergen 2063 · Step 7 of 7',title:'Final view over Bergen',mission:'Goal now: Mountain viewpoint',copy:'At the end you climb again. Not to escape the city, but to see the whole system: fjord, park, glass house, drones, buekorps rhythms and the people who refuse to be reduced to data points.',tip:'Press Space at the mountain viewpoint. The game closes like a map that finally lets you read back.'},
 ];
 const ZONE_WHISPERS={
   'BRYGGEN — SJØBODRADEN':'Bryggen knirker over deg. Under plankene føles det som om byen allerede husker hvor du pleier å stoppe.',
@@ -2440,6 +4181,9 @@ function update(ts){
   // Hint
   const hint=document.getElementById('hint');
   if(P.near){hint.textContent=`${lt(P.near.label)} ◈ [ E ] ${lt('UTFORSK')}`;hint.classList.add('show');}
+  else if(P.safeReturnT>0&&isSafeNode(P.nodeId)){hint.textContent=tr('safeNodeHint');hint.classList.add('show');}
+  else if(P.nextNodeId&&P.bufferDir&&node(P.nextNodeId).neighbors[P.bufferDir]&&P.bufferDir!==OPPOSITE_DIR[P.dirKey]){hint.textContent=`${tr('routeTurn')} ${DIR_GLYPHS[P.bufferDir]||'◈'}`;hint.classList.add('show');}
+  else if(!P.nextNodeId&&isSafeNode(P.nodeId)&&!tutorialActive()){hint.textContent=tr('safeNodeHint');hint.classList.add('show');}
   else hint.classList.remove('show');
 
   // Seen erased
@@ -2558,7 +4302,7 @@ function interactableById(id){
   return INTERACTABLES.find(ob=>ob.id===id);
 }
 function getObjectiveTarget(){
-  if(!S.completedObjectives.has('check'))return {ob:interactableById('check'),tip:{no:'Trykk E når du er ved portrommet.',en:'Press E when you reach the gate room.'}};
+  if(!S.completedObjectives.has('check'))return {ob:interactableById('check'),tip:{no:'Trykk Space når du er ved portrommet.',en:'Press Space when you reach the gate room.'}};
   if(!S.completedObjectives.has('term')){
     const atMountain=P.nodeId==='sky_2860'||P.nextNodeId==='sky_2860'||(P.y<LANE_Y.high-25);
     return atMountain
@@ -2596,13 +4340,13 @@ function steerTowardCurrentObjective(){
   const target=getObjectiveTarget();
   if(!target||!target.ob)return false;
   if(P.near&&P.near.id===target.ob.id){
-    addLog(UI_TEXT.goalReady,'g');
+    addLog(goalReadyMessage(),'g');
     tryInteract();
     return true;
   }
   const startId=P.nextNodeId||P.nodeId;
   if(startId===target.ob.nodeId){
-    addLog(UI_TEXT.goalReady,'g');
+    addLog(goalReadyMessage(),'g');
     return true;
   }
   const step=getPathStep(startId,target.ob.nodeId);
@@ -2619,6 +4363,7 @@ function steerTowardCurrentObjective(){
   addLog({no:`${UI_TEXT.goalGuide.no} ${target.ob.label}.`,en:`${UI_TEXT.goalGuide.en} ${lt(target.ob.label)}.`},'i');
   snd('move');
   updateUI();
+  setStoryCardCollapsed(true);
   return true;
 }
 function renderObjectivePanel(){
@@ -2663,6 +4408,7 @@ function updateStoryCard(){
     interactButton.setAttribute('aria-label',label);
   }
   renderObjectivePanel();
+  syncStoryCardChrome();
 }
 
 // ─────────────────────────────────────────────────
@@ -3404,20 +5150,35 @@ function drawPowerPearls(t){
   POWER_PEARLS.forEach(pearl=>{
     if(pearl.taken)return;
     const pulse=.5+.5*Math.sin(t*4+pearl.x*.01);
-    ctx.strokeStyle=`rgba(130,228,255,${.22+pulse*.2})`;
-    ctx.lineWidth=1.2;
-    ctx.beginPath();ctx.arc(pearl.x,pearl.y,8+pulse*5,0,Math.PI*2);ctx.stroke();
-    ctx.fillStyle=`rgba(200,244,255,${.16+pulse*.22})`;
-    ctx.beginPath();ctx.arc(pearl.x,pearl.y,4.2+pulse*1.5,0,Math.PI*2);ctx.fill();
+    ctx.save();
+    ctx.translate(pearl.x,pearl.y);
+    ctx.strokeStyle=`rgba(${pearl.color},${.24+pulse*.22})`;
+    ctx.lineWidth=1.4;
+    ctx.beginPath();ctx.arc(0,0,8+pulse*5,0,Math.PI*2);ctx.stroke();
+    ctx.setLineDash([4,5]);
+    ctx.strokeStyle=`rgba(255,248,226,${.18+pulse*.12})`;
+    ctx.beginPath();ctx.arc(0,0,12+pulse*5,0,Math.PI*2);ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle=`rgba(${pearl.color},${.18+pulse*.24})`;
+    ctx.beginPath();ctx.arc(0,0,5.2+pulse*1.6,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=`rgba(255,250,236,${.64+pulse*.24})`;
+    ctx.beginPath();ctx.arc(0,0,2.3+pulse*.6,0,Math.PI*2);ctx.fill();
+    ctx.restore();
   });
 }
 
 function drawTrailOrbs(t){
+  const clarity=P.powerT>0;
   TRAIL_ORBS.forEach(orb=>{
     if(orb.taken)return;
     const pulse=.5+.5*Math.sin(t*6+orb.x*.01);
-    ctx.fillStyle=`rgba(255,236,158,${.18+pulse*.22})`;
-    ctx.beginPath();ctx.arc(orb.x,orb.y,2.2+pulse*.9,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=clarity?`rgba(255,244,188,${.26+pulse*.24})`:`rgba(255,236,158,${.18+pulse*.22})`;
+    ctx.beginPath();ctx.arc(orb.x,orb.y,clarity?2.8+pulse*1.1:2.2+pulse*.9,0,Math.PI*2);ctx.fill();
+    if(clarity){
+      ctx.strokeStyle=`rgba(255,250,224,${.12+pulse*.1})`;
+      ctx.lineWidth=.9;
+      ctx.beginPath();ctx.arc(orb.x,orb.y,5.6+pulse*1.3,0,Math.PI*2);ctx.stroke();
+    }
   });
 }
 
@@ -3446,6 +5207,8 @@ function drawEthicPickups(t){
 }
 
 function drawTransitRoutes(t){
+  const clarity=P.powerT>0;
+  const chase=!clarity&&!tutorialActive()&&getGlobalEnemyMode()==='chase';
   const seen=new Set();
   ROUTE_NODE_LIST.forEach(route=>{
     Object.values(node(route.id).neighbors).forEach(nextId=>{
@@ -3455,8 +5218,11 @@ function drawTransitRoutes(t){
       const a=node(route.id),b=node(nextId);
       const ay=a.y+P.h/2,by=b.y+P.h/2;
       const secret=route.id.startsWith('secret_')&&nextId.startsWith('secret_');
-      ctx.strokeStyle=secret?`rgba(255,118,178,${.16+.05*Math.sin(t*3+a.x*.004)})`:`rgba(103,223,255,${.08+.04*Math.sin(t*2+a.x*.004)})`;
-      ctx.lineWidth=secret?3.2:2.2;
+      const active=route.id===P.nodeId||route.id===P.nextNodeId||nextId===P.nodeId||nextId===P.nextNodeId;
+      const baseColor=clarity?'255,232,173':chase?'255,164,126':'103,223,255';
+      const baseAlpha=clarity?.18:chase?.12:.08;
+      ctx.strokeStyle=secret?`rgba(255,118,178,${.18+.06*Math.sin(t*3+a.x*.004)})`:`rgba(${baseColor},${baseAlpha+.04*Math.sin(t*2+a.x*.004)+(active?.08:0)})`;
+      ctx.lineWidth=secret?3.2:(active?3.1:clarity?2.7:2.2);
       ctx.beginPath();ctx.moveTo(a.x+P.w/2,ay);ctx.lineTo(b.x+P.w/2,by);ctx.stroke();
       if(secret){
         ctx.strokeStyle='rgba(255,186,206,.14)';ctx.lineWidth=.65;
@@ -3467,8 +5233,17 @@ function drawTransitRoutes(t){
   });
   ROUTE_NODE_LIST.forEach(route=>{
     const glow=.08+.05*Math.sin(t*3+route.x*.01);
-    ctx.fillStyle=`rgba(180,230,255,${route.id.startsWith('secret_')?.22:.12+glow})`;
-    ctx.beginPath();ctx.arc(route.x+P.w/2,route.y+P.h/2,route.id.startsWith('secret_')?4.6:3.4,0,Math.PI*2);ctx.fill();
+    const current=route.id===P.nodeId||route.id===P.nextNodeId;
+    const safe=isSafeNode(route.id);
+    const lastSafe=route.id===P.lastSafeNodeId;
+    ctx.fillStyle=current?`rgba(255,248,220,${.52+glow})`:safe?`rgba(146,245,199,${.18+glow*.9})`:`rgba(180,230,255,${route.id.startsWith('secret_')?.22:.12+glow})`;
+    ctx.beginPath();ctx.arc(route.x+P.w/2,route.y+P.h/2,route.id.startsWith('secret_')?4.8:current?4.3:safe?3.9:3.4,0,Math.PI*2);ctx.fill();
+    if(safe){
+      const pulse=.4+.6*Math.sin(t*4+route.x*.01);
+      ctx.strokeStyle=lastSafe?`rgba(146,245,199,${.34+pulse*.28})`:`rgba(255,228,176,${.2+pulse*.14})`;
+      ctx.lineWidth=lastSafe?2.1:1.3;
+      ctx.beginPath();ctx.arc(route.x+P.w/2,route.y+P.h/2,(lastSafe?10:8)+pulse*(lastSafe?3.2:2.2),0,Math.PI*2);ctx.stroke();
+    }
   });
 }
 
@@ -3620,6 +5395,35 @@ function drawPatrolChambers(t){
   });
 }
 
+function getDroneHintColor(drone){
+  const palette={
+    shadow:'143,230,255',
+    ambush:'255,203,139',
+    ahead:'255,120,138',
+    crosscut:'146,245,199',
+    lookout:'214,244,255',
+    bashful:'255,232,173'
+  };
+  return palette[drone.personality]||'143,230,255';
+}
+
+function drawDroneRouteHint(drone,t){
+  if(P.powerT<=0||drone.mode==='dormant'||drone.mode==='house'||drone.mode==='eyes')return;
+  const next=drone.nextNodeId?nodeCenter(drone.nextNodeId):{x:drone.x,y:drone.y};
+  const target=getEnemyTargetPoint(drone);
+  const color=getDroneHintColor(drone);
+  ctx.save();
+  ctx.setLineDash([7,8]);
+  ctx.strokeStyle=`rgba(${color},${.28+.08*Math.sin(t*5+drone.index)})`;
+  ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(drone.x,drone.y);ctx.lineTo(next.x,next.y);ctx.stroke();
+  ctx.setLineDash([3,10]);
+  ctx.strokeStyle=`rgba(${color},${.14+.08*Math.sin(t*4+drone.index)})`;
+  ctx.beginPath();ctx.moveTo(next.x,next.y);ctx.lineTo(target.x,target.y);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.restore();
+}
+
 function drawDrones(t){
   DRONES.forEach(dr=>{
     if(dr.x+260<camX||dr.x>camX+W+60)return;
@@ -3629,6 +5433,8 @@ function drawDrones(t){
     const dormant=dr.mode==='dormant'||dr.mode==='house';
     const dx=dr.dirKey==='left'?-22:22;
     const hoverY=dr.y+Math.sin(t*4.5+dr.wobble)*5;
+
+    drawDroneRouteHint(dr,t);
 
     if(!stunned&&!dormant){
       const cLen=frightened?120:220;
@@ -4040,10 +5846,12 @@ function updateUI(){
   const touchAct=document.getElementById('touch-interact');
   const touchStop=document.getElementById('touch-stop');
   const touchHelper=document.getElementById('touch-helper');
+  const touchMap=document.getElementById('touch-map');
+  const touchCalm=document.getElementById('touch-calm');
   const inSecretRoute=(P.nodeId&&P.nodeId.startsWith('secret_'))||(P.nextNodeId&&P.nextNodeId.startsWith('secret_'));
   const bossLabel=SECRET_ENEMY.phase==='warning'?tr('bossWarning'):SECRET_ENEMY.phase==='charge'?tr('bossCharge'):SECRET_ENEMY.phase==='disrupted'?tr('bossDisrupted'):tr('bossHunt');
   if(ctxLabel)ctxLabel.textContent=tutorialActive()?getTutorialLabel():inSecretRoute&&SECRET_ENEMY.phase!=='hidden'?bossLabel:P.powerT>0?`${tr('roundLabel')} ${S.round} · ${tr('clarityWave')} · ${tr('lightTrails')} ${S.trailCount}/${TOTAL_TRAIL_ORBS} · Etikk ${S.ethicCount}/${ETHIC_PICKUPS.length}`:`${tr('roundLabel')} ${S.round} · ${tr('patrolPhase')}: ${(getGlobalEnemyMode()==='scatter'?tr('phaseScatter'):tr('phaseChase'))} · ${tr('lightTrails')} ${S.trailCount}/${TOTAL_TRAIL_ORBS} · Etikk ${S.ethicCount}/${ETHIC_PICKUPS.length} · ${tr('clickRoute')}`;
-  if(actBtn)actBtn.innerHTML=P.near?`${tr('explore')}<span class="ak">[E]</span>`:`${tr('nextGoal')}<span class="ak">[E]</span>`;
+  if(actBtn)actBtn.innerHTML=P.near?`${tr('explore')}<span class="ak">[${primaryActionPrompt()}]</span>`:`${tr('nextGoal')}<span class="ak">[${primaryActionPrompt()}]</span>`;
   if(stopBtn){
     stopBtn.disabled=!P.nextNodeId&&!anyMoveKeyHeld();
     stopBtn.innerHTML=`${tr('stop')}<span class="ak">[X]</span>`;
@@ -4054,7 +5862,7 @@ function updateUI(){
   if(calmBtn)calmBtn.innerHTML=`${tr('breather')}<span class="ak">[C]</span>`;
   if(helpBtn)helpBtn.textContent=helpBtn.disabled?tr('help'):tr('shadowguest');
   if(touchAct){
-    const label=P.near?tr('explore'):tr('nextGoal');
+    const label=P.near?tr('mobileClickExplore'):tr('nextGoal');
     touchAct.textContent=label;
     touchAct.setAttribute('aria-label',label);
   }
@@ -4064,10 +5872,11 @@ function updateUI(){
     touchStop.setAttribute('aria-label',label);
   }
   if(touchHelper){
-    const label=helpBtn&&helpBtn.disabled?tr('help'):tr('shadowguest');
-    touchHelper.textContent=label;
+    touchHelper.textContent=tr('help');
     touchHelper.setAttribute('aria-label',tr('helperMenu'));
   }
+  if(touchMap)touchMap.textContent=tr('routeMap');
+  if(touchCalm)touchCalm.textContent=tr('breather');
   updateStoryCard();
 }
 
@@ -4218,6 +6027,7 @@ function handleAct(act,ob){
 // MENU BUTTONS
 function showMoveMenu(){
   if(S.go)return;
+  setStoryCardCollapsed(false);
   const opts=INTERACTABLES.map(ob=>({
     l:'→ '+lt(ob.label)+(ob.minStatus&&S.status<ob.minStatus?(LANG.current==='en'?' [LOCKED]':' [SPERRET]'):''),
     c:ob.type==='gate'?'dg':ob.type==='terminal'||ob.type==='erased'||ob.type==='lift'||ob.type==='ulriken'||ob.type==='cdnmentor'?'rs':'',
@@ -4244,6 +6054,7 @@ function showResistMenu(){
 }
 function showHelpMenu(){
   if(S.go)return;
+  setStoryCardCollapsed(false);
   const ob=INTERACTABLES.find(o=>o.id==='erased');
   if(ob)showInteractPopup(lt('SKYGJEST'),lt('"Kan du svømme ved siden av meg? Jeg vil slippe at appene vet mer om livet mitt enn jeg selv har sagt ja til."'),[
     {l:lt('[ Svøm Sammen Nå ]'),c:'rs',a:()=>{closeIP();handleAct('help_e',ob);}},
@@ -4295,6 +6106,7 @@ function triggerEnd(kind){
 function resetGame(){
   Object.assign(S,{status:100,surveillance:0,erasure:0,guilt:0,friction:0,censorship:0,go:false,tick:0,enemyClock:0,secretUnlocked:false,completedObjectives:new Set(),hasSeenErased:false,tutorialStage:'move',tutorialCountdown:0,tutorialTurnDir:null,lastEnemyMode:null,trailCount:0,ethicCount:0,lessonText:null,lessonT:0,round:1,roundClearing:false,roundAdvanceT:0,floiRideT:0,ulrikenSeen:false,finalVistaSeen:false});
   objIdx=0;logTick=0;camX=0;
+  STORY_CARD_STATE.collapsed=true;
   snapPlayerToNode('low_220');P.nextNodeId=null;P.vx=0;P.vy=0;P.dir=1;P.dirKey='right';P.desiredDir=null;P.bufferDir=null;P.tapDir=null;P.powerT=0;P.graceT=480;
   PARTS.length=0;RIPPLES.length=0;INTERACTABLES.forEach(o=>o.used=false);resetRoundCollectibles();
   DRONES.forEach((dr,i)=>Object.assign(dr,makeDrone(DRONE_SPECS[i],i)));
@@ -4331,20 +6143,187 @@ function runBoot(){
   },2900);
 }
 
+// ROTATE DEVICE OVERLAY JS
+const ROTATE_BOOTSTRAP_KEY='cdnLearningRotateBootstrap';
+const ROTATE_DEVICE_STATE={visible:false,bootstrapFromPortrait:false};
+let responsiveAppStateFrame=0;
+let responsiveChromeObserver=null;
+function getRotateViewportWidth(){
+  const visualWidth=window.visualViewport&&window.visualViewport.width?window.visualViewport.width:0;
+  return Math.round(visualWidth||window.innerWidth||document.documentElement.clientWidth||0);
+}
+function getRotateViewportHeight(){
+  const visualHeight=window.visualViewport&&window.visualViewport.height?window.visualViewport.height:0;
+  return Math.round(visualHeight||window.innerHeight||document.documentElement.clientHeight||0);
+}
+function syncRotateOverlayViewport(){
+  document.documentElement.style.setProperty('--app-height',getRotateViewportHeight()+'px');
+}
+function isMobileLikeDevice(){
+  const viewportWidth=getRotateViewportWidth();
+  const viewportHeight=getRotateViewportHeight();
+  const smallest=Math.min(viewportWidth,viewportHeight);
+  const largest=Math.max(viewportWidth,viewportHeight);
+  const coarsePointer=window.matchMedia?window.matchMedia('(pointer: coarse)').matches:false;
+  const hoverNone=window.matchMedia?window.matchMedia('(hover: none)').matches:false;
+  const touchPoints=navigator.maxTouchPoints||navigator.msMaxTouchPoints||0;
+  const hasTouch='ontouchstart' in window||touchPoints>0;
+  const ua=navigator.userAgent||'';
+  const isIPadLike=/iPad/.test(ua)||(navigator.platform==='MacIntel'&&touchPoints>1);
+  const mobileUA=/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Tablet/i.test(ua)||isIPadLike;
+  const sizeQualified=largest<=1366&&smallest<=1024;
+  return !!(sizeQualified&&(mobileUA||coarsePointer||(hasTouch&&hoverNone)));
+}
+function isPortraitMode(){
+  const viewportWidth=getRotateViewportWidth();
+  const viewportHeight=getRotateViewportHeight();
+  if(window.matchMedia&&window.matchMedia('(orientation: portrait)').matches)return true;
+  return viewportHeight>=viewportWidth;
+}
+
+// RESPONSIVE JS STATE
+function detectMobileLayout(){
+  return isMobileLikeDevice()&&getRotateViewportWidth()<=1024;
+}
+function measureResponsiveChrome(){
+  const body=document.body;
+  if(!body)return;
+  if(!body.classList.contains('mobile-layout')){
+    body.style.setProperty('--mobile-hud-measured','0px');
+    body.style.setProperty('--mobile-secondary-dock-measured','0px');
+    body.style.setProperty('--mobile-controls-measured','0px');
+    body.style.setProperty('--top-ui-space',`${MOBILE_MODE?46:40}px`);
+    body.style.setProperty('--bottom-ui-space',`${MOBILE_MODE?74:50}px`);
+    updateGameViewportBounds();
+    return;
+  }
+  if(body.classList.contains('mobile-landscape')){
+    body.style.setProperty('--mobile-hud-measured','54px');
+    body.style.setProperty('--mobile-secondary-dock-measured','0px');
+    body.style.setProperty('--mobile-controls-measured','86px');
+    body.style.setProperty('--top-ui-space','54px');
+    body.style.setProperty('--bottom-ui-space','86px');
+    updateGameViewportBounds();
+    return;
+  }
+  const hud=document.getElementById('tb');
+  const dock=document.getElementById('btm');
+  const story=document.getElementById('story-card');
+  const controls=document.getElementById('touch-ui');
+  const hudStyle=hud?window.getComputedStyle(hud):null;
+  const dockStyle=dock?window.getComputedStyle(dock):null;
+  const storyStyle=story?window.getComputedStyle(story):null;
+  const controlsStyle=controls?window.getComputedStyle(controls):null;
+  const hudVisible=!!(hudStyle&&hudStyle.display!=='none'&&hudStyle.visibility!=='hidden');
+  const dockVisible=!!(dockStyle&&dockStyle.display!=='none'&&dockStyle.visibility!=='hidden');
+  const storyVisible=!!(storyStyle&&storyStyle.display!=='none'&&storyStyle.visibility!=='hidden');
+  const controlsVisible=!!(controlsStyle&&controlsStyle.display!=='none'&&controlsStyle.visibility!=='hidden');
+  body.style.setProperty('--mobile-hud-measured',`${hud?Math.ceil(hud.getBoundingClientRect().height):0}px`);
+  body.style.setProperty('--mobile-secondary-dock-measured',`${dockVisible&&dock?Math.ceil(dock.getBoundingClientRect().height):0}px`);
+  body.style.setProperty('--mobile-controls-measured',`${controlsVisible?Math.ceil(controls.getBoundingClientRect().height):0}px`);
+  const hudBottom=hudVisible&&hud?hud.getBoundingClientRect().bottom:0;
+  const storyBottom=storyVisible&&story?story.getBoundingClientRect().bottom:0;
+  const controlsTop=controlsVisible&&controls?controls.getBoundingClientRect().top:H;
+  const dockTop=dockVisible&&dock?dock.getBoundingClientRect().top:H;
+  body.style.setProperty('--top-ui-space',`${Math.max(190,Math.ceil(Math.max(hudBottom,storyBottom)+20))}px`);
+  body.style.setProperty('--bottom-ui-space',`${Math.max(210,Math.ceil(H-Math.min(controlsTop,dockTop)+20))}px`);
+  updateGameViewportBounds();
+}
+function bindResponsiveChromeObservers(){
+  if(responsiveChromeObserver||typeof ResizeObserver==='undefined')return;
+  responsiveChromeObserver=new ResizeObserver(()=>{measureResponsiveChrome();});
+  ['tb','btm','touch-ui','story-card'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)responsiveChromeObserver.observe(el);
+  });
+}
+function applyResponsiveAppState(){
+  syncRotateOverlayViewport();
+  const mobileLayout=detectMobileLayout();
+  const width=getRotateViewportWidth();
+  const height=getRotateViewportHeight();
+  const portrait=height>=width;
+  const body=document.body;
+  body.classList.toggle('mobile-layout',mobileLayout);
+  body.classList.toggle('mobile-portrait',mobileLayout&&portrait);
+  body.classList.toggle('mobile-landscape',mobileLayout&&!portrait);
+  body.classList.toggle('mobile-mid',mobileLayout&&width<=768);
+  body.classList.toggle('mobile-compact',mobileLayout&&width<=560);
+  body.classList.toggle('mobile-tablet',mobileLayout&&width>768);
+  syncStoryCardChrome();
+  measureResponsiveChrome();
+}
+function queueResponsiveAppState(){
+  window.cancelAnimationFrame(responsiveAppStateFrame);
+  responsiveAppStateFrame=window.requestAnimationFrame(()=>{
+    applyResponsiveAppState();
+    updateRotateOverlay();
+  });
+}
+function shouldShowRotateOverlay(){
+  return detectMobileLayout()&&isPortraitMode()&&Math.min(getRotateViewportWidth(),getRotateViewportHeight())<=900;
+}
+function updateRotateOverlayLanguage(){
+  const card=document.querySelector('#rotate-device-overlay .rotate-device-card');
+  const title=document.getElementById('rotate-device-title');
+  const text=document.getElementById('rotate-device-text');
+  if(card)card.dataset.rotateKicker=tr('rotateOverlayKicker');
+  if(title)title.textContent=tr('rotateOverlayTitle');
+  if(text)text.textContent=tr('rotateOverlayText');
+}
+function maybeBootstrapLandscapeViewport(showOverlay){
+  if(showOverlay)return false;
+  if(sessionStorage.getItem(ROTATE_BOOTSTRAP_KEY)==='1'){
+    sessionStorage.removeItem(ROTATE_BOOTSTRAP_KEY);
+    ROTATE_DEVICE_STATE.bootstrapFromPortrait=false;
+    return false;
+  }
+  if(ROTATE_DEVICE_STATE.bootstrapFromPortrait){
+    ROTATE_DEVICE_STATE.bootstrapFromPortrait=false;
+    sessionStorage.setItem(ROTATE_BOOTSTRAP_KEY,'1');
+    window.location.reload();
+    return true;
+  }
+  return false;
+}
+function updateRotateOverlay(){
+  syncRotateOverlayViewport();
+  updateRotateOverlayLanguage();
+  const overlay=document.getElementById('rotate-device-overlay');
+  if(!overlay)return;
+  const showOverlay=shouldShowRotateOverlay();
+  if(maybeBootstrapLandscapeViewport(showOverlay))return;
+  if(ROTATE_DEVICE_STATE.visible===showOverlay&&overlay.getAttribute('aria-hidden')===(showOverlay?'false':'true'))return;
+  ROTATE_DEVICE_STATE.visible=showOverlay;
+  overlay.setAttribute('aria-hidden',showOverlay?'false':'true');
+  document.body.classList.toggle('rotate-overlay-active',showOverlay);
+  const accessibilityMenu=document.getElementById('accessibility-menu');
+  if(showOverlay&&accessibilityMenu&&accessibilityMenu.open)accessibilityMenu.open=false;
+}
+ROTATE_DEVICE_STATE.bootstrapFromPortrait=shouldShowRotateOverlay();
+window.addEventListener('resize',queueResponsiveAppState,{passive:true});
+window.addEventListener('orientationchange',queueResponsiveAppState,{passive:true});
+window.addEventListener('orientationchange',()=>{window.setTimeout(queueResponsiveAppState,250);},{passive:true});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)queueResponsiveAppState();});
+if(window.visualViewport)window.visualViewport.addEventListener('resize',queueResponsiveAppState,{passive:true});
+
 // ════════ MAIN LOOP ════════
 let lastFrame=0;
 function loop(ts){lastFrame=ts;update(ts);draw(ts);requestAnimationFrame(loop);}
 
 window.addEventListener('load',()=>{
   renderLanguageChrome();
+  resizeCanvasForMobileLandscape();
+  bindResponsiveChromeObservers();
+  applyResponsiveAppState();
+  updateRotateOverlay();
   runBoot();resetGame();setupTouchControls();setupPointerSteering();setInterval(updateClock,1000);
   for(let i=0;i<3;i++)spawnJelly();
   requestAnimationFrame(loop);
 });
 
-window.addEventListener('resize',()=>{
-  gc.width=window.innerWidth;gc.height=window.innerHeight;
-});
+window.addEventListener('resize',resizeCanvasForMobileLandscape);
+window.addEventListener('orientationchange',()=>{window.setTimeout(resizeCanvasForMobileLandscape,250);});
 </script>
 </body>
 </html>

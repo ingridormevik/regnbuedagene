@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Glimmerstien — Magic Robot Unicorn Goes Pride Park</title>
+<title>Glimmerstien - Et interaktivt Mini Pride-verk</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=Baloo+2:wght@600;700&display=swap" rel="stylesheet" />
@@ -49,6 +49,17 @@ body {
   overflow-x: hidden;
   -webkit-text-size-adjust: 100%;
 }
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255,255,255,0.28), transparent 30%),
+    radial-gradient(circle at 20% 80%, rgba(255,110,110,0.12), transparent 32%),
+    radial-gradient(circle at 80% 70%, rgba(110,184,242,0.14), transparent 32%);
+}
 
 body.large-type     { font-size: 1.1rem; }
 body.high-contrast  {
@@ -68,14 +79,14 @@ button:focus-visible, input:focus-visible, canvas:focus-visible {
 
 /* LAYOUT */
 .page-shell {
-  width: min(1360px, 100%);
+  width: min(1440px, 100%);
   margin: 0 auto;
   padding:
     max(18px, var(--safe-top))
     clamp(14px, 3vw, 28px)
     max(24px, calc(var(--safe-bottom) + 18px));
   display: grid;
-  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  grid-template-columns: minmax(330px, 400px) minmax(0, 1fr);
   gap: clamp(14px, 2.5vw, 22px);
   align-items: start;
 }
@@ -99,6 +110,8 @@ button:focus-visible, input:focus-visible, canvas:focus-visible {
   align-content: start;
   position: sticky;
   top: max(14px, var(--safe-top));
+  min-width: 0;
+  overflow: visible;
 }
 
 .eyebrow-badge {
@@ -122,7 +135,9 @@ button:focus-visible, input:focus-visible, canvas:focus-visible {
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px;
+  min-width: 0;
 }
+.top-row-titles { min-width: 0; }
 
 .main-title {
   font-family: "Fraunces", serif;
@@ -139,6 +154,8 @@ button:focus-visible, input:focus-visible, canvas:focus-visible {
   text-transform: uppercase;
   color: var(--muted);
   opacity: 0.7;
+  max-width: 28ch;
+  overflow-wrap: anywhere;
 }
 
 .ctrl-buttons {
@@ -168,10 +185,30 @@ button:focus-visible, input:focus-visible, canvas:focus-visible {
   border-color: rgba(224,80,138,0.30);
   box-shadow: 0 10px 22px rgba(224,80,138,0.13);
 }
+.mobile-info-toggle { display: none; }
 
 .lede {
   font-size: clamp(0.84rem, 2.2vw, 0.94rem);
   line-height: 1.62;
+  color: var(--muted);
+  max-width: 42ch;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+.museum-label {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.museum-label span {
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.62);
+  border: 1px solid var(--line);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--muted);
 }
 
@@ -251,12 +288,13 @@ button:focus-visible, input:focus-visible, canvas:focus-visible {
 .setting-chip input { width: 17px; height: 17px; accent-color: var(--berry); flex-shrink: 0; }
 
 /* STAGE PANEL */
-.stage-panel { padding: 18px; display: grid; gap: 14px; }
+.stage-panel { position: relative; padding: 18px; display: grid; gap: 14px; }
 .stage-top { display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; }
 .stage-copy { display: grid; gap: 6px; }
 .stage-kicker { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--berry); }
 .stage-title { font-family: "Fraunces", serif; font-size: clamp(1.2rem, 2.8vw, 1.8rem); font-weight: 600; line-height: 1.05; color: var(--ink); }
 .stage-text { font-size: 0.88rem; line-height: 1.6; color: var(--muted); }
+.stage-text { max-width: 70ch; white-space: pre-line; overflow-wrap: anywhere; }
 
 /* CANVAS */
 .canvas-wrap {
@@ -358,7 +396,11 @@ canvas#stage {
 /* FINALE */
 #finale-overlay {
   position: fixed; inset: 0; z-index: 500;
-  background: radial-gradient(circle at 50% 30%, rgba(255,200,100,0.22) 0%, rgba(155,104,204,0.18) 38%, rgba(14,44,53,0.80) 100%);
+  background:
+    radial-gradient(circle at 50% 25%, rgba(255,220,130,0.34), transparent 28%),
+    radial-gradient(circle at 20% 80%, rgba(224,80,138,0.24), transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(110,184,242,0.26), transparent 32%),
+    rgba(14,44,53,0.82);
   backdrop-filter: blur(4px);
   display: flex; align-items: center; justify-content: center;
   padding: max(20px, var(--safe-top)) 20px max(20px, var(--safe-bottom));
@@ -366,7 +408,11 @@ canvas#stage {
 }
 #finale-overlay.show { opacity: 1; pointer-events: auto; }
 .finale-card {
-  width: min(560px, 100%); background: var(--card-s); border-radius: 32px;
+  width: min(560px, 100%);
+  border: 1px solid rgba(255,255,255,0.42);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,248,238,0.92));
+  border-radius: 32px;
   padding: 36px 32px 28px; text-align: center; display: grid; gap: 18px;
   box-shadow: 0 40px 120px rgba(0,0,0,0.36); max-height: calc(100dvh - 40px); overflow-y: auto;
 }
@@ -399,6 +445,289 @@ canvas#stage {
   .touch-pad { display: grid; }
   .stage-top { flex-direction: column; }
 }
+@media (max-width: 760px) {
+  body {
+    overflow: hidden;
+    min-height: 100dvh;
+  }
+
+  .page-shell {
+    width: 100vw;
+    height: 100dvh;
+    padding: max(10px, var(--safe-top)) 10px max(10px, var(--safe-bottom));
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    gap: 10px;
+    align-items: stretch;
+  }
+
+  .stage-panel {
+    order: 1;
+    height: 100%;
+    min-height: 0;
+    padding: 10px;
+    border-radius: 24px;
+    display: grid;
+    grid-template-rows: 1fr;
+  }
+
+  .intro-panel {
+    order: 2;
+    position: fixed;
+    left: 10px;
+    right: 10px;
+    bottom: calc(var(--safe-bottom) + 86px);
+    z-index: 60;
+    max-height: 38dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 14px;
+    border-radius: 24px;
+    gap: 10px;
+  }
+
+  .footer-strip {
+    display: none;
+  }
+
+  .mobile-info-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .intro-panel.mobile-collapsed {
+    max-height: 74px;
+    overflow: hidden;
+    padding: 10px 12px;
+  }
+
+  .intro-panel.mobile-collapsed .eyebrow-badge,
+  .intro-panel.mobile-collapsed .sub-tagline,
+  .intro-panel.mobile-collapsed .lede,
+  .intro-panel.mobile-collapsed .museum-label,
+  .intro-panel.mobile-collapsed .badge-shelf,
+  .intro-panel.mobile-collapsed .settings-section,
+  .intro-panel.mobile-collapsed #reset-btn {
+    display: none;
+  }
+
+  .intro-panel.mobile-collapsed .top-row {
+    align-items: center;
+    gap: 8px;
+  }
+
+  .intro-panel.mobile-collapsed .main-title {
+    font-size: 1.16rem;
+    line-height: 1;
+    margin: 0;
+  }
+
+  .intro-panel.mobile-collapsed .ctrl-buttons {
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  .intro-panel.mobile-collapsed .pill-btn {
+    min-height: 34px;
+    padding: 7px 10px;
+    font-size: 0.72rem;
+  }
+
+  .intro-panel.mobile-collapsed .progress-card {
+    position: absolute;
+    left: 12px;
+    right: 116px;
+    top: 38px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  .intro-panel.mobile-collapsed .progress-kicker,
+  .intro-panel.mobile-collapsed .progress-track {
+    display: none;
+  }
+
+  .intro-panel.mobile-collapsed .progress-line {
+    align-items: center;
+    margin: 0;
+    gap: 5px;
+  }
+
+  .intro-panel.mobile-collapsed .progress-num {
+    font-size: 1rem;
+  }
+
+  .intro-panel.mobile-collapsed .progress-note {
+    font-size: 0.64rem;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .intro-panel.mobile-collapsed .next-stop-chip {
+    position: absolute;
+    right: 12px;
+    top: 40px;
+    max-width: 96px;
+    min-height: 24px;
+    padding: 4px 7px;
+    font-size: 0.62rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .canvas-wrap {
+    height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 190px);
+    min-height: 430px;
+    border-radius: 28px;
+  }
+
+  canvas#stage {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .stage-top {
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    right: 18px;
+    z-index: 12;
+    pointer-events: none;
+  }
+
+  .stage-copy {
+    width: fit-content;
+    max-width: min(92%, 420px);
+    padding: 12px 14px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.76);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 14px 36px rgba(14,44,53,0.12);
+  }
+
+  .stage-kicker {
+    font-size: 0.62rem;
+  }
+
+  .stage-title {
+    font-size: clamp(1.1rem, 6vw, 1.55rem);
+  }
+
+  .stage-text {
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .touch-pad {
+    order: 3;
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--safe-bottom) + 12px);
+    transform: translateX(-50%);
+    z-index: 80;
+    display: grid;
+    grid-template-columns: repeat(3, 58px);
+    gap: 8px;
+    padding: 10px;
+    border-radius: 28px;
+    background: rgba(255,255,255,0.62);
+    border: 1px solid rgba(14,44,53,0.10);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 18px 46px rgba(14,44,53,0.18);
+  }
+
+  .touch-btn {
+    width: 58px;
+    height: 58px;
+    min-height: 58px;
+    border-radius: 20px;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,0.95), rgba(255,255,255,0.70)),
+      linear-gradient(135deg, rgba(255,255,255,0.82), rgba(255,230,245,0.72));
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.8),
+      0 8px 20px rgba(14,44,53,0.12);
+  }
+
+  .memory-card {
+    align-items: flex-end;
+    justify-content: center;
+    padding: 12px;
+    background: linear-gradient(
+      180deg,
+      rgba(10,20,30,0.18),
+      rgba(10,20,30,0.78)
+    );
+  }
+
+  .memory-card-inner {
+    width: 100%;
+    max-height: 68dvh;
+    overflow-y: auto;
+    border-radius: 30px 30px 24px 24px;
+    padding: 24px 18px 18px;
+  }
+
+  .memory-badge {
+    font-size: 3.8rem;
+  }
+
+  .memory-title {
+    font-size: clamp(1.35rem, 7vw, 1.8rem);
+  }
+
+  .memory-text-child,
+  .memory-text-family {
+    font-size: 0.92rem;
+  }
+
+  .memory-actions {
+    position: sticky;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent, var(--card-s) 35%);
+    padding-top: 12px;
+  }
+
+  .badge-pop {
+    width: calc(100vw - 28px);
+    max-width: 380px;
+    padding: 26px 22px;
+    border-radius: 32px;
+  }
+
+  .badge-pop-icon {
+    font-size: 4.6rem;
+  }
+
+  .badge-pop-title {
+    font-size: 1.55rem;
+  }
+
+  .finale-card {
+    width: calc(100vw - 24px);
+    max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 24px);
+    border-radius: 34px;
+    padding: 30px 20px 24px;
+  }
+
+  .finale-title {
+    font-size: clamp(1.7rem, 8vw, 2.4rem);
+  }
+
+  .finale-poem {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}
 @media (max-width: 480px) {
   .badge-shelf { padding: 12px 12px; }
   .badge-icon  { font-size: 1.3rem; }
@@ -412,6 +741,8 @@ canvas#stage {
 </style>
 </head>
 <body>
+
+<audio id="theme-audio" src="assets/minipride2.mp4" preload="auto" loop></audio>
 
 <div id="haptic-pulse" class="haptic-pulse-overlay" aria-hidden="true"></div>
 
@@ -446,11 +777,18 @@ canvas#stage {
       </div>
       <div class="ctrl-buttons">
         <button class="pill-btn" id="lang-toggle" type="button"></button>
+        <button class="pill-btn" id="sound-toggle" type="button"></button>
+        <button class="pill-btn mobile-info-toggle" id="mobile-info-toggle" type="button">Skjul info</button>
         <button class="pill-btn" id="reset-btn" type="button" style="font-size:0.72rem;opacity:0.6;"></button>
       </div>
     </div>
 
     <p class="lede" id="lede"></p>
+    <div class="museum-label" aria-label="Verksinformasjon">
+      <span id="museum-label-kind">Digitalt familieverk</span>
+      <span id="museum-label-year">Mini Pride 2026</span>
+      <span id="museum-label-form">Interaktiv fortelling</span>
+    </div>
 
     <div class="badge-shelf">
       <span class="badge-shelf-title" id="badge-shelf-title"></span>
@@ -531,6 +869,7 @@ canvas#stage {
 const LANG_KEY     = 'glimmerstienLang';
 const SETTINGS_KEY = 'glimmerstienSettings';
 const PROGRESS_KEY = 'glimmerstienProgress';
+const AUDIO_KEY    = 'glimmerstienAudio';
 
 const DEFAULT_SETTINGS = {
   guide:    true,
@@ -562,8 +901,8 @@ const COPY = {
   no: {
     eyebrow:    'Mini Pride \u00b7 Glimmerstien',
     mainTitle:  'Glimmerstien',
-    subTagline: 'Magic Robot Unicorn Goes Pride Park',
-    lede: 'En rolig vandring for skeive familier gjennom Nyg\u00e5rdsparken. Seks stopp, seks glimmermerker, \u00e9n varm finale. Ingen tap, ingen hastverk \u2014 bare lys og litt magi.',
+    subTagline: 'En interaktiv vandring gjennom Pride Park',
+    lede: 'Glimmerstien er et lite interaktivt familieverk for Mini Pride. F\u00f8lg robot-enhj\u00f8rningen gjennom Nyg\u00e5rdsparken, samle seks glimmermerker og \u00e5pne korte scener om trygghet, valgt familie, ro, rytme og fellesskap.',
     badgeShelfTitle: 'Glimmermerker',
     progressKicker: 'Stopp bes\u00f8kt',
     progressDone: 'Hele stien lyser!',
@@ -581,8 +920,15 @@ const COPY = {
     motionLabel:  'Sl\u00e5 av animasjoner',
     resetBtn: 'Start p\u00e5 ny',
     langBtn:  'EN',
-    footerNote: 'Mini Pride-ruten er laget for skeive familier og de som trenger en rolig, trygg inngang til Pride Park. Ingen fiender. Ingen tid. Bare fellesskap og glimmer.',
+    soundOn:  'Lyd på',
+    soundOff: 'Lyd av',
+    footerNote: 'Et digitalt familieverk for skeive familier og alle som trenger en rolig, trygg inngang til Pride Park. Ingen fiender. Ingen tidspress. Bare fellesskap, omsorg og glimmer.',
     accessNote: 'Du kan spille i ditt eget tempo. Alt du finner blir v\u00e6rende i nettleseren til du nullstiller.',
+    museumKind: 'Digitalt familieverk',
+    museumYear: 'Mini Pride 2026',
+    museumForm: 'Interaktiv fortelling',
+    showInfo: 'Vis info',
+    hideInfo: 'Skjul info',
     mcNextBtn: 'Neste venn \u2192',
     mcStayBtn: 'Bli her litt',
     finalePoemLine: 'Noen familier er f\u00f8dt.\nNoen familier er funnet.\nNoen familier er bygget med mot.\n\nAlle h\u00f8rer til her.',
@@ -602,8 +948,8 @@ const COPY = {
   en: {
     eyebrow:    'Mini Pride \u00b7 Glimmer Trail',
     mainTitle:  'Glimmer Trail',
-    subTagline: 'Magic Robot Unicorn Goes Pride Park',
-    lede: 'A gentle walk for queer families through Nyg\u00e5rdsparken. Six stops, six glimmer badges, one warm finale. No losing, no hurrying \u2014 just light and a little magic.',
+    subTagline: 'An interactive walk through Pride Park',
+    lede: 'Glimmer Trail is a small interactive family piece for Mini Pride. Follow the robot unicorn through Nyg\u00e5rdsparken, collect six glimmer badges and unlock short scenes about safety, chosen family, rest, rhythm and belonging.',
     badgeShelfTitle: 'Glimmer Badges',
     progressKicker: 'Stops visited',
     progressDone: 'The whole trail is glowing!',
@@ -621,8 +967,15 @@ const COPY = {
     motionLabel:  'Disable animations',
     resetBtn: 'Start over',
     langBtn:  'NO',
-    footerNote: 'The Mini Pride route is made for queer families and those who need a calm, safe entry to Pride Park. No enemies. No timer. Just community and glimmer.',
+    soundOn:  'Sound on',
+    soundOff: 'Sound off',
+    footerNote: 'A digital family piece for queer families and anyone who needs a calm, safe entry to Pride Park. No enemies. No timer. Just community, care and glimmer.',
     accessNote: 'You can play at your own pace. Everything you find stays in the browser until you reset.',
+    museumKind: 'Digital family work',
+    museumYear: 'Mini Pride 2026',
+    museumForm: 'Interactive story',
+    showInfo: 'Show info',
+    hideInfo: 'Hide info',
     mcNextBtn: 'Next friend \u2192',
     mcStayBtn: 'Stay a moment',
     finalePoemLine: 'Some families are born.\nSome families are found.\nSome families are built with courage.\n\nAll of them belong here.',
@@ -646,6 +999,7 @@ const state = {
   lang:         localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'no',
   settings:     loadSettings(),
   found:        new Set(loadProgress()),
+  audioEnabled: localStorage.getItem(AUDIO_KEY) === '1',
   activeStopId: null,
   hoveredStopId:null,
   memoryCardOpen: false,
@@ -688,9 +1042,87 @@ function sparkleFallback() {
   setTimeout(() => el.classList.remove('active'), 220);
 }
 
+// --- AUDIO ---
+const themeAudio = document.getElementById('theme-audio');
+let audioCtx = null;
+
+function audioAvailable() {
+  return !!themeAudio;
+}
+
+function ensureAudioContext() {
+  if (!audioCtx && (window.AudioContext || window.webkitAudioContext)) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  if (audioCtx?.state === 'suspended') audioCtx.resume().catch(() => {});
+  return audioCtx;
+}
+
+function setAudioEnabled(enabled) {
+  state.audioEnabled = !!enabled;
+  localStorage.setItem(AUDIO_KEY, state.audioEnabled ? '1' : '0');
+  if (themeAudio) {
+    themeAudio.volume = 0.28;
+    if (state.audioEnabled && audioAvailable()) {
+      themeAudio.play().catch(() => {
+        state.audioEnabled = false;
+        localStorage.setItem(AUDIO_KEY, '0');
+        updateAudioButton();
+      });
+    } else {
+      themeAudio.pause();
+    }
+  }
+  updateAudioButton();
+}
+
+function updateAudioButton() {
+  const btn = document.getElementById('sound-toggle');
+  if (!btn) return;
+  btn.textContent = state.audioEnabled ? copy().soundOn : copy().soundOff;
+  btn.setAttribute('aria-pressed', state.audioEnabled ? 'true' : 'false');
+}
+
+function playTone(notes, type = 'sine', gain = 0.035) {
+  if (!state.audioEnabled) return;
+  const ac = ensureAudioContext();
+  if (!ac) return;
+  const now = ac.currentTime;
+  notes.forEach(([freq, start, duration]) => {
+    const osc = ac.createOscillator();
+    const amp = ac.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, now + start);
+    amp.gain.setValueAtTime(0.0001, now + start);
+    amp.gain.exponentialRampToValueAtTime(gain, now + start + 0.02);
+    amp.gain.exponentialRampToValueAtTime(0.0001, now + start + duration);
+    osc.connect(amp).connect(ac.destination);
+    osc.start(now + start);
+    osc.stop(now + start + duration + 0.03);
+  });
+}
+
+function playUiSound(kind) {
+  if (kind === 'badge') playTone([[660,0,0.12],[880,0.09,0.16],[1320,0.22,0.22]], 'triangle', 0.03);
+  if (kind === 'card') playTone([[392,0,0.14],[523,0.11,0.18]], 'sine', 0.026);
+  if (kind === 'finale') playTone([[523,0,0.18],[659,0.13,0.18],[784,0.26,0.24],[1046,0.44,0.36]], 'triangle', 0.034);
+  if (kind === 'tap') playTone([[520,0,0.08]], 'sine', 0.018);
+}
+
 // --- CANVAS ---
 const canvas = document.getElementById('stage');
 const ctx = canvas.getContext('2d');
+
+function fitCanvasToContainer() {
+  const wrap = document.querySelector('.canvas-wrap');
+  if (!wrap || !canvas) return;
+
+  const rect = wrap.getBoundingClientRect();
+
+  // Keep game-world coordinates at 1200x760. Do not change STOPS or TRAIL.
+  canvas.style.width = rect.width + 'px';
+  canvas.style.height = rect.height + 'px';
+}
 
 // --- CELEBRATIONS ---
 function triggerCelebration(stop) {
@@ -706,6 +1138,7 @@ function triggerCelebration(stop) {
     });
   }
   tryVibrate([30, 40, 30]);
+  playUiSound('badge');
 }
 
 function showBadgePopup(stopId) {
@@ -738,6 +1171,7 @@ function showMemoryCard(stopId) {
   const card = document.getElementById('memory-card');
   card.hidden = false;
   state.memoryCardOpen = true;
+  playUiSound('card');
   document.getElementById('mc-next').onclick = closeMemoryCard;
   document.getElementById('mc-stay').onclick = closeMemoryCard;
 }
@@ -765,6 +1199,7 @@ function showFinale() {
   overlay.classList.add('show');
   spawnConfetti();
   tryVibrate([60, 40, 60, 40, 120]);
+  playUiSound('finale');
 }
 function hideFinale() {
   const overlay = document.getElementById('finale-overlay');
@@ -819,6 +1254,7 @@ function resetGame() {
   document.getElementById('memory-card').hidden = true;
   hideFinale();
   closeBadgePopup();
+  playUiSound('tap');
   saveProgress();
   updateBadgeShelf();
   updateProgressPanel();
@@ -833,6 +1269,7 @@ function syncUi() {
   document.body.classList.toggle('large-type',    !!state.settings.large);
   document.body.classList.toggle('high-contrast', !!state.settings.contrast);
   document.body.classList.toggle('reduced-motion',!!state.settings.motion || !!state.settings.calm);
+  if (themeAudio && !state.audioEnabled) themeAudio.pause();
 
   document.getElementById('eyebrow').textContent          = t.eyebrow;
   document.getElementById('main-title').textContent       = t.mainTitle;
@@ -844,9 +1281,20 @@ function syncUi() {
   document.getElementById('settings-title').textContent   = t.settingsTitle;
   document.getElementById('lang-toggle').textContent      = t.langBtn;
   document.getElementById('lang-toggle').setAttribute('aria-label', state.lang === 'no' ? 'Switch to English' : 'Bytt til norsk');
+  updateAudioButton();
+  const mobileInfoToggle = document.getElementById('mobile-info-toggle');
+  if (mobileInfoToggle) {
+    const panel = document.querySelector('.intro-panel');
+    const collapsed = !!panel?.classList.contains('mobile-collapsed');
+    mobileInfoToggle.textContent = collapsed ? t.showInfo : t.hideInfo;
+    mobileInfoToggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  }
   document.getElementById('reset-btn').textContent        = t.resetBtn;
   document.getElementById('footer-note').textContent      = t.footerNote;
   document.getElementById('access-note').textContent      = t.hapticNote;
+  document.getElementById('museum-label-kind').textContent = t.museumKind;
+  document.getElementById('museum-label-year').textContent = t.museumYear;
+  document.getElementById('museum-label-form').textContent = t.museumForm;
 
   document.getElementById('s-guide-lbl').textContent    = t.guideLabel;
   document.getElementById('s-calm-lbl').textContent     = t.calmLabel;
@@ -900,7 +1348,7 @@ function updateProgressPanel() {
 function updateStagePanel() {
   const t = copy(), active = state.activeStopId ? stopCopy(state.activeStopId) : null, complete = state.found.size === 6;
   document.getElementById('stage-title').textContent = complete ? t.finaleTitle : active ? active.title : t.defaultTitle;
-  document.getElementById('stage-text').textContent  = complete ? t.finalePoemLine.split('\n')[0] : active ? active.theme : t.defaultText;
+  document.getElementById('stage-text').textContent  = complete ? t.finalePoemLine : active ? active.theme : t.defaultText;
 }
 
 // --- DRAWING ---
@@ -1276,9 +1724,31 @@ document.getElementById('lang-toggle').addEventListener('click', () => {
   state.lang = state.lang === 'no' ? 'en' : 'no';
   localStorage.setItem(LANG_KEY, state.lang); syncUi();
 });
+document.getElementById('sound-toggle').addEventListener('click', () => {
+  playUiSound('tap');
+  setAudioEnabled(!state.audioEnabled);
+});
+document.addEventListener('pointerdown', () => {
+  if (state.audioEnabled && themeAudio?.paused && audioAvailable()) {
+    themeAudio.play().catch(() => {});
+  }
+}, { once: true });
 document.getElementById('reset-btn').addEventListener('click', resetGame);
 document.getElementById('finale-restart').addEventListener('click', () => { hideFinale(); resetGame(); });
 document.getElementById('finale-stay').addEventListener('click', hideFinale);
+
+const mobileInfoToggle = document.getElementById('mobile-info-toggle');
+if (mobileInfoToggle) {
+  mobileInfoToggle.addEventListener('click', () => {
+    const panel = document.querySelector('.intro-panel');
+    if (!panel) return;
+    panel.classList.toggle('mobile-collapsed');
+    const collapsed = panel.classList.contains('mobile-collapsed');
+    mobileInfoToggle.textContent = collapsed ? copy().showInfo : copy().hideInfo;
+    mobileInfoToggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+    fitCanvasToContainer();
+  });
+}
 
 [['s-guide','guide'],['s-calm','calm'],['s-large','large'],['s-contrast','contrast'],['s-motion','motion']].forEach(([id,key]) => {
   document.getElementById(id).addEventListener('change', e => { state.settings[key] = e.target.checked; saveSettings(); syncUi(); });
@@ -1309,7 +1779,14 @@ document.querySelectorAll('.touch-btn[data-dir]').forEach(btn => {
 });
 
 // --- BOOT ---
+if (window.matchMedia('(max-width: 760px)').matches) {
+  document.querySelector('.intro-panel')?.classList.add('mobile-collapsed');
+}
 syncUi();
+fitCanvasToContainer();
+if (themeAudio) themeAudio.volume = 0.28;
+window.addEventListener('resize', fitCanvasToContainer);
+window.addEventListener('orientationchange', () => setTimeout(fitCanvasToContainer, 250));
 requestAnimationFrame(frame);
 </script>
 </body>
