@@ -2203,8 +2203,6 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            #aurora-canvas,
-            #aurora-shader-canvas,
             .mist-layer,
             .mist-layer-2 {
                 display: none;
@@ -3050,27 +3048,35 @@
 
         syncNetlifyPreviewBackdrop();
 
+        let _lastCanvasW = 0;
         function resizeCanvas() {
             const scale = mobileLiteMode ? 0.5 : 0.82;
-            canvas.width = Math.floor(window.innerWidth * scale);
-            canvas.height = Math.floor(window.innerHeight * scale);
+            const w = Math.floor(window.innerWidth * scale);
+            const h = Math.floor(window.innerHeight * scale);
+            // Skip tiny height-only changes (mobile URL bar showing/hiding ~70px)
+            if (Math.abs(w - _lastCanvasW) < 2 && Math.abs(h - canvas.height) < 120) return;
+            _lastCanvasW = w;
+            canvas.width = w;
+            canvas.height = h;
             canvas.style.width = `${window.innerWidth}px`;
             canvas.style.height = `${window.innerHeight}px`;
         }
         resizeCanvas();
 
-        let resizeQueued = false;
+        let resizeTimer = null;
         function schedulePerformanceResize() {
-            if (resizeQueued) return;
-            resizeQueued = true;
-            requestAnimationFrame(() => {
-                resizeQueued = false;
-                mobileLiteMode = isMobilePerformanceMode();
-                document.body.classList.toggle('embedded-desktop', isEmbeddedDesktopMode());
-                document.body.classList.toggle('mobile-lite', mobileLiteMode);
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const newLite = isMobilePerformanceMode();
+                const newEmbed = isEmbeddedDesktopMode();
+                if (newLite !== mobileLiteMode) {
+                    mobileLiteMode = newLite;
+                    document.body.classList.toggle('mobile-lite', mobileLiteMode);
+                }
+                document.body.classList.toggle('embedded-desktop', newEmbed);
                 resizeCanvas();
                 resizeShaderCanvas();
-            });
+            }, 200);
         }
         window.addEventListener('resize', schedulePerformanceResize, { passive: true });
 
