@@ -3396,7 +3396,8 @@ creatureCards.forEach(card => {
 
         const activeDuration = window.innerWidth <= 680 ? 950 : 1600;
 
-        setTimeout(() => {
+        clearTimeout(card._ritualTimer);
+        card._ritualTimer = setTimeout(() => {
             card.classList.remove('ritual-active');
         }, activeDuration);
 
@@ -4063,7 +4064,8 @@ creatureCards.forEach(card => {
             card.classList.remove('ritual-active');
             void card.offsetWidth;
             card.classList.add('ritual-active');
-            setTimeout(() => card.classList.remove('ritual-active'), 1600);
+            clearTimeout(card._wakeTimer);
+            card._wakeTimer = setTimeout(() => card.classList.remove('ritual-active'), 1600);
 
             const symbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ'];
             const rect = card.getBoundingClientRect();
