@@ -3088,8 +3088,10 @@
         let _auroraActive = false;
         let _scrolling = false;
         let _scrollTimer = null;
+        let _lastScrollAt = 0;
         window.addEventListener('scroll', () => {
             _scrolling = true;
+            _lastScrollAt = Date.now();
             clearTimeout(_scrollTimer);
             _scrollTimer = setTimeout(() => {
                 _scrolling = false;
@@ -3320,13 +3322,18 @@ creatureCards.forEach(card => {
     card.addEventListener('pointerup', (e) => {
         if (e.target.closest('.card-state-button')) return;
         card.classList.remove('touch-pressed');
-        // Cancel if finger moved (scroll gesture)
-        const dx = Math.abs(e.clientX - (card._pStartX ?? e.clientX));
-        const dy = Math.abs(e.clientY - (card._pStartY ?? e.clientY));
-        const ds = Math.abs(window.scrollY - (card._pStartScroll ?? window.scrollY));
-        if (dx > 8 || dy > 12 || ds > 4) return;
-        // Skip rightmost 15% of viewport — dedicated scroll strip
-        if (e.pointerType === 'touch' && e.clientX > window.innerWidth * 0.85) return;
+        if (e.pointerType === 'touch') {
+            // Reject if page was scrolling recently (momentum stop fires fake pointerup)
+            if (Date.now() - _lastScrollAt < 350) return;
+            // Reject if tap was too fast to be intentional (< 80ms = synthetic event)
+            if (Date.now() - (card._pStartTime ?? 0) < 80) return;
+            // Reject if finger moved
+            const dx = Math.abs(e.clientX - (card._pStartX ?? e.clientX));
+            const dy = Math.abs(e.clientY - (card._pStartY ?? e.clientY));
+            if (dx > 8 || dy > 12) return;
+            // Skip rightmost 15% — dedicated scroll strip
+            if (e.clientX > window.innerWidth * 0.85) return;
+        }
         activate(e.clientX, e.clientY);
     }, { passive: true });
 
@@ -3335,6 +3342,7 @@ creatureCards.forEach(card => {
         card._pStartX = e.clientX;
         card._pStartY = e.clientY;
         card._pStartScroll = window.scrollY;
+        card._pStartTime = Date.now();
         card.classList.add('touch-pressed');
     }, { passive: true });
 
@@ -3344,6 +3352,7 @@ creatureCards.forEach(card => {
             card._pStartX = undefined;
             card._pStartY = undefined;
             card._pStartScroll = undefined;
+            card._pStartTime = undefined;
         }, { passive: true });
     });
 
