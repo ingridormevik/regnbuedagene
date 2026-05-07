@@ -455,11 +455,11 @@
         .creature-card.artist-reveal-card:not(.show-artist) .folklore-image > img {
             width: auto;
             height: auto;
-            max-height: 320px;
+            max-height: 292px;
             max-width: 85%;
             object-fit: contain;
             display: block;
-            margin: 6px auto 26px;
+            margin: 0 auto 26px;
             flex-shrink: 0;
         }
 
@@ -519,7 +519,7 @@
         }
 
         .creature-card.artist-reveal-card .creature-icon::before {
-            opacity: 0;
+            opacity: 0.22;
             filter: blur(60px);
             transition: opacity 0.8s ease, filter 0.8s ease;
         }
@@ -951,11 +951,7 @@
                 radial-gradient(circle at 42% 68%, rgba(255, 130, 65, 0.18), transparent 60%);
         }
 
-        .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image::before,
-        .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image::before,
-        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image::before {
-            display: none;
-        }
+        /* huldra/troll/fossegrim artist-image::before glow is intentionally enabled (colored florie) */
 
         .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer,
         .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer,
@@ -980,15 +976,21 @@
         }
 
         .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer {
-            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
+            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55))
+                    drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
+                    drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
         }
 
         .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer {
-            filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58));
+            filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58))
+                    drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
+                    drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
         }
 
         .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .draug-dancer {
-            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
+            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55))
+                    drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
+                    drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
             max-width: 410px;
             transform: translateY(12px) scale(1.28);
         }
