@@ -2,1174 +2,1314 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Mini Pride - Magic Robot Unicorn Goes Pride Park</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Glimmerstien — Magic Robot Unicorn Goes Pride Park</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=Baloo+2:wght@600;700&display=swap" rel="stylesheet" />
 <style>
-  :root {
-    color-scheme: light;
-    --sky-top: #ffe8d8;
-    --sky-bottom: #fff8ef;
-    --grass: #dff6c6;
-    --leaf: #58b66d;
-    --leaf-deep: #317d52;
-    --pond: #7fd7ea;
-    --sun: #ffb44f;
-    --coral: #ff7e79;
-    --berry: #e85f82;
-    --ink: #14353e;
-    --muted: #4f6d74;
-    --card: rgba(255, 255, 255, 0.8);
-    --card-strong: rgba(255, 255, 255, 0.92);
-    --line: rgba(20, 53, 62, 0.12);
-    --shadow: 0 24px 60px rgba(33, 72, 81, 0.18);
-  }
+:root {
+  --sky-top:    #ffe4cc;
+  --sky-mid:    #fff5ea;
+  --sky-low:    #f0ffe0;
+  --grass:      #c8f0a0;
+  --leaf:       #52aa60;
+  --pond:       #76d4ea;
+  --sun:        #ffa840;
+  --coral:      #ff6e6e;
+  --berry:      #e0508a;
+  --violet:     #9b68cc;
+  --gold:       #f0b040;
+  --ink:        #0e2c35;
+  --muted:      #3a5c68;
+  --card:       rgba(255,255,255,0.84);
+  --card-s:     rgba(255,255,255,0.94);
+  --line:       rgba(14,44,53,0.10);
+  --shadow:     0 20px 56px rgba(14,44,53,0.16);
 
-  * {
-    box-sizing: border-box;
-  }
+  --safe-top:    env(safe-area-inset-top,    0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left:   env(safe-area-inset-left,   0px);
+  --safe-right:  env(safe-area-inset-right,  0px);
+}
 
-  body {
-    margin: 0;
-    min-height: 100vh;
-    background:
-      radial-gradient(circle at 10% 10%, rgba(255, 180, 79, 0.24), transparent 26%),
-      radial-gradient(circle at 90% 14%, rgba(127, 215, 234, 0.26), transparent 24%),
-      radial-gradient(circle at 70% 90%, rgba(232, 95, 130, 0.15), transparent 24%),
-      linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 52%, #f7ffe8 100%);
-    color: var(--ink);
-    font-family: "IBM Plex Sans", sans-serif;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { overflow-x: hidden; scroll-behavior: smooth; }
 
-  body.large-type {
-    font-size: 1.08rem;
-  }
+body {
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  background:
+    radial-gradient(circle at 8%  8%,  rgba(255,168,64, 0.22), transparent 28%),
+    radial-gradient(circle at 92% 12%, rgba(118,212,234,0.24), transparent 26%),
+    radial-gradient(circle at 68% 92%, rgba(224,80,138, 0.14), transparent 26%),
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 48%, var(--sky-low) 100%);
+  color: var(--ink);
+  min-height: 100svh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
 
-  body.high-contrast {
-    --sky-top: #fff7d9;
-    --sky-bottom: #ffffff;
-    --grass: #f2ffd4;
-    --pond: #89e9ff;
-    --ink: #072027;
-    --muted: #20414a;
-    --card: rgba(255, 255, 255, 0.94);
-    --card-strong: rgba(255, 255, 255, 0.98);
-    --line: rgba(7, 32, 39, 0.18);
-    --shadow: 0 20px 50px rgba(7, 32, 39, 0.16);
-  }
+body.large-type     { font-size: 1.1rem; }
+body.high-contrast  {
+  --ink: #041820; --muted: #163040; --card: rgba(255,255,255,0.96);
+  --sky-top: #fff8e8; --sky-mid: #ffffff; --sky-low: #f8ffe0;
+}
+body.reduced-motion *, body.reduced-motion *::before, body.reduced-motion *::after {
+  animation-duration: 0.001ms !important;
+  transition-duration: 0.001ms !important;
+}
 
-  button,
-  input {
-    font: inherit;
-  }
+button, input { font: inherit; }
+button:focus-visible, input:focus-visible, canvas:focus-visible {
+  outline: 3px solid rgba(224,80,138,0.58);
+  outline-offset: 2px;
+}
 
-  button:focus-visible,
-  input:focus-visible,
-  canvas:focus-visible {
-    outline: 3px solid rgba(232, 95, 130, 0.55);
-    outline-offset: 2px;
-  }
+/* LAYOUT */
+.page-shell {
+  width: min(1360px, 100%);
+  margin: 0 auto;
+  padding:
+    max(18px, var(--safe-top))
+    clamp(14px, 3vw, 28px)
+    max(24px, calc(var(--safe-bottom) + 18px));
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: clamp(14px, 2.5vw, 22px);
+  align-items: start;
+}
 
-  .page-shell {
-    width: min(1320px, 100%);
-    margin: 0 auto;
-    padding: max(18px, env(safe-area-inset-top)) clamp(16px, 3vw, 32px) max(18px, env(safe-area-inset-bottom));
-    display: grid;
-    grid-template-columns: minmax(300px, 390px) minmax(0, 1fr);
-    gap: clamp(18px, 3vw, 26px);
-  }
+/* PANELS */
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
 
-  .intro-panel,
-  .stage-panel,
-  .footer-strip {
-    border: 1px solid var(--line);
-    border-radius: 28px;
-    background: var(--card);
-    backdrop-filter: blur(14px);
-    box-shadow: var(--shadow);
-  }
+/* INTRO PANEL */
+.intro-panel {
+  padding: 22px 22px 20px;
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  position: sticky;
+  top: max(14px, var(--safe-top));
+}
 
-  .intro-panel {
-    padding: 24px;
-    display: grid;
-    gap: 18px;
-    align-content: start;
-  }
+.eyebrow-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(14,44,53,0.10);
+  background: rgba(255,255,255,0.72);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--berry);
+  width: fit-content;
+}
 
-  .eyebrow {
-    display: inline-flex;
-    width: fit-content;
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(20, 53, 62, 0.12);
-    background: rgba(255, 255, 255, 0.68);
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--berry);
-  }
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
 
-  .top-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    gap: 16px;
-  }
+.main-title {
+  font-family: "Fraunces", serif;
+  font-size: clamp(1.9rem, 3.8vw, 3.4rem);
+  font-weight: 300;
+  line-height: 0.94;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
 
-  h1,
-  h2 {
-    margin: 0;
-    font-family: "Fraunces", serif;
-    line-height: 0.95;
-  }
+.sub-tagline {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.7;
+}
 
-  h1 {
-    font-size: clamp(2.3rem, 4.4vw, 4.3rem);
-  }
+.ctrl-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
 
-  h2 {
-    font-size: clamp(1.5rem, 2.5vw, 2.3rem);
-  }
+.pill-btn {
+  border: 1px solid rgba(14,44,53,0.13);
+  background: var(--card-s);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 9px 13px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+  min-height: 38px;
+}
+.pill-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(224,80,138,0.30);
+  box-shadow: 0 10px 22px rgba(224,80,138,0.13);
+}
 
-  .lang-toggle,
-  .reset-button {
-    border: 1px solid rgba(20, 53, 62, 0.14);
-    background: var(--card-strong);
-    color: var(--ink);
-    border-radius: 999px;
-    padding: 10px 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
-  }
+.lede {
+  font-size: clamp(0.84rem, 2.2vw, 0.94rem);
+  line-height: 1.62;
+  color: var(--muted);
+}
 
-  .lang-toggle:hover,
-  .reset-button:hover,
-  .touch-btn:hover {
-    transform: translateY(-1px);
-    border-color: rgba(232, 95, 130, 0.32);
-    box-shadow: 0 12px 26px rgba(232, 95, 130, 0.15);
-  }
+/* BADGE SHELF */
+.badge-shelf {
+  background: rgba(255,255,255,0.52);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 14px 16px;
+}
+.badge-shelf-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--berry);
+  margin-bottom: 10px;
+  display: block;
+}
+.badge-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.badge-item {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  width: calc(16.666% - 7px); min-width: 38px;
+}
+.badge-icon {
+  font-size: 1.5rem; line-height: 1;
+  opacity: 0.26;
+  transition: opacity 300ms ease, transform 300ms ease, filter 300ms ease;
+  filter: grayscale(1);
+}
+.badge-icon.unlocked { opacity: 1; filter: none; transform: scale(1.1); }
+.badge-label { font-size: 0.58rem; color: var(--muted); text-align: center; opacity: 0.6; line-height: 1.2; }
 
-  .lede,
-  .stage-copy p,
-  .parent-note,
-  .status-note {
-    margin: 0;
-    line-height: 1.6;
-    color: var(--muted);
-  }
+/* PROGRESS */
+.progress-card {
+  padding: 14px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.60);
+}
+.progress-kicker {
+  display: block; font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--berry); margin-bottom: 8px;
+}
+.progress-line { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; margin-bottom: 8px; }
+.progress-num { font-size: 1.9rem; font-family: "Baloo 2", cursive; line-height: 1; color: var(--ink); }
+.progress-note { font-size: 0.78rem; color: var(--muted); text-align: right; flex: 1; line-height: 1.4; }
+.progress-track { height: 10px; border-radius: 999px; overflow: hidden; background: rgba(14,44,53,0.07); }
+.progress-fill {
+  height: 100%; width: 0%; border-radius: inherit;
+  background: linear-gradient(90deg, var(--coral), var(--gold), #7ad9ff, var(--violet));
+  transition: width 280ms cubic-bezier(.4,0,.2,1);
+}
 
-  .meta-grid {
-    display: grid;
-    gap: 12px;
-  }
+/* NEXT STOP */
+.next-stop-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 13px; border-radius: 999px;
+  border: 1px solid var(--line); background: rgba(255,255,255,0.68);
+  font-size: 0.8rem; font-weight: 600; color: var(--ink);
+}
 
-  .meta-card {
-    padding: 16px 18px;
-    border-radius: 22px;
-    border: 1px solid rgba(20, 53, 62, 0.08);
-    background: rgba(255, 255, 255, 0.6);
-  }
+/* SETTINGS */
+.settings-section { display: grid; gap: 8px; }
+.settings-section-title {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); opacity: 0.7;
+}
+.setting-chip {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border-radius: 16px;
+  border: 1px solid var(--line); background: rgba(255,255,255,0.56);
+  cursor: pointer; font-size: 0.82rem; line-height: 1.4;
+  min-height: 44px; touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.setting-chip input { width: 17px; height: 17px; accent-color: var(--berry); flex-shrink: 0; }
 
-  .meta-card strong,
-  .stage-kicker,
-  .progress-kicker {
-    display: block;
-    margin-bottom: 8px;
-    font-size: 0.82rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--berry);
-  }
+/* STAGE PANEL */
+.stage-panel { padding: 18px; display: grid; gap: 14px; }
+.stage-top { display: flex; justify-content: space-between; gap: 14px; align-items: flex-start; }
+.stage-copy { display: grid; gap: 6px; }
+.stage-kicker { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--berry); }
+.stage-title { font-family: "Fraunces", serif; font-size: clamp(1.2rem, 2.8vw, 1.8rem); font-weight: 600; line-height: 1.05; color: var(--ink); }
+.stage-text { font-size: 0.88rem; line-height: 1.6; color: var(--muted); }
 
-  .progress-line {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    gap: 12px;
-  }
+/* CANVAS */
+.canvas-wrap {
+  position: relative; border-radius: 26px; overflow: hidden;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255,240,220,0.92) 0%, rgba(220,248,192,0.92) 100%);
+  box-shadow: 0 12px 40px rgba(14,44,53,0.12);
+}
+canvas#stage {
+  display: block; width: 100%; height: auto; aspect-ratio: 1200 / 760;
+  cursor: pointer; touch-action: none; -webkit-tap-highlight-color: transparent;
+}
 
-  .progress-line b {
-    font-size: 2rem;
-    font-family: "Baloo 2", cursive;
-    line-height: 1;
-  }
+/* MEMORY CARD */
+.memory-card {
+  position: absolute; inset: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(10,20,30,0.68);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  padding: 20px; animation: fadeIn 220ms ease;
+}
+.memory-card[hidden] { display: none; }
+.memory-card-inner {
+  width: min(400px, 100%); background: var(--card-s);
+  border-radius: 24px; padding: 24px 22px 20px;
+  box-shadow: 0 28px 80px rgba(0,0,0,0.28);
+  display: grid; gap: 12px; text-align: center;
+}
+.memory-badge { font-size: 3.2rem; line-height: 1; }
+.memory-title { font-family: "Fraunces", serif; font-size: 1.3rem; font-weight: 600; color: var(--ink); }
+.memory-text-child { font-size: 0.9rem; line-height: 1.58; color: var(--ink); }
+.memory-text-family {
+  font-size: 0.82rem; line-height: 1.6; color: var(--muted); font-style: italic;
+  border-top: 1px solid var(--line); padding-top: 10px;
+}
+.memory-actions { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+.memory-btn {
+  border-radius: 999px; padding: 11px 18px;
+  font-weight: 700; font-size: 0.84rem; cursor: pointer;
+  border: 1px solid var(--line); background: var(--card-s); color: var(--ink);
+  transition: background 150ms ease, border-color 140ms ease, transform 140ms ease;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent; min-height: 44px;
+}
+.memory-btn.primary { background: var(--berry); color: #fff; border-color: var(--berry); }
+.memory-btn.primary:hover { background: #c43a72; transform: translateY(-1px); }
+.memory-btn:hover { background: rgba(14,44,53,0.06); transform: translateY(-1px); }
 
-  .progress-track {
-    height: 12px;
-    margin-top: 12px;
-    border-radius: 999px;
-    overflow: hidden;
-    background: rgba(20, 53, 62, 0.08);
-  }
+/* TOUCH PAD */
+.touch-pad { display: none; gap: 8px; grid-template-columns: repeat(3, minmax(0, 64px)); justify-content: center; }
+.touch-btn {
+  min-height: 56px; border-radius: 20px; border: 1px solid var(--line);
+  background: var(--card-s); color: var(--ink); font-size: 1.3rem; font-weight: 700;
+  cursor: pointer; touch-action: none; -webkit-tap-highlight-color: transparent;
+  transition: background 100ms ease, transform 100ms ease; user-select: none;
+}
+.touch-btn:active { background: rgba(14,44,53,0.08); transform: scale(0.93); }
+.touch-btn.blank { visibility: hidden; }
 
-  .progress-fill {
-    height: 100%;
-    width: 0%;
-    border-radius: inherit;
-    background: linear-gradient(90deg, var(--coral), var(--sun), #7ad9ff);
-    transition: width 220ms ease;
-  }
+/* CELEBRATION */
+#celebration-layer { position: absolute; inset: 0; z-index: 15; pointer-events: none; overflow: hidden; border-radius: inherit; }
 
-  .settings-grid {
-    display: grid;
-    gap: 10px;
-  }
+/* FOOTER */
+.footer-strip {
+  grid-column: 1 / -1; padding: 16px 20px;
+  display: flex; justify-content: space-between; gap: 14px;
+  align-items: flex-start; flex-wrap: wrap;
+}
+.footer-note { font-size: 0.8rem; line-height: 1.6; color: var(--muted); flex: 1 1 280px; }
+.access-note { font-size: 0.76rem; color: var(--muted); opacity: 0.72; line-height: 1.55; flex: 1 1 200px; }
 
-  .setting-chip {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    border-radius: 18px;
-    border: 1px solid rgba(20, 53, 62, 0.08);
-    background: rgba(255, 255, 255, 0.58);
-  }
+/* HAPTIC FALLBACK */
+.haptic-pulse-overlay {
+  position: fixed; inset: 0; pointer-events: none; z-index: 99999;
+  background: radial-gradient(circle at center, rgba(200,255,220,0.18) 0%, rgba(118,212,234,0.10) 36%, rgba(0,0,0,0) 72%);
+  opacity: 0;
+}
+.haptic-pulse-overlay.active { animation: hapticPulse 200ms ease-out forwards; }
+@keyframes hapticPulse { 0% { opacity: 0; } 30% { opacity: 1; } 100% { opacity: 0; } }
 
-  .setting-chip input {
-    inline-size: 18px;
-    block-size: 18px;
-    accent-color: var(--berry);
-  }
+/* BADGE POP */
+.badge-pop {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.4);
+  background: var(--card-s); border-radius: 28px; padding: 28px 32px;
+  text-align: center; box-shadow: 0 32px 100px rgba(0,0,0,0.28);
+  z-index: 9999; opacity: 0; pointer-events: none;
+  transition: transform 380ms cubic-bezier(.175,.885,.32,1.5), opacity 240ms ease;
+}
+.badge-pop.show { opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto; }
+.badge-pop-icon  { font-size: 4rem; line-height: 1; margin-bottom: 10px; }
+.badge-pop-title { font-family: "Fraunces", serif; font-size: 1.4rem; font-weight: 600; margin-bottom: 6px; color: var(--ink); }
+.badge-pop-text  { font-size: 0.86rem; color: var(--muted); line-height: 1.55; max-width: 22ch; margin: 0 auto 16px; }
+.badge-pop-close {
+  border: 1px solid var(--line); background: var(--card-s); color: var(--berry);
+  border-radius: 999px; padding: 10px 22px; font-weight: 700; font-size: 0.84rem;
+  cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; min-height: 44px;
+}
 
-  .next-stop-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    width: fit-content;
-    padding: 10px 14px;
-    border-radius: 999px;
-    border: 1px solid rgba(20, 53, 62, 0.08);
-    background: rgba(255, 255, 255, 0.68);
-    font-weight: 600;
-  }
+/* FINALE */
+#finale-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: radial-gradient(circle at 50% 30%, rgba(255,200,100,0.22) 0%, rgba(155,104,204,0.18) 38%, rgba(14,44,53,0.80) 100%);
+  backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  padding: max(20px, var(--safe-top)) 20px max(20px, var(--safe-bottom));
+  opacity: 0; pointer-events: none; transition: opacity 600ms ease;
+}
+#finale-overlay.show { opacity: 1; pointer-events: auto; }
+.finale-card {
+  width: min(560px, 100%); background: var(--card-s); border-radius: 32px;
+  padding: 36px 32px 28px; text-align: center; display: grid; gap: 18px;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.36); max-height: calc(100dvh - 40px); overflow-y: auto;
+}
+.finale-rainbow { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: 0.03em; line-height: 1.2; }
+.finale-title { font-family: "Fraunces", serif; font-size: clamp(1.4rem, 3.5vw, 2.2rem); font-weight: 600; color: var(--ink); line-height: 1.1; }
+.finale-poem { font-family: "Fraunces", serif; font-style: italic; font-size: clamp(0.9rem, 2.2vw, 1.05rem); line-height: 1.7; color: var(--muted); max-width: 34ch; margin: 0 auto; white-space: pre-line; }
+.finale-badges { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; font-size: 2.4rem; }
+.finale-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.finale-btn {
+  border-radius: 999px; padding: 13px 24px; font-weight: 700; font-size: 0.9rem;
+  cursor: pointer; border: 1px solid var(--line); background: var(--card-s); color: var(--ink);
+  transition: background 140ms ease, transform 140ms ease; min-height: 48px;
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+.finale-btn.primary { background: linear-gradient(135deg, var(--berry), var(--violet)); color: #fff; border-color: transparent; }
+.finale-btn.primary:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.finale-btn:hover { background: rgba(14,44,53,0.06); transform: translateY(-1px); }
 
-  .stage-panel {
-    padding: 18px;
-    display: grid;
-    gap: 16px;
-  }
+/* ANIMATIONS */
+@keyframes fadeIn    { from { opacity: 0; } to { opacity: 1; } }
+@keyframes confettiFall { 0% { transform: translateY(-10px) rotate(0deg); opacity: 1; } 100% { transform: translateY(120px) rotate(360deg); opacity: 0; } }
 
-  .stage-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    align-items: start;
-  }
-
-  .stage-copy {
-    display: grid;
-    gap: 8px;
-  }
-
-  .stage-kicker {
-    margin-bottom: 0;
-  }
-
-  .canvas-wrap {
-    position: relative;
-    border-radius: 28px;
-    overflow: hidden;
-    border: 1px solid rgba(20, 53, 62, 0.08);
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.35)),
-      linear-gradient(180deg, rgba(255, 228, 216, 0.92), rgba(223, 246, 198, 0.92));
-  }
-
-  canvas {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1200 / 760;
-    cursor: pointer;
-    touch-action: none;
-  }
-
-  .overlay-card {
-    position: absolute;
-    left: 18px;
-    bottom: 18px;
-    width: min(340px, calc(100% - 36px));
-    padding: 16px 18px;
-    border-radius: 22px;
-    background: var(--card-strong);
-    border: 1px solid rgba(20, 53, 62, 0.1);
-    box-shadow: 0 18px 40px rgba(33, 72, 81, 0.16);
-  }
-
-  .overlay-card[hidden] {
-    display: none;
-  }
-
-  .overlay-card strong {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 1.15rem;
-  }
-
-  .overlay-card p {
-    margin: 0;
-    line-height: 1.55;
-    color: var(--muted);
-  }
-
-  .touch-pad {
-    display: none;
-    gap: 10px;
-    grid-template-columns: repeat(3, minmax(0, 72px));
-    justify-content: center;
-    margin: 2px auto 0;
-  }
-
-  .touch-btn {
-    min-height: 62px;
-    border-radius: 22px;
-    border: 1px solid rgba(20, 53, 62, 0.12);
-    background: var(--card-strong);
-    color: var(--ink);
-    font-size: 1.4rem;
-    font-weight: 700;
-    cursor: pointer;
-  }
-
-  .touch-btn.blank {
-    visibility: hidden;
-  }
-
-  .footer-strip {
-    grid-column: 1 / -1;
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    align-items: start;
-  }
-
-  .parent-note,
-  .status-note {
-    flex: 1 1 0;
-  }
-
-  @media (max-width: 980px) {
-    .page-shell {
-      grid-template-columns: 1fr;
-    }
-
-    .footer-strip {
-      flex-direction: column;
-    }
-  }
-
-  @media (pointer: coarse), (max-width: 760px) {
-    .touch-pad {
-      display: grid;
-    }
-
-    .stage-top {
-      flex-direction: column;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    * {
-      animation: none !important;
-      transition: none !important;
-    }
-  }
+/* RESPONSIVE */
+@media (max-width: 980px) {
+  .page-shell { grid-template-columns: 1fr; }
+  .intro-panel { position: static; }
+  .footer-strip { flex-direction: column; }
+}
+@media (pointer: coarse), (max-width: 760px) {
+  .touch-pad { display: grid; }
+  .stage-top { flex-direction: column; }
+}
+@media (max-width: 480px) {
+  .badge-shelf { padding: 12px 12px; }
+  .badge-icon  { font-size: 1.3rem; }
+  .badge-label { font-size: 0.55rem; }
+  .memory-card-inner { padding: 20px 16px 16px; }
+  .finale-card { padding: 26px 18px 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .badge-icon.unlocked { transform: none; }
+}
 </style>
 </head>
 <body>
-  <div class="page-shell">
-    <aside class="intro-panel">
-      <div class="eyebrow" id="eyebrow"></div>
-      <div class="top-row">
-        <div>
-          <h1 id="title"></h1>
-        </div>
-        <button class="lang-toggle" id="lang-toggle" type="button"></button>
-      </div>
-      <p class="lede" id="lede"></p>
 
-      <div class="meta-grid">
-        <section class="meta-card">
-          <span class="progress-kicker" id="progress-kicker"></span>
-          <div class="progress-line">
-            <div>
-              <b id="progress-count">0/6</b>
-            </div>
-            <span id="progress-copy"></span>
-          </div>
-          <div class="progress-track" aria-hidden="true">
-            <div class="progress-fill" id="progress-fill"></div>
-          </div>
-        </section>
+<div id="haptic-pulse" class="haptic-pulse-overlay" aria-hidden="true"></div>
 
-        <section class="meta-card">
-          <strong id="controls-title"></strong>
-          <p id="controls-copy"></p>
-        </section>
-      </div>
+<div id="badge-pop" class="badge-pop" role="dialog" aria-modal="true" aria-labelledby="bp-title">
+  <div class="badge-pop-icon" id="bp-icon"></div>
+  <div class="badge-pop-title" id="bp-title"></div>
+  <div class="badge-pop-text" id="bp-text"></div>
+  <button class="badge-pop-close" id="bp-close" type="button">Videre</button>
+</div>
 
-      <section class="settings-grid" aria-label="Accessibility settings">
-        <label class="setting-chip"><input type="checkbox" id="setting-guide" /> <span id="setting-guide-label"></span></label>
-        <label class="setting-chip"><input type="checkbox" id="setting-calm" /> <span id="setting-calm-label"></span></label>
-        <label class="setting-chip"><input type="checkbox" id="setting-large" /> <span id="setting-large-label"></span></label>
-        <label class="setting-chip"><input type="checkbox" id="setting-contrast" /> <span id="setting-contrast-label"></span></label>
-      </section>
-
-      <div class="next-stop-pill" id="next-stop"></div>
-    </aside>
-
-    <main class="stage-panel">
-      <div class="stage-top">
-        <div class="stage-copy">
-          <span class="stage-kicker" id="stage-kicker"></span>
-          <h2 id="stage-title"></h2>
-          <p id="stage-text"></p>
-        </div>
-        <button class="reset-button" id="reset-button" type="button"></button>
-      </div>
-
-      <div class="canvas-wrap">
-        <canvas id="stage" width="1200" height="760" tabindex="0"></canvas>
-        <div class="overlay-card" id="overlay-card" hidden>
-          <strong id="overlay-title"></strong>
-          <p id="overlay-text"></p>
-        </div>
-      </div>
-
-      <div class="touch-pad" id="touch-pad" aria-label="Touch controls">
-        <button class="touch-btn blank" type="button" tabindex="-1">•</button>
-        <button class="touch-btn" type="button" data-dir="up" aria-label="Up">↑</button>
-        <button class="touch-btn blank" type="button" tabindex="-1">•</button>
-        <button class="touch-btn" type="button" data-dir="left" aria-label="Left">←</button>
-        <button class="touch-btn" type="button" data-dir="down" aria-label="Down">↓</button>
-        <button class="touch-btn" type="button" data-dir="right" aria-label="Right">→</button>
-      </div>
-    </main>
-
-    <footer class="footer-strip">
-      <p class="parent-note" id="parent-note"></p>
-      <p class="status-note" id="status-note"></p>
-    </footer>
+<div id="finale-overlay" aria-hidden="true">
+  <div class="finale-card" role="dialog" aria-labelledby="finale-title">
+    <div class="finale-rainbow">&#127752;&#10024;&#129412;&#10024;&#127752;</div>
+    <h2 class="finale-title" id="finale-title"></h2>
+    <p class="finale-poem" id="finale-poem"></p>
+    <div class="finale-badges" id="finale-badges"></div>
+    <div class="finale-actions">
+      <button class="finale-btn primary" id="finale-restart" type="button"></button>
+      <button class="finale-btn" id="finale-stay" type="button"></button>
+    </div>
   </div>
+</div>
+
+<div class="page-shell">
+  <aside class="intro-panel panel">
+    <div class="eyebrow-badge" id="eyebrow"></div>
+
+    <div class="top-row">
+      <div class="top-row-titles">
+        <h1 class="main-title" id="main-title"></h1>
+        <p class="sub-tagline" id="sub-tagline"></p>
+      </div>
+      <div class="ctrl-buttons">
+        <button class="pill-btn" id="lang-toggle" type="button"></button>
+        <button class="pill-btn" id="reset-btn" type="button" style="font-size:0.72rem;opacity:0.6;"></button>
+      </div>
+    </div>
+
+    <p class="lede" id="lede"></p>
+
+    <div class="badge-shelf">
+      <span class="badge-shelf-title" id="badge-shelf-title"></span>
+      <div class="badge-row" id="badge-row"></div>
+    </div>
+
+    <div class="progress-card">
+      <span class="progress-kicker" id="progress-kicker"></span>
+      <div class="progress-line">
+        <span class="progress-num" id="progress-count">0/6</span>
+        <span class="progress-note" id="progress-note"></span>
+      </div>
+      <div class="progress-track" aria-hidden="true">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="next-stop-chip" id="next-stop"></div>
+
+    <section class="settings-section" aria-label="Tilpasningsinnstillinger">
+      <span class="settings-section-title" id="settings-title"></span>
+      <label class="setting-chip"><input type="checkbox" id="s-guide" /><span id="s-guide-lbl"></span></label>
+      <label class="setting-chip"><input type="checkbox" id="s-calm" /><span id="s-calm-lbl"></span></label>
+      <label class="setting-chip"><input type="checkbox" id="s-large" /><span id="s-large-lbl"></span></label>
+      <label class="setting-chip"><input type="checkbox" id="s-contrast" /><span id="s-contrast-lbl"></span></label>
+      <label class="setting-chip"><input type="checkbox" id="s-motion" /><span id="s-motion-lbl"></span></label>
+    </section>
+  </aside>
+
+  <main class="stage-panel panel">
+    <div class="stage-top">
+      <div class="stage-copy">
+        <span class="stage-kicker" id="stage-kicker"></span>
+        <h2 class="stage-title" id="stage-title"></h2>
+        <p class="stage-text" id="stage-text"></p>
+      </div>
+    </div>
+
+    <div class="canvas-wrap">
+      <canvas id="stage" width="1200" height="760" tabindex="0"></canvas>
+      <div id="celebration-layer"></div>
+      <div class="memory-card" id="memory-card" hidden>
+        <div class="memory-card-inner">
+          <div class="memory-badge"   id="mc-badge"></div>
+          <div class="memory-title"   id="mc-title"></div>
+          <p class="memory-text-child"  id="mc-child"></p>
+          <p class="memory-text-family" id="mc-family"></p>
+          <div class="memory-actions">
+            <button class="memory-btn primary" id="mc-next" type="button"></button>
+            <button class="memory-btn"         id="mc-stay" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="touch-pad" id="touch-pad" aria-label="Bevegelseskontroller">
+      <button class="touch-btn blank" type="button" tabindex="-1" aria-hidden="true"></button>
+      <button class="touch-btn" type="button" data-dir="up"    aria-label="Opp">&#8593;</button>
+      <button class="touch-btn blank" type="button" tabindex="-1" aria-hidden="true"></button>
+      <button class="touch-btn" type="button" data-dir="left"  aria-label="Venstre">&#8592;</button>
+      <button class="touch-btn" type="button" data-dir="down"  aria-label="Ned">&#8595;</button>
+      <button class="touch-btn" type="button" data-dir="right" aria-label="H&#248;yre">&#8594;</button>
+    </div>
+  </main>
+
+  <footer class="footer-strip panel">
+    <p class="footer-note" id="footer-note"></p>
+    <p class="access-note" id="access-note"></p>
+  </footer>
+</div>
 
 <script>
-const LANG_KEY = 'miniPrideUnicornLang';
-const SETTINGS_KEY = 'miniPrideUnicornSettings';
-const PROGRESS_KEY = 'miniPrideUnicornProgress';
+// ================================================================
+//  GLIMMERSTIEN -- Magic Robot Unicorn Goes Pride Park
+//  Mini Pride 2026 / Bergen Regnbuedagene
+// ================================================================
+
+const LANG_KEY     = 'glimmerstienLang';
+const SETTINGS_KEY = 'glimmerstienSettings';
+const PROGRESS_KEY = 'glimmerstienProgress';
 
 const DEFAULT_SETTINGS = {
-  guide: true,
-  calm: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-  large: false,
+  guide:    true,
+  calm:     window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  large:    false,
   contrast: false,
+  motion:   window.matchMedia('(prefers-reduced-motion: reduce)').matches,
 };
 
-const COPY = {
-  no: {
-    eyebrow: 'Mini Pride / egen spillsti',
-    title: 'Magic Robot Unicorn Goes Pride Park',
-    lede: 'En separat Mini Pride-rute med null fiender, null tidspress og seks vennlige stopp i Nygårdsparken. Trykk på stien eller bruk piler for å gli mellom glimmervennene.',
-    progressKicker: 'Vennestopp funnet',
-    progressDone: 'Hele ruten lyser',
-    progressGo: 'Rolig utforsking i eget tempo',
-    controlsTitle: 'Slik spiller du',
-    controlsCopy: 'Trykk på et glødende stopp for å gli dit, eller bruk piler/WASD. Når enhjørningen kommer nær en venn, åpnes historien automatisk. Det finnes ingen tapsmodus her.',
-    stageKicker: 'Mini Pride-høydepunkt',
-    defaultStageTitle: 'Følg regnbuestien gjennom parken',
-    defaultStageText: 'Hvert stopp låser opp en liten scene med omsorg, farger og fellesskap. De neste stoppene vises tydelig hvis du vil ha guide.',
-    reset: 'Start glideturen på nytt',
-    nextPrefix: 'Neste glød',
-    allFound: 'Alle seks venner er møtt. Nå er parken helt tent.',
-    parentNote: 'Foreldrenotat: Denne versjonen er laget for Mini Pride. Ingen fiender, ingen skremmeeffekter og ingen nedtelling. Den fungerer best som en rolig, delt oppdagelsesreise på mobil eller nettbrett.',
-    statusBase: 'Tips: Du kan stoppe når som helst. Fremdriften lagres i nettleseren til du nullstiller.',
-    completeTitle: 'Hele Mini Pride-ruten er tent',
-    completeText: 'Regnbueporten, historieteltet og alle glimmervennene er klare. Nå kan du spille om igjen eller bare gli rundt og nyte parken.',
-    settingGuide: 'Vis glødeguide til neste stopp',
-    settingCalm: 'Roligere bevegelse og færre blink',
-    settingLarge: 'Større tekst',
-    settingContrast: 'Høyere kontrast',
-    canvasLabel: 'Mini Pride-spillflate med enhjørning og seks vennlige stopp',
-    langToggle: 'EN',
-    foundWord: 'funnet',
-    stops: {
-      gate: {
-        title: 'Regnbueporten',
-        text: 'Porten åpner seg med et varmt fargeskift. Her starter Mini Pride med ro, nysgjerrighet og plass til å være liten eller stor akkurat som du er.'
-      },
-      bubbles: {
-        title: 'Bobleengen',
-        text: 'Bobleselen hopper gjennom små dammer og minner deg på at lek ikke trenger hastverk. En pause kan også være en del av eventyret.'
-      },
-      stories: {
-        title: 'Historieteltet',
-        text: 'Historiefuglen samler korte fortellinger fra Pride Park. Her blir ord til glitrende bannere som sier at alle familier kan høre til.'
-      },
-      drums: {
-        title: 'Trommehjorten',
-        text: 'Trommehjorten holder rytmen myk og stødig. Når du følger takten, blir hele stien lettere å lese på både mobil og nettbrett.'
-      },
-      hugs: {
-        title: 'Klemmetrappa',
-        text: 'Skykatten sitter på trappa og deler ut mot. Dette stoppet handler om å finne et sted der kroppen kan slappe av og smilet får lande først.'
-      },
-      stars: {
-        title: 'Stjernescenen',
-        text: 'På den siste scenen samler enhjørningen alle vennene til et mykt finale-lys. Ingen vinner over noen andre her. Hele poenget er å lyse sammen.'
-      }
-    }
-  },
-  en: {
-    eyebrow: 'Mini Pride / standalone route',
-    title: 'Magic Robot Unicorn Goes Pride Park',
-    lede: 'A separate Mini Pride route with zero enemies, zero countdowns and six friendly stops in Nygårdsparken. Tap the path or use the arrow keys to glide between the glitter friends.',
-    progressKicker: 'Friend stops found',
-    progressDone: 'The whole route is glowing',
-    progressGo: 'Gentle exploring at your own pace',
-    controlsTitle: 'How to play',
-    controlsCopy: 'Tap a glowing stop to glide there, or use arrow keys/WASD. When the unicorn comes near a friend, the scene opens automatically. There is no lose state here.',
-    stageKicker: 'Mini Pride highlight',
-    defaultStageTitle: 'Follow the rainbow trail through the park',
-    defaultStageText: 'Each stop unlocks a small scene about care, colour and community. The next stop is always easy to spot when guide mode is on.',
-    reset: 'Restart the glide',
-    nextPrefix: 'Next glow',
-    allFound: 'All six friends have been met. The whole park is lit.',
-    parentNote: 'Parent note: this version is made for Mini Pride. No enemies, no scare effects and no countdown. It works best as a calm shared exploration on phone or tablet.',
-    statusBase: 'Tip: you can stop at any time. Progress stays in the browser until you reset it.',
-    completeTitle: 'The whole Mini Pride route is glowing',
-    completeText: 'The Rainbow Gate, Story Tent and every glitter friend are ready. You can restart or simply keep gliding around the park.',
-    settingGuide: 'Show glow guide to the next stop',
-    settingCalm: 'Calmer motion and fewer sparkles',
-    settingLarge: 'Larger text',
-    settingContrast: 'Higher contrast',
-    canvasLabel: 'Mini Pride game area with a unicorn and six friendly stops',
-    langToggle: 'NO',
-    foundWord: 'found',
-    stops: {
-      gate: {
-        title: 'Rainbow Gate',
-        text: 'The gate opens with a warm colour shift. Mini Pride starts here with calm, curiosity and room to be exactly as small or big as you feel.'
-      },
-      bubbles: {
-        title: 'Bubble Meadow',
-        text: 'The bubble seal hops through tiny ponds and reminds you that play does not need hurry. A pause can also be part of the adventure.'
-      },
-      stories: {
-        title: 'Story Tent',
-        text: 'The story bird gathers short tales from Pride Park. Here, words become glitter banners saying that every family can belong.'
-      },
-      drums: {
-        title: 'Drum Deer',
-        text: 'The drum deer keeps the rhythm soft and steady. When you follow the beat, the route becomes easier to read on both phone and tablet.'
-      },
-      hugs: {
-        title: 'Hug Steps',
-        text: 'The cloud cat sits on the steps and shares courage. This stop is about finding a place where your body can soften before the smile lands.'
-      },
-      stars: {
-        title: 'Star Stage',
-        text: 'At the final stage the unicorn gathers every friend into one soft finale glow. Nobody wins over anybody else here. The whole point is shining together.'
-      }
-    }
-  }
-};
-
+// --- STOP DEFINITIONS ---
 const STOPS = [
-  { id: 'gate', x: 188, y: 532, radius: 58, color: '#ff9278' },
-  { id: 'bubbles', x: 360, y: 610, radius: 56, color: '#7ed8ed' },
-  { id: 'stories', x: 560, y: 486, radius: 58, color: '#ffbd57' },
-  { id: 'drums', x: 742, y: 610, radius: 58, color: '#f56b88' },
-  { id: 'hugs', x: 920, y: 420, radius: 58, color: '#8ed976' },
-  { id: 'stars', x: 1050, y: 276, radius: 62, color: '#7dcbff' },
+  { id: 'gate',    x: 188,  y: 532, radius: 58, color: '#ff786e', glowColor: 'rgba(255,120,110,0.32)', badge: '\u{1F308}', theme: 'rainbow', effect: 'rainbow' },
+  { id: 'bubbles', x: 360,  y: 610, radius: 56, color: '#62c8de', glowColor: 'rgba(98,200,222,0.32)',  badge: '\u{1FAB7}', theme: 'bubbles', effect: 'bubbles' },
+  { id: 'stories', x: 560,  y: 486, radius: 58, color: '#f0aa42', glowColor: 'rgba(240,170,66,0.32)',  badge: '\u{1F4D6}', theme: 'stories', effect: 'sparkles' },
+  { id: 'drums',   x: 742,  y: 610, radius: 58, color: '#d8567e', glowColor: 'rgba(216,86,126,0.32)',  badge: '\u{1F941}', theme: 'drums',   effect: 'ripples' },
+  { id: 'hugs',    x: 920,  y: 420, radius: 58, color: '#78cc64', glowColor: 'rgba(120,204,100,0.32)', badge: '\u{1F496}', theme: 'hugs',    effect: 'hearts' },
+  { id: 'stars',   x: 1050, y: 276, radius: 62, color: '#6eb8f2', glowColor: 'rgba(110,184,242,0.34)', badge: '\u2B50',    theme: 'stars',   effect: 'stars' },
 ];
 
 const TRAIL = [
-  { x: 108, y: 604 },
-  { x: 188, y: 532 },
-  { x: 278, y: 578 },
-  { x: 360, y: 610 },
-  { x: 470, y: 560 },
-  { x: 560, y: 486 },
-  { x: 652, y: 544 },
-  { x: 742, y: 610 },
-  { x: 826, y: 536 },
-  { x: 920, y: 420 },
-  { x: 990, y: 332 },
-  { x: 1050, y: 276 },
+  { x:108,  y:604 }, { x:188,  y:532 }, { x:278,  y:578 },
+  { x:360,  y:610 }, { x:470,  y:560 }, { x:560,  y:486 },
+  { x:652,  y:544 }, { x:742,  y:610 }, { x:826,  y:536 },
+  { x:920,  y:420 }, { x:990,  y:332 }, { x:1050, y:276 },
 ];
 
-const state = {
-  lang: localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'no',
-  settings: loadSettings(),
-  found: new Set(loadProgress()),
-  activeStopId: null,
-  hoveredStopId: null,
-  overlayExpiresAt: 0,
-  player: { x: 108, y: 604, targetX: null, targetY: null },
-  keys: new Set(),
-  sparkleSeed: 0,
+// --- COPY ---
+const COPY = {
+  no: {
+    eyebrow:    'Mini Pride \u00b7 Glimmerstien',
+    mainTitle:  'Glimmerstien',
+    subTagline: 'Magic Robot Unicorn Goes Pride Park',
+    lede: 'En rolig vandring for skeive familier gjennom Nyg\u00e5rdsparken. Seks stopp, seks glimmermerker, \u00e9n varm finale. Ingen tap, ingen hastverk \u2014 bare lys og litt magi.',
+    badgeShelfTitle: 'Glimmermerker',
+    progressKicker: 'Stopp bes\u00f8kt',
+    progressDone: 'Hele stien lyser!',
+    progressGo: 'Rolig i eget tempo',
+    nextPrefix: 'Neste stopp',
+    allFound: 'Alle merker er samlet \u2728',
+    stageKicker: 'Glimmerstien \u00b7 Mini Pride',
+    defaultTitle: 'F\u00f8lg stien gjennom parken',
+    defaultText: 'Hvert stopp gir et glimmermerke og en liten scene. Trykk p\u00e5 et stopp eller beveg deg mot det med piltastene.',
+    settingsTitle: 'Tilpass opplevelsen',
+    guideLabel:   'Vis glideguide til neste stopp',
+    calmLabel:    'Roligere bevegelse, f\u00e6rre blink',
+    largeLabel:   'St\u00f8rre tekst',
+    contrastLabel:'H\u00f8yere kontrast',
+    motionLabel:  'Sl\u00e5 av animasjoner',
+    resetBtn: 'Start p\u00e5 ny',
+    langBtn:  'EN',
+    footerNote: 'Mini Pride-ruten er laget for skeive familier og de som trenger en rolig, trygg inngang til Pride Park. Ingen fiender. Ingen tid. Bare fellesskap og glimmer.',
+    accessNote: 'Du kan spille i ditt eget tempo. Alt du finner blir v\u00e6rende i nettleseren til du nullstiller.',
+    mcNextBtn: 'Neste venn \u2192',
+    mcStayBtn: 'Bli her litt',
+    finalePoemLine: 'Noen familier er f\u00f8dt.\nNoen familier er funnet.\nNoen familier er bygget med mot.\n\nAlle h\u00f8rer til her.',
+    finaleTitle: 'Glimmerstien lyser!',
+    finaleRestart: 'Spill igjen',
+    finaleStay:    'Bli i parken',
+    hapticNote: 'P\u00e5 iPhone er fysisk vibrasjon ofte ikke st\u00f8ttet. Du ser i stedet et lysglimmer p\u00e5 skjermen.',
+    stops: {
+      gate:    { title: 'Regnbueporten',  badge: '\u{1F308}', badgeTitle: 'Regnbuemerket',    theme: '\u00c5 komme inn uten \u00e5 m\u00e5tte forklare seg.', childText: 'Porten \u00e5pner seg med varme farger. Her starter Glimmerstien \u2014 med ro, nysgjerrighet og plass til \u00e5 v\u00e6re akkurat deg.', familyText: '\u00c5 krysse en terskel kan av og til kjennes som en hel reise. Her trenger ingen forklare hvem de er. Parken tar imot alle.', badgeUnlockText: 'Du \u00e5pnet porten. Stien lyser foran deg.' },
+      bubbles: { title: 'Bobleengen',     badge: '\u{1FAB7}', badgeTitle: 'Boblemerket',       theme: 'Ro, sansing og trygg lek.', childText: 'Bobleselen hopper gjennom sm\u00e5 dammer og minner deg p\u00e5 at lek ikke trenger hastverk. En pause er ogs\u00e5 en del av eventyret.', familyText: 'Noen familier trenger et sted der kroppen kan puste ut. Bobleengen er det stedet \u2014 stille og trygt, uten krav om noe som helst.', badgeUnlockText: 'Boblene danser rundt deg. Du er velkommen her.' },
+      stories: { title: 'Historieteltet', badge: '\u{1F4D6}', badgeTitle: 'Fortellermerket',   theme: 'Familier, spr\u00e5k og fortellinger.', childText: 'Historiefuglen samler korte fortellinger fra Pride Park. Her blir ord til glitrende bannere.', familyText: 'Alle familier har en fortelling. Noen sier de er ekte fordi de alltid har v\u00e6rt slik. Men det finnes ogs\u00e5 familier av valg, av kj\u00e6rlighet og av mot. Alle fortellinger h\u00f8rer til her.', badgeUnlockText: 'Historieteltet husker deg. Fortellingen din er viktig.' },
+      drums:   { title: 'Trommehjorten', badge: '\u{1F941}',  badgeTitle: 'Rytmemerket',       theme: 'Kropp, rytme og tilgjengelighet.', childText: 'Trommehjorten holder rytmen myk og st\u00f8dig. N\u00e5r du f\u00f8lger takten, blir hele stien lettere.', familyText: 'Rytme handler ikke alltid om \u00e5 holde samme slag. Det handler om \u00e5 finne det som passer kroppen din, akkurat n\u00e5, akkurat som du er.', badgeUnlockText: 'Rytmen b\u00e6rer deg. Du beh\u00f8ver ikke holde samme takt som alle andre.' },
+      hugs:    { title: 'Klemmetrappa',   badge: '\u{1F496}', badgeTitle: 'Omsorgsmerket',     theme: 'Valgt familie, omsorg og grenser.', childText: 'Skykatten sitter p\u00e5 trappa og deler ut mot. Her kan kroppen slappe av og smilet f\u00e5r lande.', familyText: 'Valgte familier er ikke mindre ekte enn biologiske. Omsorg som velges er like sterk, like dyp. Her er det rom for alle de relasjonene som ikke alltid har et enkelt navn.', badgeUnlockText: 'Klemmetrappa holder deg. Alle former for kj\u00e6rlighet er gyldige.' },
+      stars:   { title: 'Stjernescenen',  badge: '\u2B50',    badgeTitle: 'Stjernemerket',     theme: 'Fellesskap uten konkurranse.', childText: 'Her samler enhj\u00f8rningen alle vennene til et mykt finalelys. Ingen vinner over noen her. Hele poenget er \u00e5 lyse sammen.', familyText: 'Et trygt sted kan ogs\u00e5 v\u00e6re et minne. Noe du b\u00e6rer med deg lenge etter at parken er m\u00f8rklagt og feststemningen er borte for i \u00e5r.', badgeUnlockText: 'Du fant stjernen. N\u00e5 lyser hele Glimmerstien.' },
+    },
+  },
+  en: {
+    eyebrow:    'Mini Pride \u00b7 Glimmer Trail',
+    mainTitle:  'Glimmer Trail',
+    subTagline: 'Magic Robot Unicorn Goes Pride Park',
+    lede: 'A gentle walk for queer families through Nyg\u00e5rdsparken. Six stops, six glimmer badges, one warm finale. No losing, no hurrying \u2014 just light and a little magic.',
+    badgeShelfTitle: 'Glimmer Badges',
+    progressKicker: 'Stops visited',
+    progressDone: 'The whole trail is glowing!',
+    progressGo: 'Gentle exploring at your pace',
+    nextPrefix: 'Next stop',
+    allFound: 'All badges collected \u2728',
+    stageKicker: 'Glimmer Trail \u00b7 Mini Pride',
+    defaultTitle: 'Follow the trail through the park',
+    defaultText: 'Each stop gives a glimmer badge and a little scene. Tap a stop or use the arrow keys to move toward it.',
+    settingsTitle: 'Customise your experience',
+    guideLabel:   'Show guide to next stop',
+    calmLabel:    'Calmer movement, fewer sparkles',
+    largeLabel:   'Larger text',
+    contrastLabel:'Higher contrast',
+    motionLabel:  'Disable animations',
+    resetBtn: 'Start over',
+    langBtn:  'NO',
+    footerNote: 'The Mini Pride route is made for queer families and those who need a calm, safe entry to Pride Park. No enemies. No timer. Just community and glimmer.',
+    accessNote: 'You can play at your own pace. Everything you find stays in the browser until you reset.',
+    mcNextBtn: 'Next friend \u2192',
+    mcStayBtn: 'Stay a moment',
+    finalePoemLine: 'Some families are born.\nSome families are found.\nSome families are built with courage.\n\nAll of them belong here.',
+    finaleTitle: 'The Glimmer Trail is glowing!',
+    finaleRestart: 'Play again',
+    finaleStay:    'Stay in the park',
+    hapticNote: 'On iPhone, physical vibration is often not supported. You will see a light shimmer on the screen instead.',
+    stops: {
+      gate:    { title: 'Rainbow Gate',   badge: '\u{1F308}', badgeTitle: 'Rainbow Badge', theme: 'Walking in without having to explain yourself.', childText: 'The gate opens with warm colours. The Glimmer Trail starts here \u2014 with calm, curiosity and room to be exactly you.', familyText: 'Crossing a threshold can sometimes feel like a whole journey. Here, nobody needs to explain who they are. The park welcomes everyone.', badgeUnlockText: 'You opened the gate. The trail lights up ahead of you.' },
+      bubbles: { title: 'Bubble Meadow',  badge: '\u{1FAB7}', badgeTitle: 'Bubble Badge',  theme: 'Rest, sensation and safe play.', childText: 'The bubble seal hops through tiny ponds and reminds you that play does not need hurry. A pause is part of the adventure too.', familyText: 'Some families need a place where they can breathe out. The Bubble Meadow is that place \u2014 quiet and safe, without demands.', badgeUnlockText: 'The bubbles dance around you. You are welcome here.' },
+      stories: { title: 'Story Tent',     badge: '\u{1F4D6}', badgeTitle: 'Story Badge',   theme: 'Families, language and stories.', childText: 'The story bird gathers short tales from Pride Park. Here, words become glitter banners.', familyText: 'Every family has a story. Some say they are real because they have always been. But there are also families of choice, of love and of courage. Every story belongs here.', badgeUnlockText: 'The Story Tent remembers you. Your story matters.' },
+      drums:   { title: 'Drum Deer',      badge: '\u{1F941}', badgeTitle: 'Rhythm Badge',  theme: 'Body, rhythm and accessibility.', childText: 'The drum deer keeps the rhythm soft and steady. When you follow the beat, the whole trail feels easier.', familyText: 'Rhythm is not always about keeping the same beat. It is about finding what works for your body, right now, exactly as you are.', badgeUnlockText: 'The rhythm carries you. You do not need to keep the same beat as everyone else.' },
+      hugs:    { title: 'Hug Steps',      badge: '\u{1F496}', badgeTitle: 'Care Badge',    theme: 'Chosen family, care and boundaries.', childText: 'The cloud cat sits on the steps and shares courage. Here your body can soften and your smile can land first.', familyText: 'Chosen families are no less real than biological ones. Care that is chosen is equally strong, equally deep. There is room here for all the relationships that do not always have a simple name.', badgeUnlockText: 'The Hug Steps hold you. All forms of love are valid.' },
+      stars:   { title: 'Star Stage',     badge: '\u2B50',    badgeTitle: 'Star Badge',    theme: 'Community without competition.', childText: 'Here the unicorn gathers every friend into one soft finale glow. Nobody wins over anyone else. The whole point is shining together.', familyText: 'A safe place can also be a memory. Something you carry with you long after the park has gone dark and the celebrations have faded for this year.', badgeUnlockText: 'You found the star. Now the whole Glimmer Trail shines.' },
+    },
+  },
 };
 
-const canvas = document.getElementById('stage');
-const ctx = canvas.getContext('2d');
-const overlayCard = document.getElementById('overlay-card');
-const overlayTitle = document.getElementById('overlay-title');
-const overlayText = document.getElementById('overlay-text');
+// --- STATE ---
+const state = {
+  lang:         localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'no',
+  settings:     loadSettings(),
+  found:        new Set(loadProgress()),
+  activeStopId: null,
+  hoveredStopId:null,
+  memoryCardOpen: false,
+  finaleShown:  false,
+  player:       { x: 108, y: 604, targetX: null, targetY: null },
+  keys:         new Set(),
+  particles:    [],
+  trailParticles: [],
+  lastTrailPos: { x: 108, y: 604 },
+};
 
 function loadSettings() {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}');
-    return { ...DEFAULT_SETTINGS, ...parsed };
-  } catch {
-    return { ...DEFAULT_SETTINGS };
-  }
+  try { return { ...DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}') }; }
+  catch { return { ...DEFAULT_SETTINGS }; }
 }
-
 function loadProgress() {
   try {
-    const parsed = JSON.parse(localStorage.getItem(PROGRESS_KEY) || '[]');
-    return Array.isArray(parsed) ? parsed.filter(id => STOPS.some(stop => stop.id === id)) : [];
-  } catch {
-    return [];
+    const p = JSON.parse(localStorage.getItem(PROGRESS_KEY) || '[]');
+    return Array.isArray(p) ? p.filter(id => STOPS.some(s => s.id === id)) : [];
+  } catch { return []; }
+}
+function saveSettings() { localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings)); }
+function saveProgress() { localStorage.setItem(PROGRESS_KEY, JSON.stringify([...state.found])); }
+function copy() { return COPY[state.lang]; }
+function stopCopy(id) { return copy().stops[id]; }
+function nextStop() { return STOPS.find(s => !state.found.has(s.id)) || null; }
+
+// --- HAPTIC ---
+const supportsVibrate = typeof navigator.vibrate === 'function';
+function tryVibrate(pattern) {
+  if (supportsVibrate) { try { navigator.vibrate(pattern); } catch {} }
+  else { sparkleFallback(); }
+}
+function sparkleFallback() {
+  const el = document.getElementById('haptic-pulse');
+  if (!el) return;
+  el.classList.remove('active');
+  void el.offsetWidth;
+  el.classList.add('active');
+  setTimeout(() => el.classList.remove('active'), 220);
+}
+
+// --- CANVAS ---
+const canvas = document.getElementById('stage');
+const ctx = canvas.getContext('2d');
+
+// --- CELEBRATIONS ---
+function triggerCelebration(stop) {
+  for (let i = 0; i < 28; i++) {
+    const angle = (Math.PI * 2 / 28) * i + Math.random() * 0.4;
+    const speed = 2.2 + Math.random() * 3.4;
+    state.particles.push({
+      x: stop.x, y: stop.y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 1.2,
+      life: 1, decay: 0.022 + Math.random() * 0.014,
+      color: stop.color, r: 3 + Math.random() * 4, type: stop.theme,
+    });
+  }
+  tryVibrate([30, 40, 30]);
+}
+
+function showBadgePopup(stopId) {
+  const sc = stopCopy(stopId);
+  document.getElementById('bp-icon').textContent  = sc.badge;
+  document.getElementById('bp-title').textContent = sc.badgeTitle;
+  document.getElementById('bp-text').textContent  = sc.badgeUnlockText;
+  document.getElementById('bp-close').textContent = copy().mcNextBtn;
+  const pop = document.getElementById('badge-pop');
+  pop.classList.add('show');
+  pop.setAttribute('aria-hidden', 'false');
+  const timer = setTimeout(closeBadgePopup, 4500);
+  document.getElementById('bp-close').onclick = () => { clearTimeout(timer); closeBadgePopup(); };
+}
+function closeBadgePopup() {
+  const pop = document.getElementById('badge-pop');
+  pop.classList.remove('show');
+  pop.setAttribute('aria-hidden', 'true');
+}
+
+// --- MEMORY CARD ---
+function showMemoryCard(stopId) {
+  const sc = stopCopy(stopId);
+  document.getElementById('mc-badge').textContent  = sc.badge;
+  document.getElementById('mc-title').textContent  = sc.title;
+  document.getElementById('mc-child').textContent  = sc.childText;
+  document.getElementById('mc-family').textContent = sc.familyText;
+  document.getElementById('mc-next').textContent   = copy().mcNextBtn;
+  document.getElementById('mc-stay').textContent   = copy().mcStayBtn;
+  const card = document.getElementById('memory-card');
+  card.hidden = false;
+  state.memoryCardOpen = true;
+  document.getElementById('mc-next').onclick = closeMemoryCard;
+  document.getElementById('mc-stay').onclick = closeMemoryCard;
+}
+function closeMemoryCard() {
+  document.getElementById('memory-card').hidden = true;
+  state.memoryCardOpen = false;
+  const id = state.activeStopId;
+  if (id) showBadgePopup(id);
+  if (state.found.size === STOPS.length && !state.finaleShown) {
+    setTimeout(showFinale, 1200);
   }
 }
 
-function saveSettings() {
-  localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings));
+// --- FINALE ---
+function showFinale() {
+  state.finaleShown = true;
+  const t = copy();
+  document.getElementById('finale-title').textContent   = t.finaleTitle;
+  document.getElementById('finale-poem').textContent    = t.finalePoemLine;
+  document.getElementById('finale-restart').textContent = t.finaleRestart;
+  document.getElementById('finale-stay').textContent    = t.finaleStay;
+  document.getElementById('finale-badges').textContent  = STOPS.map(s => s.badge).join('');
+  const overlay = document.getElementById('finale-overlay');
+  overlay.removeAttribute('aria-hidden');
+  overlay.classList.add('show');
+  spawnConfetti();
+  tryVibrate([60, 40, 60, 40, 120]);
+}
+function hideFinale() {
+  const overlay = document.getElementById('finale-overlay');
+  overlay.classList.remove('show');
+  overlay.setAttribute('aria-hidden', 'true');
+}
+function spawnConfetti() {
+  const layer  = document.getElementById('celebration-layer');
+  const colors = ['#ff6e6e','#f0aa42','#62c8de','#e0508a','#9b68cc','#78cc64','#6eb8f2'];
+  for (let i = 0; i < 44; i++) {
+    const dot = document.createElement('div');
+    dot.style.cssText = `
+      position:absolute;top:${-8+Math.random()*10}%;left:${Math.random()*100}%;
+      width:${5+Math.random()*8}px;height:${5+Math.random()*8}px;
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+      background:${colors[i%colors.length]};
+      animation:confettiFall ${1.2+Math.random()*1.8}s ${Math.random()*0.8}s ease-in forwards;
+    `;
+    layer.appendChild(dot);
+    setTimeout(() => dot.remove(), 3200);
+  }
 }
 
-function saveProgress() {
-  localStorage.setItem(PROGRESS_KEY, JSON.stringify([...state.found]));
-}
-
-function copy() {
-  return COPY[state.lang];
-}
-
-function stopCopy(stopId) {
-  return copy().stops[stopId];
-}
-
-function nextStop() {
-  return STOPS.find(stop => !state.found.has(stop.id)) || null;
-}
-
-function setLanguage(lang) {
-  state.lang = lang;
-  localStorage.setItem(LANG_KEY, lang);
-  syncUi();
-}
-
-function toggleSetting(key, value) {
-  state.settings[key] = value;
-  saveSettings();
-  syncUi();
-}
-
-function syncUi() {
-  const text = copy();
-  document.documentElement.lang = state.lang;
-  document.title = text.title;
-  document.body.classList.toggle('large-type', !!state.settings.large);
-  document.body.classList.toggle('high-contrast', !!state.settings.contrast);
-  document.getElementById('eyebrow').textContent = text.eyebrow;
-  document.getElementById('title').textContent = text.title;
-  document.getElementById('lede').textContent = text.lede;
-  document.getElementById('progress-kicker').textContent = text.progressKicker;
-  document.getElementById('controls-title').textContent = text.controlsTitle;
-  document.getElementById('controls-copy').textContent = text.controlsCopy;
-  document.getElementById('stage-kicker').textContent = text.stageKicker;
-  document.getElementById('reset-button').textContent = text.reset;
-  document.getElementById('parent-note').textContent = text.parentNote;
-  document.getElementById('status-note').textContent = text.statusBase;
-  document.getElementById('lang-toggle').textContent = text.langToggle;
-  document.getElementById('lang-toggle').setAttribute('aria-label', text.langToggle === 'EN' ? 'Switch to English' : 'Bytt til norsk');
-  document.getElementById('setting-guide-label').textContent = text.settingGuide;
-  document.getElementById('setting-calm-label').textContent = text.settingCalm;
-  document.getElementById('setting-large-label').textContent = text.settingLarge;
-  document.getElementById('setting-contrast-label').textContent = text.settingContrast;
-  document.getElementById('setting-guide').checked = !!state.settings.guide;
-  document.getElementById('setting-calm').checked = !!state.settings.calm;
-  document.getElementById('setting-large').checked = !!state.settings.large;
-  document.getElementById('setting-contrast').checked = !!state.settings.contrast;
-  canvas.setAttribute('aria-label', text.canvasLabel);
-  updateNarrativePanel();
+// --- STOP UNLOCK ---
+function unlockStop(stopId) {
+  state.activeStopId = stopId;
+  const isNew = !state.found.has(stopId);
+  if (isNew) {
+    state.found.add(stopId);
+    saveProgress();
+    triggerCelebration(STOPS.find(s => s.id === stopId));
+    updateBadgeShelf();
+    showMemoryCard(stopId);
+  }
   updateProgressPanel();
+  updateStagePanel();
+}
+
+// --- RESET ---
+function resetGame() {
+  state.found.clear();
+  state.activeStopId     = null;
+  state.memoryCardOpen   = false;
+  state.finaleShown      = false;
+  state.player.x         = 108;
+  state.player.y         = 604;
+  state.player.targetX   = null;
+  state.player.targetY   = null;
+  state.particles        = [];
+  state.trailParticles   = [];
+  state.lastTrailPos     = { x: 108, y: 604 };
+  document.getElementById('memory-card').hidden = true;
+  hideFinale();
+  closeBadgePopup();
+  saveProgress();
+  updateBadgeShelf();
+  updateProgressPanel();
+  updateStagePanel();
+}
+
+// --- UI SYNC ---
+function syncUi() {
+  const t = copy();
+  document.documentElement.lang = state.lang;
+  document.title = t.mainTitle + ' \u2014 Mini Pride 2026';
+  document.body.classList.toggle('large-type',    !!state.settings.large);
+  document.body.classList.toggle('high-contrast', !!state.settings.contrast);
+  document.body.classList.toggle('reduced-motion',!!state.settings.motion || !!state.settings.calm);
+
+  document.getElementById('eyebrow').textContent          = t.eyebrow;
+  document.getElementById('main-title').textContent       = t.mainTitle;
+  document.getElementById('sub-tagline').textContent      = t.subTagline;
+  document.getElementById('lede').textContent             = t.lede;
+  document.getElementById('badge-shelf-title').textContent= t.badgeShelfTitle;
+  document.getElementById('progress-kicker').textContent  = t.progressKicker;
+  document.getElementById('stage-kicker').textContent     = t.stageKicker;
+  document.getElementById('settings-title').textContent   = t.settingsTitle;
+  document.getElementById('lang-toggle').textContent      = t.langBtn;
+  document.getElementById('lang-toggle').setAttribute('aria-label', state.lang === 'no' ? 'Switch to English' : 'Bytt til norsk');
+  document.getElementById('reset-btn').textContent        = t.resetBtn;
+  document.getElementById('footer-note').textContent      = t.footerNote;
+  document.getElementById('access-note').textContent      = t.hapticNote;
+
+  document.getElementById('s-guide-lbl').textContent    = t.guideLabel;
+  document.getElementById('s-calm-lbl').textContent     = t.calmLabel;
+  document.getElementById('s-large-lbl').textContent    = t.largeLabel;
+  document.getElementById('s-contrast-lbl').textContent = t.contrastLabel;
+  document.getElementById('s-motion-lbl').textContent   = t.motionLabel;
+  document.getElementById('s-guide').checked    = !!state.settings.guide;
+  document.getElementById('s-calm').checked     = !!state.settings.calm;
+  document.getElementById('s-large').checked    = !!state.settings.large;
+  document.getElementById('s-contrast').checked = !!state.settings.contrast;
+  document.getElementById('s-motion').checked   = !!state.settings.motion;
+
+  canvas.setAttribute('aria-label', state.lang === 'no'
+    ? 'Glimmerstien spillflate med robot-enhj\u00f8rning og seks stopp i Nyg\u00e5rdsparken'
+    : 'Glimmer Trail game area with robot unicorn and six stops in Ny\u00e5rdsparken');
+
+  updateBadgeShelf();
+  updateProgressPanel();
+  updateStagePanel();
+  if (state.activeStopId && !document.getElementById('memory-card').hidden) {
+    showMemoryCard(state.activeStopId);
+  }
+}
+
+function updateBadgeShelf() {
+  const row = document.getElementById('badge-row');
+  row.innerHTML = '';
+  STOPS.forEach(stop => {
+    const sc = stopCopy(stop.id);
+    const div  = document.createElement('div'); div.className = 'badge-item';
+    const icon = document.createElement('div');
+    icon.className = 'badge-icon' + (state.found.has(stop.id) ? ' unlocked' : '');
+    icon.textContent = stop.badge;
+    icon.setAttribute('title', sc.badgeTitle);
+    icon.setAttribute('aria-label', sc.badgeTitle + (state.found.has(stop.id) ? ' (funnet)' : ' (ikke funnet enn\u00e5)'));
+    const lbl = document.createElement('div'); lbl.className = 'badge-label';
+    lbl.textContent = sc.title.split(' ')[0];
+    div.appendChild(icon); div.appendChild(lbl); row.appendChild(div);
+  });
 }
 
 function updateProgressPanel() {
-  const text = copy();
-  const count = state.found.size;
-  document.getElementById('progress-count').textContent = `${count}/6`;
-  document.getElementById('progress-copy').textContent = count === STOPS.length ? text.progressDone : text.progressGo;
-  document.getElementById('progress-fill').style.width = `${(count / STOPS.length) * 100}%`;
+  const t = copy(), count = state.found.size;
+  document.getElementById('progress-count').textContent = count + '/6';
+  document.getElementById('progress-note').textContent  = count === 6 ? t.progressDone : t.progressGo;
+  document.getElementById('progress-fill').style.width  = ((count / 6) * 100) + '%';
   const target = nextStop();
-  document.getElementById('next-stop').textContent = target ? `${text.nextPrefix}: ${stopCopy(target.id).title}` : text.allFound;
+  document.getElementById('next-stop').textContent = target ? (t.nextPrefix + ': ' + stopCopy(target.id).title) : t.allFound;
 }
 
-function updateNarrativePanel() {
-  const text = copy();
-  const active = state.activeStopId ? stopCopy(state.activeStopId) : null;
-  const complete = state.found.size === STOPS.length;
-  document.getElementById('stage-title').textContent = complete ? text.completeTitle : active ? active.title : text.defaultStageTitle;
-  document.getElementById('stage-text').textContent = complete ? text.completeText : active ? active.text : text.defaultStageText;
+function updateStagePanel() {
+  const t = copy(), active = state.activeStopId ? stopCopy(state.activeStopId) : null, complete = state.found.size === 6;
+  document.getElementById('stage-title').textContent = complete ? t.finaleTitle : active ? active.title : t.defaultTitle;
+  document.getElementById('stage-text').textContent  = complete ? t.finalePoemLine.split('\n')[0] : active ? active.theme : t.defaultText;
 }
 
-function showOverlay(stopId) {
-  const stopText = stopCopy(stopId);
-  overlayTitle.textContent = stopText.title;
-  overlayText.textContent = stopText.text;
-  overlayCard.hidden = false;
-  state.overlayExpiresAt = performance.now() + 3200;
-}
-
-function hideOverlay() {
-  overlayCard.hidden = true;
-}
-
-function unlockStop(stopId) {
-  state.activeStopId = stopId;
-  if (!state.found.has(stopId)) {
-    state.found.add(stopId);
-    saveProgress();
-    showOverlay(stopId);
-  }
-  updateProgressPanel();
-  updateNarrativePanel();
-}
-
-function resetGame() {
-  state.found.clear();
-  state.activeStopId = null;
-  state.player.x = 108;
-  state.player.y = 604;
-  state.player.targetX = null;
-  state.player.targetY = null;
-  hideOverlay();
-  saveProgress();
-  updateProgressPanel();
-  updateNarrativePanel();
-}
-
-function getCanvasPoint(event) {
-  const rect = canvas.getBoundingClientRect();
-  const clientX = event.clientX ?? (event.touches && event.touches[0] ? event.touches[0].clientX : rect.left);
-  const clientY = event.clientY ?? (event.touches && event.touches[0] ? event.touches[0].clientY : rect.top);
-  return {
-    x: ((clientX - rect.left) / rect.width) * canvas.width,
-    y: ((clientY - rect.top) / rect.height) * canvas.height,
-  };
-}
-
-function clampPlayer() {
-  state.player.x = Math.max(54, Math.min(canvas.width - 54, state.player.x));
-  state.player.y = Math.max(96, Math.min(canvas.height - 64, state.player.y));
-}
-
-function aimAt(x, y) {
-  state.player.targetX = x;
-  state.player.targetY = y;
-}
-
-function handleCanvasPress(event) {
-  const point = getCanvasPoint(event);
-  const closeStop = STOPS.find(stop => Math.hypot(point.x - stop.x, point.y - stop.y) < stop.radius + 18);
-  if (closeStop) {
-    aimAt(closeStop.x, closeStop.y);
-    if (Math.hypot(state.player.x - closeStop.x, state.player.y - closeStop.y) < closeStop.radius + 6) {
-      unlockStop(closeStop.id);
-    }
-  } else {
-    aimAt(point.x, point.y);
-  }
-}
-
-function updateMovement(dt) {
-  const speed = state.settings.calm ? 150 : 210;
-  let dx = 0;
-  let dy = 0;
-  if (state.keys.has('arrowup') || state.keys.has('w')) dy -= 1;
-  if (state.keys.has('arrowdown') || state.keys.has('s')) dy += 1;
-  if (state.keys.has('arrowleft') || state.keys.has('a')) dx -= 1;
-  if (state.keys.has('arrowright') || state.keys.has('d')) dx += 1;
-
-  if (dx || dy) {
-    const len = Math.hypot(dx, dy);
-    state.player.x += (dx / len) * speed * dt;
-    state.player.y += (dy / len) * speed * dt;
-    state.player.targetX = null;
-    state.player.targetY = null;
-  } else if (state.player.targetX !== null && state.player.targetY !== null) {
-    const tx = state.player.targetX - state.player.x;
-    const ty = state.player.targetY - state.player.y;
-    const dist = Math.hypot(tx, ty);
-    if (dist < 6) {
-      state.player.x = state.player.targetX;
-      state.player.y = state.player.targetY;
-      state.player.targetX = null;
-      state.player.targetY = null;
-    } else {
-      state.player.x += (tx / dist) * speed * dt;
-      state.player.y += (ty / dist) * speed * dt;
-    }
-  }
-
-  clampPlayer();
-}
-
-function updateUnlocks(now) {
-  state.hoveredStopId = null;
-  STOPS.forEach(stop => {
-    const distance = Math.hypot(state.player.x - stop.x, state.player.y - stop.y);
-    if (distance < stop.radius + 10) {
-      state.hoveredStopId = stop.id;
-      unlockStop(stop.id);
-    }
-  });
-
-  if (!overlayCard.hidden && now > state.overlayExpiresAt) {
-    hideOverlay();
-  }
-}
-
+// --- DRAWING ---
 function drawSky(now) {
-  const sky = ctx.createLinearGradient(0, 0, 0, canvas.height);
-  sky.addColorStop(0, '#ffe5d5');
-  sky.addColorStop(0.48, '#fff7e8');
-  sky.addColorStop(1, '#f5ffd6');
+  const W = canvas.width, H = canvas.height;
+  const sky = ctx.createLinearGradient(0, 0, 0, H);
+  sky.addColorStop(0,    '#ffecd8');
+  sky.addColorStop(0.46, '#fff8ee');
+  sky.addColorStop(1,    '#f4ffd8');
   ctx.fillStyle = sky;
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  const sunX = canvas.width - 160;
-  const sunY = 132;
-  ctx.fillStyle = 'rgba(255, 180, 79, 0.18)';
-  ctx.beginPath();
-  ctx.arc(sunX, sunY, 96, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = '#ffb44f';
-  ctx.beginPath();
-  ctx.arc(sunX, sunY, 52, 0, Math.PI * 2);
-  ctx.fill();
-
-  const cloudOffset = state.settings.calm ? 0 : Math.sin(now * 0.00018) * 10;
-  drawCloud(180 + cloudOffset, 124, 84);
-  drawCloud(460 - cloudOffset * 0.5, 92, 68);
-  drawCloud(812 + cloudOffset * 0.7, 158, 74);
+  ctx.fillRect(0, 0, W, H);
+  // Sun
+  ctx.fillStyle = 'rgba(255,190,80,0.16)'; ctx.beginPath(); ctx.arc(W-148, 118, 100, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#ffb040'; ctx.beginPath(); ctx.arc(W-148, 118, 50, 0, Math.PI*2); ctx.fill();
+  // Clouds
+  const ci = state.settings.calm ? 0 : Math.sin(now*0.00017)*10;
+  drawCloud(ctx, 172+ci, 118, 80);
+  drawCloud(ctx, 442-ci*0.5, 86, 64);
+  drawCloud(ctx, 796+ci*0.7, 152, 70);
 }
 
-function drawCloud(x, y, size) {
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.78)';
+function drawCloud(ctx, x, y, s) {
+  ctx.fillStyle = 'rgba(255,255,255,0.76)';
   ctx.beginPath();
-  ctx.arc(x, y, size * 0.42, Math.PI * 0.5, Math.PI * 1.5);
-  ctx.arc(x + size * 0.38, y - size * 0.1, size * 0.34, Math.PI, Math.PI * 2);
-  ctx.arc(x + size * 0.7, y, size * 0.28, Math.PI * 1.5, Math.PI * 0.5);
-  ctx.closePath();
-  ctx.fill();
+  ctx.arc(x, y, s*0.42, Math.PI*0.5, Math.PI*1.5);
+  ctx.arc(x+s*0.38, y-s*0.1, s*0.34, Math.PI, Math.PI*2);
+  ctx.arc(x+s*0.70, y, s*0.28, Math.PI*1.5, Math.PI*0.5);
+  ctx.closePath(); ctx.fill();
+}
+
+function drawRainbowArcs() {
+  const alpha = state.settings.calm ? 0.55 : 0.60;
+  const arcs = [
+    { x: 240, y: 340, r: 96,  cols: ['#ff6e6e','#ffb040','#f0e060','#60cc70','#60aaff','#c070ee'] },
+    { x: 880, y: 280, r: 72,  cols: ['#ff9090','#ffd06e','#fff090','#90dda0','#90ccff','#d8a0f8'] },
+  ];
+  arcs.forEach(arc => {
+    const n = arc.cols.length;
+    for (let i = 0; i < n; i++) {
+      ctx.beginPath(); ctx.strokeStyle = arc.cols[n-1-i]; ctx.lineWidth = 5;
+      ctx.globalAlpha = alpha * (0.55 - i*0.06);
+      ctx.arc(arc.x, arc.y, arc.r - i*6, Math.PI, Math.PI*2); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+  });
+}
+
+function drawPrideBunting() {
+  const flags = [
+    { x1: 82,  y1: 380, x2: 280, y2: 360 },
+    { x1: 520, y1: 320, x2: 720, y2: 340 },
+    { x1: 880, y1: 260, x2: 1060, y2: 240 },
+  ];
+  const colors = ['#ff6e6e','#ffb040','#f0e060','#60cc70','#60aaff','#c070ee','#ff80a0'];
+  flags.forEach(({ x1, y1, x2, y2 }) => {
+    ctx.beginPath(); ctx.strokeStyle = 'rgba(60,30,10,0.18)'; ctx.lineWidth = 1;
+    ctx.moveTo(x1, y1);
+    for (let i = 0; i <= 16; i++) {
+      const t = i/16;
+      ctx.lineTo(x1+(x2-x1)*t, y1+(y2-y1)*t + Math.sin(t*Math.PI)*12);
+    }
+    ctx.stroke();
+    for (let i = 0; i < 7; i++) {
+      const t = i / 6;
+      const px = x1 + (x2-x1)*t, py = y1 + (y2-y1)*t + Math.sin(t*Math.PI)*12;
+      ctx.beginPath(); ctx.moveTo(px-7, py-10); ctx.lineTo(px+7, py-10); ctx.lineTo(px, py+6); ctx.closePath();
+      ctx.fillStyle = colors[i % colors.length]; ctx.globalAlpha = 0.72; ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  });
 }
 
 function drawHills() {
-  ctx.fillStyle = '#9cde8a';
-  ctx.beginPath();
-  ctx.moveTo(0, 560);
-  ctx.bezierCurveTo(120, 500, 220, 486, 370, 540);
-  ctx.bezierCurveTo(520, 590, 650, 650, 860, 536);
-  ctx.bezierCurveTo(980, 468, 1100, 456, 1200, 510);
-  ctx.lineTo(1200, 760);
-  ctx.lineTo(0, 760);
-  ctx.closePath();
-  ctx.fill();
+  ctx.fillStyle = '#88d870';
+  ctx.beginPath(); ctx.moveTo(0, 560);
+  ctx.bezierCurveTo(130,498, 230,484, 380,540);
+  ctx.bezierCurveTo(530,594, 650,648, 860,534);
+  ctx.bezierCurveTo(984,466, 1104,454, canvas.width,510);
+  ctx.lineTo(canvas.width, canvas.height); ctx.lineTo(0, canvas.height); ctx.closePath(); ctx.fill();
 
-  ctx.fillStyle = '#67bd6f';
-  ctx.beginPath();
-  ctx.moveTo(0, 620);
-  ctx.bezierCurveTo(150, 560, 300, 610, 480, 652);
-  ctx.bezierCurveTo(640, 688, 870, 664, 1020, 602);
-  ctx.bezierCurveTo(1110, 566, 1166, 560, 1200, 576);
-  ctx.lineTo(1200, 760);
-  ctx.lineTo(0, 760);
-  ctx.closePath();
-  ctx.fill();
+  ctx.fillStyle = '#5ab54e';
+  ctx.beginPath(); ctx.moveTo(0, 622);
+  ctx.bezierCurveTo(154,562, 304,612, 484,654);
+  ctx.bezierCurveTo(644,690, 872,666, 1024,604);
+  ctx.bezierCurveTo(1112,568, 1168,562, canvas.width,578);
+  ctx.lineTo(canvas.width, canvas.height); ctx.lineTo(0, canvas.height); ctx.closePath(); ctx.fill();
 }
 
-function drawPond() {
-  ctx.fillStyle = 'rgba(127, 215, 234, 0.82)';
-  ctx.beginPath();
-  ctx.ellipse(314, 666, 120, 42, -0.08, 0, Math.PI * 2);
-  ctx.fill();
+function drawPond(now) {
+  const shimmer = state.settings.calm ? 0 : Math.sin(now*0.0018)*3;
+  ctx.fillStyle = 'rgba(108,200,224,0.78)';
+  ctx.beginPath(); ctx.ellipse(312, 666, 118+shimmer, 42, -0.08, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,0.28)';
+  ctx.beginPath(); ctx.ellipse(298, 658, 52, 14, -0.1, 0, Math.PI*2); ctx.fill();
 }
 
 function drawTrail(now) {
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  ctx.lineWidth = 24;
-  const trail = ctx.createLinearGradient(120, 520, 1060, 300);
-  trail.addColorStop(0, 'rgba(255, 126, 121, 0.9)');
-  trail.addColorStop(0.32, 'rgba(255, 180, 79, 0.92)');
-  trail.addColorStop(0.65, 'rgba(126, 216, 237, 0.94)');
-  trail.addColorStop(1, 'rgba(142, 217, 118, 0.95)');
-  ctx.strokeStyle = trail;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 22;
+  const g = ctx.createLinearGradient(120, 520, 1060, 300);
+  g.addColorStop(0,   'rgba(255,110,110,0.88)');
+  g.addColorStop(0.3, 'rgba(240,176,64, 0.90)');
+  g.addColorStop(0.6, 'rgba(98,200,222, 0.92)');
+  g.addColorStop(1,   'rgba(110,184,242,0.94)');
+  ctx.strokeStyle = g;
   ctx.beginPath();
-  TRAIL.forEach((point, index) => {
-    if (index === 0) ctx.moveTo(point.x, point.y);
-    else ctx.lineTo(point.x, point.y);
+  TRAIL.forEach((p, i) => { i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+  ctx.stroke();
+  if (!state.settings.calm) {
+    ctx.lineWidth = 7; ctx.setLineDash([12, 12]);
+    ctx.strokeStyle = 'rgba(255,255,255,' + (0.34 + Math.sin(now*0.004)*0.05) + ')';
+    ctx.stroke(); ctx.setLineDash([]);
+  }
+  TRAIL.forEach((p, i) => {
+    if (i % 2 === 0) {
+      ctx.fillStyle = ['#ff9090','#ffd080','#a0e890','#90d0ff','#f090d0'][i % 5];
+      ctx.globalAlpha = 0.68;
+      ctx.beginPath(); ctx.arc(p.x + (i%3-1)*18, p.y + (i%4-2)*12, 4, 0, Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
   });
-  ctx.stroke();
-
-  ctx.lineWidth = 8;
-  ctx.setLineDash([14, 14]);
-  ctx.strokeStyle = `rgba(255, 255, 255, ${state.settings.calm ? 0.24 : 0.36 + Math.sin(now * 0.004) * 0.05})`;
-  ctx.stroke();
-  ctx.setLineDash([]);
 }
 
 function drawGuide() {
   if (!state.settings.guide) return;
-  const target = nextStop();
-  if (!target) return;
-  ctx.strokeStyle = 'rgba(20, 53, 62, 0.2)';
-  ctx.lineWidth = 4;
-  ctx.setLineDash([8, 14]);
-  ctx.beginPath();
-  ctx.moveTo(state.player.x, state.player.y);
-  ctx.lineTo(target.x, target.y);
-  ctx.stroke();
-  ctx.setLineDash([]);
+  const target = nextStop(); if (!target) return;
+  ctx.save();
+  ctx.strokeStyle = 'rgba(14,44,53,0.18)'; ctx.lineWidth = 3; ctx.setLineDash([7, 13]);
+  ctx.beginPath(); ctx.moveTo(state.player.x, state.player.y); ctx.lineTo(target.x, target.y); ctx.stroke();
+  ctx.setLineDash([]); ctx.restore();
 }
 
 function drawStops(now) {
-  STOPS.forEach((stop, index) => {
-    const found = state.found.has(stop.id);
-    const hover = state.hoveredStopId === stop.id;
-    const pulse = state.settings.calm ? 0 : (Math.sin(now * 0.004 + index) + 1) * 0.5;
-    ctx.save();
-    ctx.translate(stop.x, stop.y);
-    ctx.fillStyle = stop.color + '33';
-    ctx.beginPath();
-    ctx.arc(0, 0, stop.radius + 16 + pulse * 4, 0, Math.PI * 2);
-    ctx.fill();
+  STOPS.forEach((stop, idx) => {
+    const found   = state.found.has(stop.id);
+    const hovered = state.hoveredStopId === stop.id;
+    const pulse   = state.settings.calm ? 0 : (Math.sin(now * 0.004 + idx * 0.9) + 1) * 0.5;
+    ctx.save(); ctx.translate(stop.x, stop.y);
+    // Glow
+    const gr = ctx.createRadialGradient(0,0,stop.radius-20, 0,0,stop.radius+10+pulse*8);
+    gr.addColorStop(0, stop.glowColor); gr.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = gr;
+    ctx.beginPath(); ctx.arc(0, 0, stop.radius+18+pulse*6, 0, Math.PI*2); ctx.fill();
+    // Main circle
     ctx.fillStyle = stop.color;
-    ctx.beginPath();
-    ctx.arc(0, 0, stop.radius - 18, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,0.88)';
-    ctx.beginPath();
-    ctx.arc(-10, -10, 10, 0, Math.PI * 2);
-    ctx.arc(10, -10, 10, 0, Math.PI * 2);
-    ctx.arc(0, 10, 12, 0, Math.PI * 2);
-    ctx.fill();
-    if (found) {
-      ctx.fillStyle = 'rgba(20, 53, 62, 0.78)';
-      ctx.font = '700 22px "IBM Plex Sans"';
-      ctx.textAlign = 'center';
-      ctx.fillText('✓', 0, 8);
-    }
-    if (hover || (!found && index === 0)) {
-      ctx.strokeStyle = 'rgba(20, 53, 62, 0.24)';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.arc(0, 0, stop.radius + 8, 0, Math.PI * 2);
-      ctx.stroke();
-    }
+    ctx.beginPath(); ctx.arc(0, 0, stop.radius-18, 0, Math.PI*2); ctx.fill();
+    // Inner highlight
+    ctx.fillStyle = 'rgba(255,255,255,0.30)';
+    ctx.beginPath(); ctx.arc(-7, -7, 10, 0, Math.PI*2); ctx.fill();
+    // Badge emoji
+    ctx.font = 'bold ' + (found ? 28 : 22) + 'px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.globalAlpha = found ? 1 : 0.72;
+    ctx.fillText(stop.badge, 0, 1); ctx.globalAlpha = 1;
+    // Found ring
+    if (found) { ctx.strokeStyle = 'rgba(255,255,255,0.88)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(0, 0, stop.radius-14, 0, Math.PI*2); ctx.stroke(); }
+    // Hover ring
+    if (hovered) { ctx.strokeStyle = 'rgba(255,255,255,0.50)'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(0, 0, stop.radius+2, 0, Math.PI*2); ctx.stroke(); }
     ctx.restore();
-
-    ctx.fillStyle = 'rgba(20, 53, 62, 0.84)';
-    ctx.font = '700 16px "IBM Plex Sans"';
-    ctx.textAlign = 'center';
-    ctx.fillText(stopCopy(stop.id).title, stop.x, stop.y + stop.radius + 28);
+    // Label
+    ctx.fillStyle = 'rgba(14,44,53,0.82)';
+    ctx.font = 'bold 14px "IBM Plex Sans",system-ui,sans-serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    ctx.fillText(stopCopy(stop.id).title, stop.x, stop.y + stop.radius + 8);
   });
 }
 
 function drawTrees() {
-  const trees = [
-    [82, 520, 0.9], [144, 470, 1], [420, 430, 0.88], [690, 458, 0.95], [870, 350, 0.82], [1122, 250, 0.78]
-  ];
-  trees.forEach(([x, y, scale]) => {
-    ctx.fillStyle = '#835a43';
-    ctx.fillRect(x - 7 * scale, y, 14 * scale, 56 * scale);
-    ctx.fillStyle = '#58b66d';
+  [[82,520,0.9],[148,468,1],[422,430,0.88],[692,456,0.95],[872,350,0.82],[1122,250,0.80]].forEach(([tx,ty,sc]) => {
+    ctx.fillStyle = '#7a5038'; ctx.fillRect(tx-6*sc, ty, 12*sc, 52*sc);
+    ctx.fillStyle = '#52aa60';
     ctx.beginPath();
-    ctx.arc(x, y - 10 * scale, 34 * scale, 0, Math.PI * 2);
-    ctx.arc(x - 24 * scale, y + 8 * scale, 24 * scale, 0, Math.PI * 2);
-    ctx.arc(x + 24 * scale, y + 8 * scale, 24 * scale, 0, Math.PI * 2);
+    ctx.arc(tx, ty-8*sc, 32*sc, 0, Math.PI*2);
+    ctx.arc(tx-22*sc, ty+6*sc, 22*sc, 0, Math.PI*2);
+    ctx.arc(tx+22*sc, ty+6*sc, 22*sc, 0, Math.PI*2);
     ctx.fill();
+    if (sc > 0.88) {
+      ctx.fillStyle = 'rgba(255,160,180,0.72)';
+      for (let b = 0; b < 5; b++) {
+        ctx.beginPath(); ctx.arc(tx+Math.cos(b*1.26)*18*sc, ty-8*sc+Math.sin(b*1.26)*14*sc, 4*sc, 0, Math.PI*2); ctx.fill();
+      }
+    }
   });
 }
 
 function drawSparkles(now) {
   if (state.settings.calm) return;
-  for (let index = 0; index < 26; index += 1) {
-    const baseX = 90 + ((index * 87) % 1020);
-    const baseY = 160 + ((index * 61) % 420);
-    const driftX = Math.sin(now * 0.0009 + index) * 8;
-    const driftY = Math.cos(now * 0.0011 + index * 0.4) * 6;
-    const size = 2 + (Math.sin(now * 0.004 + index) + 1) * 1.5;
-    ctx.fillStyle = index % 3 === 0 ? 'rgba(255, 180, 79, 0.9)' : index % 3 === 1 ? 'rgba(126, 216, 237, 0.9)' : 'rgba(232, 95, 130, 0.88)';
-    ctx.beginPath();
-    ctx.arc(baseX + driftX, baseY + driftY, size, 0, Math.PI * 2);
-    ctx.fill();
+  for (let i = 0; i < 24; i++) {
+    const bx = 92  + ((i*89)  % 1016);
+    const by = 162 + ((i*61)  % 418);
+    const dx = Math.sin(now*0.0009 + i) * 8;
+    const dy = Math.cos(now*0.0011 + i*0.4) * 6;
+    const r  = 2 + (Math.sin(now*0.004 + i) + 1) * 1.5;
+    ctx.fillStyle = ['rgba(255,176,64,0.85)','rgba(98,210,234,0.85)','rgba(224,80,138,0.82)','rgba(155,104,204,0.78)'][i%4];
+    ctx.beginPath(); ctx.arc(bx+dx, by+dy, r, 0, Math.PI*2); ctx.fill();
   }
+}
+
+function drawParticles() {
+  state.particles = state.particles.filter(p => p.life > 0);
+  state.particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.life -= p.decay;
+    ctx.globalAlpha = Math.max(0, p.life);
+    ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+}
+
+function drawTrailParticles() {
+  if (state.settings.calm) return;
+  const px = state.player.x, py = state.player.y;
+  const dx = px - state.lastTrailPos.x, dy = py - state.lastTrailPos.y;
+  if (Math.hypot(dx,dy) > 3) {
+    const stop = nextStop();
+    const col = stop ? stop.color : '#ffb040';
+    for (let t = 0; t < 2; t++) {
+      state.trailParticles.push({
+        x: px+(Math.random()-0.5)*8, y: py+(Math.random()-0.5)*8,
+        vx: -dx*0.18+(Math.random()-0.5)*0.6, vy: -dy*0.18+(Math.random()-0.5)*0.6-0.4,
+        life: 1, decay: 0.04, color: col, r: 2+Math.random()*2.4,
+      });
+    }
+    state.lastTrailPos = { x: px, y: py };
+  }
+  state.trailParticles = state.trailParticles.filter(p => p.life > 0);
+  state.trailParticles.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.life -= p.decay;
+    ctx.globalAlpha = Math.max(0, p.life * 0.7);
+    ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r, y); ctx.arcTo(x+w,y, x+w,y+h, r); ctx.arcTo(x+w,y+h, x,y+h, r);
+  ctx.arcTo(x,y+h, x,y, r); ctx.arcTo(x,y, x+w,y, r); ctx.closePath();
 }
 
 function drawUnicorn(now) {
   const bob = state.settings.calm ? 0 : Math.sin(now * 0.005) * 3.5;
-  const x = state.player.x;
-  const y = state.player.y + bob;
-
   ctx.save();
-  ctx.translate(x, y);
-
-  const next = nextStop();
-  const trailColor = next ? next.color : '#ffb44f';
-  ctx.strokeStyle = trailColor;
-  ctx.lineWidth = 10;
-  ctx.lineCap = 'round';
-  ctx.beginPath();
-  ctx.moveTo(-44, 6);
-  ctx.bezierCurveTo(-68, 14, -84, 4, -104, 18);
-  ctx.stroke();
-
-  ctx.fillStyle = '#ffffff';
-  ctx.beginPath();
-  ctx.ellipse(0, 0, 38, 26, -0.06, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.ellipse(34, -18, 20, 17, 0.1, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = '#ffd56b';
-  ctx.beginPath();
-  ctx.moveTo(36, -42);
-  ctx.lineTo(48, -16);
-  ctx.lineTo(31, -20);
-  ctx.closePath();
-  ctx.fill();
-
-  ctx.strokeStyle = '#ff7e79';
-  ctx.lineWidth = 8;
-  ctx.beginPath();
-  ctx.moveTo(-10, -18);
-  ctx.bezierCurveTo(0, -48, 24, -48, 34, -20);
-  ctx.stroke();
-  ctx.strokeStyle = '#7fd7ea';
-  ctx.beginPath();
-  ctx.moveTo(-4, -20);
-  ctx.bezierCurveTo(6, -44, 24, -42, 30, -16);
-  ctx.stroke();
-
-  ctx.fillStyle = '#19333d';
-  ctx.beginPath();
-  ctx.arc(42, -18, 3.4, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = '#7fd7ea';
-  ctx.fillRect(-4, -8, 18, 12);
-  ctx.fillStyle = '#14353e';
-  ctx.fillRect(-2, -6, 14, 8);
-
-  ctx.strokeStyle = '#14353e';
-  ctx.lineWidth = 6;
-  [[-20, 18], [-2, 20], [16, 18], [30, 16]].forEach(([lx, ly]) => {
-    ctx.beginPath();
-    ctx.moveTo(lx, ly);
-    ctx.lineTo(lx - 2, ly + 22);
-    ctx.stroke();
+  ctx.translate(state.player.x, state.player.y + bob);
+  // Tail
+  const target = nextStop();
+  const tailCols = target
+    ? ['#ff6e6e','#ffb040','#60cc70','#60aaff','#c070ee',target.color]
+    : ['#ff9090','#ffd090','#90dd90','#90ccff','#d090ff','#ffb0d0'];
+  for (let ti = 0; ti < 4; ti++) {
+    ctx.strokeStyle = tailCols[ti % tailCols.length]; ctx.lineWidth = 9 - ti*1.8; ctx.lineCap = 'round';
+    ctx.globalAlpha = 0.72 - ti*0.14;
+    ctx.beginPath(); ctx.moveTo(-44-ti*4, 6+ti*2);
+    ctx.bezierCurveTo(-68-ti*6, 14+ti*3, -86-ti*6, 4+ti*2, -106-ti*8, 18+ti*4); ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
+  // Body
+  ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.ellipse(0, 0, 37, 25, -0.06, 0, Math.PI*2); ctx.fill();
+  // Head
+  ctx.beginPath(); ctx.ellipse(33, -17, 20, 16, 0.1, 0, Math.PI*2); ctx.fill();
+  // Mane
+  ['#ff6e6e','#ffb040','#f0e060','#60cc70','#60aaff','#c070ee'].forEach((mc, mi) => {
+    ctx.strokeStyle = mc; ctx.lineWidth = 6-mi*0.5; ctx.globalAlpha = 0.88-mi*0.08;
+    ctx.beginPath(); ctx.moveTo(-8+mi*1.5, -17-mi*0.5);
+    ctx.bezierCurveTo(2+mi*1.5, -46-mi*0.5, 24, -47, 32-mi*0.5, -19+mi*0.5); ctx.stroke();
   });
-
+  ctx.globalAlpha = 1;
+  // Horn
+  const hornGlow = state.settings.calm ? 0.4 : 0.4+(Math.sin(now*0.006)+1)*0.25;
+  ctx.strokeStyle = '#f0c040'; ctx.lineWidth = 9; ctx.lineCap = 'round'; ctx.globalAlpha = hornGlow;
+  ctx.beginPath(); ctx.moveTo(34, -40); ctx.lineTo(47, -14); ctx.stroke();
+  ctx.lineWidth = 5; ctx.strokeStyle = '#fff8d0';
+  ctx.beginPath(); ctx.moveTo(36, -38); ctx.lineTo(46, -15); ctx.stroke();
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = '#ffd050'; ctx.beginPath(); ctx.moveTo(34,-42); ctx.lineTo(47,-13); ctx.lineTo(30,-18); ctx.closePath(); ctx.fill();
+  // Eye
+  ctx.fillStyle = '#1a3040'; ctx.beginPath(); ctx.arc(41,-18, 3.2, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(42.4,-19.2, 1, 0, Math.PI*2); ctx.fill();
+  // CDN visor
+  ctx.fillStyle = '#60d8f0'; ctx.fillRect(-4,-8,17,11);
+  ctx.fillStyle = '#0e2c35'; ctx.fillRect(-2,-6,13,7);
+  ctx.fillStyle = 'rgba(96,216,240,0.6)'; ctx.fillRect(-2,-6,4,3);
+  // Legs
+  ctx.strokeStyle = '#dde8ee'; ctx.lineWidth = 6; ctx.lineCap = 'round';
+  [[-20,18],[-2,20],[16,18],[30,16]].forEach(([lx,ly]) => {
+    ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(lx-2,ly+21); ctx.stroke();
+  });
+  ctx.restore();
+  // Badge count tag
+  ctx.save(); ctx.translate(canvas.width-108, 90);
+  ctx.fillStyle = 'rgba(255,255,255,0.78)';
+  roundRect(ctx, -100,-32,200,64,20); ctx.fill();
+  ctx.fillStyle = '#0e2c35'; ctx.textAlign = 'center';
+  ctx.font = 'bold 13px "IBM Plex Sans",system-ui,sans-serif';
+  ctx.fillText(copy().badgeShelfTitle, 0, -8);
+  ctx.font = 'bold 24px "Baloo 2",cursive';
+  ctx.fillText(state.found.size + '/6', 0, 22);
   ctx.restore();
 }
 
-function drawBadge() {
-  ctx.save();
-  ctx.translate(1040, 96);
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.72)';
-  ctx.beginPath();
-  ctx.roundRect(-96, -34, 192, 68, 22);
-  ctx.fill();
-  ctx.fillStyle = '#14353e';
-  ctx.textAlign = 'center';
-  ctx.font = '700 16px "IBM Plex Sans"';
-  ctx.fillText(copy().progressKicker, 0, -6);
-  ctx.font = '700 28px "Baloo 2"';
-  ctx.fillText(`${state.found.size}/6`, 0, 24);
-  ctx.restore();
+function drawCanvas(now) {
+  drawSky(now); drawRainbowArcs(); drawSparkles(now); drawPrideBunting();
+  drawHills(); drawPond(now); drawTrail(now); drawGuide(); drawTrees();
+  drawStops(now); drawParticles(); drawTrailParticles(); drawUnicorn(now);
 }
 
-function draw(now) {
-  drawSky(now);
-  drawSparkles(now);
-  drawHills();
-  drawPond();
-  drawTrail(now);
-  drawGuide();
-  drawTrees();
-  drawStops(now);
-  drawUnicorn(now);
-  drawBadge();
+// --- MOVEMENT ---
+function getCanvasPoint(event) {
+  const rect = canvas.getBoundingClientRect();
+  const cx   = event.clientX ?? (event.touches?.[0]?.clientX ?? rect.left);
+  const cy   = event.clientY ?? (event.touches?.[0]?.clientY ?? rect.top);
+  return { x: ((cx-rect.left)/rect.width)*canvas.width, y: ((cy-rect.top)/rect.height)*canvas.height };
 }
 
+function clampPlayer() {
+  state.player.x = Math.max(54, Math.min(canvas.width-54, state.player.x));
+  state.player.y = Math.max(90, Math.min(canvas.height-60, state.player.y));
+}
+
+function handleCanvasPress(event) {
+  if (state.memoryCardOpen) return;
+  const pt = getCanvasPoint(event);
+  const close = STOPS.find(s => Math.hypot(pt.x-s.x, pt.y-s.y) < s.radius+20);
+  if (close) {
+    state.player.targetX = close.x; state.player.targetY = close.y;
+    if (Math.hypot(state.player.x-close.x, state.player.y-close.y) < close.radius+8) unlockStop(close.id);
+  } else {
+    state.player.targetX = pt.x; state.player.targetY = pt.y;
+  }
+  tryVibrate(12);
+}
+
+function updateMovement(dt) {
+  if (state.memoryCardOpen) return;
+  const speed = state.settings.calm ? 140 : 200;
+  let dx = 0, dy = 0;
+  if (state.keys.has('arrowup')    || state.keys.has('w')) dy -= 1;
+  if (state.keys.has('arrowdown')  || state.keys.has('s')) dy += 1;
+  if (state.keys.has('arrowleft')  || state.keys.has('a')) dx -= 1;
+  if (state.keys.has('arrowright') || state.keys.has('d')) dx += 1;
+  if (dx || dy) {
+    const len = Math.hypot(dx,dy) || 1;
+    state.player.x += (dx/len)*speed*dt; state.player.y += (dy/len)*speed*dt;
+    state.player.targetX = null; state.player.targetY = null;
+  } else if (state.player.targetX !== null) {
+    const tx = state.player.targetX - state.player.x;
+    const ty = state.player.targetY - state.player.y;
+    const dist = Math.hypot(tx,ty);
+    if (dist < 6) { state.player.x = state.player.targetX; state.player.y = state.player.targetY; state.player.targetX = null; state.player.targetY = null; }
+    else { state.player.x += (tx/dist)*speed*dt; state.player.y += (ty/dist)*speed*dt; }
+  }
+  clampPlayer();
+}
+
+function updateUnlocks() {
+  if (state.memoryCardOpen) return;
+  state.hoveredStopId = null;
+  STOPS.forEach(stop => {
+    const dist = Math.hypot(state.player.x-stop.x, state.player.y-stop.y);
+    if (dist < stop.radius+10) { state.hoveredStopId = stop.id; unlockStop(stop.id); }
+  });
+}
+
+// --- GAME LOOP ---
 let lastTime = performance.now();
 function frame(now) {
-  const dt = Math.min(0.032, (now - lastTime) / 1000);
+  const dt = Math.min(0.034, (now - lastTime) / 1000);
   lastTime = now;
-  updateMovement(dt);
-  updateUnlocks(now);
-  draw(now);
+  updateMovement(dt); updateUnlocks(); drawCanvas(now);
   requestAnimationFrame(frame);
 }
 
+// --- EVENTS ---
 document.getElementById('lang-toggle').addEventListener('click', () => {
-  setLanguage(state.lang === 'no' ? 'en' : 'no');
+  state.lang = state.lang === 'no' ? 'en' : 'no';
+  localStorage.setItem(LANG_KEY, state.lang); syncUi();
+});
+document.getElementById('reset-btn').addEventListener('click', resetGame);
+document.getElementById('finale-restart').addEventListener('click', () => { hideFinale(); resetGame(); });
+document.getElementById('finale-stay').addEventListener('click', hideFinale);
+
+[['s-guide','guide'],['s-calm','calm'],['s-large','large'],['s-contrast','contrast'],['s-motion','motion']].forEach(([id,key]) => {
+  document.getElementById(id).addEventListener('change', e => { state.settings[key] = e.target.checked; saveSettings(); syncUi(); });
 });
 
-document.getElementById('reset-button').addEventListener('click', resetGame);
-document.getElementById('setting-guide').addEventListener('change', event => toggleSetting('guide', event.target.checked));
-document.getElementById('setting-calm').addEventListener('change', event => toggleSetting('calm', event.target.checked));
-document.getElementById('setting-large').addEventListener('change', event => toggleSetting('large', event.target.checked));
-document.getElementById('setting-contrast').addEventListener('change', event => toggleSetting('contrast', event.target.checked));
+canvas.addEventListener('pointerdown', e => { canvas.focus(); handleCanvasPress(e); });
+canvas.addEventListener('pointermove', e => {
+  const pt = getCanvasPoint(e);
+  const hov = STOPS.find(s => Math.hypot(pt.x-s.x, pt.y-s.y) < s.radius+20);
+  state.hoveredStopId = hov ? hov.id : null;
+});
+window.addEventListener('keydown', e => {
+  const k = e.key.toLowerCase();
+  if (['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d'].includes(k)) { e.preventDefault(); state.keys.add(k); }
+  if (k === 'escape' && state.memoryCardOpen) closeMemoryCard();
+});
+window.addEventListener('keyup', e => state.keys.delete(e.key.toLowerCase()));
 
-canvas.addEventListener('pointerdown', event => {
-  canvas.focus();
-  handleCanvasPress(event);
+document.querySelectorAll('.touch-btn[data-dir]').forEach(btn => {
+  const map = { up:'arrowup', down:'arrowdown', left:'arrowleft', right:'arrowright' };
+  const k = map[btn.dataset.dir];
+  const add = () => state.keys.add(k);
+  const rem = () => state.keys.delete(k);
+  btn.addEventListener('pointerdown',  add);
+  btn.addEventListener('pointerup',    rem);
+  btn.addEventListener('pointerleave', rem);
+  btn.addEventListener('pointercancel',rem);
 });
 
-canvas.addEventListener('pointermove', event => {
-  const point = getCanvasPoint(event);
-  const hovered = STOPS.find(stop => Math.hypot(point.x - stop.x, point.y - stop.y) < stop.radius + 18);
-  state.hoveredStopId = hovered ? hovered.id : null;
-});
-
-window.addEventListener('keydown', event => {
-  const key = event.key.toLowerCase();
-  if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', 'w', 'a', 's', 'd'].includes(key)) {
-    event.preventDefault();
-    state.keys.add(key);
-  }
-});
-
-window.addEventListener('keyup', event => {
-  state.keys.delete(event.key.toLowerCase());
-});
-
-document.querySelectorAll('.touch-btn[data-dir]').forEach(button => {
-  const dirKey = button.dataset.dir;
-  const key = dirKey === 'up' ? 'arrowup' : dirKey === 'down' ? 'arrowdown' : dirKey === 'left' ? 'arrowleft' : 'arrowright';
-  const add = () => state.keys.add(key);
-  const remove = () => state.keys.delete(key);
-  button.addEventListener('pointerdown', add);
-  button.addEventListener('pointerup', remove);
-  button.addEventListener('pointerleave', remove);
-  button.addEventListener('pointercancel', remove);
-});
-
+// --- BOOT ---
 syncUi();
-updateProgressPanel();
-updateNarrativePanel();
 requestAnimationFrame(frame);
 </script>
 </body>

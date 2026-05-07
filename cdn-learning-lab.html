@@ -441,6 +441,165 @@ html, body {
   100% { opacity: 0; transform: scale(1);    filter: brightness(1); }
 }
 
+/* ================================================================
+   CDN LAB — TARGETED MOBILE PATCH v2
+   Layered on top of body.mobile-ui block. Viewport: 390×844 first.
+   ================================================================ */
+
+/* 0. Global safe geometry */
+html { overflow-x: hidden; }
+body { overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }
+
+/* 1. #tb — top bar: safe-area-top + constrain widths */
+body.mobile-ui #tb {
+  height: calc(46px + env(safe-area-inset-top)) !important;
+  padding-top: env(safe-area-inset-top) !important;
+  padding-left:  max(10px, env(safe-area-inset-left))  !important;
+  padding-right: max(10px, env(safe-area-inset-right)) !important;
+  overflow: visible !important;
+}
+
+/* 2. Story card starts below the taller #tb */
+body.mobile-ui #story-card {
+  top: calc(52px + env(safe-area-inset-top)) !important;
+}
+
+/* 3. Side panels: account for taller top bar */
+body.mobile-ui #lp,
+body.mobile-ui #rp {
+  top:    calc(46px + env(safe-area-inset-top))    !important;
+  bottom: calc(74px + env(safe-area-inset-bottom)) !important;
+}
+
+/* 4. Bottom nav — safe-area-bottom + WRAP buttons */
+body.mobile-ui #btm {
+  height: auto !important;
+  min-height: calc(56px + env(safe-area-inset-bottom)) !important;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom)) !important;
+  padding-left:  max(8px, env(safe-area-inset-left))  !important;
+  padding-right: max(8px, env(safe-area-inset-right)) !important;
+  flex-wrap: wrap !important;
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+  align-content: flex-start !important;
+}
+
+/* 5. Route / action buttons: 2-per-row on 390px, touch-friendly */
+body.mobile-ui .ab {
+  flex: 1 1 calc(50% - 10px) !important;
+  min-width: 120px !important;
+  max-width: calc(50vw - 16px) !important;
+  min-height: 44px !important;
+  font-size: 8px !important;
+  padding: 10px 8px !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  touch-action: manipulation !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* 6. Touch UI: stay above the now-taller bottom nav */
+body.mobile-ui #touch-ui {
+  bottom: calc(calc(56px + env(safe-area-inset-bottom)) + 14px) !important;
+}
+
+/* 7. Accessibility panel → fixed bottom sheet on mobile */
+body.mobile-ui .access-menu-body {
+  /* Remove the absolute dropdown behaviour entirely on mobile */
+  position: fixed !important;
+  left:   max(10px, env(safe-area-inset-left))   !important;
+  right:  max(10px, env(safe-area-inset-right))  !important;
+  bottom: max(10px, env(safe-area-inset-bottom)) !important;
+  top: auto !important;
+  max-height: min(82dvh, calc(100dvh - 80px)) !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  overscroll-behavior: contain !important;
+  z-index: 9999 !important;
+  border-radius: 20px 20px 0 0 !important;
+  width: auto !important;
+}
+
+/* 8. Interact popup: safe area */
+body.mobile-ui #ipop {
+  bottom: calc(88px + env(safe-area-inset-bottom)) !important;
+}
+
+/* 9. #ipop action buttons: wrap on small screens */
+body.mobile-ui #ipa {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+}
+body.mobile-ui #ipa .ab {
+  flex: 1 1 calc(50% - 8px) !important;
+}
+
+/* 10. Prevent horizontal overflow from .ts-brand / zone labels */
+body.mobile-ui .ts-brand {
+  max-width: 80px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+body.mobile-ui #zone-lbl {
+  max-width: 100px !important;
+}
+
+/* 11. Warn banner: no overflow */
+body.mobile-ui #warn-b {
+  max-width: calc(100vw - 24px) !important;
+  white-space: normal !important;
+  text-align: center !important;
+  overflow-wrap: break-word !important;
+}
+
+/* 12. Final-round popup: full safe-area safe positioning */
+body.mobile-ui #frpop {
+  max-width: calc(100vw - 24px) !important;
+  overflow-y: auto !important;
+  max-height: calc(100dvh - 40px) !important;
+}
+
+/* 13. Log panel: don't overflow on very small screens */
+body.mobile-ui #log {
+  max-width: calc(100vw - 24px) !important;
+  overflow-x: hidden !important;
+}
+body.mobile-ui .lge {
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+}
+
+/* 14. Hint / gwsp / aprmpt: float above taller btm nav */
+body.mobile-ui #hint,
+body.mobile-ui #gwsp,
+body.mobile-ui #aprmpt {
+  bottom: calc(calc(56px + env(safe-area-inset-bottom)) + 290px) !important;
+}
+
+/* 15. 390px fine-tuning: single-col button row, tighter brand */
+@media (max-width: 430px) {
+  body.mobile-ui .ab {
+    flex: 1 1 calc(50% - 8px) !important;
+    font-size: 7.5px !important;
+    min-height: 46px !important;
+  }
+  body.mobile-ui #tb {
+    gap: 0 !important;
+  }
+  body.mobile-ui .ts {
+    padding: 0 4px !important;
+  }
+  body.mobile-ui .ts-brand {
+    max-width: 64px !important;
+    letter-spacing: 2px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -588,6 +747,7 @@ const LP=MOBILE_MODE?12:156, RP=MOBILE_MODE?12:146;           // left/right pane
 const SURFACE_Y = Math.round(H*(MOBILE_MODE?0.33:0.38)); // surface line moves a bit up on small screens
 const FLOOR_Y   = H-(MOBILE_MODE?80:52);
 const WORLD_W   = 9800;
+const cdnLogoImg = new Image(); cdnLogoImg.src = 'assets/CDN.avif';
 const GAME_VIEW_TOP=MOBILE_MODE?46:40;
 const GAME_VIEW_BOTTOM=H-(MOBILE_MODE?74:50);
 const CDN_LEARNING_LANG_KEY='cdnLearningLanguage';
@@ -3370,26 +3530,51 @@ function drawUnderwaterLandmarks(t){
         ctx.fillRect(mark.x+22+i*44,mark.y+54,18,44);
       }
     }else if(mark.kind==='cdn'){
-      ctx.fillStyle='rgba(5,17,28,.76)';ctx.fillRect(mark.x,mark.y+30,mark.w,mark.h-30);
+      // Building body
+      ctx.fillStyle='rgba(5,17,28,.82)';ctx.fillRect(mark.x,mark.y+30,mark.w,mark.h-30);
+      // Glass facade gradient
       const gg=ctx.createLinearGradient(mark.x,mark.y,mark.x+mark.w,mark.y+mark.h);
-      gg.addColorStop(0,'rgba(170,235,255,.20)');
-      gg.addColorStop(.5,'rgba(255,255,255,.07)');
-      gg.addColorStop(1,'rgba(104,210,255,.16)');
-      ctx.fillStyle=gg;ctx.fillRect(mark.x+18,mark.y+42,mark.w-36,mark.h-54);
-      ctx.strokeStyle='rgba(180,236,255,.32)';ctx.lineWidth=1.2;ctx.strokeRect(mark.x+18,mark.y+42,mark.w-36,mark.h-54);
-      for(let i=1;i<6;i++){
-        const gx=mark.x+18+i*(mark.w-36)/6;
-        ctx.strokeStyle='rgba(226,248,255,.12)';
-        ctx.beginPath();ctx.moveTo(gx,mark.y+42);ctx.lineTo(gx,mark.y+mark.h-12);ctx.stroke();
+      gg.addColorStop(0,'rgba(170,235,255,.18)');gg.addColorStop(.5,'rgba(255,255,255,.06)');gg.addColorStop(1,'rgba(104,210,255,.14)');
+      ctx.fillStyle=gg;ctx.fillRect(mark.x+14,mark.y+42,mark.w-28,mark.h-52);
+      ctx.strokeStyle='rgba(180,236,255,.28)';ctx.lineWidth=1.2;ctx.strokeRect(mark.x+14,mark.y+42,mark.w-28,mark.h-52);
+      // Corridor entrance portal
+      const cdnCx=mark.x+mark.w*.5, cdnCy=mark.y+mark.h*.52;
+      const cdnPw=76, cdnPh=64;
+      const cdnPx=cdnCx-cdnPw*.5, cdnPy=cdnCy-cdnPh*.5;
+      // Interior radial glow
+      const cdnIg=ctx.createRadialGradient(cdnCx,cdnCy,2,cdnCx,cdnCy,cdnPw*.85);
+      cdnIg.addColorStop(0,`rgba(190,245,255,${.30+.10*Math.sin(t*1.8)})`);
+      cdnIg.addColorStop(.5,`rgba(80,190,255,${.12+.05*Math.sin(t*1.8)})`);
+      cdnIg.addColorStop(1,'rgba(20,80,150,0)');
+      ctx.fillStyle=cdnIg;ctx.beginPath();ctx.ellipse(cdnCx,cdnCy,cdnPw*.9,cdnPh*.72,0,0,Math.PI*2);ctx.fill();
+      // Portal dark recess
+      ctx.fillStyle='rgba(4,14,26,.90)';ctx.fillRect(cdnPx,cdnPy,cdnPw,cdnPh);
+      ctx.strokeStyle=`rgba(140,220,255,${.52+.18*Math.sin(t*2.4)})`;ctx.lineWidth=1.5;ctx.strokeRect(cdnPx,cdnPy,cdnPw,cdnPh);
+      // Perspective corridor lines
+      ctx.strokeStyle='rgba(120,200,255,.13)';ctx.lineWidth=1;
+      [[cdnPx,cdnPy],[cdnPx+cdnPw,cdnPy],[cdnPx,cdnPy+cdnPh],[cdnPx+cdnPw,cdnPy+cdnPh]].forEach(([lx,ly])=>{
+        ctx.beginPath();ctx.moveTo(lx,ly);
+        ctx.lineTo(lx<cdnCx?mark.x+6:mark.x+mark.w-6,ly<cdnCy?mark.y+42:mark.y+mark.h-12);
+        ctx.stroke();
+      });
+      // CDN logo image inside portal
+      if(cdnLogoImg.complete&&cdnLogoImg.naturalWidth){
+        const cdnIw=52,cdnIh=52;
+        ctx.globalAlpha=0.88+0.10*Math.sin(t*1.6);
+        ctx.drawImage(cdnLogoImg,cdnCx-cdnIw*.5,cdnCy-cdnIh*.5-2,cdnIw,cdnIh);
+        ctx.globalAlpha=1;
+      }else{
+        ctx.font='900 16px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+        ctx.fillStyle=`rgba(255,250,230,${.72+.18*Math.sin(t*1.6)})`;
+        ctx.fillText('CDN',cdnCx,cdnCy);ctx.textBaseline='alphabetic';
       }
-      ctx.fillStyle=`rgba(255,224,156,${.22+.08*Math.sin(t*2.2)})`;
-      ctx.beginPath();ctx.arc(mark.x+mark.w*.58,mark.y+mark.h*.43,18,0,Math.PI*2);ctx.fill();
-      ctx.font='900 14px system-ui, sans-serif';ctx.textAlign='center';
-      ctx.fillStyle='rgba(255,250,230,.62)';
-      ctx.fillText('CDN',mark.x+mark.w*.5,mark.y+28);
-      ctx.font='800 9px system-ui, sans-serif';
-      ctx.fillStyle='rgba(210,244,255,.46)';
-      ctx.fillText('GLASSHUSET / UiB',mark.x+mark.w*.5,mark.y+mark.h-18);
+      // Fascia labels
+      ctx.font='900 13px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='alphabetic';
+      ctx.fillStyle='rgba(215,246,255,.65)';
+      ctx.fillText('CDN GLASSHUSET',mark.x+mark.w*.5,mark.y+28);
+      ctx.font='700 8px system-ui,sans-serif';
+      ctx.fillStyle='rgba(180,230,255,.38)';
+      ctx.fillText('CENTRE FOR DIGITAL NARRATIVE · UiB',mark.x+mark.w*.5,mark.y+mark.h-10);
     }else if(mark.kind==='puddefjord'){
       [0,1,2].forEach(i=>{
         const px=mark.x+40+i*128;
