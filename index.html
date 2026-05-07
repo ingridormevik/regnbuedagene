@@ -55,15 +55,16 @@
             z-index: 0;
             pointer-events: none;
             overflow: hidden;
+            will-change: transform;
         }
 
-        /* Northern Lights Canvas */
         #aurora-canvas {
             position: absolute;
             width: 100%;
             height: 100%;
             opacity: 0.15;
             mix-blend-mode: screen;
+            will-change: transform;
         }
 
         /* Mist/Fog Effect */
@@ -1170,8 +1171,7 @@
 
         body.mobile-lite .mist-layer-2,
         body.mobile-lite #aurora-canvas,
-        body.mobile-lite #aurora-shader-canvas,
-        body.mobile-lite .forest-atmosphere {
+        body.mobile-lite #aurora-shader-canvas {
             display: none !important;
         }
 
@@ -1187,7 +1187,9 @@
         }
 
         body.mobile-lite .creature-card::before,
-        body.mobile-lite .creature-card::after,
+        body.mobile-lite .creature-card::after {
+            animation-duration: 10s !important;
+        }
         body.mobile-lite .creature-icon::before,
         body.mobile-lite .creature-icon::after {
             animation: none !important;
@@ -1676,8 +1678,6 @@
         }
 
         @media (max-width: 768px) {
-            #aurora-canvas,
-            #aurora-shader-canvas,
             .mist-layer-2 {
                 display: none;
             }
@@ -3007,7 +3007,9 @@
         function isMobilePerformanceMode() {
             if (isEmbeddedDesktopMode()) return false;
             const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-            return window.innerWidth < 768 || (coarsePointer && window.innerWidth < 1024);
+            // Only suppress heavy effects on actual phones (coarse touch + narrow screen)
+            // Narrow iframe viewports and tablets should keep all effects
+            return coarsePointer && window.innerWidth <= 430;
         }
 
         let mobileLiteMode = isMobilePerformanceMode();
