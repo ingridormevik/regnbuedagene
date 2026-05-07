@@ -830,6 +830,7 @@
             min-height: 6.4rem;
             align-items: center;
             line-height: 1.06;
+            opacity: 1;
         }
 
         .creature-card.artist-reveal-card.show-artist .artist-pronouns {
@@ -839,6 +840,7 @@
             letter-spacing: 0.08em;
             text-align: center;
             color: var(--mist-gray);
+            opacity: 1;
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content .creature-identity {
@@ -847,11 +849,13 @@
             white-space: normal;
             font-size: 0.84rem;
             letter-spacing: 0.08em;
+            opacity: 1;
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content .creature-description {
             min-height: 0;
             margin-bottom: 0;
+            opacity: 1;
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content .creature-quote {
@@ -860,6 +864,7 @@
             min-height: 0;
             white-space: normal;
             font-size: 0.9rem;
+            opacity: 1;
         }
 
         .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image,
@@ -3377,6 +3382,12 @@ creatureCards.forEach(card => {
             const showArtist = nextState === 'artist';
             card.classList.toggle('show-artist', showArtist);
             card.dataset.cardState = showArtist ? 'artist' : 'folklore';
+
+            // Force animation restart for Safari iOS (display:none → grid doesn't always replay)
+            if (showArtist) {
+                const content = card.querySelector('.card-artist-content');
+                if (content) void content.offsetWidth;
+            }
 
             card.querySelectorAll('.card-state-button').forEach((button) => {
                 const isActive = button.dataset.cardState === card.dataset.cardState;
