@@ -35,12 +35,18 @@
             min-height: 100vh;
             overflow-x: hidden;
             overflow-anchor: none;
+            scrollbar-width: none;
             font-family: 'Crimson Text', Georgia, serif;
             background: var(--forest-black);
             color: var(--spirit-white);
             cursor: default;
             -webkit-text-size-adjust: 100%;
             text-size-adjust: 100%;
+        }
+
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
         }
 
         /* ---------------------------------------------------------------
