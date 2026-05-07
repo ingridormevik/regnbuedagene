@@ -867,6 +867,14 @@
             opacity: 1;
         }
 
+        /* Folklore/vesen text: always visible (animation fallback for Safari) */
+        .creature-card.artist-reveal-card:not(.show-artist) .card-folklore-content .creature-name,
+        .creature-card.artist-reveal-card:not(.show-artist) .card-folklore-content .creature-identity,
+        .creature-card.artist-reveal-card:not(.show-artist) .card-folklore-content .creature-description,
+        .creature-card.artist-reveal-card:not(.show-artist) .card-folklore-content .creature-quote {
+            opacity: 1;
+        }
+
         .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image,
         .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image,
         .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image {
@@ -3386,6 +3394,9 @@ creatureCards.forEach(card => {
             // Force animation restart for Safari iOS (display:none → grid doesn't always replay)
             if (showArtist) {
                 const content = card.querySelector('.card-artist-content');
+                if (content) void content.offsetWidth;
+            } else {
+                const content = card.querySelector('.card-folklore-content');
                 if (content) void content.offsetWidth;
             }
 
