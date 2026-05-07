@@ -3301,11 +3301,19 @@ creatureCards.forEach(card => {
     card.addEventListener('pointerup', (e) => {
         if (e.target.closest('.card-state-button')) return;
         card.classList.remove('touch-pressed');
+        // Skip if finger moved — user was scrolling
+        const dx = Math.abs(e.clientX - (card._pStartX ?? e.clientX));
+        const dy = Math.abs(e.clientY - (card._pStartY ?? e.clientY));
+        if (dx > 8 || dy > 10) return;
+        // Skip rightmost 15% of viewport — dedicated scroll strip
+        if (e.pointerType === 'touch' && e.clientX > window.innerWidth * 0.85) return;
         activate(e.clientX, e.clientY);
     }, { passive: true });
 
     card.addEventListener('pointerdown', (e) => {
         if (e.pointerType === 'mouse' || e.target.closest('.card-state-button')) return;
+        card._pStartX = e.clientX;
+        card._pStartY = e.clientY;
         card.classList.add('touch-pressed');
     }, { passive: true });
 
