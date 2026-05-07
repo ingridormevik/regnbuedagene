@@ -982,6 +982,7 @@
         }
 
         .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer {
+            transform: translateY(6px) scale(0.94);
             filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55))
                     drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
                     drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
@@ -989,6 +990,7 @@
 
         .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer {
             max-width: 370px;
+            transform: translateY(6px) scale(1.07);
             filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58))
                     drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
                     drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
@@ -2562,21 +2564,21 @@
                 mask-image: none !important;
             }
 
-            /* HULDRA / SELINA: wider pose, don't crop the body */
+            /* HULDRA / SELINA: seated/kneeling pose */
             .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer {
-                max-width: 108%;
+                max-width: 104%;
                 max-height: clamp(420px, 88vw, 610px);
-                transform: translateY(0) scale(1);
+                transform: translateY(0) scale(0.94);
                 filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55))
                         drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
                         drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
             }
 
-            /* BERGTROLLET / DIESEL: show full body, no bottom crop */
+            /* BERGTROLLET / DIESEL: standing pose, boost to match visual size */
             .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer {
-                max-width: 100%;
-                max-height: clamp(440px, 92vw, 630px);
-                transform: translateY(0) scale(1);
+                max-width: 104%;
+                max-height: clamp(420px, 88vw, 610px);
+                transform: translateY(0) scale(1.07);
                 filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58))
                         drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
                         drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
