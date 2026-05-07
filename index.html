@@ -34,6 +34,7 @@
             width: 100%;
             min-height: 100vh;
             overflow-x: hidden;
+            overflow-anchor: none;
             font-family: 'Crimson Text', Georgia, serif;
             background: var(--forest-black);
             color: var(--spirit-white);
@@ -3683,16 +3684,10 @@ creatureCards.forEach(card => {
             entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
                     setTimeout(() => {
-                        entry.target.style.opacity = '0';
-                        entry.target.style.transform = 'translateY(30px)';
-                        entry.target.style.transition = 'all 0.8s ease-out';
-
-                        setTimeout(() => {
-                            entry.target.style.opacity = '1';
-                            entry.target.style.transform = 'translateY(0)';
-                        }, 50);
+                        entry.target.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translate3d(0,0,0)';
                     }, index * 150);
-
                     observer.unobserve(entry.target);
                 }
             });
@@ -3700,6 +3695,7 @@ creatureCards.forEach(card => {
 
         creatureCards.forEach(card => {
             card.style.opacity = '0';
+            card.style.transform = 'translate3d(0,20px,0)';
             observer.observe(card);
         });
 
