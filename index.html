@@ -156,6 +156,7 @@
             letter-spacing: 0em;
             display: block;
             width: 100%;
+            max-width: 100%;
             margin-inline: auto;
             text-align: center;
             margin-bottom: 20px;
@@ -163,7 +164,9 @@
                 0 0 40px rgba(196, 212, 204, 0.4),
                 0 4px 12px rgba(0, 0, 0, 0.9);
             animation: titleGlow 4s ease-in-out infinite;
-            white-space: nowrap;
+            white-space: normal;
+            text-wrap: balance;
+            line-height: 1;
         }
 
         @keyframes titleGlow {
@@ -1481,12 +1484,13 @@
             .main-title {
                 font-size: clamp(1.55rem, 7.6vw, 2.25rem);
                 animation: none;
-                width: auto;
+                width: 100%;
                 max-width: 100%;
-                display: inline-block;
+                display: block;
                 margin-inline: auto;
                 white-space: normal;
                 text-wrap: balance;
+                line-height: 1;
                 text-shadow:
                     0 0 24px rgba(196, 212, 204, 0.28),
                     0 4px 12px rgba(0, 0, 0, 0.9);
@@ -2133,11 +2137,11 @@
         body.embedded-desktop .main-title {
             font-size: clamp(2.2rem, 8.4vw, 4.1rem);
             width: 100%;
-            max-width: 14ch;
+            max-width: 100%;
             margin-inline: auto;
             white-space: normal;
             text-wrap: balance;
-            line-height: 0.94;
+            line-height: 1;
         }
 
         body.embedded-desktop .subtitle {
@@ -2363,10 +2367,11 @@
         }
 
         .main-title {
-            max-width: 14.5ch;
+            width: 100%;
+            max-width: 100%;
             white-space: normal;
             text-wrap: balance;
-            line-height: 0.92;
+            line-height: 1;
             font-size: clamp(2.35rem, 5.9vw, 5.8rem);
         }
 
@@ -2414,9 +2419,10 @@
         }
 
         body.embedded-desktop .main-title {
-            max-width: 14.5ch;
+            width: 100%;
+            max-width: 100%;
             font-size: clamp(2.35rem, 5.9vw, 5.8rem);
-            line-height: 0.92;
+            line-height: 1;
         }
 
         body.embedded-desktop .journey-text {
@@ -2457,9 +2463,12 @@
 
             .main-title,
             body.embedded-desktop .main-title {
-                max-width: 10.5ch;
-                font-size: clamp(2rem, 13vw, 3.15rem);
+                max-width: 100%;
+                font-size: clamp(2rem, 11vw, 3.15rem);
                 letter-spacing: 0;
+                line-height: 1;
+                white-space: normal;
+                text-wrap: balance;
             }
 
             .journey-text,
