@@ -3086,12 +3086,9 @@
         let time = 0;
         let auroraFrameToggle = false;
         let _auroraActive = false;
-        let _scrolling = false;
-        let _scrollTimer = null;
-        let _lastScrollAt = 0;
+        let _scrolling = false;\n        let _scrollTimer = null;
         window.addEventListener('scroll', () => {
             _scrolling = true;
-            _lastScrollAt = Date.now();
             clearTimeout(_scrollTimer);
             _scrollTimer = setTimeout(() => {
                 _scrolling = false;
@@ -3319,19 +3316,25 @@ creatureCards.forEach(card => {
         checkAllAwakened();
     };
 
+    // touchmove = finger physically moved = scroll gesture, not a tap
+    card.addEventListener('touchmove', () => {
+        card._pTouchMoved = true;
+    }, { passive: true });
+
     card.addEventListener('pointerup', (e) => {
         if (e.target.closest('.card-state-button')) return;
         card.classList.remove('touch-pressed');
         if (e.pointerType === 'touch') {
-            // Reject if page was scrolling recently (momentum stop fires fake pointerup)
-            if (Date.now() - _lastScrollAt < 350) return;
-            // Reject if tap was too fast to be intentional (< 80ms = synthetic event)
-            if (Date.now() - (card._pStartTime ?? 0) < 80) return;
-            // Reject if finger moved
-            const dx = Math.abs(e.clientX - (card._pStartX ?? e.clientX));
-            const dy = Math.abs(e.clientY - (card._pStartY ?? e.clientY));
-            if (dx > 8 || dy > 12) return;
-            // Skip rightmost 15% — dedicated scroll strip
+            // Finger moved during this touch = scroll gesture
+            if (card._pTouchMoved) return;
+            // No matching pointerdown recorded (e.g. pointercancel fired during scroll)
+            if (!card._pStartTime) return;
+            const dur = Date.now() - card._pStartTime;
+            // Too fast = synthetic iOS event at end of momentum scroll
+            if (dur < 80) return;
+            // Too long = stale pStartTime from a previous swipe gesture (momentum took >2s)
+            if (dur > 2000) return;
+            // Skip rightmost 15% — scroll strip
             if (e.clientX > window.innerWidth * 0.85) return;
         }
         activate(e.clientX, e.clientY);
@@ -3341,8 +3344,8 @@ creatureCards.forEach(card => {
         if (e.pointerType === 'mouse' || e.target.closest('.card-state-button')) return;
         card._pStartX = e.clientX;
         card._pStartY = e.clientY;
-        card._pStartScroll = window.scrollY;
         card._pStartTime = Date.now();
+        card._pTouchMoved = false;
         card.classList.add('touch-pressed');
     }, { passive: true });
 
@@ -3351,8 +3354,8 @@ creatureCards.forEach(card => {
             card.classList.remove('touch-pressed');
             card._pStartX = undefined;
             card._pStartY = undefined;
-            card._pStartScroll = undefined;
             card._pStartTime = undefined;
+            card._pTouchMoved = false;
         }, { passive: true });
     });
 
