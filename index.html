@@ -2090,7 +2090,7 @@
 
             .creature-card.touch-pressed {
                 transform: scale(0.97) translateZ(0);
-                transition: transform 0.06s ease-out;
+                transition: transform 0.04s ease-out;
                 border-color: var(--glow-color);
             }
 
@@ -3360,6 +3360,8 @@ creatureCards.forEach(card => {
         card._pStartTime = Date.now();
         card._pTouchMoved = false;
         card.classList.add('touch-pressed');
+        // Instant tactile feedback on finger-down (before activation on lift)
+        if (hasVibrate) { try { navigator.vibrate(22); } catch (ex) {} }
     }, { passive: true });
 
     ['pointercancel', 'pointerleave'].forEach((eventName) => {
