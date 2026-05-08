@@ -1256,6 +1256,7 @@
             z-index: 2;
             display: grid;
             align-content: center;
+            justify-items: center;
             gap: 14px;
             text-align: center;
             padding-left: 260px;
@@ -1273,6 +1274,9 @@
             margin-bottom: 0;
             text-transform: uppercase;
             text-wrap: balance;
+            width: 100%;
+            text-align: center;
+            transform: translateX(-130px);
         }
 
         .witch-description {
@@ -1960,6 +1964,9 @@
                 padding-left: 170px;
                 min-height: 380px;
             }
+            .witch-ep h2 {
+                transform: translateX(-85px);
+            }
             .club-seduction-body {
                 grid-template-columns: 1fr;
             }
@@ -2051,6 +2058,7 @@
                 line-height: 0.94;
                 letter-spacing: 0.03em;
                 text-wrap: balance;
+                transform: none;
             }
 
             .witch-soundcloud {
@@ -2097,6 +2105,7 @@
                 backdrop-filter: blur(4px);
                 -webkit-backdrop-filter: blur(4px);
                 transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+                touch-action: pan-y manipulation;
             }
 
             .creature-card.touch-pressed {
@@ -2145,6 +2154,12 @@
             .visual-preview {
                 content-visibility: auto;
                 contain-intrinsic-size: 1px 420px;
+            }
+
+            .creature-card.artist-reveal-card,
+            .creature-card.artist-reveal-card .card-state-toggle,
+            .creature-card.artist-reveal-card .card-state-button {
+                touch-action: manipulation;
             }
         }
 
@@ -2913,7 +2928,7 @@
                         height="116"
                         scrolling="no"
                         frameborder="no"
-                        allow="autoplay"
+                        allow=""
                         src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/the-witch-princess/sets/forest-meeting-ep&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false">
                     </iframe>
                 </div>
@@ -3358,6 +3373,9 @@
 // ---------------------------------------------------------------
 const creatureCards = document.querySelectorAll('.creature-card');
 const ritualCountMap = {};
+const FAST_TAP_GUARD_MS = 90;
+const SCROLL_CANCEL_PX = 14;
+const STALE_TAP_MS = 1200;
 
 function getParticleBurstLayer() {
     let layer = document.getElementById('particleBurstLayer');
@@ -3379,6 +3397,9 @@ creatureCards.forEach(card => {
     const explosionContainer = card.querySelector('.particle-explosion');
 
     const activate = (clientX, clientY) => {
+        const now = performance.now();
+        if (card._lastActivationAt && now - card._lastActivationAt < FAST_TAP_GUARD_MS) return;
+        card._lastActivationAt = now;
         const key = card.dataset.creature;
         ritualCountMap[key] = (ritualCountMap[key] || 0) + 1;
 
@@ -3405,6 +3426,12 @@ creatureCards.forEach(card => {
 
         // Particle explosion
         if (explosionContainer) {
+            const existingBursts = explosionContainer.querySelectorAll('.particle-burst, .particle, .ritual-rune');
+            if (existingBursts.length > 72) {
+                existingBursts.forEach((node, index) => {
+                    if (index < existingBursts.length - 48) node.remove();
+                });
+            }
             createExplosion(explosionContainer, key, clientX, clientY);
         }
 
@@ -3422,6 +3449,16 @@ creatureCards.forEach(card => {
         card._pTouchMoved = true;
     }, { passive: true });
 
+    card.addEventListener('pointermove', (e) => {
+        if (e.pointerType !== 'touch' || !card._pStartTime) return;
+        const dx = Math.abs(e.clientX - (card._pStartX || e.clientX));
+        const dy = Math.abs(e.clientY - (card._pStartY || e.clientY));
+        if (dx > SCROLL_CANCEL_PX || dy > SCROLL_CANCEL_PX) {
+            card._pTouchMoved = true;
+            card.classList.remove('touch-pressed');
+        }
+    }, { passive: true });
+
     card.addEventListener('pointerup', (e) => {
         if (e.target.closest('.card-state-button')) return;
         card.classList.remove('touch-pressed');
@@ -3431,14 +3468,19 @@ creatureCards.forEach(card => {
             // No matching pointerdown recorded (e.g. pointercancel fired during scroll)
             if (!card._pStartTime) return;
             const dur = Date.now() - card._pStartTime;
-            // Too fast = synthetic iOS event at end of momentum scroll
-            if (dur < 80) return;
-            // Too long = stale pStartTime from a previous swipe gesture (momentum took >2s)
-            if (dur > 2000) return;
+            // Too long = stale pStartTime from a previous swipe gesture.
+            if (dur > STALE_TAP_MS) return;
+            const dx = Math.abs(e.clientX - (card._pStartX || e.clientX));
+            const dy = Math.abs(e.clientY - (card._pStartY || e.clientY));
+            if (dx > SCROLL_CANCEL_PX || dy > SCROLL_CANCEL_PX) return;
             // Skip rightmost 15% — scroll strip
             if (e.clientX > window.innerWidth * 0.85) return;
         }
         activate(e.clientX, e.clientY);
+        card._pStartX = undefined;
+        card._pStartY = undefined;
+        card._pStartTime = undefined;
+        card._pTouchMoved = false;
     }, { passive: true });
 
     card.addEventListener('pointerdown', (e) => {
@@ -3948,8 +3990,9 @@ creatureCards.forEach(card => {
         let ritualAudioCtx = null;
         let lastHapticIndicatorText = '';
         let lastHapticIndicatorAt = 0;
-
+        const LANDING_AUDIO_DISABLED = true;
         function getRitualAudioCtx() {
+            if (LANDING_AUDIO_DISABLED) return null;
             if (!ritualAudioCtx) {
                 const Ctx = window.AudioContext || window.webkitAudioContext;
                 if (Ctx) ritualAudioCtx = new Ctx();
@@ -3958,6 +4001,7 @@ creatureCards.forEach(card => {
         }
 
         function ensureAudioResumed() {
+            if (LANDING_AUDIO_DISABLED) return;
             const ctx = getRitualAudioCtx();
             if (ctx && ctx.state === 'suspended') {
                 ctx.resume().catch(() => {});
@@ -3982,6 +4026,7 @@ creatureCards.forEach(card => {
         }
 
         function playHapticTone(intensity) {
+            if (LANDING_AUDIO_DISABLED) return;
             try {
                 const ctx = getRitualAudioCtx();
                 if (!ctx) return;
@@ -4052,13 +4097,12 @@ creatureCards.forEach(card => {
             }
 
             if (!didVibrate) {
-                playHapticTone(intensity);
                 triggerShake(element, intensity);
             }
 
             const modeText = LANG.current === 'en'
-                ? (didVibrate ? 'RITUAL HAPTICS · VIBRATION' : (isIOS ? 'RITUAL HAPTICS · SOUND + SHAKE' : 'RITUAL HAPTICS · SHAKE'))
-                : (didVibrate ? 'RITUELL HAPTIKK · VIBRASJON' : (isIOS ? 'RITUELL HAPTIKK · LYD + RISTING' : 'RITUELL HAPTIKK · RISTING'));
+                ? (didVibrate ? 'RITUAL HAPTICS · VIBRATION' : 'RITUAL HAPTICS · SHAKE')
+                : (didVibrate ? 'RITUELL HAPTIKK · VIBRASJON' : 'RITUELL HAPTIKK · RISTING');
             showHapticMode(modeText);
         }
 
