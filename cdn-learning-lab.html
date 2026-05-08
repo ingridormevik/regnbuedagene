@@ -2154,7 +2154,7 @@ body.rotate-overlay-active #ldg{
     -webkit-overflow-scrolling:touch !important;
   }
 
-  #ipop img,
+#ipop img,
   .passage-panel img,
   .creature-panel img,
   .info-panel img,
@@ -2164,6 +2164,930 @@ body.rotate-overlay-active #ldg{
     max-height:34dvh !important;
     height:auto !important;
     object-fit:contain !important;
+  }
+}
+
+/* MOBILE-FIRST RESERVED-ZONE ARCHITECTURE */
+@media (max-width: 900px), (pointer: coarse) {
+  html,
+  body {
+    width:100% !important;
+    max-width:100% !important;
+    overflow-x:hidden !important;
+    overflow-y:hidden !important;
+    background:#020711 !important;
+  }
+
+  body.mobile-layout {
+    --mobile-safe-top:env(safe-area-inset-top, 0px);
+    --mobile-safe-bottom:env(safe-area-inset-bottom, 0px);
+    --hud-height:64px;
+    --objective-height:54px;
+    --controls-height:132px;
+    --top-ui-space:calc(var(--mobile-safe-top) + var(--hud-height) + var(--objective-height) + 12px);
+    --bottom-ui-space:calc(var(--mobile-safe-bottom) + var(--controls-height) + 8px);
+    --available-game-height:calc(100dvh - var(--top-ui-space) - var(--bottom-ui-space));
+    touch-action:none;
+  }
+
+  body.mobile-layout #rotate-device-overlay,
+  body.mobile-layout.rotate-overlay-active #rotate-device-overlay {
+    display:none !important;
+    pointer-events:none !important;
+  }
+
+  body.mobile-layout.rotate-overlay-active #gc,
+  body.mobile-layout.rotate-overlay-active #hud,
+  body.mobile-layout.rotate-overlay-active #story-card,
+  body.mobile-layout.rotate-overlay-active #touch-ui,
+  body.mobile-layout.rotate-overlay-active #ipop,
+  body.mobile-layout.rotate-overlay-active #frpop,
+  body.mobile-layout.rotate-overlay-active #endscrn,
+  body.mobile-layout.rotate-overlay-active #ldg {
+    filter:none !important;
+    opacity:1 !important;
+    pointer-events:auto;
+  }
+
+  body.mobile-layout #tb {
+    position:fixed !important;
+    top:var(--mobile-safe-top) !important;
+    left:0 !important;
+    right:0 !important;
+    height:var(--hud-height) !important;
+    min-height:var(--hud-height) !important;
+    z-index:80 !important;
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    align-items:center !important;
+    gap:8px !important;
+    padding:8px 10px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    white-space:nowrap !important;
+    scrollbar-width:none !important;
+    -webkit-overflow-scrolling:touch;
+    background:linear-gradient(180deg,rgba(4,13,23,.98),rgba(4,12,22,.92)) !important;
+  }
+
+  body.mobile-layout #tb::-webkit-scrollbar {
+    display:none;
+  }
+
+  body.mobile-layout #tb > *,
+  body.mobile-layout #tb .ts,
+  body.mobile-layout #lang-toggle,
+  body.mobile-layout #accessibility-menu,
+  body.mobile-layout #accessibility-menu > summary {
+    flex:0 0 auto !important;
+    max-width:none !important;
+  }
+
+  body.mobile-layout #tb .ts,
+  body.mobile-layout #zone-lbl,
+  body.mobile-layout #lang-toggle,
+  body.mobile-layout #accessibility-menu > summary,
+  body.mobile-layout .ts-brand {
+    min-height:44px !important;
+    height:44px !important;
+    padding:6px 10px !important;
+    border-radius:999px !important;
+    font-size:0.72rem !important;
+    letter-spacing:0.04em !important;
+    line-height:1.1 !important;
+    display:flex !important;
+    align-items:center !important;
+  }
+
+  body.mobile-layout .ts-brand {
+    font-size:0.78rem !important;
+    letter-spacing:0.12em !important;
+  }
+
+  body.mobile-layout .tsl {
+    font-size:0.58rem !important;
+    letter-spacing:0.06em !important;
+  }
+
+  body.mobile-layout .tsv {
+    font-size:0.82rem !important;
+  }
+
+  body.mobile-layout .tfill,
+  body.mobile-layout #clock {
+    display:none !important;
+  }
+
+  body.mobile-layout #zone-lbl {
+    max-width:46vw !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+
+  body.mobile-layout #accessibility-menu[open] > summary {
+    border-color:rgba(255,203,139,.58) !important;
+  }
+
+  body.mobile-layout .access-menu-body {
+    position:fixed !important;
+    left:12px !important;
+    right:12px !important;
+    bottom:calc(var(--mobile-safe-bottom) + 12px) !important;
+    top:auto !important;
+    width:auto !important;
+    max-height:70dvh !important;
+    overflow-y:auto !important;
+    z-index:130 !important;
+    border-radius:22px !important;
+    padding:14px !important;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  body.mobile-layout #story-card {
+    position:fixed !important;
+    top:calc(var(--mobile-safe-top) + var(--hud-height) + 6px) !important;
+    left:10px !important;
+    right:10px !important;
+    bottom:auto !important;
+    width:auto !important;
+    max-width:none !important;
+    min-height:var(--objective-height) !important;
+    max-height:var(--objective-height) !important;
+    overflow:hidden !important;
+    padding:10px 12px !important;
+    border-radius:18px !important;
+    z-index:65 !important;
+    pointer-events:auto !important;
+  }
+
+  body.mobile-layout #story-card #story-scroll {
+    display:none !important;
+  }
+
+  body.mobile-layout #story-card #story-summary {
+    display:flex !important;
+    align-items:center !important;
+    min-height:30px !important;
+    padding-right:82px !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+    font-size:0.82rem !important;
+    line-height:1.2 !important;
+  }
+
+  body.mobile-layout #story-toggle {
+    display:inline-flex !important;
+    position:absolute !important;
+    top:9px !important;
+    right:9px !important;
+    min-height:34px !important;
+    padding:0 11px !important;
+    border-radius:999px !important;
+    z-index:3 !important;
+    pointer-events:auto !important;
+    font-size:0.68rem !important;
+    letter-spacing:0.08em !important;
+  }
+
+  body.mobile-layout #story-card:not(.is-collapsed) {
+    top:auto !important;
+    bottom:calc(var(--mobile-safe-bottom) + var(--controls-height) + 12px) !important;
+    max-height:min(62dvh, 420px) !important;
+    overflow-y:auto !important;
+    padding:48px 16px 16px !important;
+    z-index:120 !important;
+    box-shadow:0 28px 80px rgba(0,0,0,.46), inset 0 1px 0 rgba(255,255,255,.06) !important;
+  }
+
+  body.mobile-layout #story-card:not(.is-collapsed) #story-scroll {
+    display:block !important;
+    max-height:none !important;
+    overflow:visible !important;
+    mask-image:none !important;
+    -webkit-mask-image:none !important;
+  }
+
+  body.mobile-layout #story-card:not(.is-collapsed) #story-summary {
+    display:none !important;
+  }
+
+  body.mobile-layout #warn-b {
+    position:fixed !important;
+    top:calc(var(--mobile-safe-top) + var(--hud-height) + var(--objective-height) + 12px) !important;
+    left:12px !important;
+    right:12px !important;
+    transform:translateY(-10px) !important;
+    z-index:90 !important;
+    max-width:none !important;
+    min-height:36px !important;
+    padding:9px 12px !important;
+    border-radius:999px !important;
+    font-size:0.85rem !important;
+    letter-spacing:0.08em !important;
+    line-height:1.2 !important;
+    white-space:normal !important;
+    text-align:center !important;
+    pointer-events:none !important;
+  }
+
+  body.mobile-layout #warn-b.show {
+    transform:translateY(0) !important;
+    opacity:1 !important;
+  }
+
+  body.mobile-layout #gc {
+    position:fixed !important;
+    left:0 !important;
+    right:0 !important;
+    top:var(--top-ui-space) !important;
+    width:100vw !important;
+    height:var(--available-game-height) !important;
+    min-height:260px !important;
+    max-height:48dvh !important;
+    display:block !important;
+    z-index:1 !important;
+    touch-action:none !important;
+  }
+
+  body.mobile-layout #touch-ui {
+    position:fixed !important;
+    left:0 !important;
+    right:0 !important;
+    bottom:var(--mobile-safe-bottom) !important;
+    min-height:var(--controls-height) !important;
+    height:var(--controls-height) !important;
+    padding:10px 12px !important;
+    display:grid !important;
+    grid-template-columns:minmax(142px, 1fr) minmax(142px, 1fr) !important;
+    gap:12px !important;
+    z-index:70 !important;
+    pointer-events:none !important;
+    background:linear-gradient(180deg,transparent,rgba(3,8,12,0.94) 28%) !important;
+    border:0 !important;
+    box-shadow:none !important;
+  }
+
+  body.mobile-layout #touch-left-stack {
+    grid-column:1 !important;
+    display:grid !important;
+    grid-template-columns:min-content minmax(76px, 1fr) !important;
+    align-items:end !important;
+    gap:8px !important;
+    min-width:0 !important;
+    height:100% !important;
+    pointer-events:auto !important;
+  }
+
+  body.mobile-layout #touch-pad {
+    display:grid !important;
+    grid-template-columns:42px 42px 42px !important;
+    grid-template-rows:42px 42px 42px !important;
+    gap:5px !important;
+    padding:6px !important;
+    border-radius:18px !important;
+    align-self:end !important;
+    pointer-events:auto !important;
+  }
+
+  body.mobile-layout #touch-pad .touch-btn {
+    width:42px !important;
+    height:42px !important;
+    min-width:42px !important;
+    min-height:42px !important;
+    border-radius:13px !important;
+    font-size:1rem !important;
+  }
+
+  body.mobile-layout #touch-utility,
+  body.mobile-layout #touch-actions {
+    display:grid !important;
+    gap:7px !important;
+    min-width:0 !important;
+    height:100% !important;
+    pointer-events:auto !important;
+  }
+
+  body.mobile-layout #touch-utility {
+    grid-template-rows:1fr 1fr !important;
+  }
+
+  body.mobile-layout #touch-actions {
+    grid-column:2 !important;
+    grid-template-rows:1.15fr 1fr 1fr !important;
+    padding:7px !important;
+    border-radius:18px !important;
+  }
+
+  body.mobile-layout .touch-action-btn {
+    width:100% !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    height:100% !important;
+    padding:5px 8px !important;
+    border-radius:14px !important;
+    font-size:0.72rem !important;
+    letter-spacing:0.06em !important;
+    line-height:1.05 !important;
+    white-space:normal !important;
+  }
+
+  body.mobile-layout #btm {
+    display:none !important;
+  }
+
+  body.mobile-layout #ipop,
+  body.mobile-layout #frpop {
+    position:fixed !important;
+    left:12px !important;
+    right:12px !important;
+    bottom:calc(var(--mobile-safe-bottom) + var(--controls-height) + 12px) !important;
+    top:auto !important;
+    width:auto !important;
+    max-height:58dvh !important;
+    min-width:0 !important;
+    transform:none !important;
+    overflow-y:auto !important;
+    z-index:115 !important;
+    border-radius:22px !important;
+    -webkit-overflow-scrolling:touch;
+  }
+
+  body.mobile-layout #endscrn {
+    padding:calc(var(--mobile-safe-top) + 18px) 14px calc(var(--mobile-safe-bottom) + 18px) !important;
+    text-align:center !important;
+    overflow-y:auto !important;
+  }
+
+  body.mobile-layout #end-t {
+    font-size:clamp(2rem, 12vw, 4rem) !important;
+    line-height:1.08 !important;
+    letter-spacing:0.08em !important;
+    max-width:calc(100vw - 28px) !important;
+    word-break:normal !important;
+  }
+
+  body.mobile-layout #end-b {
+    max-width:34rem !important;
+    font-size:clamp(0.9rem, 3.4vw, 1.05rem) !important;
+    line-height:1.5 !important;
+  }
+}
+
+@media (max-width: 900px) and (orientation: landscape), (pointer: coarse) and (orientation: landscape) {
+  body.mobile-layout {
+    --hud-height:50px;
+    --objective-height:42px;
+    --controls-height:92px;
+    --top-ui-space:calc(var(--mobile-safe-top) + var(--hud-height) + var(--objective-height) + 8px);
+    --bottom-ui-space:calc(var(--mobile-safe-bottom) + var(--controls-height) + 6px);
+    --available-game-height:calc(100dvh - var(--top-ui-space) - var(--bottom-ui-space));
+  }
+
+  body.mobile-layout #tb {
+    padding:4px 8px !important;
+    gap:6px !important;
+  }
+
+  body.mobile-layout #tb .ts,
+  body.mobile-layout #zone-lbl,
+  body.mobile-layout #lang-toggle,
+  body.mobile-layout #accessibility-menu > summary,
+  body.mobile-layout .ts-brand {
+    min-height:38px !important;
+    height:38px !important;
+    padding:4px 8px !important;
+    font-size:0.64rem !important;
+  }
+
+  body.mobile-layout #story-card {
+    min-height:var(--objective-height) !important;
+    max-height:var(--objective-height) !important;
+    padding:6px 10px !important;
+  }
+
+  body.mobile-layout #story-card #story-summary {
+    min-height:28px !important;
+    font-size:0.76rem !important;
+  }
+
+  body.mobile-layout #story-toggle {
+    top:6px !important;
+    min-height:30px !important;
+    font-size:0.62rem !important;
+  }
+
+  body.mobile-layout #gc {
+    max-height:none !important;
+    min-height:180px !important;
+  }
+
+  body.mobile-layout #touch-ui {
+    padding:7px 10px !important;
+    gap:10px !important;
+  }
+
+  body.mobile-layout #touch-pad {
+    grid-template-columns:34px 34px 34px !important;
+    grid-template-rows:34px 34px 34px !important;
+    gap:4px !important;
+    padding:5px !important;
+  }
+
+  body.mobile-layout #touch-pad .touch-btn {
+    width:34px !important;
+    height:34px !important;
+    min-width:34px !important;
+    min-height:34px !important;
+  }
+
+  body.mobile-layout .touch-action-btn {
+    font-size:0.62rem !important;
+  }
+}
+
+@media (max-width: 420px) and (orientation: portrait) {
+  body.mobile-layout {
+    --controls-height:122px;
+  }
+
+  body.mobile-layout #touch-pad {
+    grid-template-columns:38px 38px 38px !important;
+    grid-template-rows:38px 38px 38px !important;
+  }
+
+  body.mobile-layout #touch-pad .touch-btn {
+    width:38px !important;
+    height:38px !important;
+    min-width:38px !important;
+    min-height:38px !important;
+  }
+}
+
+/* FINAL MOBILE GAME FLOW: no stacked gameplay overlays */
+@media (max-width: 900px), (pointer: coarse) {
+  body.mobile-game {
+    --mobile-safe-top:env(safe-area-inset-top, 0px);
+    --mobile-safe-bottom:env(safe-area-inset-bottom, 0px);
+    --hud-height:auto;
+    --objective-height:auto;
+    --controls-height:auto;
+    width:100% !important;
+    max-width:100% !important;
+    min-height:100vh !important;
+    min-height:100dvh !important;
+    height:100dvh !important;
+    overflow:hidden !important;
+    display:grid !important;
+    grid-template-rows:auto auto minmax(260px, 1fr) auto !important;
+    background:#020711 !important;
+  }
+
+  body.mobile-game #rotate-device-overlay {
+    display:none !important;
+    pointer-events:none !important;
+  }
+
+  body.mobile-game #hud {
+    position:static !important;
+    display:contents !important;
+    pointer-events:none !important;
+  }
+
+  body.mobile-game #lp,
+  body.mobile-game #rp,
+  body.mobile-game #btm,
+  body.mobile-game #clock,
+  body.mobile-game .tfill {
+    display:none !important;
+  }
+
+  body.mobile-game #tb {
+    grid-row:1 !important;
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    height:auto !important;
+    min-height:60px !important;
+    z-index:20 !important;
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    align-items:center !important;
+    gap:8px !important;
+    padding:calc(8px + var(--mobile-safe-top)) 12px 8px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    white-space:nowrap !important;
+    pointer-events:auto !important;
+    scrollbar-width:none !important;
+    -webkit-overflow-scrolling:touch !important;
+    background:linear-gradient(180deg,rgba(4,13,23,.98),rgba(4,12,22,.94)) !important;
+  }
+
+  body.mobile-game #tb::-webkit-scrollbar {
+    display:none !important;
+  }
+
+  body.mobile-game #tb > *,
+  body.mobile-game #tb .ts,
+  body.mobile-game #zone-lbl,
+  body.mobile-game #lang-toggle,
+  body.mobile-game #accessibility-menu,
+  body.mobile-game #accessibility-menu > summary {
+    flex:0 0 auto !important;
+    min-width:auto !important;
+    max-width:none !important;
+    white-space:nowrap !important;
+  }
+
+  body.mobile-game #tb .ts,
+  body.mobile-game #zone-lbl,
+  body.mobile-game #lang-toggle,
+  body.mobile-game #accessibility-menu > summary,
+  body.mobile-game .ts-brand {
+    min-height:42px !important;
+    height:42px !important;
+    padding:8px 12px !important;
+    border-radius:999px !important;
+    font-size:0.72rem !important;
+    letter-spacing:0.08em !important;
+    line-height:1 !important;
+    display:flex !important;
+    align-items:center !important;
+  }
+
+  body.mobile-game .ts-brand {
+    font-size:0.76rem !important;
+    letter-spacing:0.1em !important;
+  }
+
+  body.mobile-game .tsl {
+    font-size:0.56rem !important;
+    letter-spacing:0.06em !important;
+  }
+
+  body.mobile-game .tsv {
+    font-size:0.8rem !important;
+  }
+
+  body.mobile-game #zone-lbl {
+    max-width:42vw !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+  }
+
+  body.mobile-game #accessibility-menu {
+    position:static !important;
+    margin:0 !important;
+  }
+
+  body.mobile-game .access-menu-body {
+    position:fixed !important;
+    left:10px !important;
+    right:10px !important;
+    bottom:calc(10px + var(--mobile-safe-bottom)) !important;
+    top:auto !important;
+    width:auto !important;
+    max-height:70dvh !important;
+    overflow-y:auto !important;
+    z-index:100 !important;
+    border-radius:22px !important;
+    padding:14px !important;
+    -webkit-overflow-scrolling:touch !important;
+  }
+
+  body.mobile-game #story-card {
+    grid-row:2 !important;
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    width:auto !important;
+    max-width:none !important;
+    max-height:none !important;
+    min-height:0 !important;
+    z-index:15 !important;
+    margin:8px 12px !important;
+    padding:12px 14px !important;
+    border-radius:18px !important;
+    overflow:hidden !important;
+    pointer-events:auto !important;
+  }
+
+  body.mobile-game #story-scroll {
+    display:none !important;
+  }
+
+  body.mobile-game #story-summary {
+    display:flex !important;
+    align-items:center !important;
+    min-height:30px !important;
+    padding-right:90px !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    white-space:nowrap !important;
+    font-size:0.84rem !important;
+    line-height:1.2 !important;
+  }
+
+  body.mobile-game #story-toggle {
+    display:inline-flex !important;
+    position:absolute !important;
+    top:9px !important;
+    right:9px !important;
+    min-height:32px !important;
+    padding:0 12px !important;
+    border-radius:999px !important;
+    z-index:3 !important;
+    font-size:0.68rem !important;
+    letter-spacing:0.08em !important;
+    pointer-events:auto !important;
+  }
+
+  body.mobile-game #story-card:not(.is-collapsed) {
+    position:fixed !important;
+    left:10px !important;
+    right:10px !important;
+    bottom:calc(10px + var(--mobile-safe-bottom)) !important;
+    top:auto !important;
+    max-height:72dvh !important;
+    overflow-y:auto !important;
+    z-index:100 !important;
+    padding:48px 16px 16px !important;
+    box-shadow:0 26px 80px rgba(0,0,0,.52), inset 0 1px 0 rgba(255,255,255,.06) !important;
+  }
+
+  body.mobile-game #story-card:not(.is-collapsed) #story-scroll {
+    display:block !important;
+    max-height:none !important;
+    overflow:visible !important;
+    mask-image:none !important;
+    -webkit-mask-image:none !important;
+  }
+
+  body.mobile-game #story-card:not(.is-collapsed) #story-summary {
+    display:none !important;
+  }
+
+  body.mobile-game #gc {
+    grid-row:3 !important;
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    z-index:1 !important;
+    width:100% !important;
+    height:100% !important;
+    min-height:280px !important;
+    max-height:none !important;
+    display:block !important;
+    overflow:hidden !important;
+    touch-action:none !important;
+  }
+
+  body.mobile-game #touch-ui {
+    grid-row:4 !important;
+    position:relative !important;
+    left:auto !important;
+    right:auto !important;
+    bottom:auto !important;
+    height:auto !important;
+    min-height:0 !important;
+    z-index:30 !important;
+    display:grid !important;
+    grid-template-columns:112px 1fr !important;
+    gap:12px !important;
+    padding:10px 12px calc(10px + var(--mobile-safe-bottom)) !important;
+    background:linear-gradient(180deg,rgba(3,8,12,0.2),rgba(3,8,12,0.96)) !important;
+    border:0 !important;
+    box-shadow:none !important;
+    pointer-events:auto !important;
+  }
+
+  body.mobile-game #touch-left-stack {
+    grid-column:1 !important;
+    display:block !important;
+    width:112px !important;
+    height:112px !important;
+    min-width:112px !important;
+    transform:none !important;
+  }
+
+  body.mobile-game #touch-pad,
+  body.mobile-game .dpad {
+    width:112px !important;
+    height:112px !important;
+    display:grid !important;
+    grid-template-columns:repeat(3,1fr) !important;
+    grid-template-rows:repeat(3,1fr) !important;
+    gap:4px !important;
+    padding:0 !important;
+    border-radius:18px !important;
+    pointer-events:auto !important;
+  }
+
+  body.mobile-game #touch-pad .touch-btn,
+  body.mobile-game .dpad button {
+    width:34px !important;
+    height:34px !important;
+    min-width:34px !important;
+    min-height:34px !important;
+    border-radius:12px !important;
+    font-size:1rem !important;
+  }
+
+  body.mobile-game #touch-utility {
+    display:contents !important;
+  }
+
+  body.mobile-game #touch-calm {
+    display:none !important;
+  }
+
+  body.mobile-game #touch-actions,
+  body.mobile-game .action-buttons {
+    grid-column:2 !important;
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    grid-template-rows:1fr 1fr !important;
+    gap:8px !important;
+    height:112px !important;
+    padding:0 !important;
+    border:0 !important;
+    background:none !important;
+    box-shadow:none !important;
+    pointer-events:auto !important;
+  }
+
+  body.mobile-game #touch-map {
+    grid-column:2 !important;
+    grid-row:1 !important;
+    display:flex !important;
+  }
+
+  body.mobile-game #touch-interact {
+    grid-column:1 !important;
+    grid-row:1 !important;
+  }
+
+  body.mobile-game #touch-stop {
+    grid-column:1 !important;
+    grid-row:2 !important;
+  }
+
+  body.mobile-game #touch-helper {
+    grid-column:2 !important;
+    grid-row:2 !important;
+  }
+
+  body.mobile-game .touch-action-btn {
+    width:100% !important;
+    min-width:0 !important;
+    min-height:48px !important;
+    height:auto !important;
+    padding:6px 8px !important;
+    border-radius:16px !important;
+    font-size:0.82rem !important;
+    letter-spacing:0.1em !important;
+    line-height:1.05 !important;
+    white-space:normal !important;
+    align-items:center !important;
+    justify-content:center !important;
+  }
+
+  body.mobile-game #warn-b {
+    position:fixed !important;
+    left:12px !important;
+    right:12px !important;
+    top:auto !important;
+    bottom:calc(130px + var(--mobile-safe-bottom)) !important;
+    transform:none !important;
+    z-index:90 !important;
+    max-width:none !important;
+    pointer-events:none !important;
+    font-size:0.85rem !important;
+    letter-spacing:0.08em !important;
+    white-space:normal !important;
+    text-align:center !important;
+  }
+
+  body.mobile-game #ipop,
+  body.mobile-game #frpop {
+    position:fixed !important;
+    left:10px !important;
+    right:10px !important;
+    bottom:calc(10px + var(--mobile-safe-bottom)) !important;
+    top:auto !important;
+    width:auto !important;
+    min-width:0 !important;
+    max-height:72dvh !important;
+    overflow-y:auto !important;
+    z-index:100 !important;
+    border-radius:22px !important;
+    transform:none !important;
+    -webkit-overflow-scrolling:touch !important;
+  }
+
+  body.mobile-game #mobile-sheet-backdrop {
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:95;
+    background:rgba(0,0,0,.52);
+    backdrop-filter:blur(2px);
+    -webkit-backdrop-filter:blur(2px);
+  }
+
+  body.mobile-game.sheet-open #mobile-sheet-backdrop {
+    display:block;
+  }
+
+  body.mobile-game #ipop {
+    z-index:100 !important;
+  }
+
+  body.mobile-game #ipop .sheet-close {
+    position:sticky;
+    top:0;
+    margin-left:auto;
+    margin-bottom:8px;
+    min-height:40px;
+    padding:0 14px;
+    border-radius:999px;
+  }
+
+  body.mobile-game #ipa {
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:8px !important;
+  }
+
+  body.mobile-game #ipa .ab {
+    width:100% !important;
+    min-height:46px !important;
+    white-space:normal !important;
+    text-align:center !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  body.mobile-game {
+    grid-template-rows:auto auto minmax(170px, 1fr) auto !important;
+  }
+
+  body.mobile-game #tb {
+    min-height:48px !important;
+    padding:calc(6px + var(--mobile-safe-top)) 10px 6px !important;
+  }
+
+  body.mobile-game #tb .ts,
+  body.mobile-game #zone-lbl,
+  body.mobile-game #lang-toggle,
+  body.mobile-game #accessibility-menu > summary,
+  body.mobile-game .ts-brand {
+    min-height:36px !important;
+    height:36px !important;
+    font-size:0.68rem !important;
+  }
+
+  body.mobile-game #story-card {
+    margin:6px 10px !important;
+    padding:8px 12px !important;
+  }
+
+  body.mobile-game #touch-ui {
+    grid-template-columns:96px 1fr !important;
+    padding-top:6px !important;
+    gap:10px !important;
+  }
+
+  body.mobile-game #touch-left-stack,
+  body.mobile-game #touch-pad,
+  body.mobile-game .dpad {
+    width:96px !important;
+    height:96px !important;
+    min-width:96px !important;
+  }
+
+  body.mobile-game #touch-pad .touch-btn,
+  body.mobile-game .dpad button {
+    width:29px !important;
+    height:29px !important;
+    min-width:29px !important;
+    min-height:29px !important;
+  }
+
+  body.mobile-game #touch-actions,
+  body.mobile-game .action-buttons {
+    height:96px !important;
+  }
+
+  body.mobile-game .touch-action-btn {
+    min-height:42px !important;
+    font-size:0.72rem !important;
   }
 }
 
@@ -2318,6 +3242,7 @@ body.rotate-overlay-active #ldg{
 
 <div id="frpop"><div id="frt">⬡ VENTEBØLGE</div><div id="frm"></div><div id="frbt"><div id="frbf"></div></div></div>
 <div id="endscrn" class="mobile-story-screen"><div id="end-t"></div><div id="end-b"></div><div id="end-s">CDN LÆRINGSLAB ◈ BERGEN FRA FJORD TIL FJELL ◈ SPØRSMÅLENE LEVER VIDERE</div><button id="end-r" onclick="resetGame()">[ START PÅ NYTT ]</button></div>
+<div id="mobile-sheet-backdrop" onclick="closeMobileSheets()" aria-hidden="true"></div>
 <div id="ipop"><div id="ipt"></div><div id="ipd"></div><div id="ipa"></div></div>
 
 <script>
@@ -2325,7 +3250,7 @@ body.rotate-overlay-active #ldg{
 const gc=document.getElementById('gc');
 const ctx=gc.getContext('2d');
 gc.width=window.innerWidth; gc.height=window.innerHeight;
-const W=gc.width, H=gc.height;
+let W=gc.width, H=gc.height;
 const FORCE_MOBILE=new URLSearchParams(window.location.search).get('mobile')==='1';
 const MOBILE_MODE=FORCE_MOBILE||window.innerWidth<=900||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches&&window.innerWidth<=1100);
 if(MOBILE_MODE)document.body.classList.add('mobile-ui');
@@ -2339,18 +3264,19 @@ let GAME_VIEW_TOP=MOBILE_MODE?46:40;
 let GAME_VIEW_BOTTOM=H-(MOBILE_MODE?74:50);
 
 function resizeCanvasForMobileLandscape(){
-  const isMobileLandscape=window.innerWidth<=900&&window.innerWidth>window.innerHeight;
+  const mobileLayout=document.body.classList.contains('mobile-layout')||window.innerWidth<=900||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches);
   const dpr=Math.min(window.devicePixelRatio||1,2);
   let cssWidth=window.innerWidth;
   let cssHeight=window.innerHeight;
 
-  if(isMobileLandscape){
-    const topHud=50;
-    const bottomControls=112;
-    cssHeight=window.innerHeight-topHud-bottomControls;
-    gc.style.position='absolute';
+  if(mobileLayout){
+    const styles=getComputedStyle(document.body);
+    const topSpace=parseFloat(styles.getPropertyValue('--top-ui-space'))||118;
+    const bottomSpace=parseFloat(styles.getPropertyValue('--bottom-ui-space'))||132;
+    cssHeight=Math.max(260,window.innerHeight-topSpace-bottomSpace);
+    gc.style.position='fixed';
     gc.style.left='0px';
-    gc.style.top=topHud+'px';
+    gc.style.top=topSpace+'px';
     gc.style.width=cssWidth+'px';
     gc.style.height=cssHeight+'px';
   }else{
@@ -2361,6 +3287,14 @@ function resizeCanvasForMobileLandscape(){
     gc.style.height='';
   }
 
+  const rect=gc.getBoundingClientRect();
+  if(rect.width>0&&rect.height>0){
+    cssWidth=rect.width;
+    cssHeight=rect.height;
+  }
+
+  W=cssWidth;
+  H=cssHeight;
   gc.width=Math.floor(cssWidth*dpr);
   gc.height=Math.floor(cssHeight*dpr);
   ctx.setTransform(dpr,0,0,dpr,0,0);
@@ -2671,11 +3605,14 @@ function updateGameViewportBounds(){
 function isMobileLandscapeGame(){
   return document.body.classList.contains('mobile-layout')&&document.body.classList.contains('mobile-landscape');
 }
+function isMobileGameLayout(){
+  return document.body.classList.contains('mobile-layout')||document.body.classList.contains('mobile-ui');
+}
 function primaryActionPrompt(){
-  return isMobileLandscapeGame()?tr('mobileClick'):'SPACE';
+  return isMobileGameLayout()?tr('mobileClick'):'SPACE';
 }
 function goalReadyMessage(){
-  return isMobileLandscapeGame()
+  return isMobileGameLayout()
     ? {no:'Du er ved målet. Klikk Utforsk.',en:'You are at the goal. Click Explore.'}
     : UI_TEXT.goalReady;
 }
@@ -2706,10 +3643,41 @@ function syncStoryCardChrome(){
 function setStoryCardCollapsed(collapsed){
   STORY_CARD_STATE.collapsed=!!collapsed;
   syncStoryCardChrome();
+  if(isMobileGameLayout())document.body.classList.toggle('sheet-open',!STORY_CARD_STATE.collapsed||document.getElementById('ipop')?.classList.contains('show'));
   measureResponsiveChrome();
 }
 function toggleStoryCardCollapsed(){
   setStoryCardCollapsed(!STORY_CARD_STATE.collapsed);
+}
+function closeMobileSheets(){
+  closeIP();
+  if(isMobileGameLayout())setStoryCardCollapsed(true);
+  const accessibilityMenu=document.getElementById('accessibility-menu');
+  if(accessibilityMenu)accessibilityMenu.open=false;
+  document.body.classList.remove('sheet-open');
+}
+function normalizeMobileControls(){
+  const map=document.getElementById('touch-map');
+  const calm=document.getElementById('touch-calm');
+  const utility=document.getElementById('touch-utility');
+  const actions=document.getElementById('touch-actions');
+  if(!map||!utility||!actions)return;
+  if(document.body.classList.contains('mobile-game')){
+    if(map.parentElement!==actions)actions.insertBefore(map,actions.firstChild);
+    if(calm&&calm.parentElement!==utility)utility.appendChild(calm);
+  }else{
+    if(map.parentElement!==utility)utility.insertBefore(map,utility.firstChild);
+    if(calm&&calm.parentElement!==utility)utility.appendChild(calm);
+  }
+}
+function bindMobileSheetControls(){
+  const accessibilityMenu=document.getElementById('accessibility-menu');
+  if(accessibilityMenu&&!accessibilityMenu.dataset.sheetBound){
+    accessibilityMenu.dataset.sheetBound='1';
+    accessibilityMenu.addEventListener('toggle',()=>{
+      if(isMobileGameLayout())document.body.classList.toggle('sheet-open',accessibilityMenu.open||document.getElementById('ipop')?.classList.contains('show')||!STORY_CARD_STATE.collapsed);
+    });
+  }
 }
 function renderLanguageChrome(){
   document.documentElement.lang=LANG.current;
@@ -2808,11 +3776,11 @@ function renderLanguageChrome(){
   const touchMap=document.getElementById('touch-map');
   const touchCalm=document.getElementById('touch-calm');
   if(touchMap){
-    touchMap.textContent=tr('routeMap');
+    touchMap.textContent=isMobileGameLayout()?(LANG.current==='en'?'Map':'Kart'):tr('routeMap');
     touchMap.setAttribute('aria-label',tr('routeMap'));
   }
   if(touchCalm){
-    touchCalm.textContent=tr('breather');
+    touchCalm.textContent=isMobileGameLayout()?(LANG.current==='en'?'Breathe':'Pust'):tr('breather');
     touchCalm.setAttribute('aria-label',tr('breather'));
   }
   syncStoryCardChrome();
@@ -3125,8 +4093,14 @@ function setupTouchControls(){
 function getCanvasIntent(clientX,clientY){
   const rect=gc.getBoundingClientRect();
   const x=clientX-rect.left,y=clientY-rect.top;
-  if(x<LP||x>W-RP||y<GAME_VIEW_TOP||y>GAME_VIEW_BOTTOM)return null;
-  const playerScreenX=P.x-camX+LP+P.w/2;
+  const mobile=isMobileGameLayout();
+  const leftLimit=mobile?0:LP;
+  const rightLimit=mobile?W:W-RP;
+  const topLimit=mobile?0:GAME_VIEW_TOP;
+  const bottomLimit=mobile?H:GAME_VIEW_BOTTOM;
+  if(x<leftLimit||x>rightLimit||y<topLimit||y>bottomLimit)return null;
+  const renderLP=mobile?0:LP;
+  const playerScreenX=P.x-camX+renderLP+P.w/2;
   const playerScreenY=P.y+P.h/2;
   const dx=x-playerScreenX,dy=y-playerScreenY;
   if(Math.hypot(dx,dy)<40)return {type:'stop'};
@@ -3590,9 +4564,11 @@ function resetSecretEnemy(){
 // ════════ CAMERA ════════
 let camX=0;
 function updateCam(){
-  const target=P.x-(W-LP-RP)/2-LP;
-  camX+=(target-camX)*.08;
-  camX=Math.max(0,Math.min(WORLD_W-W,camX));
+  const mobile=isMobileGameLayout();
+  const sidePad=mobile?0:(LP+RP);
+  const target=P.x-(W-sidePad)/2-(mobile?0:LP);
+  camX+=(target-camX)*(mobile?.16:.08);
+  camX=Math.max(0,Math.min(Math.max(0,WORLD_W-W),camX));
 }
 
 function chamberForEnemy(enemy){
@@ -5893,20 +6869,26 @@ function updateUI(){
   if(helpBtn)helpBtn.textContent=helpBtn.disabled?tr('help'):tr('shadowguest');
   if(touchAct){
     const label=P.near?tr('mobileClickExplore'):tr('nextGoal');
-    touchAct.textContent=label;
+    touchAct.textContent=isMobileGameLayout()?(LANG.current==='en'?'GO':'GÅ'):label;
     touchAct.setAttribute('aria-label',label);
   }
   if(touchStop){
     const label=P.nextNodeId?tr('stop'):tr('stop');
-    touchStop.textContent=label;
+    touchStop.textContent=isMobileGameLayout()?(LANG.current==='en'?'STOP':'STOPP'):label;
     touchStop.setAttribute('aria-label',label);
   }
   if(touchHelper){
-    touchHelper.textContent=tr('help');
+    touchHelper.textContent=isMobileGameLayout()?(LANG.current==='en'?'HELP':'HJELP'):tr('help');
     touchHelper.setAttribute('aria-label',tr('helperMenu'));
   }
-  if(touchMap)touchMap.textContent=tr('routeMap');
-  if(touchCalm)touchCalm.textContent=tr('breather');
+  if(touchMap){
+    touchMap.textContent=isMobileGameLayout()?(LANG.current==='en'?'Map':'Kart'):tr('routeMap');
+    touchMap.setAttribute('aria-label',tr('routeMap'));
+  }
+  if(touchCalm){
+    touchCalm.textContent=isMobileGameLayout()?(LANG.current==='en'?'Breathe':'Pust'):tr('breather');
+    touchCalm.setAttribute('aria-label',tr('breather'));
+  }
   updateStoryCard();
 }
 
@@ -5990,13 +6972,25 @@ function showInteractPopup(title,desc,opts){
   document.getElementById('ipt').textContent=title;
   document.getElementById('ipd').textContent=desc;
   const a=document.getElementById('ipa');a.innerHTML='';
+  if(isMobileGameLayout()){
+    const close=document.createElement('button');
+    close.className='ab sheet-close';
+    close.type='button';
+    close.textContent=LANG.current==='en'?'Close':'Lukk';
+    close.onclick=closeIP;
+    a.appendChild(close);
+  }
   opts.forEach(o=>{
     const b=document.createElement('button');b.className='ab '+(o.c||'');
     b.textContent=o.l;b.onclick=o.a;a.appendChild(b);
   });
   document.getElementById('ipop').classList.add('show');
+  if(isMobileGameLayout())document.body.classList.add('sheet-open');
 }
-function closeIP(){document.getElementById('ipop').classList.remove('show');}
+function closeIP(){
+  document.getElementById('ipop').classList.remove('show');
+  document.body.classList.remove('sheet-open');
+}
 
 function tryInteract(){
   if(!P.near||S.go)return;
@@ -6227,13 +7221,22 @@ function measureResponsiveChrome(){
     updateGameViewportBounds();
     return;
   }
-  if(body.classList.contains('mobile-landscape')){
-    body.style.setProperty('--mobile-hud-measured','50px');
+  if(body.classList.contains('mobile-layout')){
+    const landscape=body.classList.contains('mobile-landscape');
+    const hud=landscape?50:64;
+    const objective=landscape?42:54;
+    const controls=landscape?92:(getRotateViewportWidth()<=420?122:132);
+    body.style.setProperty('--hud-height',`${hud}px`);
+    body.style.setProperty('--objective-height',`${objective}px`);
+    body.style.setProperty('--controls-height',`${controls}px`);
+    body.style.setProperty('--mobile-hud-measured',`${hud}px`);
     body.style.setProperty('--mobile-secondary-dock-measured','0px');
-    body.style.setProperty('--mobile-controls-measured','112px');
-    body.style.setProperty('--top-ui-space','50px');
-    body.style.setProperty('--bottom-ui-space','112px');
+    body.style.setProperty('--mobile-controls-measured',`${controls}px`);
+    body.style.setProperty('--top-ui-space',`${hud+objective+12}px`);
+    body.style.setProperty('--bottom-ui-space',`${controls+8}px`);
+    body.style.setProperty('--available-game-height',`calc(100dvh - ${hud+objective+12}px - ${controls+8}px)`);
     updateGameViewportBounds();
+    resizeCanvasForMobileLandscape();
     return;
   }
   const hud=document.getElementById('tb');
@@ -6275,12 +7278,15 @@ function applyResponsiveAppState(){
   const portrait=height>=width;
   const body=document.body;
   body.classList.toggle('mobile-layout',mobileLayout);
+  body.classList.toggle('mobile-game',mobileLayout);
   body.classList.toggle('mobile-portrait',mobileLayout&&portrait);
   body.classList.toggle('mobile-landscape',mobileLayout&&!portrait);
   body.classList.toggle('mobile-mid',mobileLayout&&width<=768);
   body.classList.toggle('mobile-compact',mobileLayout&&width<=560);
   body.classList.toggle('mobile-tablet',mobileLayout&&width>768);
+  bindMobileSheetControls();
   syncStoryCardChrome();
+  normalizeMobileControls();
   measureResponsiveChrome();
 }
 function queueResponsiveAppState(){
@@ -6291,7 +7297,7 @@ function queueResponsiveAppState(){
   });
 }
 function shouldShowRotateOverlay(){
-  return detectMobileLayout()&&isPortraitMode()&&Math.min(getRotateViewportWidth(),getRotateViewportHeight())<=900;
+  return false;
 }
 function updateRotateOverlayLanguage(){
   const card=document.querySelector('#rotate-device-overlay .rotate-device-card');
@@ -6330,7 +7336,7 @@ function updateRotateOverlay(){
   const accessibilityMenu=document.getElementById('accessibility-menu');
   if(showOverlay&&accessibilityMenu&&accessibilityMenu.open)accessibilityMenu.open=false;
 }
-ROTATE_DEVICE_STATE.bootstrapFromPortrait=shouldShowRotateOverlay();
+ROTATE_DEVICE_STATE.bootstrapFromPortrait=false;
 window.addEventListener('resize',queueResponsiveAppState,{passive:true});
 window.addEventListener('orientationchange',queueResponsiveAppState,{passive:true});
 window.addEventListener('orientationchange',()=>{window.setTimeout(queueResponsiveAppState,250);},{passive:true});
@@ -6343,9 +7349,9 @@ function loop(ts){lastFrame=ts;update(ts);draw(ts);requestAnimationFrame(loop);}
 
 window.addEventListener('load',()=>{
   renderLanguageChrome();
-  resizeCanvasForMobileLandscape();
   bindResponsiveChromeObservers();
   applyResponsiveAppState();
+  resizeCanvasForMobileLandscape();
   updateRotateOverlay();
   runBoot();resetGame();setupTouchControls();setupPointerSteering();setInterval(updateClock,1000);
   for(let i=0;i<3;i++)spawnJelly();
