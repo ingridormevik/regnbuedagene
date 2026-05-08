@@ -4033,7 +4033,6 @@ function applyAccessSettings(){
     labMusic.volume=ACCESS.music ? ACCESS.musicVol : 0;
   }
   if(dG&&AC)dG.gain.setTargetAtTime(ACCESS.sfx ? .025*ACCESS.sfxVol : 0,AC.currentTime,.04);
-  if(bueAudio&&AC)bueAudio.gain.gain.setTargetAtTime(0,AC.currentTime,.04);
   const musicSlider=document.getElementById('access-music-volume');
   const sfxSlider=document.getElementById('access-sfx-volume');
   const musicValue=document.getElementById('access-music-volume-value');
