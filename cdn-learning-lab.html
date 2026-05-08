@@ -3521,7 +3521,7 @@ const STRING_EN={
   'Ta Fløibanen opp fjellsiden til toppstasjonen på Fløyen. Der ligger Fjellfyret, et lys som gjør usynlige signaler lettere å forstå.':'Take Fløibanen up the mountainside to the top station at Fløyen. There the Mountain Beacon waits, a light that makes invisible signals easier to understand.',
   '[ Ta Fløibanen Opp ]':'[ Ride Fløibanen Up ]',
   '[ Vent Litt ]':'[ Wait A Moment ]',
-  'På toppstasjonen står du uten undervannsutstyr, oppe på fjellsiden med utsyn over byen. Fjellfyret lærer deg hvordan nettverk, nærvær og små signaler blir til fortellinger over tid.':'At the top station you stand without underwater gear, up on the mountainside with a view of the city. The Mountain Beacon teaches how networks, presence and small signals become stories over time.',
+  'På toppstasjonen står du oppe på fjellsiden med utsyn over byen. Fjellfyret lærer deg hvordan nettverk, nærvær og små signaler blir til fortellinger over tid.':'At the top station you stand on the mountainside with a view of the city. The Mountain Beacon teaches how networks, presence and small signals become stories over time.',
   'På toppstasjonen på Fløyen venter Fjellfyret. Det lærer deg hvordan byen kan kjenne igjen nærvær med nettverk og små signaler over tid.':'At the top station at Fløyen the Mountain Beacon is waiting. It teaches you how the city can recognise presence through networks and small signals over time.',
   '[ Hent Fjellfyret ]':'[ Collect the Mountain Beacon ]',
   '[ Se Deg Om ]':'[ Look Around ]',
@@ -4566,7 +4566,7 @@ const INTERACTABLES=[
     desc:'Ved Fløibanen-kai mister du undervannsutstyret ved land og tar banen opp fjellsiden. Fløyen ligger i fjellbakgrunnen, og Fjellfyret gjør usynlige signaler lettere å forstå.',used:false,
    opts:[{l:'[ Ta Fløibanen Opp ]',c:'rs',a:'ride_floi'},{l:'[ Vent Litt ]',c:'',a:'close'}]},
   {id:'term',nodeId:'sky_2860',x:2860,y:LANE_Y.sky-18,type:'terminal',label:'FLØIBANEN TOPPSTASJON',
-    desc:'På toppstasjonen står du uten undervannsutstyr, oppe på fjellsiden med utsyn over byen. Fjellfyret lærer deg hvordan nettverk, nærvær og små signaler blir til fortellinger over tid.',used:false,
+    desc:'På toppstasjonen står du oppe på fjellsiden med utsyn over byen. Fjellfyret lærer deg hvordan nettverk, nærvær og små signaler blir til fortellinger over tid.',used:false,
    opts:[{l:'[ Hent Fjellfyret ]',c:'rs',a:'claim_fyr'},{l:'[ Se Deg Om ]',c:'',a:'close'}]},
   {id:'ulriken',nodeId:'sky_3420',x:3420,y:LANE_Y.sky-18,type:'ulriken',label:'FJELLUTSYN',
    desc:'Fra fjellutsynet ser du Bergen som et levende kart. Her oppe blir det tydelig hvordan sted, høyde, tid og korte digitale looper kan bli til mønstre.',used:false,
@@ -5013,6 +5013,19 @@ function updatePlayerMovement(dt){
       rememberSafeNode(P.nodeId);
       noteTutorialArrival(arrivedDir);
       if(P.tapDir===arrivedDir)P.tapDir=null;
+      const stopHere=INTERACTABLES.find(ob=>{
+        if(ob.nodeId!==P.nodeId)return false;
+        if(ob.used&&ob.type!=='gate')return false;
+        if(ob.minStatus&&S.status<ob.minStatus)return false;
+        return true;
+      });
+      if(stopHere){
+        P.desiredDir=null;
+        P.bufferDir=null;
+        P.tapDir=null;
+        P.near=stopHere;
+        return;
+      }
       const next=choosePlayerNextNode();
       if(next){P.nextNodeId=next;P.dirKey=dirBetweenIds(P.nodeId,next);}
     }else{
