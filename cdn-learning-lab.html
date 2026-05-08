@@ -5057,6 +5057,23 @@ function getEnemyPressureMultiplier(){
 function inStartHarbor(){
   return P.x<980&&!S.completedObjectives.has('check');
 }
+function isNearInteractableHotspot(){
+  const player={x:P.x+P.w/2,y:P.y+P.h/2};
+  return INTERACTABLES.some(ob=>{
+    if(ob.used&&ob.type!=='gate')return false;
+    if(ob.minStatus&&S.status<ob.minStatus)return false;
+    return Math.abs(player.x-ob.x)<96&&Math.abs(player.y-ob.y)<62;
+  });
+}
+function isReadingMissionOrHotspot(){
+  const inlinePopup=document.getElementById('ipop');
+  const mobileSheet=document.getElementById('mobileSheet');
+  const story=document.getElementById('story-card');
+  const popupOpen=!!inlinePopup?.classList.contains('show');
+  const sheetOpen=!!mobileSheet&&(mobileSheet.hidden===false||document.body.classList.contains('sheet-open'));
+  const storyOpen=!!story&&!story.classList.contains('is-collapsed')&&story.offsetParent!==null;
+  return isNearInteractableHotspot()&&(popupOpen||sheetOpen||storyOpen);
+}
 function chooseEnemyNextNode(enemy){
   if(!enemy.active)return null;
   const current=node(enemy.nodeId);
@@ -5084,6 +5101,11 @@ function maybeTagPlayer(enemy,severity,label){
   if(enemy.tagCd>0)return;
   if(P.graceT>0)return;
   if(inStartHarbor())return;
+  if(isReadingMissionOrHotspot()){
+    enemy.tagCd=18;
+    P.graceT=Math.max(P.graceT,18);
+    return;
+  }
   const player={x:P.x+P.w/2,y:P.y+P.h/2};
   const dist=Math.hypot(player.x-enemy.x,player.y-enemy.y);
   if(dist>getRoundDifficulty().tag)return;
@@ -5309,6 +5331,38 @@ const STORY_BEATS_EN=[
   {eyebrow:'Bergen 2063 · Step 6 of 7',title:'Bring the light home',mission:'Goal now: The light lock at Nordnes',copy:'When you reach Nordnes, the mission is to bring the most important thing back to the surface: simple rules, a little courage and a clearer view of the traces around you.',tip:'Check permissions. Turn off tracking you do not need. Ask before sharing someone else’s photo, name or location.'},
   {eyebrow:'Bergen 2063 · Step 7 of 7',title:'Final view over Bergen',mission:'Goal now: Mountain viewpoint',copy:'At the end you climb again. Not to escape the city, but to see the whole system: fjord, park, glass house, drones, buekorps rhythms and the people who refuse to be reduced to data points.',tip:'Press Space at the mountain viewpoint. The game closes like a map that finally lets you read back.'},
 ];
+Object.assign(STORY_BEATS[0],{
+  copy:'Bergen 2063 er fullt av lysspor, patruljedroner og skjulte signaler. I Bryggen begynner du å se hvordan telefoner, kartapper og sosiale medier kan gjøre små valg til digitale spor.',
+  tip:'Stå rolig ved hotspotene og les. Når mission-kortet er åpent, gir laben deg lesefred: patruljene kan sirkle, men de får ikke ta deg mens du undersøker.'
+});
+Object.assign(STORY_BEATS[2],{
+  copy:'Sporingsdroner, kartdroner og nettverksdroner er digitale systemer i spilldrakt. De viser hvordan overvåking, sosiale medier, KI, korte looper og digital litteratur kan lage fortellinger om hvem vi er før vi rekker å svare selv.',
+  tip:'CDN-spørsmålet er ikke bare "hva gjør teknologien?". Det er også: hvem blir sett, hvem blir lagret, hvem får være trygg, og hvem får fortelle historien tilbake?'
+});
+Object.assign(STORY_BEATS[3],{
+  copy:'I glasshuset samles CDN-forskningen til én spillbar samtale: games, AI, electronic literature, digital art og nettverkskultur blir verktøy for å forstå hvordan data, makt og fantasi henger sammen.',
+  tip:'Hent Narrativkjernen. Den gjør laben mer enn en jakt: du lærer å lese systemet, stille bedre spørsmål og se digitale spor før de blir usynlige vaner.'
+});
+Object.assign(STORY_BEATS[5],{
+  copy:'Når du når Nordnes, handler missionet om hverdagsmakt: hvilke tillatelser du gir, hvilke bilder du deler, hvilke posisjoner du legger igjen, og hvem som kan bli utsatt når alt kobles sammen.',
+  tip:'Tre regler holder for barn, familier og voksne: sjekk tillatelser, slå av sporing du ikke trenger, og spør før du deler om andre.'
+});
+Object.assign(STORY_BEATS_EN[0],{
+  copy:'Bergen 2063 is full of light trails, patrol drones and hidden signals. In Bryggen you begin to see how phones, map apps and social media can turn small choices into digital traces.',
+  tip:'Stand still at hotspots and read. When the mission card is open, the lab gives you reading peace: patrols may circle, but they cannot catch you while you investigate.'
+});
+Object.assign(STORY_BEATS_EN[2],{
+  copy:'Tracking drones, map drones and network drones are digital systems in game costume. They show how surveillance, social media, AI, short loops and electronic literature can make stories about who we are before we get to answer back.',
+  tip:'The CDN question is not only "what does technology do?". It is also: who is seen, who is stored, who gets to be safe, and who gets to tell the story back?'
+});
+Object.assign(STORY_BEATS_EN[3],{
+  copy:'In the glass house, CDN research gathers into one playable conversation: games, AI, electronic literature, digital art and network culture become tools for understanding how data, power and imagination connect.',
+  tip:'Collect the Narrative Core. It turns the lab into more than a chase: you learn to read the system, ask better questions and notice digital traces before they become invisible habits.'
+});
+Object.assign(STORY_BEATS_EN[5],{
+  copy:'When you reach Nordnes, the mission is everyday power: which permissions you give, which photos you share, which locations you leave behind, and who can be exposed when everything connects.',
+  tip:'Three rules work for children, families and adults: check permissions, turn off tracking you do not need, and ask before sharing about others.'
+});
 const ZONE_WHISPERS={
   'BRYGGEN — SJØBODRADEN':'Bryggen knirker over deg. Under plankene føles det som om byen allerede husker hvor du pleier å stoppe.',
   'SANDVIKEN — SJØBODER OG SMYG':'Sandviken er trang og vakker. Her blir en rute fort til et mønster noen andre kan lese.',
