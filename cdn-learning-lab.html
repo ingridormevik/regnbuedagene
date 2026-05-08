@@ -7282,7 +7282,7 @@ function handleAct(act,ob){
       if(!S.completedObjectives.has('check')){S.completedObjectives.add('check');addLog(lt('Bryggen-portrommet viser hvordan sted, tid og vane raskt blir til data.'),'w');S.surveillance=cl(S.surveillance+3);snd('beep');checkObjs();updateUI();}break;
     case'ignore':breakRule(10,true);showWarn(lt('MØNSTERET FORTSETTER'));addLog(lt('Du svømte forbi portrommet. Dronene fikk fortsette å lese rutinen din i fred.'),'d');break;
     case'ride_floi':
-      S.floiRideT=120;P.graceT=Math.max(P.graceT,90);snapPlayerToNode('sky_2860');P.nextNodeId=null;
+      S.floiRideT=120;P.graceT=Math.max(P.graceT,90);clearHeldDirections();snapPlayerToNode('sky_2860');P.nextNodeId=null;P.desiredDir=null;P.bufferDir=null;P.tapDir=null;P.vx=0;P.vy=0;P.dirKey='right';P.near=interactableById('term');
       addLog(lt('Du legger igjen undervannsutstyret ved land. Fløibanen drar deg opp fjellsiden mot Fløyen, der Bergen åpner seg i lys og regn bak deg.'),'i');
       showWarn(lt('FLØIBANEN STIGER'));snd('floi');updateUI();break;
     case'claim_fyr':
