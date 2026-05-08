@@ -2848,6 +2848,25 @@ body.rotate-overlay-active #ldg{
     touch-action:none !important;
   }
 
+  body.mobile-game .route-map,
+  body.mobile-game .route-panel,
+  body.mobile-game .route-map-panel,
+  body.mobile-game .map-panel,
+  body.mobile-game .route-card {
+    position:static !important;
+    inset:auto !important;
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:auto !important;
+    transform:none !important;
+    width:auto !important;
+    max-width:none !important;
+    height:auto !important;
+    max-height:none !important;
+    z-index:auto !important;
+  }
+
   body.mobile-game #touch-ui {
     grid-row:4 !important;
     position:relative !important;
@@ -2869,15 +2888,24 @@ body.rotate-overlay-active #ldg{
 
   body.mobile-game #touch-left-stack {
     grid-column:1 !important;
-    display:block !important;
+    display:grid !important;
+    grid-template-rows:112px 48px !important;
+    gap:8px !important;
     width:112px !important;
-    height:112px !important;
+    height:168px !important;
     min-width:112px !important;
     transform:none !important;
   }
 
   body.mobile-game #touch-pad,
   body.mobile-game .dpad {
+    position:relative !important;
+    inset:auto !important;
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:auto !important;
+    transform:none !important;
     width:112px !important;
     height:112px !important;
     display:grid !important;
@@ -2900,11 +2928,12 @@ body.rotate-overlay-active #ldg{
   }
 
   body.mobile-game #touch-utility {
-    display:contents !important;
+    display:block !important;
   }
 
-  body.mobile-game #touch-calm {
-    display:none !important;
+  body.mobile-game #touch-utility #touch-map {
+    width:100% !important;
+    min-height:48px !important;
   }
 
   body.mobile-game #touch-actions,
@@ -2914,7 +2943,7 @@ body.rotate-overlay-active #ldg{
     grid-template-columns:1fr 1fr !important;
     grid-template-rows:1fr 1fr !important;
     gap:8px !important;
-    height:112px !important;
+    height:168px !important;
     padding:0 !important;
     border:0 !important;
     background:none !important;
@@ -2923,8 +2952,8 @@ body.rotate-overlay-active #ldg{
   }
 
   body.mobile-game #touch-map {
-    grid-column:2 !important;
-    grid-row:1 !important;
+    grid-column:auto !important;
+    grid-row:auto !important;
     display:flex !important;
   }
 
@@ -2934,13 +2963,38 @@ body.rotate-overlay-active #ldg{
   }
 
   body.mobile-game #touch-stop {
+    grid-column:2 !important;
+    grid-row:1 !important;
+  }
+
+  body.mobile-game #touch-calm {
     grid-column:1 !important;
     grid-row:2 !important;
+    display:flex !important;
   }
 
   body.mobile-game #touch-helper {
     grid-column:2 !important;
     grid-row:2 !important;
+  }
+
+  body.mobile-game .controls,
+  body.mobile-game .controls-panel,
+  body.mobile-game .mobile-controls,
+  body.mobile-game .action-controls,
+  body.mobile-game .action-buttons,
+  body.mobile-game .breather,
+  body.mobile-game .breather-button,
+  body.mobile-game .go-to-goal,
+  body.mobile-game .stop-button,
+  body.mobile-game .help-button {
+    position:relative !important;
+    inset:auto !important;
+    left:auto !important;
+    right:auto !important;
+    top:auto !important;
+    bottom:auto !important;
+    transform:none !important;
   }
 
   body.mobile-game .touch-action-btn {
@@ -2974,62 +3028,81 @@ body.rotate-overlay-active #ldg{
     text-align:center !important;
   }
 
-  body.mobile-game #ipop,
-  body.mobile-game #frpop {
-    position:fixed !important;
-    left:10px !important;
-    right:10px !important;
-    bottom:calc(10px + var(--mobile-safe-bottom)) !important;
-    top:auto !important;
-    width:auto !important;
-    min-width:0 !important;
-    max-height:72dvh !important;
-    overflow-y:auto !important;
-    z-index:100 !important;
-    border-radius:22px !important;
-    transform:none !important;
-    -webkit-overflow-scrolling:touch !important;
-  }
-
-  body.mobile-game #mobile-sheet-backdrop {
-    display:none;
+  body.mobile-game .mobile-backdrop {
     position:fixed;
     inset:0;
-    z-index:95;
-    background:rgba(0,0,0,.52);
-    backdrop-filter:blur(2px);
-    -webkit-backdrop-filter:blur(2px);
+    z-index:900;
+    background:rgba(0,0,0,0.58);
   }
 
-  body.mobile-game.sheet-open #mobile-sheet-backdrop {
-    display:block;
+  body.mobile-game .mobile-sheet {
+    position:fixed;
+    left:12px;
+    right:12px;
+    bottom:calc(12px + var(--mobile-safe-bottom));
+    z-index:901;
+    max-height:72dvh;
+    overflow-y:auto;
+    padding:18px;
+    border-radius:24px;
+    background:rgba(4,13,20,0.98);
+    border:1px solid rgba(132,210,255,0.28);
+    box-shadow:0 -20px 70px rgba(0,0,0,0.65);
+    -webkit-overflow-scrolling:touch;
+  }
+
+  body.mobile-game .mobile-sheet[hidden],
+  body.mobile-game .mobile-backdrop[hidden],
+  body.mobile-game #mobile-sheet-backdrop {
+    display:none !important;
+  }
+
+  body.mobile-game .sheet-close {
+    width:100%;
+    min-height:44px;
+    margin-bottom:14px;
+    border-radius:14px;
+  }
+
+  body.mobile-game .mobile-sheet .sheet-title {
+    margin:0 0 8px;
+    font-family:var(--serif);
+    font-size:1.35rem;
+    line-height:1.1;
+    color:#f4fbff;
+  }
+
+  body.mobile-game .mobile-sheet .sheet-desc {
+    margin:0 0 14px;
+    color:rgba(228,241,249,.78);
+    font-size:.88rem;
+    line-height:1.55;
+  }
+
+  body.mobile-game .mobile-sheet .route-buttons,
+  body.mobile-game .mobile-sheet .route-list,
+  body.mobile-game .mobile-sheet .sheet-actions {
+    display:grid !important;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+  }
+
+  body.mobile-game .mobile-sheet button {
+    min-height:44px;
+    padding:10px 12px;
+    font-size:0.72rem;
+    letter-spacing:0.08em;
+    white-space:normal;
   }
 
   body.mobile-game #ipop {
-    z-index:100 !important;
+    display:none !important;
   }
 
-  body.mobile-game #ipop .sheet-close {
+  body.mobile-game #frpop {
     position:sticky;
     top:0;
-    margin-left:auto;
-    margin-bottom:8px;
-    min-height:40px;
-    padding:0 14px;
-    border-radius:999px;
-  }
-
-  body.mobile-game #ipa {
-    display:grid !important;
-    grid-template-columns:1fr !important;
-    gap:8px !important;
-  }
-
-  body.mobile-game #ipa .ab {
-    width:100% !important;
-    min-height:46px !important;
-    white-space:normal !important;
-    text-align:center !important;
+    transform:none !important;
   }
 }
 
@@ -3064,12 +3137,18 @@ body.rotate-overlay-active #ldg{
     gap:10px !important;
   }
 
-  body.mobile-game #touch-left-stack,
+  body.mobile-game #touch-left-stack {
+    grid-template-rows:96px 40px !important;
+    gap:6px !important;
+    width:96px !important;
+    height:142px !important;
+    min-width:96px !important;
+  }
+
   body.mobile-game #touch-pad,
   body.mobile-game .dpad {
     width:96px !important;
     height:96px !important;
-    min-width:96px !important;
   }
 
   body.mobile-game #touch-pad .touch-btn,
@@ -3082,12 +3161,19 @@ body.rotate-overlay-active #ldg{
 
   body.mobile-game #touch-actions,
   body.mobile-game .action-buttons {
-    height:96px !important;
+    height:142px !important;
   }
 
   body.mobile-game .touch-action-btn {
-    min-height:42px !important;
-    font-size:0.72rem !important;
+    min-height:40px !important;
+    font-size:0.68rem !important;
+  }
+
+  body.mobile-game .mobile-sheet {
+    left:18px;
+    right:18px;
+    bottom:10px;
+    max-height:76dvh;
   }
 }
 
@@ -3243,6 +3329,11 @@ body.rotate-overlay-active #ldg{
 <div id="frpop"><div id="frt">⬡ VENTEBØLGE</div><div id="frm"></div><div id="frbt"><div id="frbf"></div></div></div>
 <div id="endscrn" class="mobile-story-screen"><div id="end-t"></div><div id="end-b"></div><div id="end-s">CDN LÆRINGSLAB ◈ BERGEN FRA FJORD TIL FJELL ◈ SPØRSMÅLENE LEVER VIDERE</div><button id="end-r" onclick="resetGame()">[ START PÅ NYTT ]</button></div>
 <div id="mobile-sheet-backdrop" onclick="closeMobileSheets()" aria-hidden="true"></div>
+<div id="mobileBackdrop" class="mobile-backdrop" hidden onclick="closeMobileSheet()" aria-hidden="true"></div>
+<section id="mobileSheet" class="mobile-sheet" hidden aria-modal="true" role="dialog">
+  <button class="ab sheet-close" type="button" onclick="closeMobileSheet()">Close</button>
+  <div id="mobileSheetContent"></div>
+</section>
 <div id="ipop"><div id="ipt"></div><div id="ipd"></div><div id="ipa"></div></div>
 
 <script>
@@ -3270,15 +3361,11 @@ function resizeCanvasForMobileLandscape(){
   let cssHeight=window.innerHeight;
 
   if(mobileLayout){
-    const styles=getComputedStyle(document.body);
-    const topSpace=parseFloat(styles.getPropertyValue('--top-ui-space'))||118;
-    const bottomSpace=parseFloat(styles.getPropertyValue('--bottom-ui-space'))||132;
-    cssHeight=Math.max(260,window.innerHeight-topSpace-bottomSpace);
-    gc.style.position='fixed';
-    gc.style.left='0px';
-    gc.style.top=topSpace+'px';
-    gc.style.width=cssWidth+'px';
-    gc.style.height=cssHeight+'px';
+    gc.style.position='relative';
+    gc.style.left='auto';
+    gc.style.top='auto';
+    gc.style.width='100%';
+    gc.style.height='100%';
   }else{
     gc.style.position='';
     gc.style.left='';
@@ -3597,6 +3684,11 @@ function updateGameViewportBounds(){
     GAME_VIEW_BOTTOM=defaultBottom;
     return;
   }
+  if(document.body.classList.contains('mobile-game')){
+    GAME_VIEW_TOP=0;
+    GAME_VIEW_BOTTOM=H;
+    return;
+  }
   const topSpace=Math.max(defaultTop,Math.round(readCssPixels('--top-ui-space',190)));
   const bottomSpace=Math.max(110,Math.round(readCssPixels('--bottom-ui-space',210)));
   GAME_VIEW_TOP=topSpace;
@@ -3641,15 +3733,122 @@ function syncStoryCardChrome(){
   }
 }
 function setStoryCardCollapsed(collapsed){
+  if(isMobileGameLayout() && !collapsed){
+    openMobileSheet('story');
+    STORY_CARD_STATE.collapsed=true;
+    syncStoryCardChrome();
+    measureResponsiveChrome();
+    return;
+  }
   STORY_CARD_STATE.collapsed=!!collapsed;
   syncStoryCardChrome();
-  if(isMobileGameLayout())document.body.classList.toggle('sheet-open',!STORY_CARD_STATE.collapsed||document.getElementById('ipop')?.classList.contains('show'));
+  if(isMobileGameLayout())document.body.classList.toggle('sheet-open',!STORY_CARD_STATE.collapsed||document.getElementById('mobileSheet')?.hidden===false||document.getElementById('ipop')?.classList.contains('show'));
   measureResponsiveChrome();
 }
 function toggleStoryCardCollapsed(){
   setStoryCardCollapsed(!STORY_CARD_STATE.collapsed);
 }
+function getRouteSheetOptions(){
+  const opts=INTERACTABLES.map(ob=>({
+    l:'â†’ '+lt(ob.label)+(ob.minStatus&&S.status<ob.minStatus?(LANG.current==='en'?' [LOCKED]':' [SPERRET]'):''),
+    c:ob.type==='gate'?'dg':ob.type==='terminal'||ob.type==='erased'||ob.type==='lift'||ob.type==='ulriken'||ob.type==='cdnmentor'?'rs':'',
+    a:()=>{
+      closeMobileSheet();
+      if(ob.minStatus&&S.status<ob.minStatus){
+        addLog({no:'Mer glÃ¸d trengs fÃ¸r du kan hente denne regelen.',en:'You need more glow before you can collect this rule.'},'d');
+        return;
+      }
+      snapPlayerToNode(ob.nodeId);P.nextNodeId=null;P.vx=0;P.vy=0;
+      addLog({no:`Du beveger deg mot ${ob.label}.`,en:`You move toward ${lt(ob.label)}.`},'i');snd('move');
+    }
+  }));
+  if(S.secretUnlocked)opts.splice(opts.length-1,0,{l:'â†’ '+lt('HEMMELIG BYBANETUNNEL'),c:'dg',a:()=>{closeMobileSheet();snapPlayerToNode('secret_7340');addLog({no:'Du fÃ¸lger ekkoet ned i den gamle Bybanetunnelen.',en:'You follow the echo down into the old light rail tunnel.'},'w');snd('move');}});
+  return opts;
+}
+function openMobileSheet(type, payload={}){
+  const sheet=document.getElementById('mobileSheet');
+  const backdrop=document.getElementById('mobileBackdrop');
+  const content=document.getElementById('mobileSheetContent');
+  if(!sheet||!backdrop||!content)return;
+  const close=sheet.querySelector('.sheet-close');
+  if(close)close.textContent=LANG.current==='en'?'Close':'Lukk';
+  content.innerHTML='';
+
+  const title=document.createElement('h2');
+  title.className='sheet-title';
+  const desc=document.createElement('p');
+  desc.className='sheet-desc';
+  const actions=document.createElement('div');
+  actions.className=type==='map'?'route-buttons':'sheet-actions';
+
+  if(type==='map'){
+    title.textContent=lt('RUTEKART');
+    desc.textContent=lt('Samle lysspor som Pac-Man-prikker, legg fra deg undervannsutstyret ved FlÃ¸ibanen, klatre opp til fjelllyset og bruk fjellutsynet nÃ¥r du vil forstÃ¥ mÃ¸nsteret.');
+    getRouteSheetOptions().forEach(o=>{
+      const b=document.createElement('button');
+      b.className='ab '+(o.c||'');
+      b.type='button';
+      b.textContent=o.l;
+      b.onclick=o.a;
+      actions.appendChild(b);
+    });
+    const stay=document.createElement('button');
+    stay.className='ab';
+    stay.type='button';
+    stay.textContent=lt('[ Flyt Her ]');
+    stay.onclick=closeMobileSheet;
+    actions.appendChild(stay);
+  }else if(type==='story'){
+    title.textContent=document.getElementById('story-title')?.textContent||tr('storyShow');
+    desc.textContent=getStoryCardSummaryText();
+    const story=document.getElementById('story-scroll');
+    if(story)content.appendChild(story.cloneNode(true));
+  }else if(type==='help'){
+    const ob=INTERACTABLES.find(o=>o.id==='erased');
+    title.textContent=lt('SKYGJEST');
+    desc.textContent=lt('"Kan du svÃ¸mme ved siden av meg? Jeg vil slippe at appene vet mer om livet mitt enn jeg selv har sagt ja til."');
+    [
+      {l:lt('[ SvÃ¸m Sammen NÃ¥ ]'),c:'rs',a:()=>{closeMobileSheet();if(ob)handleAct('help_e',ob);}},
+      {l:lt('[ Litt Senere ]'),c:'',a:()=>{closeMobileSheet();S.guilt=cl(S.guilt+8);updateUI();addLog(lt('Du venter litt. Samvittigheten kruser videre.'),'w');}}
+    ].forEach(o=>{
+      const b=document.createElement('button');
+      b.className='ab '+(o.c||'');
+      b.type='button';
+      b.textContent=o.l;
+      b.onclick=o.a;
+      actions.appendChild(b);
+    });
+  }else if(type==='custom'){
+    title.textContent=payload.title||'';
+    desc.textContent=payload.desc||'';
+    (payload.opts||[]).forEach(o=>{
+      const b=document.createElement('button');
+      b.className='ab '+(o.c||'');
+      b.type='button';
+      b.textContent=o.l;
+      b.onclick=o.a;
+      actions.appendChild(b);
+    });
+  }
+
+  if(type!=='story'){
+    content.appendChild(title);
+    content.appendChild(desc);
+    content.appendChild(actions);
+  }
+  sheet.hidden=false;
+  backdrop.hidden=false;
+  document.body.classList.add('sheet-open');
+}
+function closeMobileSheet(){
+  const sheet=document.getElementById('mobileSheet');
+  const backdrop=document.getElementById('mobileBackdrop');
+  if(sheet)sheet.hidden=true;
+  if(backdrop)backdrop.hidden=true;
+  document.body.classList.remove('sheet-open');
+}
 function closeMobileSheets(){
+  closeMobileSheet();
   closeIP();
   if(isMobileGameLayout())setStoryCardCollapsed(true);
   const accessibilityMenu=document.getElementById('accessibility-menu');
@@ -3663,8 +3862,8 @@ function normalizeMobileControls(){
   const actions=document.getElementById('touch-actions');
   if(!map||!utility||!actions)return;
   if(document.body.classList.contains('mobile-game')){
-    if(map.parentElement!==actions)actions.insertBefore(map,actions.firstChild);
-    if(calm&&calm.parentElement!==utility)utility.appendChild(calm);
+    if(map.parentElement!==utility)utility.appendChild(map);
+    if(calm&&calm.parentElement!==actions)actions.insertBefore(calm,document.getElementById('touch-helper'));
   }else{
     if(map.parentElement!==utility)utility.insertBefore(map,utility.firstChild);
     if(calm&&calm.parentElement!==utility)utility.appendChild(calm);
@@ -6969,6 +7168,14 @@ function showWarn(text){
 }
 
 function showInteractPopup(title,desc,opts){
+  if(isMobileGameLayout()){
+    openMobileSheet('custom',{title,desc,opts:opts.map(o=>({
+      l:o.l,
+      c:o.c,
+      a:()=>{closeMobileSheet();o.a();}
+    }))});
+    return;
+  }
   document.getElementById('ipt').textContent=title;
   document.getElementById('ipd').textContent=desc;
   const a=document.getElementById('ipa');a.innerHTML='';
@@ -6989,6 +7196,7 @@ function showInteractPopup(title,desc,opts){
 }
 function closeIP(){
   document.getElementById('ipop').classList.remove('show');
+  closeMobileSheet();
   document.body.classList.remove('sheet-open');
 }
 
@@ -7051,6 +7259,10 @@ function handleAct(act,ob){
 // MENU BUTTONS
 function showMoveMenu(){
   if(S.go)return;
+  if(isMobileGameLayout()){
+    openMobileSheet('map');
+    return;
+  }
   setStoryCardCollapsed(false);
   const opts=INTERACTABLES.map(ob=>({
     l:'→ '+lt(ob.label)+(ob.minStatus&&S.status<ob.minStatus?(LANG.current==='en'?' [LOCKED]':' [SPERRET]'):''),
@@ -7078,6 +7290,10 @@ function showResistMenu(){
 }
 function showHelpMenu(){
   if(S.go)return;
+  if(isMobileGameLayout()){
+    openMobileSheet('help');
+    return;
+  }
   setStoryCardCollapsed(false);
   const ob=INTERACTABLES.find(o=>o.id==='erased');
   if(ob)showInteractPopup(lt('SKYGJEST'),lt('"Kan du svømme ved siden av meg? Jeg vil slippe at appene vet mer om livet mitt enn jeg selv har sagt ja til."'),[
@@ -7225,7 +7441,7 @@ function measureResponsiveChrome(){
     const landscape=body.classList.contains('mobile-landscape');
     const hud=landscape?50:64;
     const objective=landscape?42:54;
-    const controls=landscape?92:(getRotateViewportWidth()<=420?122:132);
+    const controls=landscape?154:(getRotateViewportWidth()<=420?174:188);
     body.style.setProperty('--hud-height',`${hud}px`);
     body.style.setProperty('--objective-height',`${objective}px`);
     body.style.setProperty('--controls-height',`${controls}px`);
