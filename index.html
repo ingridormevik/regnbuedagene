@@ -3313,6 +3313,17 @@
 
         initLanguageSystem();
 
+        function runAfterFirstPaint(callback) {
+            const run = () => {
+                if ('requestIdleCallback' in window) {
+                    window.requestIdleCallback(callback, { timeout: 900 });
+                } else {
+                    setTimeout(callback, 120);
+                }
+            };
+            requestAnimationFrame(() => requestAnimationFrame(run));
+        }
+
         // ---------------------------------------------------------------
         // NORTHERN LIGHTS AURORA EFFECT - Enhanced
         // ---------------------------------------------------------------
@@ -3466,7 +3477,11 @@
             time += mobileMode ? 0.005 : 0.008;
             requestAnimationFrame(drawAurora);
         }
-        drawAurora();
+        runAfterFirstPaint(() => {
+            if (document.hidden || _auroraActive) return;
+            _auroraActive = true;
+            requestAnimationFrame(drawAurora);
+        });
         // mobile-lite: drawAurora runs with 1 layer + every-other-frame
 
         // ---------------------------------------------------------------
@@ -3550,7 +3565,7 @@
         }
 
         if (!mobileLiteMode) {
-            drawBergenMountains();
+            runAfterFirstPaint(drawBergenMountains);
         }
 
         // ---------------------------------------------------------------
@@ -3558,17 +3573,20 @@
         // ---------------------------------------------------------------
         const atmosphere = document.querySelector('.forest-atmosphere');
 
-        const ambientParticleCount = mobileLiteMode ? 0 : 30;
-        const ambientParticles = document.createDocumentFragment();
-        for (let i = 0; i < ambientParticleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.setProperty('--drift', (Math.random() - 0.5) * 200 + 'px');
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            ambientParticles.appendChild(particle);
-        }
-        atmosphere.appendChild(ambientParticles);
+        runAfterFirstPaint(() => {
+            const ambientParticleCount = mobileLiteMode ? 0 : 30;
+            if (!atmosphere || ambientParticleCount === 0) return;
+            const ambientParticles = document.createDocumentFragment();
+            for (let i = 0; i < ambientParticleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.setProperty('--drift', (Math.random() - 0.5) * 200 + 'px');
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                ambientParticles.appendChild(particle);
+            }
+            atmosphere.appendChild(ambientParticles);
+        });
 
        // ---------------------------------------------------------------
 // CREATURE CARD INTERACTIONS - Particle Explosion on Click
@@ -4177,7 +4195,11 @@ creatureCards.forEach(card => {
             requestAnimationFrame(drawAuroraShader);
         }
         if (!mobileLiteMode) {
-            drawAuroraShader();
+            runAfterFirstPaint(() => {
+                if (document.hidden || _shaderActive) return;
+                _shaderActive = true;
+                requestAnimationFrame(drawAuroraShader);
+            });
         } else if (shaderCanvas) {
             shaderCanvas.style.display = 'none';
         }
