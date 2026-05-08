@@ -3145,7 +3145,7 @@
 
         <section class="club-seduction-section" aria-labelledby="clubSeductionTitle">
             <div class="club-seduction-header">
-                <div class="club-seduction-kicker">Etter vesenene</div>
+                <div class="club-seduction-kicker">Vesnene skifter form</div>
                 <h2 class="club-seduction-title" id="clubSeductionTitle">Club Seduction feat DJ Pizza$lut</h2>
                 <div class="club-seduction-line" aria-hidden="true"></div>
             </div>
@@ -3248,7 +3248,7 @@
                 ['[data-creature="jotna"] .card-artist-content .creature-identity', { no: 'Kunstner • Dominatrix • Aktivist', en: 'Artist • Dominatrix • Activist' }],
                 ['[data-creature="jotna"] .card-artist-content .artist-pronouns', { no: 'hun/henne', en: 'she/her' }],
                 ['[data-creature="jotna"] .card-artist-content .creature-description', { no: 'Alma Adore er kunstner, dominatrix og aktivist. Founder of seduction.no og Club Seduction, tidligere konsept på Elsker.', en: 'Alma Adore is an artist, dominatrix and activist. Founder of seduction.no and Club Seduction, formerly a concept at Elsker.' }],
-                ['.club-seduction-kicker', { no: 'Etter vesenene', en: 'After the beings' }],                ['.club-seduction-copy p', { no: 'DJ Pizza$lut tar over når skogen skifter form. Begjær uten unnskyldning, kropper som tar plass og en natt som blir mørkere, friere og mer intens.', en: 'DJ Pizza$lut takes over as the forest changes shape. Desire without apology, bodies taking up space and a night that grows darker, freer and more intense.' }],
+                ['.club-seduction-kicker', { no: 'Vesnene skifter form', en: 'The beings change form' }],                ['.club-seduction-copy p', { no: 'DJ Pizza$lut tar over når skogen skifter form. Begjær uten unnskyldning, kropper som tar plass og en natt som blir mørkere, friere og mer intens.', en: 'DJ Pizza$lut takes over as the forest changes shape. Desire without apology, bodies taking up space and a night that grows darker, freer and more intense.' }],
                 ['.club-seduction-row:nth-child(2) .club-seduction-label', { no: 'DJ Pizza$lut tar over', en: 'DJ Pizza$lut takes over' }],
                 ['.club-seduction-row:nth-child(3) .club-seduction-time', { no: 'Til 02:30', en: 'Until 02:30' }],
                 ['.club-seduction-footer', { no: 'Marinehagen • 6 juni 2026 • Bergen', en: 'Marinehagen • June 6, 2026 • Bergen' }],
@@ -3840,6 +3840,8 @@ creatureCards.forEach(card => {
         // ---------------------------------------------------------------
         // LEGENDARY NOTIFICATION SYSTEM
         // ---------------------------------------------------------------
+        let legendaryNotificationTimer;
+
         function showLegendaryNotification(creatureType) {
             const creatureData = {
                 'huldra': {
@@ -3903,7 +3905,8 @@ creatureCards.forEach(card => {
             createFloatingParticles(creature.color);
 
             // Auto-hide after 6 seconds
-            setTimeout(() => {
+            clearTimeout(legendaryNotificationTimer);
+            legendaryNotificationTimer = setTimeout(() => {
                 notification.classList.remove('show');
             }, 6000);
         }
