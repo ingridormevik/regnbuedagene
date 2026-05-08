@@ -167,6 +167,10 @@ canvas{display:block;position:absolute;inset:0;}
 .access-menu-section button{appearance:none;border:1px solid rgba(143,230,255,.22);border-radius:10px;background:rgba(143,230,255,.065);color:#edfaff;min-height:34px;padding:8px 10px;font:700 12px/1.2 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-align:left;cursor:pointer;}
 .access-menu-section button:hover,.access-menu-section button:focus-visible{outline:none;border-color:rgba(255,203,139,.55);background:rgba(255,203,139,.10);}
 .access-menu-section button[aria-pressed="true"]{border-color:rgba(146,245,199,.62);background:rgba(146,245,199,.13);color:#f3fff9;}
+.access-volume-control{display:grid;gap:6px;color:#edfaff;font:700 11px/1.2 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
+.access-volume-control span{display:flex;justify-content:space-between;gap:10px;letter-spacing:.04em;text-transform:uppercase;color:rgba(232,251,255,.86);}
+.access-volume-control output{color:var(--amber);font-variant-numeric:tabular-nums;}
+.access-volume-control input[type="range"]{width:100%;accent-color:var(--fjord);}
 body.readable-mode #story-copy{display:block;}
 body.readable-mode #story-card{max-width:520px;opacity:.96;}
 body.readable-mode #story-title{font-size:24px;}
@@ -3245,7 +3249,15 @@ body.rotate-overlay-active #ldg{
         <section class="access-menu-section">
           <span id="access-menu-audio">Lyd</span>
           <button id="access-music" type="button" aria-pressed="false" onclick="toggleAccessOption('music')">Musikk av/på</button>
+          <label class="access-volume-control" for="access-music-volume">
+            <span><span id="access-music-volume-label">Musikkvolum</span><output id="access-music-volume-value">70%</output></span>
+            <input id="access-music-volume" type="range" min="0" max="100" step="1" value="70" oninput="setAccessVolume('music', this.value)">
+          </label>
           <button id="access-sfx" type="button" aria-pressed="false" onclick="toggleAccessOption('sfx')">SFX av/på</button>
+          <label class="access-volume-control" for="access-sfx-volume">
+            <span><span id="access-sfx-volume-label">SFX-volum</span><output id="access-sfx-volume-value">75%</output></span>
+            <input id="access-sfx-volume" type="range" min="0" max="100" step="1" value="75" oninput="setAccessVolume('sfx', this.value)">
+          </label>
         </section>
       </div>
     </details>
@@ -3389,7 +3401,9 @@ function resizeCanvasForMobileLandscape(){
 const CDN_LEARNING_LANG_KEY='cdnLearningLanguage';
 const LANG={current:localStorage.getItem(CDN_LEARNING_LANG_KEY)==='en'?'en':'no'};
 const ACCESS_KEY='cdnLearningAccess';
-const ACCESS={readable:true,contrast:false,easy:true,motion:false,music:true,sfx:true,...JSON.parse(localStorage.getItem(ACCESS_KEY)||'{}')};
+const ACCESS={readable:true,contrast:false,easy:true,motion:false,music:true,sfx:true,musicVol:.70,sfxVol:.75,...JSON.parse(localStorage.getItem(ACCESS_KEY)||'{}')};
+ACCESS.musicVol=Number.isFinite(Number(ACCESS.musicVol))?Math.max(0,Math.min(1,Number(ACCESS.musicVol))):.70;
+ACCESS.sfxVol=Number.isFinite(Number(ACCESS.sfxVol))?Math.max(0,Math.min(1,Number(ACCESS.sfxVol))):.75;
 const UI_TEXT={
   loadingTitle:{no:'CDN LÆRINGSLAB / DATASPOR',en:'CDN LEARNING LAB / DATA TRACES'},
   loadingSubtitle:{no:'BERGEN 2063 ◈ BRYGGEN, FESTPLASSEN, NORDNES OG NYGÅRDSPARKEN I VANNSONEN ◈ FLØYEN OG ULRIKEN I FJELLSONEN',en:'BERGEN 2063 ◈ BRYGGEN, FESTPLASSEN, NORDNES AND NYGÅRDSPARKEN IN THE FLOOD ZONE ◈ FLØYEN AND ULRIKEN IN THE MOUNTAIN ZONE'},
@@ -3440,6 +3454,8 @@ const UI_TEXT={
   accessMotion:{no:'Mindre bevegelse',en:'Reduced motion'},
   accessMusic:{no:'Musikk av/på',en:'Music on/off'},
   accessSfx:{no:'SFX av/på',en:'SFX on/off'},
+  accessMusicVolume:{no:'Musikkvolum',en:'Music volume'},
+  accessSfxVolume:{no:'SFX-volum',en:'SFX volume'},
   frictionTitle:{no:'⬡ VENTEBØLGE',en:'⬡ WAITING WAVE'},
   endSubtitle:{no:'CDN LÆRINGSLAB ◈ BERGEN FRA FJORD TIL FJELL ◈ SPØRSMÅLENE LEVER VIDERE',en:'CDN LEARNING LAB ◈ BERGEN FROM FJORD TO MOUNTAIN ◈ THE QUESTIONS KEEP LIVING'},
   restart:{no:'[ START PÅ NYTT ]',en:'[ START AGAIN ]'},
@@ -3937,7 +3953,9 @@ function renderLanguageChrome(){
     'access-easy':'accessEasy',
     'access-motion':'accessMotion',
     'access-music':'accessMusic',
-    'access-sfx':'accessSfx'
+    'access-sfx':'accessSfx',
+    'access-music-volume-label':'accessMusicVolume',
+    'access-sfx-volume-label':'accessSfxVolume'
   };
   Object.entries(accessMap).forEach(([id,key])=>{
     const el=document.getElementById(id);
@@ -4012,15 +4030,37 @@ function applyAccessSettings(){
   });
   if(labMusic){
     labMusic.muted=!ACCESS.music;
-    labMusic.volume=ACCESS.music ? .26 : 0;
+    labMusic.volume=ACCESS.music ? ACCESS.musicVol : 0;
   }
-  if(dG&&AC)dG.gain.setTargetAtTime(ACCESS.sfx ? .025 : 0,AC.currentTime,.04);
+  if(dG&&AC)dG.gain.setTargetAtTime(ACCESS.sfx ? .025*ACCESS.sfxVol : 0,AC.currentTime,.04);
+  if(bueAudio&&AC)bueAudio.gain.gain.setTargetAtTime(0,AC.currentTime,.04);
+  const musicSlider=document.getElementById('access-music-volume');
+  const sfxSlider=document.getElementById('access-sfx-volume');
+  const musicValue=document.getElementById('access-music-volume-value');
+  const sfxValue=document.getElementById('access-sfx-volume-value');
+  if(musicSlider)musicSlider.value=Math.round(ACCESS.musicVol*100);
+  if(sfxSlider)sfxSlider.value=Math.round(ACCESS.sfxVol*100);
+  if(musicValue)musicValue.textContent=`${Math.round(ACCESS.musicVol*100)}%`;
+  if(sfxValue)sfxValue.textContent=`${Math.round(ACCESS.sfxVol*100)}%`;
 }
 function toggleAccessOption(option){
   ACCESS[option]=!ACCESS[option];
   localStorage.setItem(ACCESS_KEY,JSON.stringify(ACCESS));
   applyAccessSettings();
   if(option==='music'&&ACCESS.music&&AC)startLabMusic();
+}
+function setAccessVolume(kind,value){
+  const vol=cl(Number(value)/100,0,1);
+  if(kind==='music'){
+    ACCESS.musicVol=vol;
+    if(vol>0)ACCESS.music=true;
+  }else if(kind==='sfx'){
+    ACCESS.sfxVol=vol;
+    if(vol>0)ACCESS.sfx=true;
+  }
+  localStorage.setItem(ACCESS_KEY,JSON.stringify(ACCESS));
+  applyAccessSettings();
+  if(kind==='music'&&ACCESS.music&&AC)startLabMusic();
 }
 
 // ════════ AUDIO ════════
@@ -4035,7 +4075,7 @@ let labMusic=null,labTrackIndex=0;
 function startLabMusic(){
   if(labMusic||!LAB_TRACKS.length)return;
   labMusic=new Audio();
-  labMusic.volume=ACCESS.music ? .26 : 0;
+  labMusic.volume=ACCESS.music ? ACCESS.musicVol : 0;
   labMusic.muted=!ACCESS.music;
   labMusic.preload='metadata';
   labMusic.addEventListener('ended',()=>{
@@ -4054,7 +4094,7 @@ function initAudio(){
     document.getElementById('aprmpt').style.opacity='0';
     const O=(f,tp)=>{const o=AC.createOscillator();o.type=tp;o.frequency.value=f;return o;};
     const o1=O(36,'sawtooth'),o2=O(54,'sine'),o3=O(72,'triangle');
-    dG=AC.createGain();dG.gain.value=ACCESS.sfx ? .025 : 0;
+    dG=AC.createGain();dG.gain.value=ACCESS.sfx ? .025*ACCESS.sfxVol : 0;
     const lp=AC.createBiquadFilter();lp.type='lowpass';lp.frequency.value=85;lp.Q.value=5;
     [o1,o2,o3].forEach(o=>{o.connect(lp);});lp.connect(dG);dG.connect(AC.destination);
     const lfo=AC.createOscillator(),lg=AC.createGain();
@@ -4079,7 +4119,7 @@ function updateBuekorpsAudio(dt){
   const dx=(P.x+P.w/2)-BUEKORPS_CENTER.x,dy=(P.y+P.h/2)-BUEKORPS_CENTER.y;
   const dist=Math.hypot(dx,dy);
   const near=cl(1-dist/BUEKORPS_CENTER.r,0,1);
-  const muffled=near*near*(ACCESS.sfx ? .42 : 0);
+  const muffled=near*near*(ACCESS.sfx ? .42*ACCESS.sfxVol : 0);
   bueAudio.gain.gain.setTargetAtTime(muffled,AC.currentTime,.28);
   bueAudio.filter.frequency.setTargetAtTime(360+near*720,AC.currentTime,.22);
   if(near>.34&&!bueLastLog){
@@ -4098,9 +4138,9 @@ function updateBuekorpsAudio(dt){
   noise.buffer=buf;
   osc.type=step%4===0?'triangle':'square';
   osc.frequency.value=step%4===0?96:(step%2===0?188:238);
-  drumGain.gain.setValueAtTime((step%4===0 ? .075 : .038)*near,t);
+  drumGain.gain.setValueAtTime((step%4===0 ? .075 : .038)*near*ACCESS.sfxVol,t);
   drumGain.gain.exponentialRampToValueAtTime(.001,t+.13);
-  noiseGain.gain.setValueAtTime((step%2===0 ? .055 : .028)*near,t);
+  noiseGain.gain.setValueAtTime((step%2===0 ? .055 : .028)*near*ACCESS.sfxVol,t);
   noiseGain.gain.exponentialRampToValueAtTime(.001,t+.06);
   osc.connect(drumGain);noise.connect(noiseGain);drumGain.connect(bueAudio.filter);noiseGain.connect(bueAudio.filter);
   osc.start(t);osc.stop(t+.14);noise.start(t);noise.stop(t+.07);
@@ -4109,14 +4149,14 @@ function tone(f,d,tp='sine',g=.035,off=0){
   if(!audioOK||!ACCESS.sfx)return;const t=AC.currentTime;
   const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);
   o.type=tp;o.frequency.value=f;
-  gn.gain.setValueAtTime(g,t+off);gn.gain.exponentialRampToValueAtTime(.001,t+off+d);
+  gn.gain.setValueAtTime(g*ACCESS.sfxVol,t+off);gn.gain.exponentialRampToValueAtTime(.001,t+off+d);
   o.start(t+off);o.stop(t+off+d+.01);
 }
 function swp(f1,f2,d,tp='sine',g=.035,off=0){
   if(!audioOK||!ACCESS.sfx)return;const t=AC.currentTime;
   const o=AC.createOscillator(),gn=AC.createGain();o.connect(gn);gn.connect(AC.destination);
   o.type=tp;o.frequency.setValueAtTime(f1,t+off);o.frequency.exponentialRampToValueAtTime(f2,t+off+d);
-  gn.gain.setValueAtTime(g,t+off);gn.gain.exponentialRampToValueAtTime(.001,t+off+d);
+  gn.gain.setValueAtTime(g*ACCESS.sfxVol,t+off);gn.gain.exponentialRampToValueAtTime(.001,t+off+d);
   o.start(t+off);o.stop(t+off+d+.01);
 }
 function snd(type){
@@ -4139,7 +4179,7 @@ function snd(type){
       const b=AC.createBuffer(1,AC.sampleRate*.22,AC.sampleRate),d=b.getChannelData(0);
       for(let i=0;i<d.length;i++)d[i]=(Math.random()-.5)*.2;
       const s=AC.createBufferSource(),g=AC.createGain();s.buffer=b;s.connect(g);g.connect(AC.destination);
-      const t=AC.currentTime;g.gain.setValueAtTime(.3,t);g.gain.exponentialRampToValueAtTime(.001,t+.22);s.start(t);
+      const t=AC.currentTime;g.gain.setValueAtTime(.3*ACCESS.sfxVol,t);g.gain.exponentialRampToValueAtTime(.001,t+.22);s.start(t);
     }
   };
   s[type]&&s[type]();
