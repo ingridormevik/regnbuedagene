@@ -36,6 +36,8 @@
             min-height: 100vh;
             overflow-x: hidden;
             overflow-anchor: none;
+            overscroll-behavior-y: auto;
+            -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
             color-scheme: dark;
             font-family: 'Crimson Text', Georgia, serif;
@@ -3175,7 +3177,7 @@
         </section>
 
         <iframe
-            src="bergtatt-visuals.html?preview=true"
+            data-src="bergtatt-visuals.html?preview=true"
             id="bergtattPreview"
             class="visual-preview"
             title="BERGTATT preview"
@@ -3346,6 +3348,11 @@
             return coarsePointer && window.innerWidth <= 430;
         }
 
+        function shouldDisableInlinePreview() {
+            const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+            return !isEmbeddedDesktopMode() && (coarsePointer || window.innerWidth <= 768);
+        }
+
         let mobileLiteMode = isMobilePerformanceMode();
         document.body.classList.toggle('embedded-desktop', isEmbeddedDesktopMode());
         document.body.classList.toggle('mobile-lite', mobileLiteMode);
@@ -3423,6 +3430,10 @@
                 if (!_auroraActive && !document.hidden) {
                     _auroraActive = true;
                     requestAnimationFrame(drawAurora);
+                }
+                if (!mobileLiteMode && !_shaderActive && !document.hidden) {
+                    _shaderActive = true;
+                    requestAnimationFrame(drawAuroraShader);
                 }
             }, 120);
         }, { passive: true });
@@ -4137,6 +4148,7 @@ creatureCards.forEach(card => {
             if (!shaderCtx || !shaderCanvas) return;
             const mobileMode = mobileLiteMode;
             if (document.hidden) { _shaderActive = false; return; }
+            if (_scrolling) { _shaderActive = false; return; }
             _shaderActive = true;
             if (mobileMode) {
                 shaderFrameToggle = !shaderFrameToggle;
@@ -4361,25 +4373,33 @@ setTimeout(() => {
     if (el) el.classList.add('active');
 }, 600);
 
-if (mobileLiteMode) {
-    const preview = document.getElementById('bergtattPreview');
-    if (preview) {
-        preview.removeAttribute('src');
-        preview.style.display = 'none';
-    }
-}
-
-// Keep BERGTATT teaser fresh without reloading it while the user is looking at it.
 const bergtattLoopPreview = document.getElementById('bergtattPreview');
 let bergtattPreviewVisible = false;
-if (bergtattLoopPreview && !mobileLiteMode) {
+
+function loadBergtattPreview() {
+    if (!bergtattLoopPreview || bergtattLoopPreview.dataset.loaded === 'true') return;
+    const src = bergtattLoopPreview.dataset.src;
+    if (!src) return;
+    bergtattLoopPreview.src = src;
+    bergtattLoopPreview.dataset.loaded = 'true';
+}
+
+if (bergtattLoopPreview && shouldDisableInlinePreview()) {
+    bergtattLoopPreview.removeAttribute('src');
+    bergtattLoopPreview.style.display = 'none';
+    const mobilePreviewLink = document.querySelector('.bergtatt-mobile-link');
+    if (mobilePreviewLink) mobilePreviewLink.style.display = 'block';
+} else if (bergtattLoopPreview) {
     const previewObserver = new IntersectionObserver((entries) => {
         bergtattPreviewVisible = entries.some((entry) => entry.isIntersecting);
-    }, { threshold: 0.08 });
+        if (bergtattPreviewVisible) {
+            runAfterFirstPaint(loadBergtattPreview);
+        }
+    }, { rootMargin: '260px 0px', threshold: 0.04 });
     previewObserver.observe(bergtattLoopPreview);
 
     setInterval(() => {
-        if (document.hidden || bergtattPreviewVisible) return;
+        if (document.hidden || bergtattPreviewVisible || bergtattLoopPreview.dataset.loaded !== 'true') return;
         bergtattLoopPreview.src = `https://ingridormevik.github.io/bergtatt-visuals.html?preview=true&t=${Date.now()}`;
     }, 45000);
 }
