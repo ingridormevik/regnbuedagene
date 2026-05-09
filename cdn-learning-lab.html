@@ -3961,6 +3961,140 @@ body.cdn-lab-active {
   }
 }
 
+/* ── COMPACT LANDSCAPE: fix overflow on phones ≤480px tall ── */
+/* Root cause: grid-template-rows has minmax(260px/170px, 1fr) for canvas row
+   but total required > viewport height → elements overflow and overlap.
+   Fix: collapse story-card to 0 in grid, remove canvas minimum. */
+@media (orientation: landscape) and (max-height: 480px) {
+  body.mobile-game {
+    grid-template-rows: 48px 0 1fr 88px !important;
+    padding:
+      max(4px, env(safe-area-inset-top))
+      max(8px, env(safe-area-inset-right))
+      max(4px, env(safe-area-inset-bottom))
+      max(8px, env(safe-area-inset-left)) !important;
+  }
+
+  /* Collapse story card in grid; it can still open as a fixed overlay */
+  body.mobile-game #story-card {
+    max-height: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+  }
+  /* When user expands it, restore via :not(.is-collapsed) fixed overlay */
+  body.mobile-game #story-card:not(.is-collapsed) {
+    max-height: 70dvh !important;
+    overflow-y: auto !important;
+    padding: 48px 16px 16px !important;
+    border: revert !important;
+  }
+
+  /* Top bar: fixed 48px, no excess */
+  body.mobile-game #tb {
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+    padding: 4px 8px !important;
+    gap: 6px !important;
+    overflow-x: auto !important;
+    scrollbar-width: none !important;
+  }
+  body.mobile-game #tb::-webkit-scrollbar { display: none !important; }
+
+  body.mobile-game #tb .ts,
+  body.mobile-game #zone-lbl,
+  body.mobile-game #lang-toggle,
+  body.mobile-game #accessibility-menu > summary,
+  body.mobile-game .ts-brand {
+    min-height: 36px !important;
+    height: 36px !important;
+    padding: 4px 8px !important;
+    font-size: 0.62rem !important;
+  }
+
+  /* Touch controls: fixed 88px total */
+  body.mobile-game #touch-ui {
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+    padding: 4px 8px max(4px, env(safe-area-inset-bottom)) !important;
+    gap: 8px !important;
+    grid-template-columns: 82px 1fr !important;
+  }
+
+  body.mobile-game #touch-left-stack {
+    width: 82px !important;
+    min-width: 82px !important;
+    height: 80px !important;
+    grid-template-rows: 58px 18px !important;
+    gap: 3px !important;
+  }
+
+  body.mobile-game #touch-pad,
+  body.mobile-game .dpad {
+    width: 82px !important;
+    height: 58px !important;
+  }
+
+  body.mobile-game #touch-pad {
+    grid-template-columns: 25px 25px 25px !important;
+    grid-template-rows: 25px 25px 25px !important;
+    gap: 2px !important;
+    padding: 2px !important;
+  }
+
+  body.mobile-game #touch-pad .touch-btn {
+    width: 23px !important;
+    height: 23px !important;
+    min-width: 23px !important;
+    min-height: 23px !important;
+    font-size: 0.6rem !important;
+  }
+
+  body.mobile-game #touch-utility {
+    height: 16px !important;
+    gap: 3px !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  body.mobile-game #touch-utility .touch-action-btn {
+    min-height: 14px !important;
+    height: 16px !important;
+    padding: 2px 4px !important;
+    font-size: 0.5rem !important;
+    letter-spacing: 0.02em !important;
+    border-radius: 4px !important;
+  }
+
+  body.mobile-game #touch-actions {
+    height: 80px !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: 1fr 1fr !important;
+    gap: 4px !important;
+    align-content: stretch !important;
+  }
+
+  body.mobile-game .touch-action-btn {
+    min-height: 36px !important;
+    max-height: 40px !important;
+    padding: 4px 6px !important;
+    font-size: 0.58rem !important;
+    line-height: 1 !important;
+    letter-spacing: 0.03em !important;
+  }
+
+  /* Accessibility panel: dock above controls */
+  body.mobile-game .access-menu-body {
+    bottom: calc(92px + env(safe-area-inset-bottom)) !important;
+    top: 52px !important;
+    max-height: none !important;
+  }
+}
+
 </style>
 </head>
 <body class="cdn-lab-active">
