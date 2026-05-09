@@ -3448,6 +3448,7 @@ body.mobile-portrait.rotate-overlay-active #ldg {
 }
 
 /* CDN Learning Lab mobile orientation lock */
+.cdn-lab-rotate-hint,
 #rotate-screen-overlay {
   display: none;
 }
@@ -3547,6 +3548,39 @@ body.mobile-portrait.rotate-overlay-active #ldg {
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  #cdn-rotate-continue {
+    margin-top: 12px;
+    min-height: 46px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(139, 232, 255, 0.38);
+    background: rgba(139, 232, 255, 0.10);
+    color: #c9f6ff;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  body.cdn-rotate-dismissed {
+    overflow-y: auto !important;
+  }
+
+  body.cdn-rotate-dismissed #rotate-screen-overlay {
+    display: none !important;
+  }
+
+  body.cdn-rotate-dismissed #gc,
+  body.cdn-rotate-dismissed #hud,
+  body.cdn-rotate-dismissed #ldg,
+  body.cdn-rotate-dismissed #lp,
+  body.cdn-rotate-dismissed #rp,
+  body.cdn-rotate-dismissed #btm,
+  body.cdn-rotate-dismissed #story-card,
+  body.cdn-rotate-dismissed #touch-ui {
+    visibility: visible !important;
+    pointer-events: auto !important;
   }
 
   #cdn-landscape-reset {
@@ -3649,12 +3683,13 @@ body.mobile-portrait.rotate-overlay-active #ldg {
 </style>
 </head>
 <body>
-<div id="rotate-screen-overlay" aria-live="polite">
+<div id="rotate-screen-overlay" class="cdn-lab-rotate-hint" aria-live="polite">
   <div class="rotate-screen-card">
     <div class="rotate-icon">↻</div>
     <h1>Roter skjermen</h1>
-    <p>CDN Learning Lab er bygget som et Pac-Man-inspirert kartspill og fungerer best i landskapsmodus.</p>
-    <p class="rotate-small">Snu mobilen horisontalt for å spille.</p>
+    <p>CDN Læringslab fungerer best når du snur skjermen. Du kan spille her også, men landskap gir bedre kontroll.</p>
+    <p class="rotate-small">Snu mobilen horisontalt for best opplevelse.</p>
+    <button id="cdn-rotate-continue" type="button">Fortsett likevel</button>
     <button id="cdn-mobile-reset" type="button">Start på nytt</button>
   </div>
 </div>
@@ -8106,8 +8141,16 @@ function queueResponsiveAppState(){
     updateRotateOverlay();
   });
 }
+const CDN_ROTATE_HINT_DISMISSED_KEY='cdnLearningLabRotateHintDismissed';
+function cdnRotateHintDismissed(){
+  try{
+    return sessionStorage.getItem(CDN_ROTATE_HINT_DISMISSED_KEY)==='1';
+  }catch(e){
+    return false;
+  }
+}
 function shouldShowRotateOverlay(){
-  return isMobileLikeDevice()&&isPortraitMode();
+  return isMobileLikeDevice()&&isPortraitMode()&&!cdnRotateHintDismissed();
 }
 function updateRotateOverlayLanguage(){
   const card=document.querySelector('#rotate-device-overlay .rotate-device-card');
@@ -8122,15 +8165,18 @@ function updateRotateOverlayLanguage(){
     const p=simpleOverlay.querySelector('p:not(.rotate-small)');
     const small=simpleOverlay.querySelector('.rotate-small');
     const reset=simpleOverlay.querySelector('#cdn-mobile-reset');
+    const cont=simpleOverlay.querySelector('#cdn-rotate-continue');
     if(LANG.current==='en'){
       if(h)h.textContent='Rotate your screen';
-      if(p)p.textContent='CDN Learning Lab is built as a Pac-Man-inspired map game and works best in landscape mode.';
-      if(small)small.textContent='Turn your phone sideways to play.';
+      if(p)p.textContent='CDN Learning Lab works best when you rotate your screen. You can play here too, but landscape gives better control.';
+      if(small)small.textContent='Turn your phone sideways for the best experience.';
+      if(cont)cont.textContent='Continue anyway';
       if(reset)reset.textContent='Start again';
     }else{
       if(h)h.textContent='Roter skjermen';
-      if(p)p.textContent='CDN Learning Lab er bygget som et Pac-Man-inspirert kartspill og fungerer best i landskapsmodus.';
-      if(small)small.textContent='Snu mobilen horisontalt for å spille.';
+      if(p)p.textContent='CDN Læringslab fungerer best når du snur skjermen. Du kan spille her også, men landskap gir bedre kontroll.';
+      if(small)small.textContent='Snu mobilen horisontalt for best opplevelse.';
+      if(cont)cont.textContent='Fortsett likevel';
       if(reset)reset.textContent='Start på nytt';
     }
   }
@@ -8158,6 +8204,7 @@ function updateRotateOverlay(){
   const overlay=document.getElementById('rotate-device-overlay');
   if(!overlay)return;
   const showOverlay=shouldShowRotateOverlay();
+  document.body.classList.toggle('cdn-rotate-dismissed',cdnRotateHintDismissed());
   if(maybeBootstrapLandscapeViewport(showOverlay))return;
   if(ROTATE_DEVICE_STATE.visible===showOverlay&&overlay.getAttribute('aria-hidden')===(showOverlay?'false':'true'))return;
   ROTATE_DEVICE_STATE.visible=showOverlay;
@@ -8194,6 +8241,13 @@ window.addEventListener('load',()=>{
   };
   document.getElementById('cdn-mobile-reset')?.addEventListener('click',resetCdnLearningLab);
   document.getElementById('cdn-landscape-reset')?.addEventListener('click',resetCdnLearningLab);
+  document.getElementById('cdn-rotate-continue')?.addEventListener('click',()=>{
+    try{
+      sessionStorage.setItem(CDN_ROTATE_HINT_DISMISSED_KEY,'1');
+    }catch(e){}
+    document.body.classList.add('cdn-rotate-dismissed');
+    updateRotateOverlay();
+  });
   runBoot();resetGame();setupTouchControls();setupPointerSteering();setInterval(updateClock,1000);
   for(let i=0;i<3;i++)spawnJelly();
   requestAnimationFrame(loop);
