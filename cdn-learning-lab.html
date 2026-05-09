@@ -3447,9 +3447,217 @@ body.mobile-portrait.rotate-overlay-active #ldg {
   }
 }
 
+/* CDN Learning Lab mobile orientation lock */
+#rotate-screen-overlay {
+  display: none;
+}
+
+#cdn-landscape-reset {
+  display: none;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  html,
+  body {
+    width: 100%;
+    min-height: 100dvh;
+    overflow: hidden !important;
+    background: #030912 !important;
+  }
+
+  #rotate-device-overlay {
+    display: none !important;
+  }
+
+  #rotate-screen-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: max(24px, env(safe-area-inset-top)) 22px max(24px, env(safe-area-inset-bottom));
+    background:
+      radial-gradient(circle at 50% 20%, rgba(96, 220, 255, 0.16), transparent 34%),
+      radial-gradient(circle at 20% 80%, rgba(255, 190, 120, 0.10), transparent 38%),
+      linear-gradient(180deg, #06101b 0%, #02060d 100%);
+    color: #eef8ff;
+    text-align: center;
+  }
+
+  .rotate-screen-card {
+    width: min(100%, 420px);
+    padding: 34px 24px;
+    border-radius: 28px;
+    border: 1px solid rgba(150, 220, 255, 0.28);
+    background: rgba(5, 14, 26, 0.86);
+    box-shadow:
+      0 0 40px rgba(0, 0, 0, 0.55),
+      inset 0 0 0 1px rgba(255,255,255,0.04);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .rotate-icon {
+    width: 78px;
+    height: 78px;
+    margin: 0 auto 22px;
+    border-radius: 50%;
+    border: 1px solid rgba(150, 220, 255, 0.34);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: #8be8ff;
+    box-shadow: 0 0 26px rgba(100, 220, 255, 0.18);
+  }
+
+  .rotate-screen-card h1 {
+    margin: 0 0 14px;
+    font-size: clamp(2rem, 11vw, 3.2rem);
+    line-height: 0.95;
+    letter-spacing: 0.04em;
+  }
+
+  .rotate-screen-card p {
+    margin: 0 auto 12px;
+    max-width: 32ch;
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: rgba(238, 248, 255, 0.82);
+  }
+
+  .rotate-screen-card .rotate-small {
+    margin-top: 18px;
+    color: #ffc98a;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+  }
+
+  #cdn-mobile-reset {
+    margin-top: 18px;
+    min-height: 46px;
+    padding: 12px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 201, 138, 0.35);
+    background: rgba(255, 201, 138, 0.10);
+    color: #ffc98a;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  #cdn-landscape-reset {
+    display: none !important;
+  }
+
+  #gc,
+  #hud,
+  #ldg,
+  #lp,
+  #rp,
+  #btm,
+  #story-card,
+  #touch-ui,
+  #mobileSheet,
+  #mobileBackdrop,
+  #mobile-sheet-backdrop,
+  #ipop,
+  #frpop,
+  #endscrn {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (max-width: 940px) and (orientation: landscape) {
+  html,
+  body {
+    width: 100%;
+    height: var(--app-height, 100dvh);
+    min-height: var(--app-height, 100dvh);
+    overflow: hidden !important;
+    background: #02060d !important;
+  }
+
+  #rotate-screen-overlay {
+    display: none !important;
+  }
+
+  #cdn-landscape-reset {
+    position: fixed !important;
+    right: max(10px, env(safe-area-inset-right)) !important;
+    top: max(10px, env(safe-area-inset-top)) !important;
+    z-index: 120 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 38px !important;
+    padding: 8px 12px !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(255, 201, 138, 0.35) !important;
+    background: rgba(5, 14, 26, 0.82) !important;
+    color: #ffc98a !important;
+    font-size: clamp(0.68rem, 1.8vw, 0.82rem) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+  }
+
+  body.mobile-game {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: var(--app-height, 100dvh) !important;
+    min-height: var(--app-height, 100dvh) !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding:
+      max(8px, env(safe-area-inset-top))
+      max(10px, env(safe-area-inset-right))
+      max(8px, env(safe-area-inset-bottom))
+      max(10px, env(safe-area-inset-left)) !important;
+    overflow: hidden !important;
+    transform: none !important;
+  }
+
+  body.mobile-game #gc {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    touch-action: none !important;
+  }
+
+  body.mobile-game #tb {
+    max-height: 58px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+
+  body.mobile-game #story-card {
+    max-height: 24dvh !important;
+    overflow: auto !important;
+  }
+}
+
 </style>
 </head>
 <body>
+<div id="rotate-screen-overlay" aria-live="polite">
+  <div class="rotate-screen-card">
+    <div class="rotate-icon">↻</div>
+    <h1>Roter skjermen</h1>
+    <p>CDN Learning Lab er bygget som et Pac-Man-inspirert kartspill og fungerer best i landskapsmodus.</p>
+    <p class="rotate-small">Snu mobilen horisontalt for å spille.</p>
+    <button id="cdn-mobile-reset" type="button">Start på nytt</button>
+  </div>
+</div>
 <script>(function(){
   var ua=navigator.userAgent||'';
   var isIOS=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -3474,6 +3682,7 @@ body.mobile-portrait.rotate-overlay-active #ldg {
 </div>
 
 <canvas id="gc"></canvas>
+<button id="cdn-landscape-reset" type="button">Start på nytt</button>
 
 <!-- LOADING -->
 <div id="ldg">
@@ -7907,6 +8116,26 @@ function updateRotateOverlayLanguage(){
   if(card)card.dataset.rotateKicker=tr('rotateOverlayKicker');
   if(title)title.textContent=tr('rotateOverlayTitle');
   if(text)text.textContent=tr('rotateOverlayText');
+  const simpleOverlay=document.getElementById('rotate-screen-overlay');
+  if(simpleOverlay){
+    const h=simpleOverlay.querySelector('h1');
+    const p=simpleOverlay.querySelector('p:not(.rotate-small)');
+    const small=simpleOverlay.querySelector('.rotate-small');
+    const reset=simpleOverlay.querySelector('#cdn-mobile-reset');
+    if(LANG.current==='en'){
+      if(h)h.textContent='Rotate your screen';
+      if(p)p.textContent='CDN Learning Lab is built as a Pac-Man-inspired map game and works best in landscape mode.';
+      if(small)small.textContent='Turn your phone sideways to play.';
+      if(reset)reset.textContent='Start again';
+    }else{
+      if(h)h.textContent='Roter skjermen';
+      if(p)p.textContent='CDN Learning Lab er bygget som et Pac-Man-inspirert kartspill og fungerer best i landskapsmodus.';
+      if(small)small.textContent='Snu mobilen horisontalt for å spille.';
+      if(reset)reset.textContent='Start på nytt';
+    }
+  }
+  const landscapeReset=document.getElementById('cdn-landscape-reset');
+  if(landscapeReset)landscapeReset.textContent=LANG.current==='en'?'Start again':'Start på nytt';
 }
 function maybeBootstrapLandscapeViewport(showOverlay){
   if(showOverlay)return false;
@@ -7954,6 +8183,17 @@ window.addEventListener('load',()=>{
   applyResponsiveAppState();
   resizeCanvasForMobileLandscape();
   updateRotateOverlay();
+  const resetCdnLearningLab=()=>{
+    try{
+      localStorage.removeItem('cdnLearningLabState');
+      localStorage.removeItem('cdn-learning-lab-state');
+      localStorage.removeItem('bergen2063State');
+      localStorage.removeItem('datasporState');
+    }catch(e){}
+    window.location.reload();
+  };
+  document.getElementById('cdn-mobile-reset')?.addEventListener('click',resetCdnLearningLab);
+  document.getElementById('cdn-landscape-reset')?.addEventListener('click',resetCdnLearningLab);
   runBoot();resetGame();setupTouchControls();setupPointerSteering();setInterval(updateClock,1000);
   for(let i=0;i<3;i++)spawnJelly();
   requestAnimationFrame(loop);
