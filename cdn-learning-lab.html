@@ -4425,6 +4425,7 @@ body.cdn-lab-active {
     min-height: 38px !important;
     max-height: 38px !important;
     display: flex !important;
+    flex-wrap: nowrap !important;
     align-items: center !important;
     gap: 5px !important;
     padding: 3px 8px !important;
@@ -4435,6 +4436,7 @@ body.cdn-lab-active {
     z-index: 80 !important;
     pointer-events: auto !important;
     scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 
   body.cdn-lab-active #tb::-webkit-scrollbar {
@@ -4465,12 +4467,12 @@ body.cdn-lab-active {
     left: 0 !important;
     right: 0 !important;
     top: 38px !important;
-    bottom: 62px !important;
+    bottom: max(58px, calc(50px + env(safe-area-inset-bottom, 0px))) !important;
     display: block !important;
     width: 100vw !important;
-    height: calc(var(--app-h) - 100px) !important;
+    height: auto !important;
     max-width: 100vw !important;
-    max-height: calc(var(--app-h) - 100px) !important;
+    max-height: none !important;
     margin: 0 !important;
     object-fit: contain !important;
     opacity: 1 !important;
@@ -4539,18 +4541,20 @@ body.cdn-lab-active {
     right: 0 !important;
     bottom: 0 !important;
     width: 100vw !important;
-    height: 62px !important;
-    min-height: 62px !important;
-    max-height: 62px !important;
+    height: max(58px, calc(50px + env(safe-area-inset-bottom, 0px))) !important;
+    min-height: max(58px, calc(50px + env(safe-area-inset-bottom, 0px))) !important;
+    max-height: max(58px, calc(50px + env(safe-area-inset-bottom, 0px))) !important;
     display: grid !important;
     grid-template-columns: 68px repeat(5, minmax(0, 1fr)) !important;
-    gap: 5px !important;
-    padding: 5px 8px max(5px, env(safe-area-inset-bottom)) !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 4px 8px max(4px, env(safe-area-inset-bottom, 0px)) !important;
     background: rgba(3, 8, 13, 0.97) !important;
     border-top: 1px solid rgba(120, 210, 255, 0.16) !important;
     transform: none !important;
     z-index: 140 !important;
     pointer-events: auto !important;
+    box-sizing: border-box !important;
   }
 
   body.cdn-lab-active #touch-left-stack,
@@ -4590,14 +4594,14 @@ body.cdn-lab-active {
     display: flex !important;
     width: 100% !important;
     min-width: 0 !important;
-    height: 48px !important;
-    min-height: 48px !important;
-    max-height: 48px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 0 5px !important;
-    border-radius: 12px !important;
-    font-size: clamp(8.5px, 1.75vw, 11px) !important;
+    padding: 0 4px !important;
+    border-radius: 10px !important;
+    font-size: clamp(8px, 1.6vw, 10.5px) !important;
     line-height: 1.05 !important;
     letter-spacing: 0.06em !important;
     white-space: normal !important;
@@ -9097,7 +9101,7 @@ function applyResponsiveAppState(){
   const body=document.body;
   body.classList.toggle('mobile-layout',mobileLayout);
   body.classList.toggle('mobile-game',mobileLayout);
-  body.classList.toggle('mobile-portrait',mobileLayout&&portrait);
+  body.classList.toggle('mobile-portrait',mobileLayout&&portrait&&!cdnRotateHintDismissed());
   body.classList.toggle('mobile-landscape',mobileLayout&&!portrait);
   body.classList.toggle('mobile-mid',mobileLayout&&width<=768);
   body.classList.toggle('mobile-compact',mobileLayout&&width<=560);
@@ -9215,11 +9219,15 @@ window.addEventListener('load',()=>{
   document.getElementById('cdn-mobile-reset')?.addEventListener('click',resetCdnLearningLab);
   document.getElementById('cdn-landscape-reset')?.addEventListener('click',resetCdnLearningLab);
   document.getElementById('cdn-rotate-continue')?.addEventListener('click',()=>{
-    try{
-      sessionStorage.setItem(CDN_ROTATE_HINT_DISMISSED_KEY,'1');
-    }catch(e){}
+    try{ sessionStorage.setItem(CDN_ROTATE_HINT_DISMISSED_KEY,'1'); }catch(e){}
     document.body.classList.add('cdn-rotate-dismissed');
+    document.body.classList.remove('mobile-portrait');
+    const rdo=document.getElementById('rotate-device-overlay');
+    const rso=document.getElementById('rotate-screen-overlay');
+    if(rdo){rdo.hidden=true;rdo.style.display='none';rdo.setAttribute('aria-hidden','true');}
+    if(rso){rso.hidden=true;rso.style.display='none';rso.setAttribute('aria-hidden','true');}
     updateRotateOverlay();
+    setTimeout(()=>window.dispatchEvent(new Event('resize')),80);
   });
   runBoot();resetGame();setupTouchControls();setupPointerSteering();setInterval(updateClock,1000);
   for(let i=0;i<3;i++)spawnJelly();
