@@ -466,8 +466,10 @@
             flex-shrink: 0;
         }
 
-        .creature-card[data-creature="nokken"] .creature-icon img {
-            max-width: 85%;
+        .creature-card[data-creature="nokken"] .creature-icon img,
+        .creature-card[data-creature="nokken"] .folklore-image > img {
+            max-width: 72% !important;
+            max-height: 220px !important;
         }
 
         /* Huldra is a seated figure — boost display size to match upright creatures */
