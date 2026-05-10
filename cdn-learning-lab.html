@@ -3224,6 +3224,26 @@ body.mobile-portrait.rotate-overlay-active #ldg {
   filter: none !important;
 }
 
+/* DISMISS OVERRIDE: user tapped "Fortsett likevel" in portrait.
+   Specificity (0,2,1) beats body.mobile-portrait (0,1,1) so these win. */
+body.cdn-rotate-dismissed.mobile-portrait #rotate-device-overlay {
+  display: none !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+body.cdn-rotate-dismissed.mobile-portrait #gc,
+body.cdn-rotate-dismissed.mobile-portrait #hud,
+body.cdn-rotate-dismissed.mobile-portrait #story-card,
+body.cdn-rotate-dismissed.mobile-portrait #touch-ui,
+body.cdn-rotate-dismissed.mobile-portrait #btm,
+body.cdn-rotate-dismissed.mobile-portrait #ipop,
+body.cdn-rotate-dismissed.mobile-portrait #frpop {
+  display: block !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+
 /* 4. End-screen ghost fix.
       Base rule uses opacity:0 (not display:none), so portrait @media makes it
       faintly visible at 0.15. Scoped to mobile so desktop keeps its fade animation. */
@@ -3567,8 +3587,10 @@ body.mobile-portrait.rotate-overlay-active #ldg {
     overflow-y: auto !important;
   }
 
-  body.cdn-rotate-dismissed #rotate-screen-overlay {
+  body.cdn-rotate-dismissed #rotate-screen-overlay,
+  body.cdn-rotate-dismissed #rotate-device-overlay {
     display: none !important;
+    pointer-events: none !important;
   }
 
   body.cdn-rotate-dismissed #gc,
@@ -3579,6 +3601,7 @@ body.mobile-portrait.rotate-overlay-active #ldg {
   body.cdn-rotate-dismissed #btm,
   body.cdn-rotate-dismissed #story-card,
   body.cdn-rotate-dismissed #touch-ui {
+    display: block !important;
     visibility: visible !important;
     pointer-events: auto !important;
   }
@@ -3748,6 +3771,7 @@ body.cdn-lab-active {
     min-height: var(--cdn-lab-hud-h) !important;
     max-height: var(--cdn-lab-hud-h) !important;
     display: flex !important;
+    flex-wrap: nowrap !important;
     align-items: center !important;
     gap: 6px !important;
     padding: 4px 8px !important;
