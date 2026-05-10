@@ -4653,6 +4653,73 @@ body.cdn-lab-active {
   }
 }
 
+
+/* ═══ ACCESSIBILITY MODAL ROOT — teleport destination for mobile ═══════════ */
+#a11y-modal-root{
+  position:fixed;
+  inset:0;
+  z-index:2147483000;
+  display:none;
+  align-items:flex-start;
+  justify-content:center;
+  padding:max(58px,calc(50px + env(safe-area-inset-top,0px))) 10px max(24px,env(safe-area-inset-bottom,0px));
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  background:rgba(0,0,0,0.76);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+#a11y-modal-root.is-open{
+  display:flex;
+}
+/* Panel inside modal root: reset all inherited fixed-position hacks */
+#a11y-modal-root .access-menu-body{
+  position:relative !important;
+  inset:auto !important;
+  top:auto !important;
+  bottom:auto !important;
+  left:auto !important;
+  right:auto !important;
+  z-index:1 !important;
+  width:min(92vw,480px) !important;
+  max-width:min(92vw,480px) !important;
+  max-height:calc(var(--app-h,100dvh) - 100px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)) !important;
+  overflow-y:auto !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  filter:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  transform:none !important;
+}
+/* Close button injected by teleport JS */
+.a11y-close-teleport{
+  display:flex;
+  width:100%;
+  min-height:44px;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  background:rgba(255,200,130,0.12);
+  border:1px solid rgba(255,203,139,0.32);
+  border-radius:10px;
+  color:var(--amber,#ffcb8b);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  margin-bottom:12px;
+  cursor:pointer;
+  pointer-events:auto;
+}
+/* Ensure modal root is never blurred or dimmed by game-state body classes */
+body.rotate-overlay-active #a11y-modal-root,
+body.sheet-open #a11y-modal-root,
+body.cdn-rotate-dismissed #a11y-modal-root{
+  filter:none !important;
+  opacity:1 !important;
+}
+/* ═══ END ACCESSIBILITY MODAL ROOT ══════════════════════════════════════════ */
 </style>
 </head>
 <body class="cdn-lab-active">
@@ -9236,6 +9303,74 @@ window.addEventListener('load',()=>{
 
 window.addEventListener('resize',resizeCanvasForMobileLandscape);
 window.addEventListener('orientationchange',()=>{window.setTimeout(resizeCanvasForMobileLandscape,250);});
+
+// ═════════════���═════════════════════════════════════════════════════════════
+// ACCESSIBILITY PANEL TELEPORT
+// Moves .access-menu-body out of #tb (which has backdrop-filter:blur that
+// creates a Safari containing-block trap for position:fixed children) and
+// appends it to #a11y-modal-root directly on <body> when opened on mobile.
+// ═══════════════════════════════════════════════════════════════════════════
+(function(){
+  var origParent=null;
+  function getMenu(){return document.getElementById('accessibility-menu');}
+  function getRoot(){return document.getElementById('a11y-modal-root');}
+  function isMobile(){
+    try{return detectMobileLayout();}catch(e){return window.innerWidth<=900||window.matchMedia('(pointer:coarse)').matches;}
+  }
+  function teleportOpen(){
+    var menu=getMenu(),root=getRoot();
+    var panel=menu&&menu.querySelector('.access-menu-body');
+    if(!root||!panel||root.contains(panel))return;
+    origParent=panel.parentElement;
+    root.appendChild(panel);
+    root.classList.add('is-open');
+    root.hidden=false;
+    root.setAttribute('aria-hidden','false');
+    if(!panel.querySelector('.a11y-close-teleport')){
+      var btn=document.createElement('button');
+      btn.type='button';
+      btn.className='a11y-close-teleport';
+      btn.textContent='Lukk / Close ×';
+      btn.addEventListener('click',teleportClose);
+      panel.prepend(btn);
+    }
+  }
+  function teleportClose(){
+    var root=getRoot(),menu=getMenu();
+    var panel=root&&root.querySelector('.access-menu-body');
+    if(!root||!panel)return;
+    var dest=origParent||menu;
+    if(dest)dest.appendChild(panel);
+    root.classList.remove('is-open');
+    root.hidden=true;
+    root.setAttribute('aria-hidden','true');
+    if(menu)menu.open=false;
+    origParent=null;
+  }
+  function init(){
+    var root=getRoot();
+    if(root&&!root.dataset.a11yBound){
+      root.dataset.a11yBound='1';
+      root.addEventListener('click',function(e){if(e.target===root)teleportClose();});
+    }
+    var menu=getMenu();
+    if(menu&&!menu.dataset.a11yTeleportBound){
+      menu.dataset.a11yTeleportBound='1';
+      menu.addEventListener('toggle',function(){
+        if(!isMobile())return;
+        if(menu.open)teleportOpen();else teleportClose();
+      });
+    }
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&getRoot()&&getRoot().classList.contains('is-open'))teleportClose();
+  });
+  window.addEventListener('load',init);
+  window.addEventListener('pageshow',init);
+})();
 </script>
+<!-- ACCESSIBILITY MODAL ROOT: panel teleported here on mobile to escape
+     #tb backdrop-filter containing-block trap in iOS Safari -->
+<div id="a11y-modal-root" hidden aria-hidden="true" role="dialog" aria-modal="true" aria-label="Tilgjengelighetsinnstillinger"></div>
 </body>
 </html>
