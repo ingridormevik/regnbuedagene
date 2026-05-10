@@ -31,6 +31,7 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left:   env(safe-area-inset-left,   0px);
   --safe-right:  env(safe-area-inset-right,  0px);
+  --app-h:       100dvh;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -735,6 +736,218 @@ canvas#stage {
   .memory-card-inner { padding: 20px 16px 16px; }
   .finale-card { padding: 26px 18px 22px; }
 }
+
+/* FINAL MOBILE SAFARI FIT: map, info and controls share one visible viewport */
+@media (max-width: 760px), (pointer: coarse) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    min-height: var(--app-h);
+    height: var(--app-h);
+    overflow: hidden;
+  }
+
+  body * {
+    max-width: 100%;
+  }
+
+  .page-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: var(--app-h) !important;
+    min-height: var(--app-h) !important;
+    padding:
+      max(8px, var(--safe-top))
+      max(8px, var(--safe-right))
+      max(8px, var(--safe-bottom))
+      max(8px, var(--safe-left)) !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+    gap: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .stage-panel {
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    padding: 8px !important;
+    border-radius: 22px !important;
+    display: grid !important;
+    grid-template-rows: auto minmax(0, 1fr) auto !important;
+    gap: 6px !important;
+    overflow: hidden !important;
+  }
+
+  .stage-top {
+    position: relative !important;
+    inset: auto !important;
+    z-index: 4 !important;
+    max-height: 94px !important;
+    overflow: auto !important;
+    pointer-events: auto !important;
+    display: grid !important;
+    gap: 6px !important;
+  }
+
+  .top-row {
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 8px !important;
+    overflow: hidden !important;
+  }
+
+  .top-row-titles {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  .ctrl-buttons {
+    position: fixed !important;
+    top: max(12px, var(--safe-top)) !important;
+    right: max(10px, var(--safe-right)) !important;
+    z-index: 110 !important;
+    flex: none !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 5px !important;
+    justify-content: flex-end !important;
+    width: auto !important;
+    max-width: calc(100vw - 120px) !important;
+    overflow: hidden !important;
+  }
+
+  .pill-btn {
+    min-width: 0 !important;
+    max-width: 96px !important;
+    min-height: 32px !important;
+    padding: 6px 8px !important;
+    font-size: 0.68rem !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .stage-copy {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 10px 12px !important;
+    border-radius: 18px !important;
+  }
+
+  .stage-kicker {
+    font-size: 0.58rem !important;
+    letter-spacing: 0.1em !important;
+  }
+
+  .stage-title {
+    font-size: clamp(1.1rem, 5.6vw, 1.55rem) !important;
+    line-height: 1.02 !important;
+  }
+
+  .stage-text {
+    font-size: 0.78rem !important;
+    line-height: 1.28 !important;
+  }
+
+  .canvas-wrap {
+    grid-row: 2 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: calc(var(--app-h) - 220px) !important;
+    aspect-ratio: 1200 / 760 !important;
+    border-radius: 22px !important;
+    align-self: center !important;
+    overflow: hidden !important;
+  }
+
+  canvas#stage {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: calc(var(--app-h) - 220px) !important;
+    object-fit: contain !important;
+    display: block !important;
+  }
+
+  .touch-pad {
+    grid-row: 3 !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: min(66vw, 270px) !important;
+    max-width: 270px !important;
+    margin: 4px auto 0 !important;
+    padding: 8px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    border-radius: 22px !important;
+    z-index: 8 !important;
+  }
+
+  .touch-btn {
+    width: clamp(42px, 13vw, 58px) !important;
+    height: clamp(42px, 13vw, 58px) !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    border-radius: 15px !important;
+    padding: 0 !important;
+    font-size: clamp(1.05rem, 5vw, 1.55rem) !important;
+  }
+
+  .intro-panel {
+    left: 8px !important;
+    right: 8px !important;
+    bottom: calc(var(--safe-bottom) + 74px) !important;
+    max-height: min(32dvh, 190px) !important;
+    padding: 12px !important;
+    border-radius: 20px !important;
+  }
+
+  .intro-panel.mobile-collapsed {
+    max-height: 58px !important;
+    padding: 8px 10px !important;
+  }
+
+  .intro-panel.mobile-collapsed .main-title {
+    font-size: 1.02rem !important;
+  }
+
+  .intro-panel.mobile-collapsed .pill-btn {
+    min-height: 30px !important;
+    padding: 5px 8px !important;
+    font-size: 0.66rem !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .canvas-wrap,
+  canvas#stage {
+    max-height: calc(var(--app-h) - 238px) !important;
+  }
+
+  .touch-pad {
+    width: min(64vw, 236px) !important;
+    padding: 7px !important;
+    gap: 5px !important;
+  }
+
+  .touch-btn {
+    width: clamp(38px, 12.5vw, 52px) !important;
+    height: clamp(38px, 12.5vw, 52px) !important;
+    border-radius: 13px !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .badge-icon.unlocked { transform: none; }
 }
@@ -1778,15 +1991,22 @@ document.querySelectorAll('.touch-btn[data-dir]').forEach(btn => {
   btn.addEventListener('pointercancel',rem);
 });
 
+function setAppHeight() {
+  document.documentElement.style.setProperty('--app-h', window.innerHeight + 'px');
+}
+
 // --- BOOT ---
+setAppHeight();
+setTimeout(setAppHeight, 300);
 if (window.matchMedia('(max-width: 760px)').matches) {
   document.querySelector('.intro-panel')?.classList.add('mobile-collapsed');
 }
 syncUi();
 fitCanvasToContainer();
 if (themeAudio) themeAudio.volume = 0.28;
-window.addEventListener('resize', fitCanvasToContainer);
-window.addEventListener('orientationchange', () => setTimeout(fitCanvasToContainer, 250));
+window.addEventListener('resize', () => { setAppHeight(); fitCanvasToContainer(); });
+window.addEventListener('orientationchange', () => setTimeout(() => { setAppHeight(); fitCanvasToContainer(); }, 250));
+window.addEventListener('pageshow', () => { setAppHeight(); fitCanvasToContainer(); });
 requestAnimationFrame(frame);
 </script>
 </body>
