@@ -4,6 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
 <title>CDN LÆRINGSLAB / DATASPOR — BERGEN FRA FJORD TIL FJELL</title>
+<link rel="icon" href="assets/logo.png" type="image/png"/>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -3244,6 +3245,24 @@ body.cdn-rotate-dismissed.mobile-portrait #frpop {
   visibility: visible !important;
 }
 
+/* CDN Lab portrait should use the screen-overlay gate, not the older device-overlay gate. */
+body.cdn-lab-active.mobile-portrait:not(.cdn-rotate-dismissed) #rotate-device-overlay {
+  display: none !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+body.cdn-lab-active.mobile-portrait:not(.cdn-rotate-dismissed) #rotate-screen-overlay {
+  display: flex !important;
+  pointer-events: auto !important;
+  z-index: 13001 !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #rotate-screen-overlay {
+  display: none !important;
+  pointer-events: none !important;
+}
+
 /* 4. End-screen ghost fix.
       Base rule uses opacity:0 (not display:none), so portrait @media makes it
       faintly visible at 0.15. Scoped to mobile so desktop keeps its fade animation. */
@@ -3604,6 +3623,23 @@ body.cdn-rotate-dismissed.mobile-portrait #frpop {
     display: block !important;
     visibility: visible !important;
     pointer-events: auto !important;
+  }
+
+  body.cdn-lab-active.mobile-portrait #rotate-device-overlay,
+  body.cdn-lab-active.rotate-overlay-active #rotate-device-overlay,
+  body.cdn-lab-active.cdn-rotate-dismissed #rotate-device-overlay {
+    display: none !important;
+    pointer-events: none !important;
+  }
+
+  body.cdn-lab-active.mobile-portrait #rotate-screen-overlay {
+    display: flex !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #rotate-screen-overlay {
+    display: none !important;
+    pointer-events: none !important;
   }
 
   #cdn-landscape-reset {
@@ -4799,6 +4835,12 @@ body.cdn-rotate-dismissed #a11y-modal-root{
         <section class="access-menu-section">
           <span id="access-menu-audio">Lyd</span>
           <button id="access-music" type="button" aria-pressed="false" onclick="toggleAccessOption('music')">Musikk av/på</button>
+          <div id="lab-track-controls" style="display:flex;gap:6px;align-items:center;margin:4px 0;">
+            <button id="lab-prev" type="button" onclick="labPrevTrack()" title="Forrige spor" style="font-size:13px;padding:4px 10px;background:transparent;border:1px solid rgba(58,184,216,0.35);color:rgba(58,184,216,0.85);border-radius:4px;cursor:pointer;touch-action:manipulation;">«</button>
+            <button id="lab-shuffle" type="button" aria-pressed="false" onclick="labToggleShuffle()" title="Shuffle" style="font-size:13px;padding:4px 10px;background:transparent;border:1px solid rgba(58,184,216,0.35);color:rgba(58,184,216,0.7);border-radius:4px;cursor:pointer;touch-action:manipulation;transition:color .2s,border-color .2s;">&#x21C4;</button>
+            <button id="lab-next" type="button" onclick="labNextTrack()" title="Neste spor" style="font-size:13px;padding:4px 10px;background:transparent;border:1px solid rgba(58,184,216,0.35);color:rgba(58,184,216,0.85);border-radius:4px;cursor:pointer;touch-action:manipulation;">»</button>
+            <span id="lab-track-name" style="font-size:9px;letter-spacing:0.15em;color:rgba(58,184,216,0.55);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px;"></span>
+          </div>
           <label class="access-volume-control" for="access-music-volume">
             <span><span id="access-music-volume-label">Musikkvolum</span><output id="access-music-volume-value">70%</output></span>
             <input id="access-music-volume" type="range" min="0" max="100" step="1" value="70" oninput="setAccessVolume('music', this.value)">
@@ -5624,7 +5666,45 @@ const LAB_TRACKS=[
   'audio/Epic Systems Ascend (Remastered x2).mp3',
   'audio/Fjord and Fiber  (Remastered).mp3'
 ];
-let labMusic=null,labTrackIndex=0;
+let labMusic=null,labTrackIndex=0,labShuffleMode=false;
+function labTrackDisplayName(src){
+  return decodeURIComponent(src.split('/').pop().replace('.mp3','').replace(/\(\d+\)$/,'').trim());
+}
+function updateLabTrackDisplay(){
+  const el=document.getElementById('lab-track-name');
+  if(el)el.textContent=labTrackDisplayName(LAB_TRACKS[labTrackIndex]||'');
+}
+function labNextTrackSrc(current){
+  if(labShuffleMode&&LAB_TRACKS.length>1){
+    let n;do{n=Math.floor(Math.random()*LAB_TRACKS.length);}while(n===current);
+    return n;
+  }
+  return(current+1)%LAB_TRACKS.length;
+}
+function labNextTrack(){
+  if(!labMusic)return;
+  labTrackIndex=labNextTrackSrc(labTrackIndex);
+  labMusic.src=LAB_TRACKS[labTrackIndex];
+  labMusic.play().catch(()=>{});
+  updateLabTrackDisplay();
+}
+function labPrevTrack(){
+  if(!labMusic)return;
+  labTrackIndex=(labTrackIndex-1+LAB_TRACKS.length)%LAB_TRACKS.length;
+  labMusic.src=LAB_TRACKS[labTrackIndex];
+  labMusic.play().catch(()=>{});
+  updateLabTrackDisplay();
+}
+function labToggleShuffle(){
+  labShuffleMode=!labShuffleMode;
+  const btn=document.getElementById('lab-shuffle');
+  if(btn){
+    btn.setAttribute('aria-pressed',String(labShuffleMode));
+    btn.style.color=labShuffleMode?'rgba(120,255,215,0.95)':'rgba(58,184,216,0.7)';
+    btn.style.borderColor=labShuffleMode?'rgba(120,255,215,0.55)':'rgba(58,184,216,0.35)';
+    btn.style.textShadow=labShuffleMode?'0 0 8px rgba(120,255,215,0.45)':'';
+  }
+}
 function startLabMusic(){
   if(labMusic||!LAB_TRACKS.length)return;
   labMusic=new Audio();
@@ -5632,12 +5712,14 @@ function startLabMusic(){
   labMusic.muted=!ACCESS.music;
   labMusic.preload='metadata';
   labMusic.addEventListener('ended',()=>{
-    labTrackIndex=(labTrackIndex+1)%LAB_TRACKS.length;
+    labTrackIndex=labNextTrackSrc(labTrackIndex);
     labMusic.src=LAB_TRACKS[labTrackIndex];
     labMusic.play().catch(()=>{});
+    updateLabTrackDisplay();
   });
   labMusic.src=LAB_TRACKS[labTrackIndex];
   labMusic.play().catch(()=>{});
+  updateLabTrackDisplay();
 }
 function initAudio(){
   if(AC)return;
@@ -9166,6 +9248,7 @@ function applyResponsiveAppState(){
   const height=getRotateViewportHeight();
   const portrait=height>=width;
   const body=document.body;
+  body.classList.toggle('cdn-lab-active',mobileLayout);
   body.classList.toggle('mobile-layout',mobileLayout);
   body.classList.toggle('mobile-game',mobileLayout);
   body.classList.toggle('mobile-portrait',mobileLayout&&portrait&&!cdnRotateHintDismissed());
