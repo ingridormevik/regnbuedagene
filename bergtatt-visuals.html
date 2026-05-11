@@ -246,7 +246,7 @@ body.preview-mode #beat-flash{display:none!important;}
       <button class="btn bergen" data-mode="bergen">BERGEN</button>
       <button class="btn witch" data-mode="witch">WITCH</button>
       <button class="btn" data-mode="digital" style="border-color:rgba(0,255,180,0.5);color:rgba(0,255,180,0.9);">DIGITAL</button>
-      <button class="btn" id="btn-shuffle-mood-start" title="Shuffle moods" style="border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.45);font-size:14px;padding:6px 12px;">&#x21C4;</button>
+      <button class="btn" id="btn-shuffle-mood-start" title="Shuffle moods" aria-label="Auto-shuffle moods av" aria-pressed="false" style="border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.45);font-size:14px;padding:6px 12px;">&#x21C4;</button>
     </div>
     <button class="btn-play" id="btn-play">&#127897; ENTER THE FOREST</button>
     <div id="bpm-hint"></div>
@@ -271,7 +271,7 @@ body.preview-mode #beat-flash{display:none!important;}
       <button class="hbtn" data-mode="bergen" style="border-color:rgba(60,190,220,0.4);color:rgba(140,220,240,0.7);">BERGEN</button>
       <button class="hbtn" data-mode="witch" style="border-color:rgba(140,60,200,0.5);color:rgba(200,140,255,0.8);">WITCH</button>
       <button class="hbtn" data-mode="digital" style="border-color:rgba(0,255,180,0.4);color:rgba(0,255,180,0.8);">DIGITAL</button>
-      <button class="hbtn" id="btn-shuffle-mood" title="Auto-shuffle moods" style="border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.38);">&#x21C4;</button>
+      <button class="hbtn" id="btn-shuffle-mood" title="Auto-shuffle moods" aria-label="Auto-shuffle moods av" aria-pressed="false" style="border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.38);">&#x21C4;</button>
     </div>
     <button class="hbtn" id="btn-stop">STOP</button>
     <div id="mic-badge">&#127897; LIVE MIC</div>
@@ -2944,6 +2944,8 @@ function updateShuffleButtons(){
   [document.getElementById('btn-shuffle-mood'),document.getElementById('btn-shuffle-mood-start')].forEach(btn=>{
     if(!btn)return;
     btn.classList.toggle('active',shuffleMoodsActive);
+    btn.setAttribute('aria-pressed',String(shuffleMoodsActive));
+    btn.setAttribute('aria-label',shuffleMoodsActive?'Auto-shuffle moods på':'Auto-shuffle moods av');
     btn.style.color=shuffleMoodsActive?'rgba(120,255,215,0.95)':'rgba(255,255,255,0.38)';
     btn.style.borderColor=shuffleMoodsActive?'rgba(120,255,215,0.55)':'rgba(255,255,255,0.2)';
     btn.style.textShadow=shuffleMoodsActive?'0 0 10px rgba(120,255,215,0.4)':'';

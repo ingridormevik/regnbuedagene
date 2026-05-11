@@ -3,6 +3,18 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<meta name="theme-color" content="#04111a"/>
+<meta name="description" content="CDN Læringslab: Et interaktivt digital-etikk-spill i Bergen 2063. Utforsk personvern, sporingsdata og teknologietikk — Bergen Pride 2026."/>
+<meta property="og:title" content="CDN Læringslab / Dataspor — Bergen fra fjord til fjell"/>
+<meta property="og:description" content="Et interaktivt spill om digital etikk i et fremtidig Bergen. Bergen Pride 2026."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://ingridormevik.github.io/regnbuedagene/cdn-learning-lab.html"/>
+<meta property="og:image" content="https://ingridormevik.github.io/regnbuedagene/assets/CDN.avif"/>
+<meta property="og:locale" content="nb_NO"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="CDN Læringslab — Bergen 2063"/>
+<meta name="twitter:description" content="Et interaktivt spill om digital etikk. Bergen Pride 2026."/>
+<meta name="twitter:image" content="https://ingridormevik.github.io/regnbuedagene/assets/CDN.avif"/>
 <title>CDN LÆRINGSLAB / DATASPOR — BERGEN FRA FJORD TIL FJELL</title>
 <link rel="icon" href="assets/logo.png" type="image/png"/>
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@300;400;600;700&family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -4836,9 +4848,9 @@ body.cdn-rotate-dismissed #a11y-modal-root{
           <span id="access-menu-audio">Lyd</span>
           <button id="access-music" type="button" aria-pressed="false" onclick="toggleAccessOption('music')">Musikk av/på</button>
           <div id="lab-track-controls" style="display:flex;gap:6px;align-items:center;margin:4px 0;">
-            <button id="lab-prev" type="button" onclick="labPrevTrack()" title="Forrige spor" style="font-size:13px;padding:4px 10px;background:transparent;border:1px solid rgba(58,184,216,0.35);color:rgba(58,184,216,0.85);border-radius:4px;cursor:pointer;touch-action:manipulation;">«</button>
-            <button id="lab-shuffle" type="button" aria-pressed="false" onclick="labToggleShuffle()" title="Shuffle" style="font-size:13px;padding:4px 10px;background:transparent;border:1px solid rgba(58,184,216,0.35);color:rgba(58,184,216,0.7);border-radius:4px;cursor:pointer;touch-action:manipulation;transition:color .2s,border-color .2s;">&#x21C4;</button>
-            <button id="lab-next" type="button" onclick="labNextTrack()" title="Neste spor" style="font-size:13px;padding:4px 10px;background:transparent;border:1px solid rgba(58,184,216,0.35);color:rgba(58,184,216,0.85);border-radius:4px;cursor:pointer;touch-action:manipulation;">»</button>
+            <button id="lab-prev" type="button" onclick="labPrevTrack()" title="Forrige spor" aria-label="Forrige spor" style="font-size:13px;padding:4px 10px;background:transparent;border:1px solid rgba(58,184,216,0.35);color:rgba(58,184,216,0.85);border-radius:4px;cursor:pointer;touch-action:manipulation;">«</button>
+            <button id="lab-shuffle" type="button" aria-pressed="false" aria-label="Shuffle av" onclick="labToggleShuffle()" title="Shuffle" style="font-size:13px;padding:4px 10px;background:transparent;border:1px solid rgba(58,184,216,0.35);color:rgba(58,184,216,0.7);border-radius:4px;cursor:pointer;touch-action:manipulation;transition:color .2s,border-color .2s;">&#x21C4;</button>
+            <button id="lab-next" type="button" onclick="labNextTrack()" title="Neste spor" aria-label="Neste spor" style="font-size:13px;padding:4px 10px;background:transparent;border:1px solid rgba(58,184,216,0.35);color:rgba(58,184,216,0.85);border-radius:4px;cursor:pointer;touch-action:manipulation;">»</button>
             <span id="lab-track-name" style="font-size:9px;letter-spacing:0.15em;color:rgba(58,184,216,0.55);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px;"></span>
           </div>
           <label class="access-volume-control" for="access-music-volume">
@@ -5700,6 +5712,7 @@ function labToggleShuffle(){
   const btn=document.getElementById('lab-shuffle');
   if(btn){
     btn.setAttribute('aria-pressed',String(labShuffleMode));
+    btn.setAttribute('aria-label',labShuffleMode?'Shuffle på':'Shuffle av');
     btn.style.color=labShuffleMode?'rgba(120,255,215,0.95)':'rgba(58,184,216,0.7)';
     btn.style.borderColor=labShuffleMode?'rgba(120,255,215,0.55)':'rgba(58,184,216,0.35)';
     btn.style.textShadow=labShuffleMode?'0 0 8px rgba(120,255,215,0.45)':'';
