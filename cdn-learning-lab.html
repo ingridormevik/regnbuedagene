@@ -6397,7 +6397,7 @@ const RIPPLES=[];
 const P={
   x:220,y:LANE_Y.low,vx:0,vy:0,w:18,h:28,dir:1,dirKey:'right',desiredDir:null,bufferDir:null,
   nodeId:'low_220',nextNodeId:null,speed:5.45,anim:0,bubT:0,near:null,powerT:0,graceT:620,tapDir:null,
-  lastSafeNodeId:'low_220',safePulseT:120,safeReturnT:0
+  lastSafeNodeId:'low_220',safePulseT:120,safeReturnT:0,caughtFlashT:0
 };
 
 function nodeCenter(nodeId){
@@ -6432,6 +6432,7 @@ function sendPlayerToLastSafeNode(label){
   P.dirKey='right';
   P.graceT=Math.max(P.graceT,getRoundDifficulty().grace+28);
   P.safeReturnT=150;
+  P.caughtFlashT=22;
   updateCam();
   addLog({no:`${label}: skanningen sender deg tilbake til siste trygge node.`,en:`${lt(label)}: the scan sends you back to the last safe node.`}, 'd');
   showWarn(tr('safeNodeReturn'));
@@ -6963,7 +6964,7 @@ function resetRoundCollectibles(){
 
 function resetRoundActors(){
   snapPlayerToNode('low_220');
-  P.nextNodeId=null;P.vx=0;P.vy=0;P.dir=1;P.dirKey='right';P.desiredDir=null;P.bufferDir=null;P.tapDir=null;P.powerT=0;P.graceT=240;P.lastSafeNodeId='low_220';P.safePulseT=120;P.safeReturnT=0;
+  P.nextNodeId=null;P.vx=0;P.vy=0;P.dir=1;P.dirKey='right';P.desiredDir=null;P.bufferDir=null;P.tapDir=null;P.powerT=0;P.graceT=240;P.lastSafeNodeId='low_220';P.safePulseT=120;P.safeReturnT=0;P.caughtFlashT=0;
   DRONES.forEach((dr,i)=>Object.assign(dr,makeDrone(DRONE_SPECS[i],i)));
   resetSecretEnemy();
   camX=0;
@@ -7242,6 +7243,16 @@ function draw(ts){
 
   ctx.restore();
   drawPanelMasks();
+  // Caught-flash overlay: brief red pulse when an enemy tags the player
+  if(P.caughtFlashT>0){
+    const fa=P.caughtFlashT/22;
+    ctx.save();
+    ctx.globalAlpha=fa*0.38;
+    ctx.fillStyle='rgba(255,40,40,1)';
+    ctx.fillRect(LP,GAME_VIEW_TOP,W-LP-RP,GAME_VIEW_BOTTOM-GAME_VIEW_TOP);
+    ctx.restore();
+    P.caughtFlashT=Math.max(0,P.caughtFlashT-1);
+  }
 }
 
 function getNearStory(ob){
@@ -8653,10 +8664,6 @@ function drawPlayer(t){
     ctx.fillStyle='rgba(255,224,156,.88)';
     ctx.beginPath();ctx.arc(-12,20,3,0,Math.PI*2);ctx.fill();
     ctx.beginPath();ctx.arc(12,20,3,0,Math.PI*2);ctx.fill();
-    ctx.font='800 9px system-ui, sans-serif';
-    ctx.textAlign='center';
-    ctx.fillStyle='rgba(255,250,226,.86)';
-    ctx.fillText(LANG.current==='en'?'NO DIVE GEAR':'UTEN DYKKEUTSTYR',0,-25);
     ctx.restore();
     return;
   }
@@ -9115,7 +9122,7 @@ function resetGame(){
   Object.assign(S,{status:100,surveillance:0,erasure:0,guilt:0,friction:0,censorship:0,go:false,tick:0,enemyClock:0,secretUnlocked:false,completedObjectives:new Set(),hasSeenErased:false,tutorialStage:'move',tutorialCountdown:0,tutorialTurnDir:null,lastEnemyMode:null,trailCount:0,ethicCount:0,lessonText:null,lessonT:0,round:1,roundClearing:false,roundAdvanceT:0,floiRideT:0,ulrikenSeen:false,finalVistaSeen:false});
   objIdx=0;logTick=0;camX=0;
   STORY_CARD_STATE.collapsed=true;
-  snapPlayerToNode('low_220');P.nextNodeId=null;P.vx=0;P.vy=0;P.dir=1;P.dirKey='right';P.desiredDir=null;P.bufferDir=null;P.tapDir=null;P.powerT=0;P.graceT=480;
+  snapPlayerToNode('low_220');P.nextNodeId=null;P.vx=0;P.vy=0;P.dir=1;P.dirKey='right';P.desiredDir=null;P.bufferDir=null;P.tapDir=null;P.powerT=0;P.graceT=480;P.caughtFlashT=0;
   PARTS.length=0;RIPPLES.length=0;INTERACTABLES.forEach(o=>o.used=false);resetRoundCollectibles();
   DRONES.forEach((dr,i)=>Object.assign(dr,makeDrone(DRONE_SPECS[i],i)));
   resetSecretEnemy();
