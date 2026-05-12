@@ -4920,10 +4920,9 @@ body.cdn-rotate-dismissed #a11y-modal-root{
 <div id="rotate-screen-overlay" class="cdn-lab-rotate-hint" aria-live="polite">
   <div class="rotate-screen-card">
     <div class="rotate-icon">↻</div>
-    <h1>Roter skjermen</h1>
-    <p>CDN Læringslab fungerer best når du snur skjermen. Du kan spille her også, men landskap gir bedre kontroll.</p>
-    <p class="rotate-small">Snu mobilen horisontalt for best opplevelse.</p>
-    <button id="cdn-rotate-continue" type="button">Fortsett likevel</button>
+    <h1>Snu skjermen for å spille</h1>
+    <p>CDN Læringslab krever liggende skjerm. Snu mobilen horisontalt for å starte laben.</p>
+    <p class="rotate-small">Snur du skjermen, åpnes spillet automatisk.</p>
     <button id="cdn-mobile-reset" type="button">Start på nytt</button>
   </div>
 </div>
@@ -9634,19 +9633,14 @@ function updateRotateOverlayLanguage(){
     const small=simpleOverlay.querySelector('.rotate-small');
     const reset=simpleOverlay.querySelector('#cdn-mobile-reset');
     const cont=simpleOverlay.querySelector('#cdn-rotate-continue');
-    if(LANG.current==='en'){
-      if(h)h.textContent='Rotate your screen';
-      if(p)p.textContent='CDN Learning Lab works best when you rotate your screen. You can play here too, but landscape gives better control.';
-      if(small)small.textContent='Turn your phone sideways for the best experience.';
-      if(cont)cont.textContent='Continue anyway';
-      if(reset)reset.textContent='Start again';
-    }else{
-      if(h)h.textContent='Roter skjermen';
-      if(p)p.textContent='CDN Læringslab fungerer best når du snur skjermen. Du kan spille her også, men landskap gir bedre kontroll.';
-      if(small)small.textContent='Snu mobilen horisontalt for best opplevelse.';
-      if(cont)cont.textContent='Fortsett likevel';
-      if(reset)reset.textContent='Start på nytt';
-    }
+      if(h)h.textContent=LANG.current==='en' ? 'Rotate your screen to play' : 'Snu skjermen for å spille';
+      if(p)p.textContent=LANG.current==='en'
+        ? 'CDN Learning Lab requires landscape orientation. Rotate your phone horizontally to start.'
+        : 'CDN Læringslab krever liggende skjerm. Snu mobilen horisontalt for å starte laben.';
+      if(small)small.textContent=LANG.current==='en'
+        ? 'Rotating your screen opens the lab automatically.'
+        : 'Snur du skjermen, åpnes spillet automatisk.';
+      if(reset)reset.textContent=LANG.current==='en' ? 'Start again' : 'Start på nytt';
   }
   const landscapeReset=document.getElementById('cdn-landscape-reset');
   if(landscapeReset)landscapeReset.textContent=LANG.current==='en'?'Start again':'Start på nytt';
