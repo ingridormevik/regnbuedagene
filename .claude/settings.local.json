@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C \"c:\\\\Users\\\\berge\\\\OneDrive\\\\Skrivebord\\\\Claude code\\\\github-pages-deploy\" add pride-park-spill-2026.html)",
+      "Bash(git -C 'c:\\\\Users\\\\berge\\\\OneDrive\\\\Skrivebord\\\\Claude code\\\\github-pages-deploy' commit -m ' *)"
+    ]
+  }
+}

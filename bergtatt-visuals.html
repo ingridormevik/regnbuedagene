@@ -97,6 +97,12 @@ canvas{position:fixed;inset:0;pointer-events:none;}
   100%{background-position:0% 50%;}
 }
 
+/* Projector mode — compensate for projector colour wash-out */
+body.projector-mode canvas{
+  filter:saturate(1.42) contrast(1.14) brightness(1.06);
+  will-change:filter;
+}
+
 #ui{position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;}
 #startcard{
   border:1px solid rgba(255,255,255,0.14);
@@ -271,11 +277,13 @@ body.preview-mode #beat-flash{display:none!important;}
       <button class="hbtn" data-mode="bergen" style="border-color:rgba(60,190,220,0.4);color:rgba(140,220,240,0.7);">BERGEN</button>
       <button class="hbtn" data-mode="witch" style="border-color:rgba(140,60,200,0.5);color:rgba(200,140,255,0.8);">WITCH</button>
       <button class="hbtn" data-mode="digital" style="border-color:rgba(0,255,180,0.4);color:rgba(0,255,180,0.8);">DIGITAL</button>
-      <button class="hbtn" id="btn-shuffle-mood" title="Auto-shuffle moods" aria-label="Auto-shuffle moods av" aria-pressed="false" style="border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.38);">&#x21C4;</button>
     </div>
     <button class="hbtn" id="btn-stop">STOP</button>
     <div id="mic-badge">&#127897; LIVE MIC</div>
   </div>
+  <!-- Shuffle always visible — outside the auto-hiding hud-ctrl -->
+  <button id="btn-shuffle-mood" title="Auto-shuffle moods" aria-label="Auto-shuffle moods av" aria-pressed="false"
+    style="position:fixed;bottom:20px;right:24px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.22em;padding:8px 16px;border:1px solid rgba(255,255,255,0.22);background:rgba(0,0,0,0.55);color:rgba(255,255,255,0.5);cursor:pointer;z-index:60;backdrop-filter:blur(4px);transition:all 0.2s;pointer-events:all;">&#x21C4; SHUFFLE</button>
 </div>
 
 <script>
@@ -298,15 +306,19 @@ window.addEventListener('orientationchange',()=>setTimeout(checkOrientation,200)
 document.addEventListener('touchstart',()=>{if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();},{passive:true});
 const urlParams=new URLSearchParams(window.location.search);
 const PREVIEW=urlParams.get('preview')==='true';
+const PROJECTOR=urlParams.get('projector')==='true';
 const PARTICLE_MULTIPLIER=PREVIEW?0.3:1;
 const ENABLE_CREATURES=!PREVIEW;
 const ENABLE_FULL_SYSTEM=!PREVIEW;
 let previewEnded=false;
 if(PREVIEW)document.body.classList.add('preview-mode');
+if(PROJECTOR)document.body.classList.add('projector-mode');
 
 const CID=['c-bg','c-mount','c-fjord','c-fog','c-roots','c-forest','c-shrooms','c-wisps','c-creatures','c-rain','c-parts','c-wave','c-shaman','c-nature','c-rivers','c-bergen','c-digital','c-witch','c-text'];
 const C={};
-CID.forEach(id=>{const el=document.getElementById(id);C[id]={el,cx:el.getContext('2d',{alpha:true,desynchronized:true,willReadFrequently:false}),dpr:1};});
+const _ctxOpts={alpha:true,desynchronized:true,willReadFrequently:false};
+if(PROJECTOR)_ctxOpts.colorSpace='display-p3';
+CID.forEach(id=>{const el=document.getElementById(id);C[id]={el,cx:el.getContext('2d',_ctxOpts),dpr:1};});
 
 const LAYER_QUALITY={
   'c-text':1.0,
@@ -354,9 +366,9 @@ const LAYER_FRAME_STEP={
 };
 let _renderFrame=0;
 const PERF_GUARD={
-  enabled:true,
+  enabled:!PROJECTOR,
   scale:1,
-  minScale:0.72,
+  minScale:PROJECTOR?1.0:0.72,
   maxScale:1,
   downThreshold:24,
   upThreshold:17.4,
@@ -372,9 +384,10 @@ const PERF_GUARD={
 
 function getGlobalRenderDpr(w,h){
   const baseDpr=window.devicePixelRatio||1;
-  const cap=isMobile?1.6:2.25;
+  const cap=isMobile?1.6:PROJECTOR?3.0:2.25;
   const capped=Math.min(baseDpr,cap);
-  const pixelBudget=PREVIEW?5000000:9500000;
+  // 4K projector: 3840×2160=8.3 MP; budget of 18 MP allows ~1.47× DPR for crisp 4K
+  const pixelBudget=PREVIEW?5000000:PROJECTOR?18000000:9500000;
   const fitDpr=Math.sqrt(pixelBudget/Math.max(1,w*h));
   return Math.max(0.9,Math.min(capped,fitDpr));
 }
@@ -527,12 +540,12 @@ let BEAT_COOL_LIVE=0.38;
 let BEAT_THRESH_LIVE=130;
 
 function getBeatCool(){
-  if(currentMode==='witch') return 0.32; // tuned between 85 and 100 BPM
-  return 0.38;
+  if(currentMode==='witch') return 0.24; // tuned between 85 and 100 BPM
+  return 0.28;
 }
 function getBeatThresh(){
-  if(currentMode==='witch') return 118; // slightly more sensitive for organic tribal drums
-  return 130;
+  if(currentMode==='witch') return 80; // slightly more sensitive for organic tribal drums
+  return 88;
 }
 
 // ============================================================
@@ -543,7 +556,7 @@ let beatCount=0,bpmEst=50,lastBeatTime=0,globalAngle=0,beatFlashV=0;
 const beatFlashEl=document.getElementById('beat-flash');
 
 let audioCtx=null,analyserHi=null,analyserLo=null,freqHi=null,freqLo=null,timeD=null,micStream=null;
-const BEAT_COOL=0.38,BEAT_THRESH=130;
+const BEAT_COOL=0.28,BEAT_THRESH=88;
 // Per-band smooth energy — computed every frame from analyserHi, never touches beat detection
 let sBass=0,sMid=0,sHi=0,sPresence=0;
 
@@ -735,11 +748,11 @@ function detectBeat(){
 function updateBeat(){
   const nowMs=performance.now();
   const t=(energy||0)/255;
-  smoothEnergy+=(t-smoothEnergy)*(t>smoothEnergy?0.18:0.04);
+  smoothEnergy+=(t-smoothEnergy)*(t>smoothEnergy?0.30:0.07);
   smoothEnergy=Math.max(0,Math.min(1,smoothEnergy));
   bpmNorm=Math.max(0,Math.min(1,(bpmEst-70)/70));
   const bpmT=smoothEnergy>0.02?Math.min(2,bpmEst/120)*smoothEnergy:0;
-  smoothBpmFactor+=(bpmT-smoothBpmFactor)*(bpmT>smoothBpmFactor?0.008:0.06);
+  smoothBpmFactor+=(bpmT-smoothBpmFactor)*(bpmT>smoothBpmFactor?0.045:0.06);
   smoothBpmFactor=Math.max(0,smoothBpmFactor);
   const decR=smoothEnergy>0.02?Math.max(0.05,1-(bpmEst/60)*(1/60)*1.6):0.88;
   masterBeat=Math.max(0,masterBeat*decR);
@@ -757,21 +770,21 @@ function updateBeat(){
     // Air / hi-freq 6-16kHz: bins 137-362 — aurora, rain, particles
     let rH=0;for(let i=137;i<=Math.min(362,bins-1);i++)rH+=freqHi[i];rH/=226;rH=Math.min(1,rH/80);
     // Silence gate — all bands hard zero below noise floor
-    const gate=energy>12?1:0;
-    sBass+=(rB*gate-sBass)*(rB*gate>sBass?0.6:0.12);
-    sMid+=(rM*gate-sMid)*(rM*gate>sMid?0.4:0.08);
-    sPresence+=(rP*gate-sPresence)*(rP*gate>sPresence?0.5:0.10);
-    sHi+=(rH*gate-sHi)*(rH*gate>sHi?0.55:0.07);
+    const gate=energy>8?1:0;
+    sBass+=(rB*gate-sBass)*(rB*gate>sBass?0.80:0.16);
+    sMid+=(rM*gate-sMid)*(rM*gate>sMid?0.60:0.12);
+    sPresence+=(rP*gate-sPresence)*(rP*gate>sPresence?0.70:0.14);
+    sHi+=(rH*gate-sHi)*(rH*gate>sHi?0.72:0.10);
     sBass=Math.max(0,sBass);sMid=Math.max(0,sMid);sPresence=Math.max(0,sPresence);sHi=Math.max(0,sHi);
 
     // Derived audio descriptors for music-type director.
     const eNorm=Math.max(0,Math.min(1,(energy||0)/255));
     const flux=Math.abs(sBass-_prevSBass)+Math.abs(sMid-_prevSMid)+Math.abs(sPresence-_prevSPres)+Math.abs(sHi-_prevSHi);
     spectralFlux+=(Math.max(0,Math.min(1,flux*0.6))-spectralFlux)*0.16;
-    const onsetRaw=(eNorm-_prevEnergyNorm>0.08 && sPresence>0.12)?1:0;
-    onsetDensity+=(onsetRaw-onsetDensity)*0.20;
-    const transientRaw=masterBeat>0.72?1:0;
-    transientRate+=(transientRaw-transientRate)*0.24;
+    const onsetRaw=(eNorm-_prevEnergyNorm>0.05 && sPresence>0.07)?1:0;
+    onsetDensity+=(onsetRaw-onsetDensity)*0.28;
+    const transientRaw=masterBeat>0.65?1:0;
+    transientRate+=(transientRaw-transientRate)*0.32;
     _rangeBuf.push(eNorm);if(_rangeBuf.length>_RANGE_BUF_MAX)_rangeBuf.shift();
     let mn=1,mx=0;for(let i=0;i<_rangeBuf.length;i++){const v=_rangeBuf[i];if(v<mn)mn=v;if(v>mx)mx=v;}
     dynamicRange+=(Math.max(0,Math.min(1,mx-mn))-dynamicRange)*0.12;
@@ -3016,6 +3029,8 @@ document.getElementById('btn-play').addEventListener('click',()=>{
   analyserHi=audioCtx.createAnalyser();analyserLo=audioCtx.createAnalyser();
   analyserHi.fftSize=2048;analyserHi.smoothingTimeConstant=0.82;analyserLo.fftSize=256;analyserLo.smoothingTimeConstant=0.55;
   freqHi=new Uint8Array(analyserHi.frequencyBinCount);freqLo=new Uint8Array(analyserLo.frequencyBinCount);timeD=new Float32Array(analyserHi.fftSize);
+  // Keep screen on during long performances (projector mode)
+  if(PROJECTOR&&'wakeLock' in navigator){navigator.wakeLock.request('screen').catch(()=>{});}
   navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false})
     .then(stream=>{micStream=stream;const src=audioCtx.createMediaStreamSource(stream);src.connect(analyserHi);src.connect(analyserLo);document.getElementById('mic-badge').style.display='block';running=true;sessionStartTime=performance.now();creatureBeatClock=0;convergenceActive=false;convergenceBeat=0;nextConvergenceIdx=0;setHudMoodVisible(true);scheduleHudMoodHide();randomizeNarrativeStartOnLoad();CS.forEach((c)=>{c.alpha=0;c.targetAlpha=0;c.visible=false;c.visTimer=120+Math.floor(Math.random()*320);});const _playStartIdx=Math.floor(Math.random()*CS.length);const _playPos=randomCreaturePos(_playStartIdx);CS[_playStartIdx].x=_playPos.x;CS[_playStartIdx].y=_playPos.y;CS[_playStartIdx].visible=true;CS[_playStartIdx].targetAlpha=0.22;CS[_playStartIdx].stayTimer=20+Math.floor(Math.random()*20);activeCreature=_playStartIdx;requestAnimationFrame(loop);if(shuffleMoodsActive){shuffleMoodQueue=[];scheduleNextShuffleMood();}})
     .catch(()=>{alert('Microphone access needed.');uiEl.style.display='flex';hudEl.style.display='none';});
