@@ -418,7 +418,38 @@ canvas#stage {
   padding: 36px 32px 28px; text-align: center; display: grid; gap: 18px;
   box-shadow: 0 40px 120px rgba(0,0,0,0.36); max-height: calc(100dvh - 40px); overflow-y: auto;
 }
-.finale-rainbow { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: 0.03em; line-height: 1.2; }
+.finale-logo-wrap {
+  position: relative;
+  width: clamp(90px, 28vw, 140px);
+  margin: 0 auto 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.finale-logo {
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 0 18px rgba(255,180,220,0.55)) drop-shadow(0 0 6px rgba(255,120,200,0.4));
+  animation: finaleLogoPulse 2.8s ease-in-out infinite;
+}
+.finale-logo-glow {
+  position: absolute;
+  inset: -20%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,200,240,0.38) 0%, rgba(180,130,255,0.2) 45%, transparent 70%);
+  z-index: 1;
+  animation: finaleGlowPulse 2.8s ease-in-out infinite;
+}
+@keyframes finaleLogoPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 18px rgba(255,180,220,0.55)) drop-shadow(0 0 6px rgba(255,120,200,0.4)); }
+  50% { transform: scale(1.06); filter: drop-shadow(0 0 28px rgba(255,200,240,0.80)) drop-shadow(0 0 12px rgba(200,100,255,0.6)); }
+}
+@keyframes finaleGlowPulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.12); }
+}
 .finale-title { font-family: "Fraunces", serif; font-size: clamp(1.4rem, 3.5vw, 2.2rem); font-weight: 600; color: var(--ink); line-height: 1.1; }
 .finale-poem { font-family: "Fraunces", serif; font-style: italic; font-size: clamp(0.9rem, 2.2vw, 1.05rem); line-height: 1.7; color: var(--muted); max-width: 34ch; margin: 0 auto; white-space: pre-line; }
 .finale-badges { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; font-size: 2.4rem; }
@@ -949,8 +980,161 @@ canvas#stage {
   }
 }
 
+/* ── 390px iPhone SE / iPhone 13 mini ── */
+@media (max-width: 390px) {
+  html, body {
+    overflow: hidden !important;
+  }
+
+  .page-shell {
+    padding:
+      max(6px, var(--safe-top))
+      max(6px, var(--safe-right))
+      max(6px, var(--safe-bottom))
+      max(6px, var(--safe-left)) !important;
+  }
+
+  .stage-panel {
+    padding: 6px !important;
+    border-radius: 18px !important;
+  }
+
+  /* Stage header: compact so it doesn't eat canvas space */
+  .stage-top {
+    max-height: 80px !important;
+    overflow: hidden !important;
+  }
+
+  .stage-copy {
+    padding: 8px 10px !important;
+    border-radius: 14px !important;
+  }
+
+  .stage-kicker { font-size: 0.54rem !important; }
+  .stage-title  { font-size: clamp(0.98rem, 5.2vw, 1.35rem) !important; line-height: 1.0 !important; }
+  .stage-text   { font-size: 0.74rem !important; line-height: 1.25 !important; }
+
+  /* Canvas: fill remaining space but always allow dialog above pad */
+  .canvas-wrap,
+  canvas#stage {
+    max-height: calc(var(--app-h) - 250px) !important;
+    border-radius: 18px !important;
+  }
+
+  /* Memory card: full-width, scrollable, never cut */
+  .memory-card {
+    padding: 8px !important;
+  }
+  .memory-card-inner {
+    max-height: 64dvh !important;
+    padding: 18px 14px 14px !important;
+    border-radius: 26px 26px 20px 20px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .memory-badge  { font-size: 3rem !important; }
+  .memory-title  { font-size: clamp(1.15rem, 6.5vw, 1.5rem) !important; }
+  .memory-text-child,
+  .memory-text-family { font-size: 0.84rem !important; line-height: 1.48 !important; }
+  .memory-actions { padding-top: 10px !important; }
+  .memory-btn { min-height: 44px !important; padding: 11px 18px !important; font-size: 0.84rem !important; }
+
+  /* Touch-pad: compact, safe-area-aware, never overlaps memory card */
+  .touch-pad {
+    width: min(62vw, 220px) !important;
+    bottom: calc(max(8px, var(--safe-bottom)) + 8px) !important;
+    padding: 6px !important;
+    gap: 5px !important;
+    border-radius: 22px !important;
+  }
+  .touch-btn {
+    width: clamp(36px, 11.5vw, 48px) !important;
+    height: clamp(36px, 11.5vw, 48px) !important;
+    border-radius: 12px !important;
+    font-size: clamp(0.95rem, 4.5vw, 1.3rem) !important;
+  }
+
+  /* Intro panel: small, collapsed-friendly */
+  .intro-panel {
+    left: 6px !important;
+    right: 6px !important;
+    bottom: calc(max(8px, var(--safe-bottom)) + 68px) !important;
+    max-height: min(28dvh, 170px) !important;
+    padding: 10px !important;
+    border-radius: 18px !important;
+  }
+  .intro-panel.mobile-collapsed {
+    max-height: 52px !important;
+    padding: 7px 9px !important;
+  }
+
+  /* Control pill buttons: never clipped */
+  .ctrl-buttons {
+    max-width: calc(100vw - 100px) !important;
+    gap: 4px !important;
+  }
+  .pill-btn {
+    max-width: 82px !important;
+    min-height: 30px !important;
+    padding: 5px 7px !important;
+    font-size: 0.63rem !important;
+  }
+
+  /* Finale card: full-width, scrollable */
+  .finale-card {
+    width: calc(100vw - 16px) !important;
+    max-height: calc(100dvh - max(16px, var(--safe-top)) - max(16px, var(--safe-bottom))) !important;
+    border-radius: 28px !important;
+    padding: 22px 16px 18px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .finale-logo-wrap { width: clamp(70px, 22vw, 110px) !important; }
+  .finale-title { font-size: clamp(1.3rem, 7.5vw, 1.9rem) !important; }
+  .finale-poem  { font-size: 0.88rem !important; line-height: 1.65 !important; }
+  .finale-badges { font-size: 2rem !important; gap: 8px !important; }
+  .finale-btn { min-height: 44px !important; padding: 12px 18px !important; font-size: 0.85rem !important; }
+}
+
+/* Ensure no horizontal scroll on any mobile width */
+@media (max-width: 768px) {
+  .page-shell,
+  .stage-panel,
+  .intro-panel,
+  .memory-card-inner,
+  .finale-card {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Stage-top header must not overlap memory card or touch-pad */
+  .stage-copy {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+  }
+
+  /* Memory card action buttons always visible */
+  .memory-actions {
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+  }
+
+  /* Finale logo always visible */
+  .finale-logo-wrap { margin-bottom: 8px !important; }
+
+  /* Reduce padding-bottom so Safari toolbar doesn't hide controls */
+  .touch-pad {
+    padding-bottom: max(10px, env(safe-area-inset-bottom, 12px)) !important;
+    bottom: max(12px, env(safe-area-inset-bottom, 12px)) !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .badge-icon.unlocked { transform: none; }
+  .finale-logo, .finale-logo-glow { animation: none !important; }
 }
 </style>
 </head>
@@ -969,7 +1153,10 @@ canvas#stage {
 
 <div id="finale-overlay" aria-hidden="true">
   <div class="finale-card" role="dialog" aria-labelledby="finale-title">
-    <div class="finale-rainbow">&#127752;&#10024;&#129412;&#10024;&#127752;</div>
+    <div class="finale-logo-wrap" aria-hidden="true">
+      <img src="assets/minipride-transparent.png" alt="" class="finale-logo" />
+      <div class="finale-logo-glow"></div>
+    </div>
     <h2 class="finale-title" id="finale-title"></h2>
     <p class="finale-poem" id="finale-poem"></p>
     <div class="finale-badges" id="finale-badges"></div>
@@ -1145,10 +1332,10 @@ const COPY = {
     hideInfo: 'Skjul info',
     mcNextBtn: 'Neste venn \u2192',
     mcStayBtn: 'Bli her litt',
-    finalePoemLine: 'Noen familier er f\u00f8dt.\nNoen familier er funnet.\nNoen familier er bygget med mot.\n\nAlle h\u00f8rer til her.',
-    finaleTitle: 'Glimmerstien lyser!',
-    finaleRestart: 'Spill igjen',
-    finaleStay:    'Bli i parken',
+    finalePoemLine: 'Du har funnet alle de sm\u00e5 vennene langs stien.\nMiniPride lyser litt sterkere n\u00e5,\nfordi du tok deg tid.',
+    finaleTitle: 'Glimmerstien er fullf\u00f8rt',
+    finaleRestart: 'G\u00e5 stien p\u00e5 nytt',
+    finaleStay:    'Tilbake til Pride Park',
     hapticNote: 'P\u00e5 iPhone er fysisk vibrasjon ofte ikke st\u00f8ttet. Du ser i stedet et lysglimmer p\u00e5 skjermen.',
     stops: {
       gate:    { title: 'Regnbueporten',  badge: '\u{1F308}', badgeTitle: 'Regnbuemerket',    theme: '\u00c5 komme inn uten \u00e5 m\u00e5tte forklare seg.', childText: 'Porten \u00e5pner seg med varme farger. Her starter Glimmerstien \u2014 med ro, nysgjerrighet og plass til \u00e5 v\u00e6re akkurat deg.', familyText: '\u00c5 krysse en terskel kan av og til kjennes som en hel reise. Her trenger ingen forklare hvem de er. Parken tar imot alle.', badgeUnlockText: 'Du \u00e5pnet porten. Stien lyser foran deg.' },
@@ -1192,10 +1379,10 @@ const COPY = {
     hideInfo: 'Hide info',
     mcNextBtn: 'Next friend \u2192',
     mcStayBtn: 'Stay a moment',
-    finalePoemLine: 'Some families are born.\nSome families are found.\nSome families are built with courage.\n\nAll of them belong here.',
-    finaleTitle: 'The Glimmer Trail is glowing!',
-    finaleRestart: 'Play again',
-    finaleStay:    'Stay in the park',
+    finalePoemLine: 'You found all the little friends along the trail.\nMini Pride shines a little brighter now,\nbecause you took your time.',
+    finaleTitle: 'Glimmer Trail complete',
+    finaleRestart: 'Walk the trail again',
+    finaleStay:    'Back to Pride Park',
     hapticNote: 'On iPhone, physical vibration is often not supported. You will see a light shimmer on the screen instead.',
     stops: {
       gate:    { title: 'Rainbow Gate',   badge: '\u{1F308}', badgeTitle: 'Rainbow Badge', theme: 'Walking in without having to explain yourself.', childText: 'The gate opens with warm colours. The Glimmer Trail starts here \u2014 with calm, curiosity and room to be exactly you.', familyText: 'Crossing a threshold can sometimes feel like a whole journey. Here, nobody needs to explain who they are. The park welcomes everyone.', badgeUnlockText: 'You opened the gate. The trail lights up ahead of you.' },
@@ -1293,7 +1480,8 @@ function setAudioEnabled(enabled) {
 function updateAudioButton() {
   const btn = document.getElementById('sound-toggle');
   if (!btn) return;
-  btn.textContent = state.audioEnabled ? copy().soundOn : copy().soundOff;
+  // Show what the button WILL DO on press: if audio is playing, show "Lyd av" (will mute); if muted, show "Lyd på" (will unmute)
+  btn.textContent = state.audioEnabled ? copy().soundOff : copy().soundOn;
   btn.setAttribute('aria-pressed', state.audioEnabled ? 'true' : 'false');
 }
 
