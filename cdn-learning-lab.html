@@ -4892,7 +4892,7 @@ body.cdn-rotate-dismissed #a11y-modal-root{
     <button class="ab rs" id="btn-act" onclick="handlePrimaryAction()">Gå til mål<span class="ak">[SPACE]</span></button>
     <button class="ab" id="btn-stop" onclick="stopAtNextNode()">Stopp<span class="ak">[X]</span></button>
     <button class="ab" id="btn-calm" onclick="obeyP()">Pustepause<span class="ak">[C]</span></button>
-    <button class="ab dg" id="btn-help" onclick="showHelpMenu()" disabled>Hjelp</button>
+    <button class="ab dg" id="btn-help" onclick="showHelpMenu()">Hjelp</button>
     <div id="bf"></div>
     <div id="ctx-lbl">Piler/WASD eller klikk i ruten · klikk nær dykkeren for stopp</div>
   </div>
@@ -5373,7 +5373,7 @@ function toggleStoryCardCollapsed(){
 function getRouteSheetOptions(){
   const opts=INTERACTABLES.map(ob=>({
     l:'→ '+lt(ob.label)+(ob.minStatus&&S.status<ob.minStatus?(LANG.current==='en'?' [LOCKED]':' [SPERRET]'):''),
-    c:ob.type==='gate'?'dg':ob.type==='terminal'||ob.type==='erased'||ob.type==='lift'||ob.type==='ulriken'||ob.type==='cdnmentor'?'rs':'',
+    c:ob.type==='gate'?'dg':ob.type==='terminal'||ob.type==='erased'||ob.type==='lift'||ob.type==='ulriken'||ob.type==='cdnmentor'||ob.type==='parade'?'rs':'',
     a:()=>{
       closeMobileSheet();
       if(ob.minStatus&&S.status<ob.minStatus){
@@ -5426,12 +5426,16 @@ function openMobileSheet(type, payload={}){
     const story=document.getElementById('story-scroll');
     if(story)content.appendChild(story.cloneNode(true));
   }else if(type==='help'){
-    const ob=INTERACTABLES.find(o=>o.id==='erased');
-    title.textContent=lt('SKYGJEST');
-    desc.textContent=lt('"Kan du svømme ved siden av meg? Jeg vil slippe at appene vet mer om livet mitt enn jeg selv har sagt ja til."');
+    const isEn=LANG.current==='en';
+    title.textContent=isEn?'HOW TO PLAY':'SLIK SPILLER DU';
+    desc.textContent=isEn
+      ?'Pac-Man in Bergen 2063. Swim, collect light trails, explore hotspots, avoid drones.'
+      :'Pac-Man i Bergen 2063. Svøm, samle lysspor, utforsk hotspots, unngå droner.';
     [
-      {l:lt('[ Svøm Sammen Nå ]'),c:'rs',a:()=>{closeMobileSheet();if(ob)handleAct('help_e',ob);}},
-      {l:lt('[ Litt Senere ]'),c:'',a:()=>{closeMobileSheet();S.guilt=cl(S.guilt+8);updateUI();addLog(lt('Du venter litt. Samvittigheten kruser videre.'),'w');}}
+      {l:isEn?'[ Move: arrows / WASD · hold to swim ]':'[ Bevege: piltaster / WASD · hold inne ]',c:'',a:()=>{closeMobileSheet();addLog(isEn?'Release the key or button to stop at the next junction.':'Slipp for å stoppe i neste kryss.','i');}},
+      {l:isEn?'[ Meters: Glow(high) · App-Trace(low) · Invisible(high) ]':'[ Målere: Glød(høy) · App-Spor(lav) · Usynlig(høy) ]',c:'',a:()=>{closeMobileSheet();addLog(isEn?'Glow=energy. App-Trace=data on you. Invisible=stealth.':'Glød=energi. App-Spor=data om deg. Usynlig=skjulthet.','i');}},
+      {l:isEn?'[ Clarity bubbles = power pellets ]':'[ Klarhetsbobler = power pellets ]',c:'rs',a:()=>{closeMobileSheet();addLog(isEn?'Collect clarity bubbles to flip the hunt and reach locked areas.':'Samle klarhetsbobler for å snu jakten og nå låste områder.','i');}},
+      {l:isEn?'[ Close ]':'[ Lukk ]',c:'',a:closeMobileSheet}
     ].forEach(o=>{
       const b=document.createElement('button');
       b.className='ab '+(o.c||'');
@@ -5671,7 +5675,7 @@ function setAccessVolume(kind,value){
 }
 
 // ════════ AUDIO ════════
-let AC=null,dG=null,audioOK=false,bueAudio=null,bueStep=-1,bueLastLog=false;
+let AC=null,dG=null,audioOK=false,bueAudio=null,bueStep=-1,bueLastLog=false,paradeAudio=null,paradeStep=-1,paradeLastLog=false;
 const LAB_TRACKS=[
   'audio/Epic Systems Ascend (Remastered).mp3',
   'audio/Epic Systems Ascend (Remastered) (1).mp3',
@@ -5749,8 +5753,50 @@ function initAudio(){
     lfo.frequency.value=.055;lg.gain.value=.004;lfo.connect(lg);lg.connect(dG.gain);
     [o1,o2,o3,lfo].forEach(o=>o.start());
     initBuekorpsAudio();
+    initParadeAudio();
     startLabMusic();
   }catch(e){}
+}
+function initParadeAudio(){
+  if(paradeAudio||!AC)return;
+  const gain=AC.createGain(),filter=AC.createBiquadFilter(),comp=AC.createDynamicsCompressor();
+  gain.gain.value=0;
+  filter.type='bandpass';filter.frequency.value=1100;filter.Q.value=.6;
+  filter.connect(gain);gain.connect(comp);comp.connect(AC.destination);
+  paradeAudio={gain,filter};
+}
+function updateParadeAudio(dt){
+  if(!AC||!paradeAudio)return;
+  const dx=(P.x+P.w/2)-PRIDE_PARADE_CENTER.x,dy=(P.y+P.h/2)-PRIDE_PARADE_CENTER.y;
+  const dist=Math.hypot(dx,dy);
+  const near=cl(1-dist/PRIDE_PARADE_CENTER.r,0,1);
+  const vol=near*near*(ACCESS.sfx?.36*ACCESS.sfxVol:0);
+  paradeAudio.gain.gain.setTargetAtTime(vol,AC.currentTime,.22);
+  paradeAudio.filter.frequency.setTargetAtTime(800+near*900,AC.currentTime,.18);
+  if(near>.32&&!paradeLastLog){
+    paradeLastLog=true;
+    addLog(lt('Pride-paraden i Nygårdsparken fyller vannet med farger og rytme. Her er det trygt å være seg selv.'),'i');
+  }else if(near<.16)paradeLastLog=false;
+  if(!ACCESS.sfx||near<=.04)return;
+  const step=Math.floor(AC.currentTime*4.8)%12;
+  if(step===paradeStep)return;
+  paradeStep=step;
+  const t=AC.currentTime+.008;
+  const MELODY=[523,659,784,880,659,784,523,659,880,784,523,659];
+  const freq=MELODY[step];
+  const osc=AC.createOscillator(),gn=AC.createGain();
+  osc.type=step%3===0?'sine':'triangle';
+  osc.frequency.value=freq;
+  const vel=(step%4===0?.065:.038)*near*ACCESS.sfxVol;
+  gn.gain.setValueAtTime(vel,t);gn.gain.exponentialRampToValueAtTime(.001,t+.18);
+  osc.connect(gn);gn.connect(paradeAudio.filter);
+  osc.start(t);osc.stop(t+.2);
+  if(step%4===0){
+    const kick=AC.createOscillator(),kgn=AC.createGain();
+    kick.type='sine';kick.frequency.setValueAtTime(180,t);kick.frequency.exponentialRampToValueAtTime(55,t+.09);
+    kgn.gain.setValueAtTime(.055*near*ACCESS.sfxVol,t);kgn.gain.exponentialRampToValueAtTime(.001,t+.11);
+    kick.connect(kgn);kgn.connect(AC.destination);kick.start(t);kick.stop(t+.12);
+  }
 }
 function initBuekorpsAudio(){
   if(bueAudio||!AC)return;
@@ -6273,6 +6319,9 @@ const INTERACTABLES=[
   {id:'erased',nodeId:'mid_4140',x:4140,y:LANE_Y.mid-18,type:'erased',label:'SKYGJEST I NYGÅRDPARKEN',
    desc:'"Først trodde jeg bare appene var smarte. Så skjønte jeg at de hadde lært rutene mine uten at jeg merket det."',used:false,
    opts:[{l:'[ Svøm Sammen Og Lytt ]',c:'rs',a:'help_e'},{l:'[ Kom Tilbake Senere ]',c:'',a:'abandon'}]},
+  {id:'parade',nodeId:'high_4700',x:4700,y:LANE_Y.high-18,type:'parade',label:'PRIDE-PARADE I NYGÅRDSPARKEN',
+   desc:'Hele Nygårdsparken danser under vann. Flagg, farger og rytme fyller vannet — et offentlig rom der det er trygt å være seg selv.',used:false,
+   opts:[{l:'[ Svøm Inn I Paraden ]',c:'rs',a:'join_parade'},{l:'[ Se På Litt ]',c:'',a:'close'}]},
   {id:'arch',nodeId:'high_5340',x:5340,y:LANE_Y.high-18,type:'archive',label:'BERGENHUS TILLATELSESARKIV',
    desc:'Her ligger ordene som styrer mye av det digitale livet: tillatelser, annonse-ID og deling. Kjedelige ord, men viktige valg.',used:false,minStatus:55,
    opts:[{l:'[ Hent Den Enkle Regelen ]',c:'rs',a:'copy_r'},{l:'[ Senere ]',c:'',a:'close'}]},
@@ -6323,6 +6372,28 @@ const BUEKORPS_NPCS=Array.from({length:13},(_,i)=>({
   drum:i%3===0?'bass':i%3===1?'snare':'flag'
 }));
 const BUEKORPS_CENTER={x:4050,y:LANE_Y.mid+36,r:620};
+
+// Pride parade — separate area, high lane ~x=4700
+const PRIDE_COLS=[
+  {col:'rgba(255,50,80,.92)', vsr:'rgba(255,160,160,.38)'},
+  {col:'rgba(255,140,30,.92)', vsr:'rgba(255,200,100,.38)'},
+  {col:'rgba(255,220,40,.92)', vsr:'rgba(255,240,160,.38)'},
+  {col:'rgba(50,200,80,.92)',  vsr:'rgba(100,240,130,.38)'},
+  {col:'rgba(40,110,230,.92)', vsr:'rgba(120,180,255,.38)'},
+  {col:'rgba(160,40,230,.92)', vsr:'rgba(210,130,255,.38)'},
+  {col:'rgba(255,80,180,.92)', vsr:'rgba(255,160,220,.38)'},
+  {col:'rgba(80,200,230,.92)', vsr:'rgba(170,240,255,.38)'},
+  {col:'rgba(255,200,255,.92)',vsr:'rgba(255,230,255,.38)'},
+];
+const PRIDE_PARADE_NPCS=Array.from({length:18},(_,i)=>({
+  x:4618+(i%9)*30+(i>8?15:0),
+  y:LANE_Y.high+20+Math.floor(i/9)*30,
+  ph:i*.72,
+  hasFlag:i%3===0,
+  hasRainbow:i%5===0,
+  ...PRIDE_COLS[i%PRIDE_COLS.length],
+}));
+const PRIDE_PARADE_CENTER={x:4730,y:LANE_Y.high+38,r:500};
 
 // Platforms (world coords)
 const PLATS=[
@@ -7105,6 +7176,7 @@ function update(ts){
   if(S.lessonT>0)S.lessonT=Math.max(0,S.lessonT-dt);
   if(S.floiRideT>0)S.floiRideT=Math.max(0,S.floiRideT-dt);
   updateBuekorpsAudio(dt);
+  updateParadeAudio(dt);
   maybeCollectTrailOrbs();
   maybeCollectEthicPickups();
   maybeCollectPowerPearls();
@@ -7163,7 +7235,6 @@ function update(ts){
   // Seen erased
   if(!S.hasSeenErased&&P.x>3960&&P.x<4320){
     S.hasSeenErased=true;
-    document.getElementById('btn-help').disabled=false;
     addLog(lt('I Nygårdsparken møter du en skygjest som merket overvåkingen lenge før hen fant ordene for den.'), 'w');
     addLog(lt('"Jeg trodde bare appene var smarte. Så skjønte jeg at de lærte rutinen min."'), 'w');
     snd('static');checkObjs();
@@ -7223,6 +7294,7 @@ function draw(ts){
   drawSurvZones(t);
   drawPlatforms();
   drawBuekorpsNpcs(t);
+  drawPrideParadeNpcs(t);
   drawInteractables(t);
   drawTrailOrbs(t);
   drawEthicPickups(t);
@@ -7266,6 +7338,7 @@ function getNearStory(ob){
     archive:{eyebrow:'Here and now',title:'The dry words matter too',mission:'Do this now: Collect the simple rule',copy:'Inside the archive lie the choices deciding how much of you gets left inside the systems.',tip:'You do not need to know everything. You only need to recognise the most important questions.'},
     cdnmentor:{eyebrow:'Here and now',title:'Meet the CDN researcher',mission:'Do this now: Collect the Narrative Core',copy:'The glass house turns research into a meeting: games, AI, electronic literature, digital art and network culture become one question about how technology tells stories about people.',tip:'This is the CDN moment: research becomes something you can carry into the rest of the route.'},
     gate:{eyebrow:'Here and now',title:'Bring the light home',mission:'Do this now: Open the light lock',copy:'Nordnes is about bringing the knowledge back into everyday life, not about winning in a perfect way.',tip:'Three rules are enough: check permissions, turn off tracking you do not need, and ask before sharing about others.'},
+    parade:{eyebrow:'Here and now',title:'Pride parade in Nygårdsparken',mission:'Do this now: Swim into the parade',copy:'The underwater pride parade fills the park with colour and rhythm. Here it is safe to be yourself — and that freedom is not tracking data.',tip:'Swimming with the parade lowers your surveillance score. Being yourself in public space is resistance.'},
   }:{
     checkpoint:{eyebrow:'Her og nå',title:'Her starter eventyret',mission:'Gjør dette nå: Utforsk Bryggen-portrommet',copy:'Portrommet viser hvordan vanlige byturer kan bli til digitale spor over tid.',tip:'Lær først. Samle så lysspor og bruk dem som Pac-Man-prikker gjennom ruten.'},
     lift:{eyebrow:'Her og nå',title:'Legg fra deg utstyret og gå opp',mission:'Gjør dette nå: Ta banen opp',copy:'Ved land faller undervannsutstyret av. Fløibanen tar deg mot Fløyen, med fjellene i bakgrunnen og byen under deg.',tip:'Bruk banen når oppdraget går fra svømming til klatring og utsyn over mønsteret.'},
@@ -7275,6 +7348,7 @@ function getNearStory(ob){
     archive:{eyebrow:'Her og nå',title:'De tørre ordene betyr noe',mission:'Gjør dette nå: Hent den enkle regelen',copy:'I arkivet ligger valgene som bestemmer hvor mye av deg som får bli igjen i systemene.',tip:'Du trenger ikke kunne alt. Du trenger bare å kjenne igjen de viktigste spørsmålene.'},
     cdnmentor:{eyebrow:'Her og nå',title:'Møt CDN-forskeren',mission:'Gjør dette nå: Hent Narrativkjernen',copy:'Glasshuset gjør forskning til et møte: spill, KI, digital litteratur, elektronisk kunst og nettverkskultur blir ett spørsmål om hvordan teknologi forteller historier om mennesker.',tip:'Dette er CDN-øyeblikket: forskning blir noe du kan bære med deg videre gjennom ruten.'},
     gate:{eyebrow:'Her og nå',title:'Ta lyset hjem',mission:'Gjør dette nå: Åpne lyseslusen',copy:'Nordnes handler om å ta med kunnskapen tilbake til hverdagen, ikke om å vinne på en perfekt måte.',tip:'Tre regler holder: sjekk tillatelser, slå av sporing du ikke trenger, og spør før du deler om andre.'},
+    parade:{eyebrow:'Her og nå',title:'Pride-parade i Nygårdsparken',mission:'Gjør dette nå: Svøm inn i paraden',copy:'Undervanns pride-paraden fyller parken med farger og rytme. Her er det trygt å være seg selv — og den friheten er ikke sporingsdata.',tip:'Å svømme med paraden senker sporingspoengene dine. Å være seg selv i det offentlige rommet er motstand.'},
   };
   return stories[ob.type]||null;
 }
@@ -8097,11 +8171,86 @@ function drawBuekorpsNpcs(t){
 }
 
 // ─────────────────────────────────────────────────
+// PRIDE PARADE NPCS
+// ─────────────────────────────────────────────────
+function drawPrideParadeNpcs(t){
+  if(PRIDE_PARADE_CENTER.x<camX-240||PRIDE_PARADE_CENTER.x>camX+W+240)return;
+  const FLAG_COLS=['rgba(255,30,30,.88)','rgba(255,140,0,.88)','rgba(255,220,0,.88)','rgba(30,180,30,.88)','rgba(30,90,230,.88)','rgba(130,0,200,.88)'];
+  const TRANS_COLS=['rgba(90,205,250,.88)','rgba(245,168,184,.88)','rgba(255,255,255,.88)','rgba(245,168,184,.88)','rgba(90,205,250,.88)'];
+  PRIDE_PARADE_NPCS.forEach((npc,i)=>{
+    const bob=Math.sin(t*2.6+npc.ph)*2.6;
+    const sway=Math.sin(t*1.3+npc.ph)*1.8;
+    ctx.save();
+    ctx.translate(npc.x,npc.y+bob);
+    // Suit
+    ctx.fillStyle=npc.col;
+    ctx.beginPath();ctx.ellipse(0,0,7,11,0,0,Math.PI*2);ctx.fill();
+    // Belt stripe
+    ctx.fillStyle='rgba(255,255,255,.25)';
+    ctx.fillRect(-7,-1,14,2);
+    // Helmet
+    ctx.fillStyle='rgba(6,19,34,.9)';
+    ctx.beginPath();ctx.arc(0,-13,7.5,0,Math.PI*2);ctx.fill();
+    ctx.strokeStyle=npc.vsr;ctx.lineWidth=1.1;ctx.stroke();
+    // Visor
+    ctx.fillStyle=npc.vsr;
+    ctx.beginPath();ctx.arc(1.5,-13,4.5,0,Math.PI*2);ctx.fill();
+    // Arms
+    ctx.strokeStyle=npc.col;ctx.lineWidth=4;ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(-2,-4);ctx.lineTo(-11+sway,-2);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(2,-4);ctx.lineTo(11-sway,-2);ctx.stroke();
+    // Legs
+    ctx.lineWidth=3.5;
+    ctx.beginPath();ctx.moveTo(-2,9);ctx.lineTo(-5+sway*1.4,20);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(2,9);ctx.lineTo(5-sway*1.4,20);ctx.stroke();
+    // Flag
+    if(npc.hasFlag){
+      const cols=npc.hasRainbow?FLAG_COLS:TRANS_COLS;
+      const waveOff=Math.sin(t*3.8+npc.ph)*3;
+      ctx.strokeStyle='rgba(255,240,180,.88)';ctx.lineWidth=1.4;
+      ctx.beginPath();ctx.moveTo(10,-21);ctx.lineTo(10,8);ctx.stroke();
+      const stripH=(npc.hasRainbow?4.2:5.4);
+      cols.forEach((fc,fi)=>{
+        ctx.fillStyle=fc;
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(11,-20+fi*stripH);
+        ctx.quadraticCurveTo(21+waveOff,-20+fi*stripH+stripH/2,11,-20+(fi+1)*stripH);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+      });
+    }
+    // Bubbles
+    ctx.strokeStyle='rgba(130,210,255,.22)';ctx.lineWidth=.7;
+    ctx.beginPath();ctx.arc(-8+sway,-22,2.2,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.arc(-12,-28+sway,1.5,0,Math.PI*2);ctx.stroke();
+    // Rainbow hand trail
+    if(npc.hasRainbow&&Math.abs(sway)>.6){
+      FLAG_COLS.forEach((fc,fi)=>{
+        const a=(.1-fi*.012).toFixed(3);
+        ctx.strokeStyle=fc.replace('.88)',a+')');ctx.lineWidth=1;
+        ctx.beginPath();ctx.moveTo(-11+sway,0);ctx.lineTo(-18+sway-fi*2.8,-2+fi*1.8);ctx.stroke();
+      });
+    }
+    ctx.restore();
+  });
+  // Area label
+  const paradeOb=INTERACTABLES.find(o=>o.id==='parade');
+  if(!paradeOb||!paradeOb.used){
+    const pulse=.5+.5*Math.sin(t*3.8);
+    ctx.font='800 10px system-ui, sans-serif';ctx.textAlign='center';
+    ctx.fillStyle=`rgba(255,160,255,${.3+pulse*.22})`;
+    ctx.fillText('PRIDE-PARADE',PRIDE_PARADE_CENTER.x,PRIDE_PARADE_CENTER.y-66);
+  }
+}
+
+// ─────────────────────────────────────────────────
 // INTERACTABLES
 // ─────────────────────────────────────────────────
 function drawInteractables(t){
-  const IC={checkpoint:'⬡',lift:'⇡',terminal:'◈',ulriken:'△',erased:'✧',archive:'▣',cdnmentor:'◆',gate:'◇'};
-  const CO={checkpoint:'255,140,104',lift:'255,214,144',terminal:'103,223,255',ulriken:'170,228,255',erased:'255,120,164',archive:'126,204,255',cdnmentor:'255,224,156',gate:'120,240,186'};
+  const IC={checkpoint:'⬡',lift:'⇡',terminal:'◈',ulriken:'△',erased:'✧',archive:'▣',cdnmentor:'◆',gate:'◇',parade:'❋'};
+  const CO={checkpoint:'255,140,104',lift:'255,214,144',terminal:'103,223,255',ulriken:'170,228,255',erased:'255,120,164',archive:'126,204,255',cdnmentor:'255,224,156',gate:'120,240,186',parade:'255,140,220'};
   INTERACTABLES.forEach(ob=>{
     if(ob.used&&ob.type!=='gate')return;
     if(ob.x+60<camX||ob.x>camX+W)return;
@@ -9015,9 +9164,16 @@ function handleAct(act,ob){
       ob.used=true;S.completedObjectives.add('erased_helped');breakRule(6,true);S.guilt=cl(S.guilt-10);S.status=cl(S.status+4);
       addLog(lt('Du svømmer ved siden av skygjesten og setter ord på det som føltes uklart.'),'g');
       addLog(lt('"Takk. Det hjelper når noen skjønner at overvåking også kan merkes i kroppen."'),'g');
-      snd('success');document.getElementById('btn-help').disabled=true;checkObjs();break;
+      snd('success');checkObjs();break;
     case'abandon':S.guilt=cl(S.guilt+10);updateUI();addLog(lt('Du svømte videre. Boblene kjennes tyngre.'),'w');break;
     case'copy_r':ob.used=true;breakRule(5,true);addLog(lt('Du fant tre enkle ting som faktisk hjelper: sjekk tillatelser, slå av unødig sporing og spør før du deler om andre.'),'g');S.guilt=cl(S.guilt-12);updateUI();break;
+    case'join_parade':
+      ob.used=true;S.completedObjectives.add('parade');S.status=cl(S.status+6);S.surveillance=cl(S.surveillance-5);S.guilt=cl(S.guilt-8);
+      addLog(LANG.current==='en'?'You swim into the parade. Colours and rhythm fill the water around you.':'Du svømmer inn i paraden. Farger og rytme fyller vannet rundt deg.','g');
+      addLog(LANG.current==='en'?'"Being yourself in public space is not tracking — it is freedom."':'"Å være seg selv i det offentlige rommet er ikke sporing — det er frihet."','g');
+      showWarn(LANG.current==='en'?'PRIDE IN NYGÅRDSPARKEN':'PRIDE I NYGÅRDSPARKEN');snd('success');
+      for(let i=0;i<18;i++)spawnBub(ob.x-20+Math.random()*80,ob.y-20,true);
+      checkObjs();updateUI();break;
     case'meet_cdn':
       ob.used=true;S.completedObjectives.add('cdnmentor');S.status=cl(S.status+8);S.surveillance=cl(S.surveillance-6);S.erasure=cl(S.erasure-6);
       addLog(lt('CDN-forskeren gir deg Narrativkjernen: forskning er ikke bare svar. Det er en måte å lage bedre spørsmål sammen, slik at teknologi kan bli mer rettferdig, mer lekende og mer menneskelig.'),'g');
@@ -9041,7 +9197,7 @@ function showMoveMenu(){
   setStoryCardCollapsed(false);
   const opts=INTERACTABLES.map(ob=>({
     l:'→ '+lt(ob.label)+(ob.minStatus&&S.status<ob.minStatus?(LANG.current==='en'?' [LOCKED]':' [SPERRET]'):''),
-    c:ob.type==='gate'?'dg':ob.type==='terminal'||ob.type==='erased'||ob.type==='lift'||ob.type==='ulriken'||ob.type==='cdnmentor'?'rs':'',
+    c:ob.type==='gate'?'dg':ob.type==='terminal'||ob.type==='erased'||ob.type==='lift'||ob.type==='ulriken'||ob.type==='cdnmentor'||ob.type==='parade'?'rs':'',
     a:()=>{
       closeIP();if(ob.minStatus&&S.status<ob.minStatus){addLog({no:'Mer glød trengs før du kan hente denne regelen.',en:'You need more glow before you can collect this rule.'},'d');return;}
       snapPlayerToNode(ob.nodeId);P.nextNodeId=null;P.vx=0;P.vy=0;
@@ -9070,11 +9226,31 @@ function showHelpMenu(){
     return;
   }
   setStoryCardCollapsed(false);
-  const ob=INTERACTABLES.find(o=>o.id==='erased');
-  if(ob)showInteractPopup(lt('SKYGJEST'),lt('"Kan du svømme ved siden av meg? Jeg vil slippe at appene vet mer om livet mitt enn jeg selv har sagt ja til."'),[
-    {l:lt('[ Svøm Sammen Nå ]'),c:'rs',a:()=>{closeIP();handleAct('help_e',ob);}},
-    {l:lt('[ Litt Senere ]'),c:'',a:()=>{closeIP();S.guilt=cl(S.guilt+8);updateUI();addLog(lt('Du venter litt. Samvittigheten kruser videre.'),'w');}},
-  ]);
+  const isEn=LANG.current==='en';
+  showInteractPopup(
+    isEn?'HOW TO PLAY':'SLIK SPILLER DU',
+    isEn
+      ?'CDN Learning Lab: Pac-Man in Bergen 2063. Swim, collect light trails, explore hotspots, avoid tracking drones.'
+      :'CDN Læringslab: Pac-Man i Bergen 2063. Svøm, samle lysspor, utforsk hotspots, unngå sporingsdroner.',
+    [
+      {l:isEn?'[ Move: arrows / WASD ]':'[ Bevege: piltaster / WASD ]',c:'',a:()=>{closeIP();addLog(isEn
+        ?'Hold a direction to keep swimming. Release to stop at the next junction. X key also stops.'
+        :'Hold inne en retning for å fortsette. Slipp for å stoppe i neste kryss. X-tast stopper også.','i');}},
+      {l:isEn?'[ Space · Explore / Go to goal ]':'[ Space · Utforsk / Gå til mål ]',c:'rs',a:()=>{closeIP();addLog(isEn
+        ?'SPACE explores a nearby hotspot. Away from one it navigates toward your current goal.'
+        :'SPACE utforsker et nærliggende hotspot. Ellers navigerer det mot gjeldende mål.','i');}},
+      {l:isEn?'[ C · Breathe (lowers surveillance) ]':'[ C · Pust (senker sporing) ]',c:'',a:()=>{closeIP();addLog(isEn
+        ?'Taking a breather reduces your surveillance score. Breathing is resistance.'
+        :'En pustepause reduserer sporingspoeng. Å puste er motstand.','i');}},
+      {l:isEn?'[ Meters: Glow · App-Trace · Invisible ]':'[ Målere: Glød · App-Spor · Usynlig ]',c:'',a:()=>{closeIP();addLog(isEn
+        ?'GLOW = energy (keep high). APP-TRACE = data on you (keep low). INVISIBLE = stealth (keep high).'
+        :'GLØD = energi (hold høy). APP-SPOR = data om deg (hold lav). USYNLIG = skjulthet (hold høy).','i');}},
+      {l:isEn?'[ Drones: patrol · map · network ]':'[ Droner: patrulje · kart · nettverk ]',c:'',a:()=>{closeIP();addLog(isEn
+        ?'Clarity bubbles (power pellets) flip the hunt. Collect light trails like Pac-Man dots.'
+        :'Klarhetsbobler (power pellets) snur jakten. Samle lysspor som Pac-Man-prikker.','i');}},
+      {l:isEn?'[ Close ]':'[ Lukk ]',c:'',a:closeIP},
+    ]
+  );
 }
 
 // ════════ OBJECTIVES & ENDINGS ════════
@@ -9131,7 +9307,6 @@ function resetGame(){
   document.getElementById('elog').innerHTML='';
   document.getElementById('warn-b').classList.remove('show');
   document.getElementById('warn-b').textContent='';
-  document.getElementById('btn-help').disabled=true;
   document.getElementById('zone-lbl').textContent=lt(ZONES[0].label);
   lastZoneEcho='';
   updateUI();
