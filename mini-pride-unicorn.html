@@ -480,44 +480,48 @@ canvas#stage {
 }
 @media (max-width: 760px) {
   body {
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     min-height: 100dvh;
   }
 
   .page-shell {
     width: 100vw;
-    height: 100dvh;
+    height: auto;
+    min-height: 100dvh;
     padding: max(10px, var(--safe-top)) 10px max(10px, var(--safe-bottom));
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     gap: 10px;
     align-items: stretch;
+    overflow: visible;
   }
 
   .stage-panel {
     order: 1;
-    height: 100%;
+    height: auto;
     min-height: 0;
     padding: 10px;
     border-radius: 24px;
     display: grid;
-    grid-template-rows: 1fr;
+    grid-template-rows: auto minmax(260px, 1fr) auto;
+    overflow: visible;
   }
 
   .intro-panel {
     order: 2;
-    position: fixed;
-    left: 10px;
-    right: 10px;
-    bottom: calc(var(--safe-bottom) + 86px);
-    z-index: 60;
-    max-height: 38dvh;
-    overflow-y: auto;
-    overflow-x: hidden;
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    z-index: 20;
+    max-height: none;
+    overflow: visible;
     padding: 14px;
     border-radius: 24px;
     gap: 10px;
+    margin-top: 8px;
   }
 
   .footer-strip {
@@ -627,17 +631,17 @@ canvas#stage {
   }
 
   .stage-top {
-    position: absolute;
-    top: 18px;
-    left: 18px;
-    right: 18px;
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
     z-index: 12;
-    pointer-events: none;
+    pointer-events: auto;
   }
 
   .stage-copy {
-    width: fit-content;
-    max-width: min(92%, 420px);
+    width: 100%;
+    max-width: 100%;
     padding: 12px 14px;
     border-radius: 20px;
     background: rgba(255,255,255,0.76);
@@ -661,14 +665,15 @@ canvas#stage {
 
   .touch-pad {
     order: 3;
-    position: fixed;
-    left: 50%;
-    bottom: calc(var(--safe-bottom) + 12px);
-    transform: translateX(-50%);
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
     z-index: 80;
     display: grid;
     grid-template-columns: repeat(3, 58px);
     gap: 8px;
+    margin: 10px auto 0;
     padding: 10px;
     border-radius: 28px;
     background: rgba(255,255,255,0.62);
@@ -692,19 +697,21 @@ canvas#stage {
   }
 
   .memory-card {
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
-    padding: 12px;
+    padding: 12px 12px calc(112px + var(--safe-bottom));
     background: linear-gradient(
       180deg,
       rgba(10,20,30,0.18),
       rgba(10,20,30,0.78)
     );
+    overflow-y: auto;
   }
 
   .memory-card-inner {
     width: 100%;
-    max-height: 68dvh;
+    max-height: min(74dvh, calc(var(--app-h) - 96px));
+    min-height: auto;
     overflow-y: auto;
     border-radius: 30px 30px 24px 24px;
     padding: 24px 18px 18px;
@@ -750,6 +757,19 @@ canvas#stage {
     max-height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 24px);
     border-radius: 34px;
     padding: 30px 20px 24px;
+  }
+
+  .ctrl-buttons {
+    position: static;
+    top: auto;
+    right: auto;
+    z-index: auto;
+    width: 100%;
+    max-width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow: visible;
   }
 
   .finale-title {
@@ -983,7 +1003,8 @@ canvas#stage {
 /* ── 390px iPhone SE / iPhone 13 mini ── */
 @media (max-width: 390px) {
   html, body {
-    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
   }
 
   .page-shell {
@@ -1001,8 +1022,8 @@ canvas#stage {
 
   /* Stage header: compact so it doesn't eat canvas space */
   .stage-top {
-    max-height: 80px !important;
-    overflow: hidden !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
 
   .stage-copy {
@@ -1026,7 +1047,9 @@ canvas#stage {
     padding: 8px !important;
   }
   .memory-card-inner {
-    max-height: 64dvh !important;
+    max-height: min(72dvh, calc(var(--app-h) - 88px)) !important;
+    min-height: auto !important;
+    height: auto !important;
     padding: 18px 14px 14px !important;
     border-radius: 26px 26px 20px 20px !important;
     overflow-y: auto !important;
@@ -1056,10 +1079,10 @@ canvas#stage {
 
   /* Intro panel: small, collapsed-friendly */
   .intro-panel {
-    left: 6px !important;
-    right: 6px !important;
-    bottom: calc(max(8px, var(--safe-bottom)) + 68px) !important;
-    max-height: min(28dvh, 170px) !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    max-height: none !important;
     padding: 10px !important;
     border-radius: 18px !important;
   }
@@ -1070,8 +1093,10 @@ canvas#stage {
 
   /* Control pill buttons: never clipped */
   .ctrl-buttons {
-    max-width: calc(100vw - 100px) !important;
+    position: static !important;
+    max-width: 100% !important;
     gap: 4px !important;
+    overflow: visible !important;
   }
   .pill-btn {
     max-width: 82px !important;

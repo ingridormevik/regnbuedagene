@@ -3245,13 +3245,23 @@ body.cdn-rotate-dismissed.mobile-portrait #rotate-device-overlay {
   z-index: -1 !important;
 }
 body.cdn-rotate-dismissed.mobile-portrait #gc,
-body.cdn-rotate-dismissed.mobile-portrait #hud,
 body.cdn-rotate-dismissed.mobile-portrait #story-card,
-body.cdn-rotate-dismissed.mobile-portrait #touch-ui,
 body.cdn-rotate-dismissed.mobile-portrait #btm,
 body.cdn-rotate-dismissed.mobile-portrait #ipop,
 body.cdn-rotate-dismissed.mobile-portrait #frpop {
   display: block !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+body.cdn-rotate-dismissed.mobile-portrait #hud {
+  display: contents !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
+}
+body.cdn-rotate-dismissed.mobile-portrait #touch-ui {
+  display: grid !important;
   opacity: 1 !important;
   pointer-events: auto !important;
   visibility: visible !important;
@@ -3273,6 +3283,131 @@ body.cdn-lab-active.mobile-portrait:not(.cdn-rotate-dismissed) #rotate-screen-ov
 body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #rotate-screen-overlay {
   display: none !important;
   pointer-events: none !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait {
+  min-height: 100dvh !important;
+  height: auto !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  grid-template-rows: auto auto minmax(280px, auto) auto !important;
+  align-content: start !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #tb {
+  padding: calc(8px + var(--mobile-safe-top)) 10px 8px !important;
+  gap: 6px !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #tb .ts,
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #zone-lbl,
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #lang-toggle,
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #accessibility-menu > summary,
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait .ts-brand {
+  min-height: 38px !important;
+  height: 38px !important;
+  padding: 6px 10px !important;
+  font-size: 0.66rem !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #zone-lbl {
+  max-width: 54vw !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #story-card {
+  margin: 8px 10px 0 !important;
+  padding: 10px 12px !important;
+  border-radius: 18px !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #story-summary {
+  padding-right: 84px !important;
+  font-size: 0.8rem !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #story-card:not(.is-collapsed) {
+  left: 10px !important;
+  right: 10px !important;
+  bottom: calc(12px + var(--mobile-safe-bottom)) !important;
+  max-height: min(68dvh, 560px) !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #gc {
+  width: calc(100vw - 20px) !important;
+  height: clamp(300px, 44dvh, 420px) !important;
+  min-height: 300px !important;
+  max-height: 420px !important;
+  margin: 0 10px !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #touch-ui {
+  grid-template-columns: 1fr !important;
+  gap: 10px !important;
+  padding: 10px 10px calc(12px + var(--mobile-safe-bottom)) !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #touch-left-stack {
+  grid-template-columns: 112px minmax(0, 1fr) !important;
+  grid-template-rows: auto !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  gap: 10px !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #touch-pad,
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait .dpad {
+  width: 112px !important;
+  height: 112px !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #touch-utility {
+  grid-column: 2 !important;
+  grid-template-columns: 1fr 1fr !important;
+  grid-template-rows: 1fr !important;
+  min-height: 112px !important;
+  height: auto !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #touch-utility .touch-action-btn {
+  min-height: 52px !important;
+  height: auto !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #touch-actions {
+  grid-column: auto !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-rows: auto auto !important;
+  height: auto !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #touch-interact {
+  grid-column: 1 / -1 !important;
+  grid-row: 1 !important;
+  min-height: 56px !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #touch-stop {
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #touch-helper {
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait .touch-action-btn {
+  min-height: 52px !important;
+  height: auto !important;
+  font-size: 0.74rem !important;
+}
+
+body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #warn-b {
+  bottom: calc(176px + var(--mobile-safe-bottom)) !important;
 }
 
 /* 4. End-screen ghost fix.
@@ -3625,14 +3760,25 @@ body.cdn-lab-active.cdn-rotate-dismissed.mobile-portrait #rotate-screen-overlay 
   }
 
   body.cdn-rotate-dismissed #gc,
-  body.cdn-rotate-dismissed #hud,
   body.cdn-rotate-dismissed #ldg,
   body.cdn-rotate-dismissed #lp,
   body.cdn-rotate-dismissed #rp,
   body.cdn-rotate-dismissed #btm,
   body.cdn-rotate-dismissed #story-card,
-  body.cdn-rotate-dismissed #touch-ui {
+  body.cdn-rotate-dismissed #story-card {
     display: block !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-rotate-dismissed #hud {
+    display: contents !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-rotate-dismissed #touch-ui {
+    display: grid !important;
     visibility: visible !important;
     pointer-events: auto !important;
   }
@@ -9446,7 +9592,7 @@ function applyResponsiveAppState(){
   body.classList.toggle('cdn-lab-active',mobileLayout);
   body.classList.toggle('mobile-layout',mobileLayout);
   body.classList.toggle('mobile-game',mobileLayout);
-  body.classList.toggle('mobile-portrait',mobileLayout&&portrait&&!cdnRotateHintDismissed());
+  body.classList.toggle('mobile-portrait',mobileLayout&&portrait);
   body.classList.toggle('mobile-landscape',mobileLayout&&!portrait);
   body.classList.toggle('mobile-mid',mobileLayout&&width<=768);
   body.classList.toggle('mobile-compact',mobileLayout&&width<=560);
@@ -9566,7 +9712,6 @@ window.addEventListener('load',()=>{
   document.getElementById('cdn-rotate-continue')?.addEventListener('click',()=>{
     try{ sessionStorage.setItem(CDN_ROTATE_HINT_DISMISSED_KEY,'1'); }catch(e){}
     document.body.classList.add('cdn-rotate-dismissed');
-    document.body.classList.remove('mobile-portrait');
     const rdo=document.getElementById('rotate-device-overlay');
     const rso=document.getElementById('rotate-screen-overlay');
     if(rdo){rdo.hidden=true;rdo.style.display='none';rdo.setAttribute('aria-hidden','true');}
