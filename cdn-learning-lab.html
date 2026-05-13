@@ -3237,8 +3237,7 @@ body.mobile-portrait.rotate-overlay-active #ldg {
   filter: none !important;
 }
 
-/* DISMISS OVERRIDE: user tapped "Fortsett likevel" in portrait.
-   Specificity (0,2,1) beats body.mobile-portrait (0,1,1) so these win. */
+/* Legacy dismissed-state guard kept inert for older sessions. */
 body.cdn-rotate-dismissed.mobile-portrait #rotate-device-overlay {
   display: none !important;
   pointer-events: none !important;
@@ -5156,15 +5155,460 @@ body.cdn-lab-ended #endscrn.show {
     max-height: 40px !important;
   }
 }
+
+/* CDN Learning Lab hard reset: isolated app mode, portrait notice, playable landscape */
+body.lab-mode {
+  width: 100vw;
+  height: 100dvh;
+  height: 100svh;
+  overflow: hidden;
+  position: relative;
+}
+
+body.lab-mode #cdn-rotate-continue {
+  display: none !important;
+}
+
+body.lab-mode #rotate-screen-overlay .rotate-screen-card {
+  display: grid;
+  gap: 12px;
+}
+
+body.lab-mode #cdn-mobile-back,
+body.lab-mode #cdn-mobile-reset {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(58,184,216,.42);
+  background: rgba(0,18,26,.92);
+  color: rgba(235,255,251,.96);
+  font: 800 12px/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+body.lab-mode #cdn-mobile-back {
+  border-color: rgba(255,201,138,.45);
+  color: rgba(255,231,196,.98);
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  body.lab-mode {
+    overflow: hidden !important;
+  }
+
+  body.lab-mode #rotate-screen-overlay {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483000 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: max(18px, env(safe-area-inset-top)) 16px max(18px, env(safe-area-inset-bottom)) !important;
+    background: radial-gradient(circle at 50% 22%, rgba(58,184,216,.18), transparent 34%), rgba(0,6,10,.96) !important;
+  }
+
+  body.lab-mode #rotate-screen-overlay .rotate-screen-card {
+    width: min(360px, calc(100vw - 40px)) !important;
+    max-width: calc(100vw - 40px) !important;
+    min-width: 0 !important;
+    padding: 24px 18px !important;
+    border-radius: 18px !important;
+    overflow: visible !important;
+  }
+
+  body.lab-mode #rotate-screen-overlay h1 {
+    font-size: clamp(1.35rem, 6.8vw, 2rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: 0 !important;
+  }
+
+  body.lab-mode #rotate-screen-overlay p {
+    max-width: 100% !important;
+    font-size: .96rem !important;
+    line-height: 1.4 !important;
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+  }
+
+  body.lab-mode #gc,
+  body.lab-mode #hud,
+  body.lab-mode #ldg,
+  body.lab-mode #btm,
+  body.lab-mode #story-card,
+  body.lab-mode #touch-ui,
+  body.lab-mode #cdn-landscape-reset,
+  body.lab-mode #rotate-device-overlay {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  body.lab-mode,
+  body.lab-mode.cdn-lab-active,
+  body.lab-mode.mobile-landscape {
+    width: 100vw !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  body.lab-mode #rotate-screen-overlay,
+  body.lab-mode #rotate-device-overlay {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body.lab-mode #hud {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 10 !important;
+    pointer-events: none !important;
+  }
+
+  body.lab-mode #tb {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: 44px !important;
+    max-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 5px max(8px, env(safe-area-inset-right)) 5px max(8px, env(safe-area-inset-left)) !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap !important;
+    pointer-events: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  body.lab-mode #tb .ts,
+  body.lab-mode #tb .ts-brand,
+  body.lab-mode #zone-lbl,
+  body.lab-mode #clock,
+  body.lab-mode #lang-toggle,
+  body.lab-mode #accessibility-menu > summary {
+    flex: 0 0 auto !important;
+    min-height: 32px !important;
+    max-height: 34px !important;
+    padding: 6px 9px !important;
+    font-size: clamp(.65rem, 1.8vw, .82rem) !important;
+    line-height: 1 !important;
+  }
+
+  body.lab-mode #accessibility-menu {
+    flex: 0 0 auto !important;
+    pointer-events: auto !important;
+  }
+
+  body.lab-mode #accessibility-menu[open] .access-menu-body {
+    position: fixed !important;
+    top: 48px !important;
+    right: 8px !important;
+    left: auto !important;
+    width: min(360px, calc(100vw - 16px)) !important;
+    max-height: calc(100dvh - 58px) !important;
+    overflow: auto !important;
+    pointer-events: auto !important;
+  }
+
+  body.lab-mode #lp,
+  body.lab-mode #rp,
+  body.lab-mode #btm {
+    display: none !important;
+  }
+
+  body.lab-mode #story-card {
+    position: fixed !important;
+    left: max(8px, env(safe-area-inset-left)) !important;
+    right: max(8px, env(safe-area-inset-right)) !important;
+    top: 48px !important;
+    width: auto !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    max-height: 48px !important;
+    padding: 7px 10px !important;
+    display: block !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    z-index: 12 !important;
+  }
+
+  body.lab-mode #story-toggle,
+  body.lab-mode #story-scroll > :not(#story-mission) {
+    display: none !important;
+  }
+
+  body.lab-mode #story-mission {
+    margin: 0 !important;
+    font-size: clamp(.72rem, 2vw, .9rem) !important;
+    line-height: 1.25 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  body.lab-mode #gc {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 100px !important;
+    bottom: 74px !important;
+    width: 100vw !important;
+    height: calc(100dvh - 174px) !important;
+    min-height: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 1 !important;
+  }
+
+  body.lab-mode #touch-ui {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: 72px !important;
+    max-height: 72px !important;
+    display: grid !important;
+    grid-template-columns: minmax(160px, 34%) 1fr !important;
+    gap: 8px !important;
+    padding: 6px max(8px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)) !important;
+    overflow: hidden !important;
+    pointer-events: auto !important;
+    z-index: 20 !important;
+  }
+
+  body.lab-mode #touch-left-stack,
+  body.lab-mode #touch-actions,
+  body.lab-mode #touch-utility {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  body.lab-mode #touch-left-stack {
+    display: grid !important;
+    grid-template-columns: 64px 1fr !important;
+    gap: 6px !important;
+  }
+
+  body.lab-mode #touch-pad {
+    width: 64px !important;
+    height: 60px !important;
+    min-width: 64px !important;
+    min-height: 60px !important;
+    display: grid !important;
+  }
+
+  body.lab-mode #touch-utility,
+  body.lab-mode #touch-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  body.lab-mode #touch-actions {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  body.lab-mode .touch-btn,
+  body.lab-mode .touch-action-btn {
+    min-width: 0 !important;
+    min-height: 44px !important;
+    height: auto !important;
+    padding: 6px 8px !important;
+    font-size: clamp(.72rem, 1.9vw, .9rem) !important;
+    line-height: 1 !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    pointer-events: auto !important;
+  }
+
+  body.lab-mode #cdn-landscape-reset {
+    position: fixed !important;
+    right: max(8px, env(safe-area-inset-right)) !important;
+    bottom: calc(78px + env(safe-area-inset-bottom)) !important;
+    z-index: 22 !important;
+    min-height: 34px !important;
+    padding: 7px 10px !important;
+    font-size: .72rem !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #gc {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 100px !important;
+    bottom: 76px !important;
+    width: 100vw !important;
+    height: calc(100dvh - 176px) !important;
+    min-height: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 1 !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-ui {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: 72px !important;
+    min-height: 72px !important;
+    max-height: 72px !important;
+    display: grid !important;
+    grid-template-columns: minmax(270px, 34%) minmax(0, 1fr) !important;
+    gap: 8px !important;
+    padding: 6px max(8px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)) !important;
+    overflow: hidden !important;
+    pointer-events: auto !important;
+    z-index: 20 !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-left-stack {
+    display: grid !important;
+    grid-template-columns: 72px minmax(0, 1fr) !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+    height: 60px !important;
+    max-height: 60px !important;
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    align-self: center !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-pad {
+    width: 72px !important;
+    height: 60px !important;
+    min-width: 72px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    grid-template-columns: repeat(3, 20px) !important;
+    grid-template-rows: repeat(3, 18px) !important;
+    gap: 2px !important;
+    place-content: center !important;
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    align-self: center !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-utility {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+    height: 44px !important;
+    max-height: 44px !important;
+    grid-column: 2 !important;
+    grid-row: auto !important;
+    align-self: center !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-actions {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+    height: 44px !important;
+    max-height: 44px !important;
+    grid-column: 2 !important;
+    grid-row: auto !important;
+    align-self: center !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-pad .touch-btn {
+    width: 20px !important;
+    min-width: 20px !important;
+    max-width: 20px !important;
+    height: 18px !important;
+    min-height: 18px !important;
+    max-height: 18px !important;
+    padding: 0 !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-map,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-calm,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-interact,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-stop,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-helper {
+    grid-column: auto !important;
+    grid-row: auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    padding: 7px 8px !important;
+    font-size: clamp(.7rem, 1.8vw, .86rem) !important;
+    line-height: 1 !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-ui {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    max-height: 66px !important;
+    align-items: center !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-left-stack,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-utility,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-actions {
+    display: contents !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-pad {
+    display: none !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-map { grid-column: 1 !important; }
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-calm { grid-column: 2 !important; }
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-interact { grid-column: 3 !important; }
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-stop { grid-column: 4 !important; }
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-helper { grid-column: 5 !important; }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-map,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-calm,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-interact,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-stop,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-helper {
+    grid-row: 1 !important;
+    align-self: center !important;
+    justify-self: stretch !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    max-height: 46px !important;
+    width: auto !important;
+  }
+}
 </style>
 </head>
-<body class="cdn-lab-active">
+<body class="cdn-lab-active lab-mode">
 <div id="rotate-screen-overlay" class="cdn-lab-rotate-hint" aria-live="polite">
   <div class="rotate-screen-card">
     <div class="rotate-icon">↻</div>
-    <h1>Snu skjermen for å spille</h1>
-    <p>CDN Læringslab krever liggende skjerm. Snu mobilen horisontalt for å starte laben.</p>
-    <p class="rotate-small">Snur du skjermen, åpnes spillet automatisk.</p>
+    <h1>Dette er et roterende minispill</h1>
+    <p>Snu mobilen horisontalt for å spille CDN Learning Lab.</p>
+    <p class="rotate-small">Landskap gir plass til kartet, kontrollene og datasporene.</p>
+    <button id="cdn-mobile-back" type="button">Tilbake til kartet</button>
     <button id="cdn-mobile-reset" type="button">Start på nytt</button>
   </div>
 </div>
@@ -9878,15 +10322,18 @@ function updateRotateOverlayLanguage(){
     const p=simpleOverlay.querySelector('p:not(.rotate-small)');
     const small=simpleOverlay.querySelector('.rotate-small');
     const reset=simpleOverlay.querySelector('#cdn-mobile-reset');
+    const back=simpleOverlay.querySelector('#cdn-mobile-back');
     const cont=simpleOverlay.querySelector('#cdn-rotate-continue');
-      if(h)h.textContent=LANG.current==='en' ? 'Rotate your screen to play' : 'Snu skjermen for å spille';
+      if(h)h.textContent=LANG.current==='en' ? 'This is a rotating minigame' : 'Dette er et roterende minispill';
       if(p)p.textContent=LANG.current==='en'
-        ? 'CDN Learning Lab requires landscape orientation. Rotate your phone horizontally to start.'
-        : 'CDN Læringslab krever liggende skjerm. Snu mobilen horisontalt for å starte laben.';
+        ? 'Turn your phone sideways to play CDN Learning Lab.'
+        : 'Snu mobilen horisontalt for å spille CDN Learning Lab.';
       if(small)small.textContent=LANG.current==='en'
-        ? 'Rotating your screen opens the lab automatically.'
-        : 'Snur du skjermen, åpnes spillet automatisk.';
+        ? 'Landscape makes room for the map, controls and data traces.'
+        : 'Landskap gir plass til kartet, kontrollene og datasporene.';
+      if(back)back.textContent=LANG.current==='en' ? 'Back to map' : 'Tilbake til kartet';
       if(reset)reset.textContent=LANG.current==='en' ? 'Start again' : 'Start på nytt';
+      if(cont)cont.remove();
   }
   const landscapeReset=document.getElementById('cdn-landscape-reset');
   if(landscapeReset)landscapeReset.textContent=LANG.current==='en'?'Start again':'Start på nytt';
@@ -9936,11 +10383,36 @@ if(window.visualViewport)window.visualViewport.addEventListener('resize',queueRe
 let lastFrame=0;
 function loop(ts){lastFrame=ts;update(ts);draw(ts);requestAnimationFrame(loop);}
 
+function resizeLabGame(){
+  document.body.classList.add('lab-mode');
+  syncRotateOverlayViewport();
+  applyResponsiveAppState();
+  resizeCanvasForMobileLandscape();
+  const rect=gc.getBoundingClientRect();
+  if(rect.width>0&&rect.height>0){
+    gc.dataset.scaleX=String(gc.width/rect.width);
+    gc.dataset.scaleY=String(gc.height/rect.height);
+  }
+}
+
+function resumeLabGame(){
+  document.body.classList.add('lab-mode');
+  if(!isPortraitMode()){
+    document.body.classList.remove('rotate-overlay-active');
+    const overlay=document.getElementById('rotate-screen-overlay');
+    if(overlay)overlay.style.display='none';
+  }
+  updateClock();
+}
+
+function returnToPrideMap(){
+  window.location.href='pride-park-spill-2026.html?open=map';
+}
+
 window.addEventListener('load',()=>{
   renderLanguageChrome();
   bindResponsiveChromeObservers();
-  applyResponsiveAppState();
-  resizeCanvasForMobileLandscape();
+  resizeLabGame();
   updateRotateOverlay();
   const resetCdnLearningLab=()=>{
     try{
@@ -9952,20 +10424,21 @@ window.addEventListener('load',()=>{
     window.location.reload();
   };
   document.getElementById('cdn-mobile-reset')?.addEventListener('click',resetCdnLearningLab);
+  document.getElementById('cdn-mobile-back')?.addEventListener('click',returnToPrideMap);
   document.getElementById('cdn-landscape-reset')?.addEventListener('click',resetCdnLearningLab);
   runBoot();resetGame();setupTouchControls();setupPointerSteering();setInterval(updateClock,1000);
   for(let i=0;i<3;i++)spawnJelly();
   requestAnimationFrame(loop);
 });
 
-window.addEventListener('resize',resizeCanvasForMobileLandscape);
+window.addEventListener('resize',resizeLabGame);
 window.addEventListener('orientationchange',()=>{
   window.setTimeout(()=>{
-    resizeCanvasForMobileLandscape();
-    applyResponsiveAppState();
+    resizeLabGame();
+    resumeLabGame();
     updateRotateOverlay();
   },250);
-  window.setTimeout(resizeCanvasForMobileLandscape,500);
+  window.setTimeout(resizeLabGame,500);
 });
 
 // ═════════════���═════════════════════════════════════════════════════════════
