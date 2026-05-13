@@ -5099,6 +5099,63 @@ body.cdn-lab-ended #accessibility-menu {
 body.cdn-lab-ended #endscrn.show {
   z-index: 2147482600 !important;
 }
+
+/* Release guard: keep CDN Lab fully inside short phone landscape viewports. */
+@media (max-width: 940px) and (orientation: landscape) {
+  body.cdn-lab-active.mobile-landscape {
+    --cdn-phone-topbar-h: 38px;
+    --cdn-phone-controls-h: max(58px, calc(50px + env(safe-area-inset-bottom, 0px)));
+  }
+
+  body.cdn-lab-active.mobile-landscape #gc {
+    top: var(--cdn-phone-topbar-h) !important;
+    bottom: var(--cdn-phone-controls-h) !important;
+    height: calc(var(--app-h) - var(--cdn-phone-topbar-h) - var(--cdn-phone-controls-h)) !important;
+    min-height: 0 !important;
+    max-height: calc(var(--app-h) - var(--cdn-phone-topbar-h) - var(--cdn-phone-controls-h)) !important;
+  }
+
+  body.cdn-lab-active.mobile-landscape #touch-ui {
+    height: var(--cdn-phone-controls-h) !important;
+    min-height: var(--cdn-phone-controls-h) !important;
+    max-height: var(--cdn-phone-controls-h) !important;
+    grid-template-rows: 1fr !important;
+    align-content: center !important;
+    overflow: hidden !important;
+  }
+
+  body.cdn-lab-active.mobile-landscape #touch-left-stack,
+  body.cdn-lab-active.mobile-landscape #touch-utility,
+  body.cdn-lab-active.mobile-landscape #touch-actions {
+    display: contents !important;
+  }
+
+  body.cdn-lab-active.mobile-landscape #touch-pad,
+  body.cdn-lab-active.mobile-landscape #touch-map,
+  body.cdn-lab-active.mobile-landscape #touch-calm,
+  body.cdn-lab-active.mobile-landscape #touch-interact,
+  body.cdn-lab-active.mobile-landscape #touch-stop,
+  body.cdn-lab-active.mobile-landscape #touch-helper {
+    grid-row: 1 !important;
+    align-self: center !important;
+  }
+
+  body.cdn-lab-active.mobile-landscape #touch-interact { grid-column: 2 !important; }
+  body.cdn-lab-active.mobile-landscape #touch-stop { grid-column: 3 !important; }
+  body.cdn-lab-active.mobile-landscape #touch-map { grid-column: 4 !important; }
+  body.cdn-lab-active.mobile-landscape #touch-helper { grid-column: 5 !important; }
+  body.cdn-lab-active.mobile-landscape #touch-calm { grid-column: 6 !important; }
+
+  body.cdn-lab-active.mobile-landscape #touch-map,
+  body.cdn-lab-active.mobile-landscape #touch-calm,
+  body.cdn-lab-active.mobile-landscape #touch-interact,
+  body.cdn-lab-active.mobile-landscape #touch-stop,
+  body.cdn-lab-active.mobile-landscape #touch-helper {
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+  }
+}
 </style>
 </head>
 <body class="cdn-lab-active">
