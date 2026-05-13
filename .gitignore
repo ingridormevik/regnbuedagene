@@ -6,3 +6,6 @@ _test_*.png
 _verify_*.png
 _mobile_*.png
 tmp_*.ps1
+
+# Local Netlify folder
+.netlify
