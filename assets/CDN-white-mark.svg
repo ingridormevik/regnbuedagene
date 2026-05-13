@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 240" role="img" aria-label="Center for Digital Narrative mark">
+  <g fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M105 116 55 68"/>
+    <path d="M126 96V38"/>
+    <path d="M151 109 205 55"/>
+    <path d="M155 134 212 140"/>
+    <path d="M145 153 202 208"/>
+    <circle cx="118" cy="132" r="43"/>
+    <circle cx="40" cy="54" r="27"/>
+    <circle cx="126" cy="24" r="20"/>
+    <circle cx="220" cy="40" r="32"/>
+    <circle cx="228" cy="142" r="25"/>
+    <circle cx="218" cy="224" r="34"/>
+  </g>
+</svg>

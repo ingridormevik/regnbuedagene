@@ -1,3 +1,8 @@
 # Browser profile directories from headless screenshot testing
 .tmp-chrome-*/
 .tmp-edge-*/
+.tmp_chrome_*/
+_test_*.png
+_verify_*.png
+_mobile_*.png
+tmp_*.ps1

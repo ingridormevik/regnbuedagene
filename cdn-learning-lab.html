@@ -4914,6 +4914,191 @@ body.cdn-rotate-dismissed #a11y-modal-root{
   opacity:1 !important;
 }
 /* ═══ END ACCESSIBILITY MODAL ROOT ══════════════════════════════════════════ */
+@media (max-width: 940px) and (orientation: landscape) {
+  body.cdn-lab-active #story-card,
+  body.mobile-landscape #story-card {
+    left: 142px !important;
+    right: 150px !important;
+    top: calc(var(--cdn-lab-hud-h, 40px) + 8px) !important;
+    width: auto !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    max-height: 42px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 12px !important;
+    opacity: 0.92 !important;
+  }
+  body.cdn-lab-active #story-card #story-scroll,
+  body.mobile-landscape #story-card #story-scroll {
+    display: none !important;
+  }
+  body.cdn-lab-active #story-card #story-summary,
+  body.mobile-landscape #story-card #story-summary {
+    display: block !important;
+    padding: 10px 44px 10px 12px !important;
+    min-height: 38px !important;
+    color: rgba(238,248,255,0.86) !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  body.cdn-lab-active #story-toggle,
+  body.mobile-landscape #story-toggle {
+    right: 6px !important;
+    top: 6px !important;
+    min-width: 32px !important;
+    min-height: 28px !important;
+    padding: 0 6px !important;
+    font-size: 0 !important;
+  }
+  body.cdn-lab-active #story-toggle::after,
+  body.mobile-landscape #story-toggle::after {
+    content: "VIS";
+    font-size: 10px;
+    letter-spacing: 0.04em;
+  }
+  body.cdn-lab-active #btm,
+  body.mobile-landscape #btm {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  body.cdn-lab-active #mobileSheet[hidden],
+  body.cdn-lab-active #mobileBackdrop[hidden],
+  body.cdn-lab-active #mobile-sheet-backdrop,
+  body.mobile-landscape #mobileSheet[hidden],
+  body.mobile-landscape #mobileBackdrop[hidden],
+  body.mobile-landscape #mobile-sheet-backdrop {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  body.cdn-lab-active #touch-ui,
+  body.mobile-landscape #touch-ui {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  body.cdn-lab-active #touch-ui::before,
+  body.cdn-lab-active #touch-ui::after,
+  body.mobile-landscape #touch-ui::before,
+  body.mobile-landscape #touch-ui::after {
+    display: none !important;
+    content: none !important;
+  }
+  body.cdn-lab-active #touch-pad,
+  body.cdn-lab-active #touch-actions,
+  body.cdn-lab-active #touch-utility,
+  body.cdn-lab-active .touch-btn,
+  body.cdn-lab-active .touch-action-btn,
+  body.mobile-landscape #touch-pad,
+  body.mobile-landscape #touch-actions,
+  body.mobile-landscape #touch-utility,
+  body.mobile-landscape .touch-btn,
+  body.mobile-landscape .touch-action-btn {
+    pointer-events: auto !important;
+  }
+  body.cdn-lab-active #ipop:has(#ipt:empty):has(#ipd:empty):has(#ipa:empty),
+  body.mobile-landscape #ipop:has(#ipt:empty):has(#ipd:empty):has(#ipa:empty) {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+@media (max-width: 900px) and (orientation: portrait) {
+  #rotate-screen-overlay {
+    justify-content: center !important;
+    padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)) !important;
+  }
+  #rotate-screen-overlay .rotate-screen-card {
+    box-sizing: border-box !important;
+    width: min(286px, calc(100vw - 48px)) !important;
+    max-width: calc(100vw - 48px) !important;
+    min-width: 0 !important;
+    padding: 22px 16px !important;
+  }
+  #rotate-screen-overlay .rotate-screen-card p,
+  #rotate-screen-overlay .rotate-screen-card h1 {
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    text-wrap: balance !important;
+  }
+  #rotate-screen-overlay .rotate-screen-card h1 {
+    font-size: clamp(1.18rem, 6vw, 1.58rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: 0 !important;
+  }
+  #rotate-screen-overlay .rotate-screen-card p {
+    font-size: 0.9rem !important;
+    line-height: 1.35 !important;
+  }
+  body.cdn-lab-active #rotate-screen-overlay {
+    justify-content: center !important;
+    padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom)) !important;
+  }
+  body.cdn-lab-active #rotate-screen-overlay .rotate-screen-card {
+    box-sizing: border-box !important;
+    width: min(286px, calc(100vw - 48px)) !important;
+    max-width: calc(100vw - 48px) !important;
+    min-width: 0 !important;
+    padding: 22px 16px !important;
+  }
+  body.cdn-lab-active #rotate-screen-overlay .rotate-screen-card p,
+  body.cdn-lab-active #rotate-screen-overlay .rotate-screen-card h1 {
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+    text-wrap: balance !important;
+  }
+  body.cdn-lab-active #rotate-screen-overlay .rotate-screen-card h1 {
+    font-size: clamp(1.18rem, 6vw, 1.58rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: 0 !important;
+  }
+  body.cdn-lab-active #rotate-screen-overlay .rotate-screen-card p {
+    font-size: 0.9rem !important;
+    line-height: 1.35 !important;
+  }
+}
+
+#accessibility-menu:not([open]) .access-menu-body {
+  display: none !important;
+}
+
+body.mobile-game #accessibility-menu .access-menu-section button {
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  line-height: 1.15 !important;
+  min-height: 38px !important;
+}
+
+body.cdn-lab-ended #tb,
+body.cdn-lab-ended #hud,
+body.cdn-lab-ended #story-card,
+body.cdn-lab-ended #touch-ui,
+body.cdn-lab-ended #ipop,
+body.cdn-lab-ended #frpop,
+body.cdn-lab-ended #warn-b,
+body.cdn-lab-ended #hint,
+body.cdn-lab-ended #gwsp,
+body.cdn-lab-ended #accessibility-menu {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+body.cdn-lab-ended #endscrn.show {
+  z-index: 2147482600 !important;
+}
 </style>
 </head>
 <body class="cdn-lab-active">
@@ -5111,7 +5296,7 @@ const LP=MOBILE_MODE?12:156, RP=MOBILE_MODE?12:146;           // left/right pane
 const SURFACE_Y = Math.round(H*(MOBILE_MODE?0.33:0.38)); // surface line moves a bit up on small screens
 const FLOOR_Y   = H-(MOBILE_MODE?80:52);
 const WORLD_W   = 9800;
-const cdnLogoImg = new Image(); cdnLogoImg.src = 'assets/CDN.avif';
+const cdnLogoImg = new Image(); cdnLogoImg.src = 'assets/CDN-white-mark.svg';
 let GAME_VIEW_TOP=MOBILE_MODE?46:40;
 let GAME_VIEW_BOTTOM=H-(MOBILE_MODE?74:50);
 
@@ -5160,7 +5345,7 @@ const UI_TEXT={
   loadingLine2:{no:'Laster kart: sentrum, park, fjord og fjell etter Bergen-geografien...',en:'Loading map: city centre, park, fjord and mountain from Bergen geography...'},
   loadingLine3:{no:'Pakker digitalt feltvett: samtykke, omsorg og kritiske spørsmål...',en:'Packing digital field skills: consent, care and critical questions...'},
   loadingLine4:{no:'Sender sporingsfisk og signalperler i myk modus...',en:'Sending tracking fish and signal pearls in soft mode...'},
-  loadingLine5:{no:'Kobler Bergen til Center for Digital Narrative...',en:'Linking Bergen to the Center for Digital Narrative...'},
+  loadingLine5:{no:'Kobler Bergen til Center for Digital Narrative...',en:'Linking Bergen to Center for Digital Narrative...'},
   loadingReady:{no:'CDN-LABEN ER KLAR ◈ TEKNOLOGI FORTELLER ◈ DU KAN STILLE SPØRSMÅL',en:'CDN LAB IS READY ◈ TECHNOLOGY TELLS STORIES ◈ YOU CAN ASK QUESTIONS'},
   topGlow:{no:'GLØD',en:'GLOW'},
   topTrace:{no:'APP-SPOR',en:'APP TRACE'},
@@ -8584,27 +8769,27 @@ function drawUnderwaterLandmarks(t){
       }
     }else if(mark.kind==='cdn'){
       // Building body
-      ctx.fillStyle='rgba(5,17,28,.82)';ctx.fillRect(mark.x,mark.y+30,mark.w,mark.h-30);
+      ctx.fillStyle='rgba(3,13,22,.76)';ctx.fillRect(mark.x,mark.y+30,mark.w,mark.h-30);
       // Glass facade gradient
       const gg=ctx.createLinearGradient(mark.x,mark.y,mark.x+mark.w,mark.y+mark.h);
-      gg.addColorStop(0,'rgba(170,235,255,.18)');gg.addColorStop(.5,'rgba(255,255,255,.06)');gg.addColorStop(1,'rgba(104,210,255,.14)');
+      gg.addColorStop(0,'rgba(130,230,240,.10)');gg.addColorStop(.5,'rgba(255,255,255,.035)');gg.addColorStop(1,'rgba(80,190,210,.09)');
       ctx.fillStyle=gg;ctx.fillRect(mark.x+14,mark.y+42,mark.w-28,mark.h-52);
-      ctx.strokeStyle='rgba(180,236,255,.28)';ctx.lineWidth=1.2;ctx.strokeRect(mark.x+14,mark.y+42,mark.w-28,mark.h-52);
+      ctx.strokeStyle='rgba(160,238,255,.16)';ctx.lineWidth=1;ctx.strokeRect(mark.x+14,mark.y+42,mark.w-28,mark.h-52);
       // Corridor entrance portal
       const cdnCx=mark.x+mark.w*.5, cdnCy=mark.y+mark.h*.52;
-      const cdnPw=76, cdnPh=64;
+      const cdnPw=104, cdnPh=88;
       const cdnPx=cdnCx-cdnPw*.5, cdnPy=cdnCy-cdnPh*.5;
       // Interior radial glow
       const cdnIg=ctx.createRadialGradient(cdnCx,cdnCy,2,cdnCx,cdnCy,cdnPw*.85);
-      cdnIg.addColorStop(0,`rgba(190,245,255,${.30+.10*Math.sin(t*1.8)})`);
-      cdnIg.addColorStop(.5,`rgba(80,190,255,${.12+.05*Math.sin(t*1.8)})`);
+      cdnIg.addColorStop(0,`rgba(185,245,255,${.18+.05*Math.sin(t*1.6)})`);
+      cdnIg.addColorStop(.5,`rgba(70,190,210,${.055+.02*Math.sin(t*1.6)})`);
       cdnIg.addColorStop(1,'rgba(20,80,150,0)');
       ctx.fillStyle=cdnIg;ctx.beginPath();ctx.ellipse(cdnCx,cdnCy,cdnPw*.9,cdnPh*.72,0,0,Math.PI*2);ctx.fill();
       // Portal dark recess
-      ctx.fillStyle='rgba(4,14,26,.90)';ctx.fillRect(cdnPx,cdnPy,cdnPw,cdnPh);
-      ctx.strokeStyle=`rgba(140,220,255,${.52+.18*Math.sin(t*2.4)})`;ctx.lineWidth=1.5;ctx.strokeRect(cdnPx,cdnPy,cdnPw,cdnPh);
+      ctx.fillStyle='rgba(1,10,18,.86)';ctx.fillRect(cdnPx,cdnPy,cdnPw,cdnPh);
+      ctx.strokeStyle=`rgba(160,238,255,${.26+.06*Math.sin(t*2.4)})`;ctx.lineWidth=1.4;ctx.strokeRect(cdnPx,cdnPy,cdnPw,cdnPh);
       // Perspective corridor lines
-      ctx.strokeStyle='rgba(120,200,255,.13)';ctx.lineWidth=1;
+      ctx.strokeStyle='rgba(120,200,255,.025)';ctx.lineWidth=.6;
       [[cdnPx,cdnPy],[cdnPx+cdnPw,cdnPy],[cdnPx,cdnPy+cdnPh],[cdnPx+cdnPw,cdnPy+cdnPh]].forEach(([lx,ly])=>{
         ctx.beginPath();ctx.moveTo(lx,ly);
         ctx.lineTo(lx<cdnCx?mark.x+6:mark.x+mark.w-6,ly<cdnCy?mark.y+42:mark.y+mark.h-12);
@@ -8612,21 +8797,21 @@ function drawUnderwaterLandmarks(t){
       });
       // CDN logo image inside portal
       if(cdnLogoImg.complete&&cdnLogoImg.naturalWidth){
-        const cdnIw=52,cdnIh=52;
-        ctx.globalAlpha=0.88+0.10*Math.sin(t*1.6);
-        ctx.drawImage(cdnLogoImg,cdnCx-cdnIw*.5,cdnCy-cdnIh*.5-2,cdnIw,cdnIh);
+        const cdnIh=62,cdnIw=cdnIh*(cdnLogoImg.naturalWidth/cdnLogoImg.naturalHeight);
+        ctx.globalAlpha=0.94+0.04*Math.sin(t*1.25);
+        ctx.drawImage(cdnLogoImg,cdnCx-cdnIw*.5,cdnCy-cdnIh*.5,cdnIw,cdnIh);
         ctx.globalAlpha=1;
       }else{
         ctx.font='900 16px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
-        ctx.fillStyle=`rgba(255,250,230,${.72+.18*Math.sin(t*1.6)})`;
+        ctx.fillStyle='rgba(255,255,255,.92)';
         ctx.fillText('CDN',cdnCx,cdnCy);ctx.textBaseline='alphabetic';
       }
       // Fascia labels
       ctx.font='900 13px system-ui,sans-serif';ctx.textAlign='center';ctx.textBaseline='alphabetic';
-      ctx.fillStyle='rgba(215,246,255,.65)';
+      ctx.fillStyle='rgba(222,250,255,.50)';
       ctx.fillText('CDN GLASSHUSET',mark.x+mark.w*.5,mark.y+28);
       ctx.font='700 8px system-ui,sans-serif';
-      ctx.fillStyle='rgba(180,230,255,.38)';
+      ctx.fillStyle='rgba(180,230,255,0)';
       ctx.fillText('CENTRE FOR DIGITAL NARRATIVE · UiB',mark.x+mark.w*.5,mark.y+mark.h-10);
     }else if(mark.kind==='puddefjord'){
       [0,1,2].forEach(i=>{
@@ -9419,6 +9604,9 @@ function checkEndings(){
 }
 function triggerEnd(kind){
   if(S.go)return;S.go=true;
+  document.body.classList.add('cdn-lab-ended');
+  const accessibilityMenu=document.getElementById('accessibility-menu');
+  if(accessibilityMenu)accessibilityMenu.open=false;
   const E=LANG.current==='en'?{
     erased:{t:'LOST GLOW',c:'#ff6b78',b:'Too many drones, too little calm\nand too many traces you never had time to see\nmade the city heavy.\nTry again with more clarity bubbles,\ncalmer route choices and better pauses.'},
     compliant:{t:'QUIET MODE',c:'#a3d8ee',b:'You moved onward by making yourself small.\nNext time you can practise clearer boundaries,\nmore help and less unnecessary tracking.\nTechnology should not require silence to feel safe.'},
@@ -9440,6 +9628,7 @@ function triggerEnd(kind){
 
 // ════════ RESET ════════
 function resetGame(){
+  document.body.classList.remove('cdn-lab-ended');
   Object.assign(S,{status:100,surveillance:0,erasure:0,guilt:0,friction:0,censorship:0,go:false,tick:0,enemyClock:0,secretUnlocked:false,completedObjectives:new Set(),hasSeenErased:false,tutorialStage:'move',tutorialCountdown:0,tutorialTurnDir:null,lastEnemyMode:null,trailCount:0,ethicCount:0,lessonText:null,lessonT:0,round:1,roundClearing:false,roundAdvanceT:0,floiRideT:0,ulrikenSeen:false,finalVistaSeen:false});
   objIdx=0;logTick=0;camX=0;
   STORY_CARD_STATE.collapsed=true;
@@ -9617,7 +9806,7 @@ function cdnRotateHintDismissed(){
   }
 }
 function shouldShowRotateOverlay(){
-  return isMobileLikeDevice()&&isPortraitMode()&&!cdnRotateHintDismissed();
+  return isMobileLikeDevice()&&isPortraitMode();
 }
 function updateRotateOverlayLanguage(){
   const card=document.querySelector('#rotate-device-overlay .rotate-device-card');
@@ -9663,10 +9852,14 @@ function maybeBootstrapLandscapeViewport(showOverlay){
 function updateRotateOverlay(){
   syncRotateOverlayViewport();
   updateRotateOverlayLanguage();
+  if(!isPortraitMode()){
+    try{ sessionStorage.removeItem(CDN_ROTATE_HINT_DISMISSED_KEY); }catch(e){}
+    document.body.classList.remove('cdn-rotate-dismissed');
+  }
   const overlay=document.getElementById('rotate-device-overlay');
   if(!overlay)return;
   const showOverlay=shouldShowRotateOverlay();
-  document.body.classList.toggle('cdn-rotate-dismissed',cdnRotateHintDismissed());
+  document.body.classList.toggle('cdn-rotate-dismissed',false);
   if(maybeBootstrapLandscapeViewport(showOverlay))return;
   if(ROTATE_DEVICE_STATE.visible===showOverlay&&overlay.getAttribute('aria-hidden')===(showOverlay?'false':'true'))return;
   ROTATE_DEVICE_STATE.visible=showOverlay;
@@ -9703,23 +9896,20 @@ window.addEventListener('load',()=>{
   };
   document.getElementById('cdn-mobile-reset')?.addEventListener('click',resetCdnLearningLab);
   document.getElementById('cdn-landscape-reset')?.addEventListener('click',resetCdnLearningLab);
-  document.getElementById('cdn-rotate-continue')?.addEventListener('click',()=>{
-    try{ sessionStorage.setItem(CDN_ROTATE_HINT_DISMISSED_KEY,'1'); }catch(e){}
-    document.body.classList.add('cdn-rotate-dismissed');
-    const rdo=document.getElementById('rotate-device-overlay');
-    const rso=document.getElementById('rotate-screen-overlay');
-    if(rdo){rdo.hidden=true;rdo.style.display='none';rdo.setAttribute('aria-hidden','true');}
-    if(rso){rso.hidden=true;rso.style.display='none';rso.setAttribute('aria-hidden','true');}
-    updateRotateOverlay();
-    setTimeout(()=>window.dispatchEvent(new Event('resize')),80);
-  });
   runBoot();resetGame();setupTouchControls();setupPointerSteering();setInterval(updateClock,1000);
   for(let i=0;i<3;i++)spawnJelly();
   requestAnimationFrame(loop);
 });
 
 window.addEventListener('resize',resizeCanvasForMobileLandscape);
-window.addEventListener('orientationchange',()=>{window.setTimeout(resizeCanvasForMobileLandscape,250);});
+window.addEventListener('orientationchange',()=>{
+  window.setTimeout(()=>{
+    resizeCanvasForMobileLandscape();
+    applyResponsiveAppState();
+    updateRotateOverlay();
+  },250);
+  window.setTimeout(resizeCanvasForMobileLandscape,500);
+});
 
 // ═════════════���═════════════════════════════════════════════════════════════
 // ACCESSIBILITY PANEL TELEPORT
