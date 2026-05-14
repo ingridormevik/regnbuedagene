@@ -157,6 +157,8 @@ body.projector-mode canvas{
 #chapter-name{position:absolute;top:20px;right:24px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.28em;color:rgba(255,255,255,0.30);text-align:right;line-height:1.9;}
 #hud-ctrl{position:absolute;bottom:130px;right:24px;display:flex;flex-direction:column;gap:8px;align-items:flex-end;pointer-events:all;transition:opacity 0.35s ease,transform 0.35s ease,filter 0.35s ease;}
 #hud-ctrl.auto-hidden{opacity:0;transform:translateX(8px);filter:blur(1px);pointer-events:none;}
+#btn-shuffle-mood{opacity:1;transform:translateX(0);filter:none;transition:opacity 0.35s ease,transform 0.35s ease,filter 0.35s ease,color 0.2s,border-color 0.2s,text-shadow 0.2s,background 0.2s;}
+#btn-shuffle-mood.auto-hidden{opacity:0;transform:translateX(8px);filter:blur(1px);pointer-events:none;}
 .hbtn{font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.2em;padding:7px 14px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;transition:all 0.2s;}
 .hbtn:hover,.hbtn.active{border-color:rgba(255,255,255,0.7);color:#fff;}
 #mic-badge{font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.3em;color:rgba(255,80,120,0.8);display:none;padding:4px 10px;border:1px solid rgba(255,80,120,0.3);}
@@ -201,6 +203,7 @@ body.preview-mode #beat-flash{display:none!important;}
   #chapter-name{top:12px;right:12px;font-size:8px;letter-spacing:0.25em;line-height:1.9;max-width:40vw;word-break:break-word;}
   #hud-ctrl{position:fixed;bottom:0;left:0;right:0;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;padding:8px 10px;pointer-events:all;background:rgba(0,0,0,0.45);backdrop-filter:blur(8px);flex-wrap:nowrap;overflow-x:auto;transform:none;filter:none;opacity:1;}
   #hud-ctrl.auto-hidden{opacity:0;transform:translateY(8px);filter:blur(1px);pointer-events:none;}
+  #btn-shuffle-mood.auto-hidden{opacity:0;transform:translateY(8px);filter:blur(1px);pointer-events:none;}
   #hud-mood{display:flex;flex-direction:row;gap:6px;margin:0;flex-wrap:nowrap;}
   .hbtn{font-size:9px;letter-spacing:0.12em;padding:5px 10px;white-space:nowrap;flex-shrink:0;}
   #mic-badge{font-size:7px;letter-spacing:0.2em;padding:4px 8px;white-space:nowrap;flex-shrink:0;}
@@ -282,7 +285,7 @@ body.preview-mode #beat-flash{display:none!important;}
     <button class="hbtn" id="btn-stop">STOP</button>
     <div id="mic-badge">&#127897; LIVE MIC</div>
   </div>
-  <!-- Shuffle always visible — outside the auto-hiding hud-ctrl -->
+  <!-- Shuffle follows the same auto-hide rhythm as the live HUD. -->
   <button id="btn-shuffle-mood" title="Auto-shuffle moods" aria-label="Auto-shuffle moods av" aria-pressed="false"
     style="position:fixed;bottom:20px;right:24px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.22em;padding:8px 16px;border:1px solid rgba(255,255,255,0.22);background:rgba(0,0,0,0.55);color:rgba(255,255,255,0.5);cursor:pointer;z-index:60;backdrop-filter:blur(4px);transition:all 0.2s;pointer-events:all;">&#x21C4; SHUFFLE</button>
 </div>
@@ -541,12 +544,12 @@ let BEAT_COOL_LIVE=0.38;
 let BEAT_THRESH_LIVE=130;
 
 function getBeatCool(){
-  if(currentMode==='witch') return PROJECTOR?0.18:0.22;
-  return PROJECTOR?0.18:0.24;
+  if(currentMode==='witch') return PROJECTOR?0.15:0.18;
+  return PROJECTOR?0.16:0.20;
 }
 function getBeatThresh(){
-  if(currentMode==='witch') return PROJECTOR?0.42:0.46;
-  return PROJECTOR?0.46:0.52;
+  if(currentMode==='witch') return PROJECTOR?0.36:0.40;
+  return PROJECTOR?0.40:0.46;
 }
 
 // ============================================================
@@ -562,8 +565,8 @@ const hudPulseEl=document.getElementById('s-pulse');
 
 let audioCtx=null,analyserHi=null,analyserLo=null,freqHi=null,freqLo=null,timeD=null,micStream=null,analysisPreamp=null,analysisCompressor=null;
 const BEAT_COOL=0.28,BEAT_THRESH=88;
-const INPUT_PREAMP=PROJECTOR?2.8:2.25;
-const BEAT_RISE_THRESHOLD=PROJECTOR?0.045:0.055;
+const INPUT_PREAMP=PROJECTOR?3.15:2.55;
+const BEAT_RISE_THRESHOLD=PROJECTOR?0.032:0.040;
 // Per-band smooth energy — computed every frame from analyserHi, never touches beat detection
 let sBass=0,sMid=0,sHi=0,sPresence=0;
 let bandEnergyNorm=0,lastBeatSignal=0;
@@ -810,7 +813,7 @@ function detectBeat(){
 function updateBeat(){
   const nowMs=performance.now();
   const t=bandEnergyNorm;
-  smoothEnergy+=(t-smoothEnergy)*(t>smoothEnergy?0.42:0.14);
+  smoothEnergy+=(t-smoothEnergy)*(t>smoothEnergy?0.52:0.18);
   smoothEnergy=Math.max(0,Math.min(1,smoothEnergy));
   bpmNorm=Math.max(0,Math.min(1,(bpmEst-70)/70));
   const bpmT=smoothEnergy>0.02?Math.min(2,bpmEst/120)*smoothEnergy:0;
@@ -835,12 +838,12 @@ function updateBeat(){
     const nM=normalizeAdaptiveBand(clamp01(rM/255),SPECTRUM_ADAPTIVE.mid,0.10);
     const nP=normalizeAdaptiveBand(clamp01(rP/255),SPECTRUM_ADAPTIVE.presence,0.09);
     const nH=normalizeAdaptiveBand(clamp01(rH/255),SPECTRUM_ADAPTIVE.hi,0.08);
-    // Soft gate — low inputs still respond instead of snapping off.
-    const gate=clamp01((bandEnergyNorm-0.01)/0.08);
-    sBass+=(nB*gate-sBass)*(nB*gate>sBass?0.90:0.24);
-    sMid+=(nM*gate-sMid)*(nM*gate>sMid?0.76:0.18);
-    sPresence+=(nP*gate-sPresence)*(nP*gate>sPresence?0.82:0.20);
-    sHi+=(nH*gate-sHi)*(nH*gate>sHi?0.86:0.18);
+    // Soft gate — once live input is present, keep a little motion instead of snapping off.
+    const gate=bandEnergyNorm>0.01?Math.max(PROJECTOR?0.22:0.16,clamp01((bandEnergyNorm-0.008)/0.07)):0;
+    sBass+=(nB*gate-sBass)*(nB*gate>sBass?0.94:0.30);
+    sMid+=(nM*gate-sMid)*(nM*gate>sMid?0.84:0.24);
+    sPresence+=(nP*gate-sPresence)*(nP*gate>sPresence?0.88:0.26);
+    sHi+=(nH*gate-sHi)*(nH*gate>sHi?0.90:0.24);
     sBass=Math.max(0,sBass);sMid=Math.max(0,sMid);sPresence=Math.max(0,sPresence);sHi=Math.max(0,sHi);
 
     // Derived audio descriptors for music-type director.
@@ -1051,7 +1054,7 @@ const BERGEN_FJELL=[
   {name:'RUNDEMANEN',  nx:0.36, ny:0.28, nw:0.16, iconic:false},
 ];
 
-const BPH=80,BFIN=22,BHOLD=32,BFOUT=8;
+const BPH=80,BFIN=18,BHOLD=40,BFOUT=12;
 const TOTAL_BEATS=NARRATIVE.length*BPH;
 let nBeat=0,nAlpha=0,nTarget=0;
 let phraseBeat=0,phraseIdx=0,inPhrase=false;
@@ -2841,7 +2844,7 @@ function renderText(){
     cx.beginPath();cx.moveTo(Math.max(0,x0),y);cx.lineTo(Math.min(WW,x1),y);cx.strokeStyle=lg;cx.lineWidth=0.5;cx.stroke();
   });
 
-  const lerpIn=0.009,lerpOut=0.045+masterBeat*0.02;
+  const lerpIn=0.012,lerpOut=0.028+masterBeat*0.014;
   nAlpha+=(nTarget-nAlpha)*(nTarget<nAlpha?lerpOut:lerpIn);
   const a=nAlpha;if(a<0.005){cx.restore();return;}
   const phrase=currentPhrase();if(!phrase){cx.restore();return;}
@@ -2976,6 +2979,7 @@ function idleLoop(){
 // ============================================================
 const uiEl=document.getElementById('ui'),hudEl=document.getElementById('hud');
 const hudCtrlEl=document.getElementById('hud-ctrl');
+const shuffleHudBtnEl=document.getElementById('btn-shuffle-mood');
 let moodHideTimer=0;
 let lastMoodReveal=0;
 
@@ -3036,6 +3040,7 @@ function updateShuffleButtons(){
 function toggleShuffleMoods(){
   shuffleMoodsActive=!shuffleMoodsActive;
   updateShuffleButtons();
+  if(running)revealHudMood();
   if(shuffleMoodsActive){
     // Start with a random mood immediately, then keep cycling
     shuffleMoodQueue=[];
@@ -3051,11 +3056,12 @@ function toggleShuffleMoods(){
 function setHudMoodVisible(show){
   if(!hudCtrlEl)return;
   hudCtrlEl.classList.toggle('auto-hidden',!show);
+  if(shuffleHudBtnEl)shuffleHudBtnEl.classList.toggle('auto-hidden',!show);
 }
 function scheduleHudMoodHide(){
   if(!running||!hudCtrlEl)return;
   clearTimeout(moodHideTimer);
-  moodHideTimer=setTimeout(()=>setHudMoodVisible(false),2800);
+  moodHideTimer=setTimeout(()=>setHudMoodVisible(false),1800);
 }
 function revealHudMood(){
   if(!running||!hudCtrlEl)return;
@@ -3094,7 +3100,7 @@ document.getElementById('btn-play').addEventListener('click',()=>{
   uiEl.style.display='none';hudEl.style.display='block';
   audioCtx=new(window.AudioContext||window.webkitAudioContext)();
   analyserHi=audioCtx.createAnalyser();analyserLo=audioCtx.createAnalyser();
-  analyserHi.fftSize=2048;analyserHi.smoothingTimeConstant=0.68;analyserLo.fftSize=256;analyserLo.smoothingTimeConstant=0.34;
+  analyserHi.fftSize=2048;analyserHi.smoothingTimeConstant=0.58;analyserLo.fftSize=256;analyserLo.smoothingTimeConstant=0.26;
   freqHi=new Uint8Array(analyserHi.frequencyBinCount);freqLo=new Uint8Array(analyserLo.frequencyBinCount);timeD=new Float32Array(analyserHi.fftSize);
   resetAudioReactiveState();
   // Keep screen on during long performances (projector mode)
