@@ -256,6 +256,7 @@ body.preview-mode #beat-flash{display:none!important;}
       <button class="btn witch" data-mode="witch">WITCH</button>
       <button class="btn" data-mode="digital" style="border-color:rgba(0,255,180,0.5);color:rgba(0,255,180,0.9);">DIGITAL</button>
       <button class="btn" id="btn-shuffle-mood-start" title="Shuffle moods" aria-label="Auto-shuffle moods av" aria-pressed="false" style="border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.45);font-size:14px;padding:6px 12px;">&#x21C4;</button>
+      <button class="btn" id="btn-fullscreen-start" title="Enter fullscreen" aria-label="Enter fullscreen" aria-pressed="false" style="border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.45);font-size:10px;padding:6px 12px;">FULL</button>
     </div>
     <button class="btn-play" id="btn-play">&#127897; ENTER THE FOREST</button>
     <div id="bpm-hint"></div>
@@ -282,6 +283,7 @@ body.preview-mode #beat-flash{display:none!important;}
       <button class="hbtn" data-mode="witch" style="border-color:rgba(140,60,200,0.5);color:rgba(200,140,255,0.8);">WITCH</button>
       <button class="hbtn" data-mode="digital" style="border-color:rgba(0,255,180,0.4);color:rgba(0,255,180,0.8);">DIGITAL</button>
     </div>
+    <button class="hbtn" id="btn-fullscreen" title="Enter fullscreen" aria-label="Enter fullscreen" aria-pressed="false">FULL</button>
     <button class="hbtn" id="btn-stop">STOP</button>
     <div id="mic-badge">&#127897; LIVE MIC</div>
   </div>
@@ -877,7 +879,7 @@ function updateBeat(){
 
 function onBeat(){
   masterBeat=1.0;beatFlashV=1.0;
-  spawnBeatParticles();tickNarrative();
+  spawnBeatParticles();tickNarrative();maybeShuffleMoodOnBeat();
   tickCreatureOnBeat();spawnBeatRipple();tickShamanOnBeat();
   tickAudioNarrativeEvents();
   trees.forEach(t=>{t.swayV+=(Math.random()-0.5)*0.3*0.8;});
@@ -1073,12 +1075,7 @@ function tickNarrative(){
   else if(bip<BFIN+BHOLD+BFOUT){nTarget=1-(bip-BFIN-BHOLD)/BFOUT;inPhrase=true;phraseBeat=bip;}
   else{nTarget=0;inPhrase=false;phraseBeat=bip;}
   if(bip%8===0){const dl=dataLines[Math.floor(Math.random()*dataLines.length)];dl.target=0.08+Math.random()*0.06;dl.y=0.15+Math.random()*0.65;}
-
-  // Update HUD chapter name
-  const ch=NARRATIVE[pi%NARRATIVE.length].ch;
-  const chap=CHAPTERS[ch];
-  document.getElementById('s-chapter').textContent=chap.name;
-  document.getElementById('s-creature').textContent=chap.creature.toUpperCase();
+  updateNarrativeHud();
 }
 
 // ── WITCH PRINCESS NARRATIVE — Forest Meeting EP ──
@@ -1286,6 +1283,11 @@ function currentPhrase(){
 function currentChapter(){
   if(currentMode==='digital'){const p=currentPhrase();return p?DIGITAL_CHAPTERS[p.ch]:DIGITAL_CHAPTERS[0];}
   const p=currentPhrase();return p?CHAPTERS[p.ch]:CHAPTERS[0];
+}
+function updateNarrativeHud(){
+  const chap=currentChapter();
+  document.getElementById('s-chapter').textContent=chap&&chap.name?chap.name:'';
+  document.getElementById('s-creature').textContent=chap&&chap.creature?chap.creature.toUpperCase():'';
 }
 function phraseType(p){
   if(!p)return'forest';
@@ -2980,13 +2982,15 @@ function idleLoop(){
 const uiEl=document.getElementById('ui'),hudEl=document.getElementById('hud');
 const hudCtrlEl=document.getElementById('hud-ctrl');
 const shuffleHudBtnEl=document.getElementById('btn-shuffle-mood');
+const fullscreenHudBtnEl=document.getElementById('btn-fullscreen');
+const fullscreenStartBtnEl=document.getElementById('btn-fullscreen-start');
+const fullscreenSupported=!!(document.fullscreenEnabled||document.webkitFullscreenEnabled||document.msFullscreenEnabled||document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen||document.documentElement.msRequestFullscreen);
 let moodHideTimer=0;
 let lastMoodReveal=0;
 
 // ── MOOD SYSTEM ──────────────────────────────────────────────
 const MOOD_LIST=['pride','magical','forbidden','bergen','witch','digital'];
 let shuffleMoodsActive=false;
-let shuffleMoodTimer=null;
 let shuffleMoodQueue=[];
 
 function applyMode(mode){
@@ -3002,6 +3006,7 @@ function applyMode(mode){
     if(el)el.style.display=m===mode?'block':'none';
   });
   randomizeNarrativeStartOnLoad();
+  updateNarrativeHud();
   const hint=document.getElementById('bpm-hint');
   if(hint)hint.textContent=mode==='witch'?'85–100 BPM · FOREST MEETING EP':'';
   renderMountains();
@@ -3015,13 +3020,9 @@ function getNextShuffleMood(){
   return shuffleMoodQueue.shift();
 }
 
-function scheduleNextShuffleMood(){
-  if(!shuffleMoodsActive)return;
-  shuffleMoodTimer=setTimeout(()=>{
-    if(!shuffleMoodsActive||!running)return;
-    applyMode(getNextShuffleMood());
-    scheduleNextShuffleMood();
-  },42000); // ~42 s ≈ 1 musical phrase at 85–100 BPM
+function maybeShuffleMoodOnBeat(){
+  if(!shuffleMoodsActive||!running||phraseBeat!==0)return;
+  applyMode(getNextShuffleMood());
 }
 
 function updateShuffleButtons(){
@@ -3033,7 +3034,40 @@ function updateShuffleButtons(){
     btn.style.color=shuffleMoodsActive?'rgba(120,255,215,0.95)':'rgba(255,255,255,0.38)';
     btn.style.borderColor=shuffleMoodsActive?'rgba(120,255,215,0.55)':'rgba(255,255,255,0.2)';
     btn.style.textShadow=shuffleMoodsActive?'0 0 10px rgba(120,255,215,0.4)':'';
-    btn.title=shuffleMoodsActive?'Shuffle ON — click to disable':'Auto-shuffle moods';
+    btn.title=shuffleMoodsActive?'Shuffle ON — phrase-locked to the beat':'Auto-shuffle moods';
+  });
+}
+
+function getFullscreenElement(){
+  return document.fullscreenElement||document.webkitFullscreenElement||document.msFullscreenElement||null;
+}
+function updateFullscreenButtons(){
+  [fullscreenHudBtnEl,fullscreenStartBtnEl].forEach(btn=>{
+    if(!btn)return;
+    if(!fullscreenSupported){btn.style.display='none';return;}
+    btn.style.display='';
+    const active=!!getFullscreenElement();
+    btn.classList.toggle('active',active);
+    btn.setAttribute('aria-pressed',String(active));
+    btn.setAttribute('aria-label',active?'Exit fullscreen':'Enter fullscreen');
+    btn.title=active?'Exit fullscreen':'Enter fullscreen';
+  });
+}
+function requestPageFullscreen(){
+  const root=document.documentElement;
+  const req=root.requestFullscreen||root.webkitRequestFullscreen||root.msRequestFullscreen;
+  return req?req.call(root):Promise.reject(new Error('fullscreen-not-supported'));
+}
+function exitPageFullscreen(){
+  const exit=document.exitFullscreen||document.webkitExitFullscreen||document.msExitFullscreen;
+  return exit?exit.call(document):Promise.resolve();
+}
+function toggleFullscreen(){
+  if(!fullscreenSupported)return;
+  const action=getFullscreenElement()?exitPageFullscreen:requestPageFullscreen;
+  Promise.resolve(action()).catch(()=>{}).finally(()=>{
+    updateFullscreenButtons();
+    if(running)revealHudMood();
   });
 }
 
@@ -3042,13 +3076,7 @@ function toggleShuffleMoods(){
   updateShuffleButtons();
   if(running)revealHudMood();
   if(shuffleMoodsActive){
-    // Start with a random mood immediately, then keep cycling
     shuffleMoodQueue=[];
-    applyMode(getNextShuffleMood());
-    if(running)scheduleNextShuffleMood();
-  }else{
-    clearTimeout(shuffleMoodTimer);
-    shuffleMoodTimer=null;
   }
 }
 // ─────────────────────────────────────────────────────────────
@@ -3075,21 +3103,30 @@ function revealHudMood(){
 document.addEventListener('mousemove',revealHudMood);
 document.addEventListener('touchstart',revealHudMood,{passive:true});
 document.addEventListener('keydown',revealHudMood);
+['fullscreenchange','webkitfullscreenchange','msfullscreenchange'].forEach(evt=>{
+  document.addEventListener(evt,()=>{
+    updateFullscreenButtons();
+    if(running){
+      setHudMoodVisible(true);
+      scheduleHudMoodHide();
+    }
+  });
+});
 
 document.querySelectorAll('[data-mode]').forEach(b=>{b.addEventListener('click',()=>{
   applyMode(b.dataset.mode);
-  // If shuffle was active, pause it when user manually picks a mode
   if(shuffleMoodsActive){
-    clearTimeout(shuffleMoodTimer);
-    shuffleMoodTimer=null;
     shuffleMoodQueue=[];
-    if(running)scheduleNextShuffleMood(); // resume from new mode
   }
 });});
 
 [document.getElementById('btn-shuffle-mood'),document.getElementById('btn-shuffle-mood-start')].forEach(btn=>{
   if(btn)btn.addEventListener('click',toggleShuffleMoods);
 });;
+[fullscreenHudBtnEl,fullscreenStartBtnEl].forEach(btn=>{
+  if(btn)btn.addEventListener('click',toggleFullscreen);
+});
+updateFullscreenButtons();
 
 if(PREVIEW){
   uiEl.style.display='none';
@@ -3106,7 +3143,7 @@ document.getElementById('btn-play').addEventListener('click',()=>{
   // Keep screen on during long performances (projector mode)
   if(PROJECTOR&&'wakeLock' in navigator){navigator.wakeLock.request('screen').catch(()=>{});}
   navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false})
-    .then(stream=>{micStream=stream;const src=audioCtx.createMediaStreamSource(stream);analysisPreamp=audioCtx.createGain();analysisPreamp.gain.value=INPUT_PREAMP;analysisCompressor=audioCtx.createDynamicsCompressor();analysisCompressor.threshold.value=-32;analysisCompressor.knee.value=24;analysisCompressor.ratio.value=12;analysisCompressor.attack.value=0.003;analysisCompressor.release.value=0.18;src.connect(analysisPreamp);analysisPreamp.connect(analysisCompressor);analysisCompressor.connect(analyserHi);analysisCompressor.connect(analyserLo);document.getElementById('mic-badge').style.display='block';running=true;sessionStartTime=performance.now();creatureBeatClock=0;convergenceActive=false;convergenceBeat=0;nextConvergenceIdx=0;setHudMoodVisible(true);scheduleHudMoodHide();randomizeNarrativeStartOnLoad();CS.forEach((c)=>{c.alpha=0;c.targetAlpha=0;c.visible=false;c.visTimer=120+Math.floor(Math.random()*320);});const _playStartIdx=Math.floor(Math.random()*CS.length);const _playPos=randomCreaturePos(_playStartIdx);CS[_playStartIdx].x=_playPos.x;CS[_playStartIdx].y=_playPos.y;CS[_playStartIdx].visible=true;CS[_playStartIdx].targetAlpha=0.22;CS[_playStartIdx].stayTimer=20+Math.floor(Math.random()*20);activeCreature=_playStartIdx;requestAnimationFrame(loop);if(shuffleMoodsActive){shuffleMoodQueue=[];scheduleNextShuffleMood();}})
+    .then(stream=>{micStream=stream;const src=audioCtx.createMediaStreamSource(stream);analysisPreamp=audioCtx.createGain();analysisPreamp.gain.value=INPUT_PREAMP;analysisCompressor=audioCtx.createDynamicsCompressor();analysisCompressor.threshold.value=-32;analysisCompressor.knee.value=24;analysisCompressor.ratio.value=12;analysisCompressor.attack.value=0.003;analysisCompressor.release.value=0.18;src.connect(analysisPreamp);analysisPreamp.connect(analysisCompressor);analysisCompressor.connect(analyserHi);analysisCompressor.connect(analyserLo);document.getElementById('mic-badge').style.display='block';running=true;sessionStartTime=performance.now();creatureBeatClock=0;convergenceActive=false;convergenceBeat=0;nextConvergenceIdx=0;setHudMoodVisible(true);scheduleHudMoodHide();randomizeNarrativeStartOnLoad();updateNarrativeHud();CS.forEach((c)=>{c.alpha=0;c.targetAlpha=0;c.visible=false;c.visTimer=120+Math.floor(Math.random()*320);});const _playStartIdx=Math.floor(Math.random()*CS.length);const _playPos=randomCreaturePos(_playStartIdx);CS[_playStartIdx].x=_playPos.x;CS[_playStartIdx].y=_playPos.y;CS[_playStartIdx].visible=true;CS[_playStartIdx].targetAlpha=0.22;CS[_playStartIdx].stayTimer=20+Math.floor(Math.random()*20);activeCreature=_playStartIdx;requestAnimationFrame(loop);if(shuffleMoodsActive){shuffleMoodQueue=[];}})
     .catch(()=>{alert('Microphone access needed.');uiEl.style.display='flex';hudEl.style.display='none';});
 });
 
@@ -3114,11 +3151,11 @@ document.getElementById('btn-stop').addEventListener('click',()=>{
   running=false;if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null;}if(audioCtx){audioCtx.close();audioCtx=null;}
   analyserHi=null;analyserLo=null;energy=0;bassLevel=0;masterBeat=0;smoothBpmFactor=0;smoothEnergy=0;beatCount=0;parts=[];ripples=[];drumRings=[];
   analysisPreamp=null;analysisCompressor=null;resetAudioReactiveState();
-  clearTimeout(moodHideTimer);clearTimeout(shuffleMoodTimer);shuffleMoodTimer=null;setHudMoodVisible(true);
+  clearTimeout(moodHideTimer);setHudMoodVisible(true);
   document.getElementById('mic-badge').style.display='none';uiEl.style.display='flex';hudEl.style.display='none';beatFlashEl.style.background='transparent';
   requestAnimationFrame(idleLoop);
 });
-document.querySelectorAll('#hud-mood .hbtn[data-mode]').forEach(b=>{b.addEventListener('click',()=>{applyMode(b.dataset.mode);if(shuffleMoodsActive){clearTimeout(shuffleMoodTimer);shuffleMoodTimer=null;shuffleMoodQueue=[];scheduleNextShuffleMood();}});});
+document.querySelectorAll('#hud-mood .hbtn[data-mode]').forEach(b=>{b.addEventListener('click',()=>{applyMode(b.dataset.mode);if(shuffleMoodsActive){shuffleMoodQueue=[];}});});
 
 // ============================================================
 //  DIGITAL MODE — algorithmic folklore, neural landscape
