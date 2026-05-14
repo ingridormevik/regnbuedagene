@@ -261,9 +261,10 @@ body.preview-mode #beat-flash{display:none!important;}
 
 <div id="hud">
   <div id="hud-stats">
-    BPM <b id="s-bpm">—</b><br>
-    BASS <b id="s-bass">—</b><br>
-    ENERGY <b id="s-energy">—</b>
+    LOW <b id="s-low">—</b><br>
+    MID <b id="s-mid">—</b><br>
+    HIGH <b id="s-high">—</b><br>
+    PULSE <b id="s-pulse">—</b>
   </div>
   <div id="chapter-name">
     <span id="s-chapter"></span><br>
@@ -540,12 +541,12 @@ let BEAT_COOL_LIVE=0.38;
 let BEAT_THRESH_LIVE=130;
 
 function getBeatCool(){
-  if(currentMode==='witch') return 0.24; // tuned between 85 and 100 BPM
-  return 0.28;
+  if(currentMode==='witch') return PROJECTOR?0.18:0.22;
+  return PROJECTOR?0.18:0.24;
 }
 function getBeatThresh(){
-  if(currentMode==='witch') return 80; // slightly more sensitive for organic tribal drums
-  return 88;
+  if(currentMode==='witch') return PROJECTOR?0.42:0.46;
+  return PROJECTOR?0.46:0.52;
 }
 
 // ============================================================
@@ -554,11 +555,66 @@ function getBeatThresh(){
 let masterBeat=PREVIEW?0.8:0,smoothBpmFactor=PREVIEW?0.32:0,smoothEnergy=PREVIEW?0.6:0,energy=0,bassLevel=0;
 let beatCount=0,bpmEst=50,lastBeatTime=0,globalAngle=0,beatFlashV=0;
 const beatFlashEl=document.getElementById('beat-flash');
+const hudLowEl=document.getElementById('s-low');
+const hudMidEl=document.getElementById('s-mid');
+const hudHighEl=document.getElementById('s-high');
+const hudPulseEl=document.getElementById('s-pulse');
 
-let audioCtx=null,analyserHi=null,analyserLo=null,freqHi=null,freqLo=null,timeD=null,micStream=null;
+let audioCtx=null,analyserHi=null,analyserLo=null,freqHi=null,freqLo=null,timeD=null,micStream=null,analysisPreamp=null,analysisCompressor=null;
 const BEAT_COOL=0.28,BEAT_THRESH=88;
+const INPUT_PREAMP=PROJECTOR?2.8:2.25;
+const BEAT_RISE_THRESHOLD=PROJECTOR?0.045:0.055;
 // Per-band smooth energy — computed every frame from analyserHi, never touches beat detection
 let sBass=0,sMid=0,sHi=0,sPresence=0;
+let bandEnergyNorm=0,lastBeatSignal=0;
+
+const BEAT_ADAPTIVE={
+  bass:{floor:0.01,peak:0.16},
+  energy:{floor:0.01,peak:0.14},
+};
+const SPECTRUM_ADAPTIVE={
+  bass:{floor:0.01,peak:0.18},
+  mid:{floor:0.01,peak:0.14},
+  presence:{floor:0.008,peak:0.11},
+  hi:{floor:0.006,peak:0.09},
+};
+function clamp01(v){return Math.max(0,Math.min(1,v));}
+function normalizeAdaptiveBand(raw,state,minSpan){
+  const floorLerp=raw<state.floor?0.12:0.01;
+  const peakLerp=raw>state.peak?0.24:0.02;
+  state.floor+=(raw-state.floor)*floorLerp;
+  state.peak+=(raw-state.peak)*peakLerp;
+  if(state.peak<state.floor+minSpan)state.peak=state.floor+minSpan;
+  return clamp01((raw-state.floor)/(state.peak-state.floor));
+}
+function formatHudMeter(v){
+  const t=clamp01(v),pct=Math.round(t*100),filled=Math.max(0,Math.min(8,Math.round(t*8)));
+  return `${String(pct).padStart(3,' ')} ${'|'.repeat(filled)}${'.'.repeat(8-filled)}`;
+}
+function updateHudMeters(){
+  if(!hudLowEl||!hudMidEl||!hudHighEl||!hudPulseEl)return;
+  if(bandEnergyNorm<0.02&&smoothEnergy<0.02&&masterBeat<0.02){
+    hudLowEl.textContent='—';
+    hudMidEl.textContent='—';
+    hudHighEl.textContent='—';
+    hudPulseEl.textContent='—';
+    return;
+  }
+  hudLowEl.textContent=formatHudMeter(sBass);
+  hudMidEl.textContent=formatHudMeter(sMid);
+  hudHighEl.textContent=formatHudMeter(Math.max(sPresence,sHi));
+  hudPulseEl.textContent=formatHudMeter(Math.max(masterBeat,smoothEnergy));
+}
+function resetAudioReactiveState(){
+  Object.assign(BEAT_ADAPTIVE.bass,{floor:0.01,peak:0.16});
+  Object.assign(BEAT_ADAPTIVE.energy,{floor:0.01,peak:0.14});
+  Object.assign(SPECTRUM_ADAPTIVE.bass,{floor:0.01,peak:0.18});
+  Object.assign(SPECTRUM_ADAPTIVE.mid,{floor:0.01,peak:0.14});
+  Object.assign(SPECTRUM_ADAPTIVE.presence,{floor:0.008,peak:0.11});
+  Object.assign(SPECTRUM_ADAPTIVE.hi,{floor:0.006,peak:0.09});
+  sBass=0;sMid=0;sPresence=0;sHi=0;bandEnergyNorm=0;lastBeatSignal=0;
+  updateHudMeters();
+}
 
 // ============================================================
 //  AUDIO DIRECTOR (music-type + hysteresis + overload guard)
@@ -718,13 +774,26 @@ function tickAudioNarrativeEvents(){
 function detectBeat(){
   if(!analyserLo)return;
   analyserLo.getByteFrequencyData(freqLo);
-  let bass=0;for(let i=0;i<6;i++)bass+=freqLo[i];bass/=6;
+  let bass=0,bassWeight=0;
+  for(let i=1;i<Math.min(11,freqLo.length);i++){
+    const weight=1.18-Math.min(0.64,i*0.06);
+    bass+=freqLo[i]*weight;
+    bassWeight+=weight;
+  }
+  bass/=Math.max(1,bassWeight);
   bassLevel=bass;
-  let tot=0;for(const v of freqLo)tot+=v;energy=tot/freqLo.length;
+  let tot=0;const energyBins=Math.min(freqLo.length,48);
+  for(let i=0;i<energyBins;i++)tot+=freqLo[i];
+  energy=tot/Math.max(1,energyBins);
   if(!audioCtx)return;
   const now=audioCtx.currentTime;
+  const bassNorm=normalizeAdaptiveBand(clamp01(bass/255),BEAT_ADAPTIVE.bass,0.10);
+  bandEnergyNorm=normalizeAdaptiveBand(clamp01(energy/255),BEAT_ADAPTIVE.energy,0.10);
+  const beatSignal=bassNorm*0.78+bandEnergyNorm*0.22;
+  const beatRise=beatSignal-lastBeatSignal;
+  lastBeatSignal=beatSignal;
   const cool=getBeatCool(), thresh=getBeatThresh();
-  if(bass>thresh&&(now-lastBeatTime)>cool){
+  if(beatSignal>thresh&&beatRise>BEAT_RISE_THRESHOLD&&(now-lastBeatTime)>cool){
     onBeat();
     const dt=now-lastBeatTime;
     if(dt>0.3&&dt<2)bpmEst=Math.round(0.85*bpmEst+0.15*(60/dt));
@@ -735,20 +804,13 @@ function detectBeat(){
   if(since>3.0){
     nTarget=0;nAlpha*=0.85;inPhrase=false;
     masterBeat*=0.85;smoothBpmFactor*=0.90;smoothEnergy*=0.90;
-    document.getElementById('s-bpm').textContent='—';
-    document.getElementById('s-bass').textContent='—';
-    document.getElementById('s-energy').textContent='—';
-  } else {
-    document.getElementById('s-bass').textContent=Math.round(bass);
-    document.getElementById('s-energy').textContent=Math.round(energy);
-    document.getElementById('s-bpm').textContent=bpmEst;
   }
 }
 
 function updateBeat(){
   const nowMs=performance.now();
-  const t=(energy||0)/255;
-  smoothEnergy+=(t-smoothEnergy)*(t>smoothEnergy?0.30:0.07);
+  const t=bandEnergyNorm;
+  smoothEnergy+=(t-smoothEnergy)*(t>smoothEnergy?0.42:0.14);
   smoothEnergy=Math.max(0,Math.min(1,smoothEnergy));
   bpmNorm=Math.max(0,Math.min(1,(bpmEst-70)/70));
   const bpmT=smoothEnergy>0.02?Math.min(2,bpmEst/120)*smoothEnergy:0;
@@ -762,28 +824,32 @@ function updateBeat(){
     analyserHi.getByteFrequencyData(freqHi);
     const bins=freqHi.length;
     // Sub-bass + kick: bins 1-8 (~20-350Hz) — ground, mountains, shockwave
-    let rB=0;for(let i=1;i<=8;i++)rB+=freqHi[i];rB/=8;rB=Math.min(1,rB/200);
+    let rB=0;for(let i=1;i<=8&&i<bins;i++)rB+=freqHi[i];rB/=8;
     // Mid 250Hz-2kHz: bins 6-45 — forest sway, fog, roots
-    let rM=0;for(let i=6;i<=45;i++)rM+=freqHi[i];rM/=40;rM=Math.min(1,rM/140);
+    let rM=0;for(let i=6;i<=45&&i<bins;i++)rM+=freqHi[i];rM/=40;
     // Upper mid 2-6kHz: bins 46-136 — wisps, shrooms, creatures
-    let rP=0;for(let i=46;i<=136;i++)rP+=freqHi[i];rP/=91;rP=Math.min(1,rP/110);
+    let rP=0;for(let i=46;i<=136&&i<bins;i++)rP+=freqHi[i];rP/=91;
     // Air / hi-freq 6-16kHz: bins 137-362 — aurora, rain, particles
-    let rH=0;for(let i=137;i<=Math.min(362,bins-1);i++)rH+=freqHi[i];rH/=226;rH=Math.min(1,rH/80);
-    // Silence gate — all bands hard zero below noise floor
-    const gate=energy>8?1:0;
-    sBass+=(rB*gate-sBass)*(rB*gate>sBass?0.80:0.16);
-    sMid+=(rM*gate-sMid)*(rM*gate>sMid?0.60:0.12);
-    sPresence+=(rP*gate-sPresence)*(rP*gate>sPresence?0.70:0.14);
-    sHi+=(rH*gate-sHi)*(rH*gate>sHi?0.72:0.10);
+    let rH=0;for(let i=137;i<=Math.min(362,bins-1);i++)rH+=freqHi[i];rH/=226;
+    const nB=normalizeAdaptiveBand(clamp01(rB/255),SPECTRUM_ADAPTIVE.bass,0.12);
+    const nM=normalizeAdaptiveBand(clamp01(rM/255),SPECTRUM_ADAPTIVE.mid,0.10);
+    const nP=normalizeAdaptiveBand(clamp01(rP/255),SPECTRUM_ADAPTIVE.presence,0.09);
+    const nH=normalizeAdaptiveBand(clamp01(rH/255),SPECTRUM_ADAPTIVE.hi,0.08);
+    // Soft gate — low inputs still respond instead of snapping off.
+    const gate=clamp01((bandEnergyNorm-0.01)/0.08);
+    sBass+=(nB*gate-sBass)*(nB*gate>sBass?0.90:0.24);
+    sMid+=(nM*gate-sMid)*(nM*gate>sMid?0.76:0.18);
+    sPresence+=(nP*gate-sPresence)*(nP*gate>sPresence?0.82:0.20);
+    sHi+=(nH*gate-sHi)*(nH*gate>sHi?0.86:0.18);
     sBass=Math.max(0,sBass);sMid=Math.max(0,sMid);sPresence=Math.max(0,sPresence);sHi=Math.max(0,sHi);
 
     // Derived audio descriptors for music-type director.
-    const eNorm=Math.max(0,Math.min(1,(energy||0)/255));
+    const eNorm=bandEnergyNorm;
     const flux=Math.abs(sBass-_prevSBass)+Math.abs(sMid-_prevSMid)+Math.abs(sPresence-_prevSPres)+Math.abs(sHi-_prevSHi);
-    spectralFlux+=(Math.max(0,Math.min(1,flux*0.6))-spectralFlux)*0.16;
-    const onsetRaw=(eNorm-_prevEnergyNorm>0.05 && sPresence>0.07)?1:0;
+    spectralFlux+=(Math.max(0,Math.min(1,flux*0.85))-spectralFlux)*0.20;
+    const onsetRaw=(eNorm-_prevEnergyNorm>0.03 && sPresence>0.05)?1:0;
     onsetDensity+=(onsetRaw-onsetDensity)*0.28;
-    const transientRaw=masterBeat>0.65?1:0;
+    const transientRaw=masterBeat>0.55?1:0;
     transientRate+=(transientRaw-transientRate)*0.32;
     _rangeBuf.push(eNorm);if(_rangeBuf.length>_RANGE_BUF_MAX)_rangeBuf.shift();
     let mn=1,mx=0;for(let i=0;i<_rangeBuf.length;i++){const v=_rangeBuf[i];if(v<mn)mn=v;if(v>mx)mx=v;}
@@ -803,6 +869,7 @@ function updateBeat(){
   // Decay event boosts
   riverArcBoost*=0.92;waterRippleBoost*=0.90;fjordMistBoost*=0.93;sacredSigilBoost*=0.90;
   for(const k in eventPulse)eventPulse[k]*=0.90;
+  updateHudMeters();
 }
 
 function onBeat(){
@@ -3027,18 +3094,20 @@ document.getElementById('btn-play').addEventListener('click',()=>{
   uiEl.style.display='none';hudEl.style.display='block';
   audioCtx=new(window.AudioContext||window.webkitAudioContext)();
   analyserHi=audioCtx.createAnalyser();analyserLo=audioCtx.createAnalyser();
-  analyserHi.fftSize=2048;analyserHi.smoothingTimeConstant=0.82;analyserLo.fftSize=256;analyserLo.smoothingTimeConstant=0.55;
+  analyserHi.fftSize=2048;analyserHi.smoothingTimeConstant=0.68;analyserLo.fftSize=256;analyserLo.smoothingTimeConstant=0.34;
   freqHi=new Uint8Array(analyserHi.frequencyBinCount);freqLo=new Uint8Array(analyserLo.frequencyBinCount);timeD=new Float32Array(analyserHi.fftSize);
+  resetAudioReactiveState();
   // Keep screen on during long performances (projector mode)
   if(PROJECTOR&&'wakeLock' in navigator){navigator.wakeLock.request('screen').catch(()=>{});}
   navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false},video:false})
-    .then(stream=>{micStream=stream;const src=audioCtx.createMediaStreamSource(stream);src.connect(analyserHi);src.connect(analyserLo);document.getElementById('mic-badge').style.display='block';running=true;sessionStartTime=performance.now();creatureBeatClock=0;convergenceActive=false;convergenceBeat=0;nextConvergenceIdx=0;setHudMoodVisible(true);scheduleHudMoodHide();randomizeNarrativeStartOnLoad();CS.forEach((c)=>{c.alpha=0;c.targetAlpha=0;c.visible=false;c.visTimer=120+Math.floor(Math.random()*320);});const _playStartIdx=Math.floor(Math.random()*CS.length);const _playPos=randomCreaturePos(_playStartIdx);CS[_playStartIdx].x=_playPos.x;CS[_playStartIdx].y=_playPos.y;CS[_playStartIdx].visible=true;CS[_playStartIdx].targetAlpha=0.22;CS[_playStartIdx].stayTimer=20+Math.floor(Math.random()*20);activeCreature=_playStartIdx;requestAnimationFrame(loop);if(shuffleMoodsActive){shuffleMoodQueue=[];scheduleNextShuffleMood();}})
+    .then(stream=>{micStream=stream;const src=audioCtx.createMediaStreamSource(stream);analysisPreamp=audioCtx.createGain();analysisPreamp.gain.value=INPUT_PREAMP;analysisCompressor=audioCtx.createDynamicsCompressor();analysisCompressor.threshold.value=-32;analysisCompressor.knee.value=24;analysisCompressor.ratio.value=12;analysisCompressor.attack.value=0.003;analysisCompressor.release.value=0.18;src.connect(analysisPreamp);analysisPreamp.connect(analysisCompressor);analysisCompressor.connect(analyserHi);analysisCompressor.connect(analyserLo);document.getElementById('mic-badge').style.display='block';running=true;sessionStartTime=performance.now();creatureBeatClock=0;convergenceActive=false;convergenceBeat=0;nextConvergenceIdx=0;setHudMoodVisible(true);scheduleHudMoodHide();randomizeNarrativeStartOnLoad();CS.forEach((c)=>{c.alpha=0;c.targetAlpha=0;c.visible=false;c.visTimer=120+Math.floor(Math.random()*320);});const _playStartIdx=Math.floor(Math.random()*CS.length);const _playPos=randomCreaturePos(_playStartIdx);CS[_playStartIdx].x=_playPos.x;CS[_playStartIdx].y=_playPos.y;CS[_playStartIdx].visible=true;CS[_playStartIdx].targetAlpha=0.22;CS[_playStartIdx].stayTimer=20+Math.floor(Math.random()*20);activeCreature=_playStartIdx;requestAnimationFrame(loop);if(shuffleMoodsActive){shuffleMoodQueue=[];scheduleNextShuffleMood();}})
     .catch(()=>{alert('Microphone access needed.');uiEl.style.display='flex';hudEl.style.display='none';});
 });
 
 document.getElementById('btn-stop').addEventListener('click',()=>{
   running=false;if(micStream){micStream.getTracks().forEach(t=>t.stop());micStream=null;}if(audioCtx){audioCtx.close();audioCtx=null;}
   analyserHi=null;analyserLo=null;energy=0;bassLevel=0;masterBeat=0;smoothBpmFactor=0;smoothEnergy=0;beatCount=0;parts=[];ripples=[];drumRings=[];
+  analysisPreamp=null;analysisCompressor=null;resetAudioReactiveState();
   clearTimeout(moodHideTimer);clearTimeout(shuffleMoodTimer);shuffleMoodTimer=null;setHudMoodVisible(true);
   document.getElementById('mic-badge').style.display='none';uiEl.style.display='flex';hudEl.style.display='none';beatFlashEl.style.background='transparent';
   requestAnimationFrame(idleLoop);
