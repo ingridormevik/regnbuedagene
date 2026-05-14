@@ -5156,6 +5156,8 @@ body.cdn-lab-ended #endscrn.show {
   }
 }
 
+/* Legacy CDN Learning Lab reset is kept inert; the release reset below is canonical. */
+@media not all {
 /* CDN Learning Lab hard reset: isolated app mode, portrait notice, playable landscape */
 body.lab-mode {
   width: 100vw;
@@ -5599,6 +5601,611 @@ body.lab-mode #cdn-mobile-back {
     width: auto !important;
   }
 }
+}
+
+/* CDN Learning Lab release reset: isolated shell, portrait notice, playable landscape. */
+body.lab-mode {
+  width: 100vw !important;
+  height: 100dvh !important;
+  height: 100svh !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+body.lab-mode #cdn-rotate-continue {
+  display: none !important;
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  html,
+  body.lab-mode {
+    width: 100vw !important;
+    height: 100dvh !important;
+    height: 100svh !important;
+    overflow: hidden !important;
+  }
+
+  body.lab-mode #rotate-screen-overlay {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483000 !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: max(18px, env(safe-area-inset-top)) 16px max(18px, env(safe-area-inset-bottom)) !important;
+    background: radial-gradient(circle at 50% 22%, rgba(58,184,216,.18), transparent 34%), rgba(0,6,10,.96) !important;
+  }
+
+  body.lab-mode #rotate-screen-overlay .rotate-screen-card {
+    width: min(360px, calc(100vw - 40px)) !important;
+    max-width: calc(100vw - 40px) !important;
+    min-width: 0 !important;
+    padding: 24px 18px !important;
+    display: grid !important;
+    gap: 12px !important;
+    overflow: visible !important;
+  }
+
+  body.lab-mode #rotate-screen-overlay h1 {
+    font-size: clamp(1.35rem, 6.8vw, 2rem) !important;
+    line-height: 1.05 !important;
+    letter-spacing: 0 !important;
+    overflow-wrap: break-word !important;
+  }
+
+  body.lab-mode #rotate-screen-overlay p {
+    max-width: 100% !important;
+    font-size: .96rem !important;
+    line-height: 1.4 !important;
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
+  }
+
+  body.lab-mode #rotate-screen-overlay #cdn-mobile-back,
+  body.lab-mode #rotate-screen-overlay #cdn-mobile-reset {
+    display: block !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  body.lab-mode #gc,
+  body.lab-mode #hud,
+  body.lab-mode #ldg,
+  body.lab-mode #btm,
+  body.lab-mode #story-card,
+  body.lab-mode #touch-ui,
+  body.lab-mode #cdn-landscape-reset,
+  body.lab-mode #rotate-device-overlay,
+  body.lab-mode #lp,
+  body.lab-mode #rp {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px), (max-width: 940px) and (orientation: landscape) {
+  body.lab-mode {
+    --lab-hud-h: 42px;
+    --lab-objective-h: 44px;
+    --lab-controls-h: 82px;
+    width: 100vw !important;
+    height: 100dvh !important;
+    height: 100svh !important;
+    overflow: hidden !important;
+    position: fixed !important;
+    inset: 0 !important;
+  }
+
+  body.lab-mode #rotate-screen-overlay,
+  body.lab-mode #rotate-device-overlay,
+  body.lab-mode #ldg {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body.lab-mode #hud {
+    display: block !important;
+    visibility: visible !important;
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 40 !important;
+    pointer-events: none !important;
+  }
+
+  body.lab-mode #tb {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    height: var(--lab-hud-h) !important;
+    max-height: var(--lab-hud-h) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 5px max(8px, env(safe-area-inset-right)) 5px max(8px, env(safe-area-inset-left)) !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap !important;
+    pointer-events: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  body.lab-mode #tb .ts,
+  body.lab-mode #tb .ts-brand,
+  body.lab-mode #zone-lbl {
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+    min-height: 30px !important;
+    max-height: 32px !important;
+    padding: 5px 8px !important;
+    font-size: clamp(.65rem, 1.8vw, .82rem) !important;
+    line-height: 1 !important;
+  }
+
+  body.lab-mode #lang-toggle,
+  body.lab-mode #accessibility-menu,
+  body.lab-mode #clock,
+  body.lab-mode #btm,
+  body.lab-mode #lp,
+  body.lab-mode #rp {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body.lab-mode #story-card {
+    position: fixed !important;
+    left: max(8px, env(safe-area-inset-left)) !important;
+    right: max(8px, env(safe-area-inset-right)) !important;
+    top: var(--lab-hud-h) !important;
+    width: auto !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    height: var(--lab-objective-h) !important;
+    max-height: var(--lab-objective-h) !important;
+    padding: 6px 10px !important;
+    display: block !important;
+    visibility: visible !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    z-index: 45 !important;
+  }
+
+  body.lab-mode #story-toggle,
+  body.lab-mode #story-scroll > :not(#story-mission) {
+    display: none !important;
+  }
+
+  body.lab-mode #story-mission {
+    margin: 0 !important;
+    font-size: clamp(.75rem, 2vw, .95rem) !important;
+    line-height: 1.25 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  body.lab-mode #gc {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: calc(var(--lab-hud-h) + var(--lab-objective-h)) !important;
+    bottom: var(--lab-controls-h) !important;
+    width: 100vw !important;
+    height: calc(100dvh - var(--lab-hud-h) - var(--lab-objective-h) - var(--lab-controls-h)) !important;
+    min-height: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    z-index: 1 !important;
+  }
+
+  body.lab-mode #touch-ui {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    height: var(--lab-controls-h) !important;
+    min-height: var(--lab-controls-h) !important;
+    max-height: var(--lab-controls-h) !important;
+    display: grid !important;
+    grid-template-columns: minmax(88px, auto) repeat(5, minmax(72px, 1fr)) !important;
+    align-items: center !important;
+    gap: 7px !important;
+    padding: 6px max(8px, env(safe-area-inset-right)) max(6px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)) !important;
+    overflow: hidden !important;
+    pointer-events: auto !important;
+    z-index: 60 !important;
+  }
+
+  body.lab-mode #touch-left-stack,
+  body.lab-mode #touch-utility,
+  body.lab-mode #touch-actions {
+    display: contents !important;
+  }
+
+  body.lab-mode #touch-pad {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 82px !important;
+    height: 68px !important;
+    min-width: 82px !important;
+    min-height: 68px !important;
+    max-height: 68px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, 24px) !important;
+    grid-template-rows: repeat(3, 20px) !important;
+    gap: 2px !important;
+    place-content: center !important;
+    align-self: center !important;
+    justify-self: start !important;
+    pointer-events: auto !important;
+  }
+
+  body.lab-mode #touch-pad .touch-btn {
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 20px !important;
+    min-height: 20px !important;
+    max-height: 20px !important;
+    padding: 0 !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  body.lab-mode #touch-map { grid-column: 2 !important; }
+  body.lab-mode #touch-calm { grid-column: 3 !important; }
+  body.lab-mode #touch-interact { grid-column: 4 !important; }
+  body.lab-mode #touch-stop { grid-column: 5 !important; }
+  body.lab-mode #touch-helper { grid-column: 6 !important; }
+
+  body.lab-mode #touch-map,
+  body.lab-mode #touch-calm,
+  body.lab-mode #touch-interact,
+  body.lab-mode #touch-stop,
+  body.lab-mode #touch-helper {
+    grid-row: 1 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    height: 46px !important;
+    min-height: 44px !important;
+    max-height: 48px !important;
+    padding: 7px 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: clamp(.7rem, 1.8vw, .88rem) !important;
+    line-height: 1 !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+  }
+
+  body.lab-mode #cdn-landscape-reset {
+    display: none !important;
+  }
+}
+
+@media (max-width: 900px) and (orientation: portrait) {
+  body.lab-mode #rotate-screen-overlay h1,
+  body.lab-mode #rotate-screen-overlay p,
+  body.lab-mode #rotate-screen-overlay .rotate-small,
+  body.lab-mode #cdn-mobile-back,
+  body.lab-mode #cdn-mobile-reset {
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px), (max-width: 940px) and (orientation: landscape) {
+  body.cdn-lab-active.lab-mode.mobile-landscape #story-card {
+    left: max(8px, env(safe-area-inset-left)) !important;
+    right: max(8px, env(safe-area-inset-right)) !important;
+    top: var(--lab-hud-h) !important;
+    height: var(--lab-objective-h) !important;
+    max-height: var(--lab-objective-h) !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 6px 10px !important;
+    display: block !important;
+    visibility: visible !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #gc {
+    top: calc(var(--lab-hud-h) + var(--lab-objective-h)) !important;
+    bottom: var(--lab-controls-h) !important;
+    height: calc(100dvh - var(--lab-hud-h) - var(--lab-objective-h) - var(--lab-controls-h)) !important;
+    width: 100vw !important;
+    min-height: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-ui {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    grid-template-columns: minmax(88px, auto) repeat(5, minmax(72px, 1fr)) !important;
+    height: var(--lab-controls-h) !important;
+    min-height: var(--lab-controls-h) !important;
+    max-height: var(--lab-controls-h) !important;
+    display: grid !important;
+    align-items: center !important;
+    gap: 7px !important;
+    overflow: hidden !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-left-stack,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-utility,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-actions {
+    display: contents !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-pad {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 82px !important;
+    height: 68px !important;
+    min-width: 82px !important;
+    min-height: 68px !important;
+    max-height: 68px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, 24px) !important;
+    grid-template-rows: repeat(3, 20px) !important;
+    gap: 2px !important;
+    place-content: center !important;
+    align-self: center !important;
+    justify-self: start !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-pad .touch-btn {
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 20px !important;
+    min-height: 20px !important;
+    max-height: 20px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-pad .touch-btn.ghost {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-map { grid-column: 2 !important; }
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-calm { grid-column: 3 !important; }
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-interact { grid-column: 4 !important; }
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-stop { grid-column: 5 !important; }
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-helper { grid-column: 6 !important; }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-map,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-calm,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-interact,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-stop,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-helper {
+    grid-row: 1 !important;
+    height: 46px !important;
+    min-height: 44px !important;
+    max-height: 48px !important;
+    padding: 7px 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+  }
+}
+
+/* Final viewport lock for the actual Learning Lab chrome selectors. */
+@media (orientation: landscape) and (max-height: 520px), (max-width: 940px) and (orientation: landscape) {
+  html,
+  body.cdn-lab-active.lab-mode.mobile-landscape {
+    width: 100vw !important;
+    height: 100dvh !important;
+    height: 100svh !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape {
+    --lab-hud-h: 38px !important;
+    --lab-objective-h: 38px !important;
+    --lab-controls-h: 72px !important;
+    position: fixed !important;
+    inset: 0 !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #rotate-screen-overlay,
+  body.cdn-lab-active.lab-mode.mobile-landscape #rotate-device-overlay,
+  body.cdn-lab-active.lab-mode.mobile-landscape #ldg,
+  body.cdn-lab-active.lab-mode.mobile-landscape #btm,
+  body.cdn-lab-active.lab-mode.mobile-landscape #lp,
+  body.cdn-lab-active.lab-mode.mobile-landscape #rp,
+  body.cdn-lab-active.lab-mode.mobile-landscape #lang-toggle,
+  body.cdn-lab-active.lab-mode.mobile-landscape #accessibility-menu,
+  body.cdn-lab-active.lab-mode.mobile-landscape #cdn-landscape-reset {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #hud {
+    display: block !important;
+    visibility: visible !important;
+    pointer-events: none !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #tb {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: var(--lab-hud-h) !important;
+    max-height: var(--lab-hud-h) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 4px max(8px, env(safe-area-inset-right)) 4px max(8px, env(safe-area-inset-left)) !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #tb .ts,
+  body.cdn-lab-active.lab-mode.mobile-landscape #tb .ts-brand,
+  body.cdn-lab-active.lab-mode.mobile-landscape #tb .hud-pill,
+  body.cdn-lab-active.lab-mode.mobile-landscape #tb .stat-pill,
+  body.cdn-lab-active.lab-mode.mobile-landscape #zone-lbl {
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+    min-height: 28px !important;
+    max-height: 30px !important;
+    padding: 5px 8px !important;
+    font-size: clamp(.62rem, 1.5vw, .8rem) !important;
+    line-height: 1 !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #story-card {
+    position: fixed !important;
+    top: var(--lab-hud-h) !important;
+    left: max(8px, env(safe-area-inset-left)) !important;
+    right: max(8px, env(safe-area-inset-right)) !important;
+    height: var(--lab-objective-h) !important;
+    max-height: var(--lab-objective-h) !important;
+    min-height: 0 !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 5px 10px !important;
+    display: block !important;
+    visibility: visible !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    pointer-events: none !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #story-card #story-scroll,
+  body.cdn-lab-active.lab-mode.mobile-landscape #story-card #story-mission,
+  body.cdn-lab-active.lab-mode.mobile-landscape #story-card #story-summary {
+    max-height: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #story-card #story-mission,
+  body.cdn-lab-active.lab-mode.mobile-landscape #story-card #story-summary {
+    font-size: clamp(.7rem, 1.7vw, .9rem) !important;
+    line-height: 1.18 !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #gc {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: calc(var(--lab-hud-h) + var(--lab-objective-h)) !important;
+    bottom: var(--lab-controls-h) !important;
+    width: 100vw !important;
+    height: calc(100dvh - var(--lab-hud-h) - var(--lab-objective-h) - var(--lab-controls-h)) !important;
+    min-height: 0 !important;
+    max-height: calc(100dvh - var(--lab-hud-h) - var(--lab-objective-h) - var(--lab-controls-h)) !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-ui {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: var(--lab-controls-h) !important;
+    min-height: var(--lab-controls-h) !important;
+    max-height: var(--lab-controls-h) !important;
+    display: grid !important;
+    grid-template-columns: minmax(76px, 80px) repeat(5, minmax(58px, 1fr)) !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 5px max(8px, env(safe-area-inset-right)) calc(5px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)) !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-pad {
+    width: 76px !important;
+    height: 60px !important;
+    min-width: 76px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    grid-template-columns: repeat(3, 22px) !important;
+    grid-template-rows: repeat(3, 18px) !important;
+    gap: 2px !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-pad .touch-btn {
+    width: 22px !important;
+    min-width: 22px !important;
+    max-width: 22px !important;
+    height: 18px !important;
+    min-height: 18px !important;
+    max-height: 18px !important;
+    padding: 0 !important;
+    font-size: 11px !important;
+  }
+
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-map,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-calm,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-interact,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-stop,
+  body.cdn-lab-active.lab-mode.mobile-landscape #touch-helper {
+    min-width: 0 !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 42px !important;
+    padding: 6px 6px !important;
+    font-size: clamp(.64rem, 1.55vw, .82rem) !important;
+    line-height: 1.05 !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+}
 </style>
 </head>
 <body class="cdn-lab-active lab-mode">
@@ -5685,13 +6292,13 @@ body.lab-mode #cdn-mobile-back {
             <span id="lab-track-name" style="font-size:9px;letter-spacing:0.15em;color:rgba(58,184,216,0.55);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px;"></span>
           </div>
           <label class="access-volume-control" for="access-music-volume">
-            <span><span id="access-music-volume-label">Musikkvolum</span><output id="access-music-volume-value">70%</output></span>
-            <input id="access-music-volume" type="range" min="0" max="100" step="1" value="70" oninput="setAccessVolume('music', this.value)">
+            <span><span id="access-music-volume-label">Musikkvolum</span><output id="access-music-volume-value">50%</output></span>
+            <input id="access-music-volume" type="range" min="0" max="100" step="1" value="50" oninput="setAccessVolume('music', this.value)">
           </label>
           <button id="access-sfx" type="button" aria-pressed="false" onclick="toggleAccessOption('sfx')">SFX av/på</button>
           <label class="access-volume-control" for="access-sfx-volume">
-            <span><span id="access-sfx-volume-label">SFX-volum</span><output id="access-sfx-volume-value">75%</output></span>
-            <input id="access-sfx-volume" type="range" min="0" max="100" step="1" value="75" oninput="setAccessVolume('sfx', this.value)">
+            <span><span id="access-sfx-volume-label">SFX-volum</span><output id="access-sfx-volume-value">100%</output></span>
+            <input id="access-sfx-volume" type="range" min="0" max="100" step="1" value="100" oninput="setAccessVolume('sfx', this.value)">
           </label>
         </section>
       </div>
@@ -5836,9 +6443,21 @@ function resizeCanvasForMobileLandscape(){
 const CDN_LEARNING_LANG_KEY='cdnLearningLanguage';
 const LANG={current:localStorage.getItem(CDN_LEARNING_LANG_KEY)==='en'?'en':'no'};
 const ACCESS_KEY='cdnLearningAccess';
-const ACCESS={readable:true,contrast:false,easy:true,motion:false,music:true,sfx:true,musicVol:.70,sfxVol:.75,...JSON.parse(localStorage.getItem(ACCESS_KEY)||'{}')};
-ACCESS.musicVol=Number.isFinite(Number(ACCESS.musicVol))?Math.max(0,Math.min(1,Number(ACCESS.musicVol))):.70;
-ACCESS.sfxVol=Number.isFinite(Number(ACCESS.sfxVol))?Math.max(0,Math.min(1,Number(ACCESS.sfxVol))):.75;
+const ACCESS_VOLUME_DEFAULTS_VERSION=2;
+let storedAccess={};
+try{storedAccess=JSON.parse(localStorage.getItem(ACCESS_KEY)||'{}')||{};}catch(e){storedAccess={};}
+const ACCESS={readable:true,contrast:false,easy:true,motion:false,music:true,sfx:true,musicVol:.50,sfxVol:1,volumeDefaultsVersion:ACCESS_VOLUME_DEFAULTS_VERSION,...storedAccess};
+const migrateVolumeDefaults=storedAccess.volumeDefaultsVersion!==ACCESS_VOLUME_DEFAULTS_VERSION&&Number(storedAccess.musicVol)===.70&&Number(storedAccess.sfxVol)===.75;
+if(migrateVolumeDefaults){
+  ACCESS.musicVol=.50;
+  ACCESS.sfxVol=1;
+}
+ACCESS.volumeDefaultsVersion=ACCESS_VOLUME_DEFAULTS_VERSION;
+ACCESS.musicVol=Number.isFinite(Number(ACCESS.musicVol))?Math.max(0,Math.min(1,Number(ACCESS.musicVol))):.50;
+ACCESS.sfxVol=Number.isFinite(Number(ACCESS.sfxVol))?Math.max(0,Math.min(1,Number(ACCESS.sfxVol))):1;
+if(migrateVolumeDefaults){
+  try{localStorage.setItem(ACCESS_KEY,JSON.stringify(ACCESS));}catch(e){}
+}
 const UI_TEXT={
   loadingTitle:{no:'CDN LÆRINGSLAB / DATASPOR',en:'CDN LEARNING LAB / DATA TRACES'},
   loadingSubtitle:{no:'BERGEN 2063 ◈ BRYGGEN, FESTPLASSEN, NORDNES OG NYGÅRDSPARKEN I VANNSONEN ◈ FLØYEN OG ULRIKEN I FJELLSONEN',en:'BERGEN 2063 ◈ BRYGGEN, FESTPLASSEN, NORDNES AND NYGÅRDSPARKEN IN THE FLOOD ZONE ◈ FLØYEN AND ULRIKEN IN THE MOUNTAIN ZONE'},
@@ -6508,11 +7127,13 @@ function setAccessVolume(kind,value){
 // ════════ AUDIO ════════
 let AC=null,dG=null,audioOK=false,bueAudio=null,bueStep=-1,bueLastLog=false,paradeAudio=null,paradeStep=-1,paradeLastLog=false;
 const LAB_TRACKS=[
-  'audio/Epic Systems Ascend (Remastered).mp3',
-  'audio/Epic Systems Ascend (Remastered) (1).mp3',
-  'audio/Epic Systems Ascend (Remastered x2).mp3',
-  'audio/Fjord and Fiber  (Remastered).mp3'
+  'audio/Fjord and Fiber (Mount Media Original).mp3',
+  'audio/Rewrite The Code (Mount Media Original).mp3',
+  'audio/Visibility = Unstoppale (Mount Media Originale).mp3',
+  'audio/When A.I Decides WHo Matter (Mount Media Original).mp3',
+  'audio/When A.I Decides WHo Matters.mp3'
 ];
+const PARADE_TRACK_SRC='audio/Rain On Me (8 Bit Universe).mp3';
 let labMusic=null,labTrackIndex=0,labShuffleMode=false;
 function labTrackDisplayName(src){
   return decodeURIComponent(src.split('/').pop().replace('.mp3','').replace(/\(\d+\)$/,'').trim());
@@ -6589,44 +7210,32 @@ function initAudio(){
   }catch(e){}
 }
 function initParadeAudio(){
-  if(paradeAudio||!AC)return;
-  const gain=AC.createGain(),filter=AC.createBiquadFilter(),comp=AC.createDynamicsCompressor();
+  if(paradeAudio||!AC||!PARADE_TRACK_SRC)return;
+  const media=new Audio(PARADE_TRACK_SRC),source=AC.createMediaElementSource(media),gain=AC.createGain(),filter=AC.createBiquadFilter(),comp=AC.createDynamicsCompressor();
+  media.loop=true;
+  media.preload='auto';
   gain.gain.value=0;
-  filter.type='bandpass';filter.frequency.value=1100;filter.Q.value=.6;
-  filter.connect(gain);gain.connect(comp);comp.connect(AC.destination);
-  paradeAudio={gain,filter};
+  filter.type='lowpass';filter.frequency.value=420;filter.Q.value=.55;
+  source.connect(filter);filter.connect(gain);gain.connect(comp);comp.connect(AC.destination);
+  paradeAudio={media,source,gain,filter};
+  media.play().catch(()=>{});
 }
 function updateParadeAudio(dt){
   if(!AC||!paradeAudio)return;
   const dx=(P.x+P.w/2)-PRIDE_PARADE_CENTER.x,dy=(P.y+P.h/2)-PRIDE_PARADE_CENTER.y;
   const dist=Math.hypot(dx,dy);
   const near=cl(1-dist/PRIDE_PARADE_CENTER.r,0,1);
-  const vol=near*near*(ACCESS.sfx?.36*ACCESS.sfxVol:0);
-  paradeAudio.gain.gain.setTargetAtTime(vol,AC.currentTime,.22);
-  paradeAudio.filter.frequency.setTargetAtTime(800+near*900,AC.currentTime,.18);
+  const vol=near*near*(ACCESS.sfx ? .42*ACCESS.sfxVol : 0);
+  paradeAudio.gain.gain.setTargetAtTime(vol,AC.currentTime,.24);
+  paradeAudio.filter.frequency.setTargetAtTime(420+near*2400,AC.currentTime,.2);
   if(near>.32&&!paradeLastLog){
     paradeLastLog=true;
     addLog(lt('Pride-paraden i Nygårdsparken fyller vannet med farger og rytme. Her er det trygt å være seg selv.'),'i');
   }else if(near<.16)paradeLastLog=false;
-  if(!ACCESS.sfx||near<=.04)return;
-  const step=Math.floor(AC.currentTime*4.8)%12;
-  if(step===paradeStep)return;
-  paradeStep=step;
-  const t=AC.currentTime+.008;
-  const MELODY=[523,659,784,880,659,784,523,659,880,784,523,659];
-  const freq=MELODY[step];
-  const osc=AC.createOscillator(),gn=AC.createGain();
-  osc.type=step%3===0?'sine':'triangle';
-  osc.frequency.value=freq;
-  const vel=(step%4===0?.065:.038)*near*ACCESS.sfxVol;
-  gn.gain.setValueAtTime(vel,t);gn.gain.exponentialRampToValueAtTime(.001,t+.18);
-  osc.connect(gn);gn.connect(paradeAudio.filter);
-  osc.start(t);osc.stop(t+.2);
-  if(step%4===0){
-    const kick=AC.createOscillator(),kgn=AC.createGain();
-    kick.type='sine';kick.frequency.setValueAtTime(180,t);kick.frequency.exponentialRampToValueAtTime(55,t+.09);
-    kgn.gain.setValueAtTime(.055*near*ACCESS.sfxVol,t);kgn.gain.exponentialRampToValueAtTime(.001,t+.11);
-    kick.connect(kgn);kgn.connect(AC.destination);kick.start(t);kick.stop(t+.12);
+  if(ACCESS.sfx&&near>.05){
+    if(paradeAudio.media.paused)paradeAudio.media.play().catch(()=>{});
+  }else if(!paradeAudio.media.paused){
+    paradeAudio.media.pause();
   }
 }
 function initBuekorpsAudio(){
@@ -10224,9 +10833,9 @@ function measureResponsiveChrome(){
   }
   if(body.classList.contains('mobile-layout')){
     const landscape=body.classList.contains('mobile-landscape');
-    const hud=landscape?50:64;
-    const objective=landscape?42:54;
-    const controls=landscape?154:(getRotateViewportWidth()<=420?174:188);
+    const hud=landscape?38:64;
+    const objective=landscape?38:54;
+    const controls=landscape?72:(getRotateViewportWidth()<=420?174:188);
     body.style.setProperty('--hud-height',`${hud}px`);
     body.style.setProperty('--objective-height',`${objective}px`);
     body.style.setProperty('--controls-height',`${controls}px`);
