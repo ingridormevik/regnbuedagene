@@ -618,6 +618,19 @@ canvas#stage {
     white-space: nowrap;
   }
 
+  .intro-panel:not(.mobile-collapsed) .top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .intro-panel:not(.mobile-collapsed) .ctrl-buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+  }
+
   .canvas-wrap {
     height: calc(100dvh - var(--safe-top) - var(--safe-bottom) - 190px);
     min-height: 430px;
