@@ -1,3 +1,9 @@
 /*
   Content-Security-Policy: frame-ancestors 'self' https://vev.no https://*.vev.no https://ingridormevik.github.io https://*.netlify.app;
   X-Content-Type-Options: nosniff
+
+/pride-park-spill-2026.html
+  Cache-Control: no-store, max-age=0, must-revalidate
+
+/cdn-learning-lab.html
+  Cache-Control: no-store, max-age=0, must-revalidate
