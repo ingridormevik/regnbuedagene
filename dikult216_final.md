@@ -50,7 +50,7 @@ CSS-variabelen `--forest-awake` er spillets poetiske maskin. Den stiger fra null
 
 De seks vesenene er noder i et skeivt arkiv, ikke boss encounters. Huldra forhandler mellom synlighet og skjuling. Nøkken lever i overflaten mellom begjær og fare. Fossegrimen kobler kunst, lyd og kropp. Draugen bærer minner som ikke lar seg begrave. Bergtrollet nekter å flyttes. Mare er nattens trykk mot kroppen. I stedet for å bekjempe monsteret, lærer spilleren å lese det.
 
-Arkivet artikuleres også gjennom eksplisitt lydmapping. Ulike passasjer er koblet til egne spor, og lydsporet er i hovedsak produsert i Mount Media, mens Marinehagen-passasjen bruker Witch Princess' «Snow Raven». Når Bergtrollet ledsages av en Mount Media-remiks av Grieg, og CDN får sitt eget spor, blir lyd ikke dekor, men argument.
+Arkivet artikuleres også gjennom en konkret lydlogikk. I Eira-playlisten kobles passasjer til bestemte spor: «Running in The Forest» til hovedkartet, «Guten og Huldra» til Huldra, Sinikka Langelands «Nøkken» til Nøkken, Ivar Medaas' «Knepphalling» til Fossegrimen, «The Evening Breath» til Mare, Griegs «In the Hall of the Mountain King» til Bergtrollet og «Der Kjem Systemet» til CDN. Spillkredittene presiserer at det meste av musikken er produsert av Mount Media, mens Witch Princess' «Snow Raven» er unntaket i Marinehagen. Mount Media fungerer dermed ikke som et eksternt soundtrack, men som en auditiv produksjonslogikk der norsk folkemusikk, kulturhistoriske referanser og klubbestetikk remikses inn i bestemte steder, vesener og grensesnitt.
 
 ![Nøkken creature card](_verify_pride_nokken_iphone_retouched.png)
 *Figure 3. Nøkken som oppdaget vesen. Vesenet fungerer ikke som fiende, men som en skeiv folklore-node spilleren lærer å se.*
