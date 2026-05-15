@@ -9,3 +9,5 @@ tmp_*.ps1
 
 # Local Netlify folder
 .netlify
+
+audio/marinehagen/*.wav

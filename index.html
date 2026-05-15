@@ -798,8 +798,9 @@
 
         .creature-card[data-creature="jotna"].show-artist .artist-image {
             background: transparent;
-            --artist-cutout-scale: 0.9;
-            --artist-cutout-offset-y: 12px;
+            --artist-cutout-height: 320px;
+            --artist-cutout-scale: 1.07;
+            --artist-cutout-offset-y: 6px;
         }
 
         .creature-card[data-creature="nokken"].show-artist .artist-image {
@@ -822,12 +823,12 @@
 
         .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .draug-dancer {
             width: auto;
-            height: 320px;
-            max-width: 340px;
-            max-height: 320px;
+            height: 390px;
+            max-width: none;
+            max-height: 390px;
             object-fit: contain;
             object-position: center bottom;
-            transform: translate(0, 12px) scale(1);
+            transform: translate(0, 6px) scale(1.07);
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content {
