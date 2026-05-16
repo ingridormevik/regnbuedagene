@@ -6211,10 +6211,10 @@ body.lab-mode #cdn-rotate-continue {
 <body class="cdn-lab-active lab-mode">
 <div id="rotate-screen-overlay" class="cdn-lab-rotate-hint" aria-live="polite">
   <div class="rotate-screen-card">
-    <div class="rotate-icon">↻</div>
-    <h1>Dette er et roterende minispill</h1>
-    <p>Snu mobilen horisontalt for å spille CDN Learning Lab.</p>
-    <p class="rotate-small">Landskap gir plass til kartet, kontrollene og datasporene.</p>
+    <div class="rotate-icon">⌻</div>
+    <h1>CDN Learning Lab er et nettleserspill</h1>
+    <p>For best opplevelse: åpne på laptop, eller snu mobilen til liggende visning.</p>
+    <p class="rotate-small">Liggende gir plass til kartet, kontrollene og datasporene.</p>
     <button id="cdn-mobile-back" type="button">Tilbake til kartet</button>
     <button id="cdn-mobile-reset" type="button">Start på nytt</button>
   </div>
@@ -10933,13 +10933,13 @@ function updateRotateOverlayLanguage(){
     const reset=simpleOverlay.querySelector('#cdn-mobile-reset');
     const back=simpleOverlay.querySelector('#cdn-mobile-back');
     const cont=simpleOverlay.querySelector('#cdn-rotate-continue');
-      if(h)h.textContent=LANG.current==='en' ? 'This is a rotating minigame' : 'Dette er et roterende minispill';
+      if(h)h.textContent=LANG.current==='en' ? 'CDN Learning Lab is a browser game' : 'CDN Learning Lab er et nettleserspill';
       if(p)p.textContent=LANG.current==='en'
-        ? 'Turn your phone sideways to play CDN Learning Lab.'
-        : 'Snu mobilen horisontalt for å spille CDN Learning Lab.';
+        ? 'For the best experience: open on laptop, or turn your phone to landscape.'
+        : 'For best opplevelse: åpne på laptop, eller snu mobilen til liggende visning.';
       if(small)small.textContent=LANG.current==='en'
         ? 'Landscape makes room for the map, controls and data traces.'
-        : 'Landskap gir plass til kartet, kontrollene og datasporene.';
+        : 'Liggende gir plass til kartet, kontrollene og datasporene.';
       if(back)back.textContent=LANG.current==='en' ? 'Back to map' : 'Tilbake til kartet';
       if(reset)reset.textContent=LANG.current==='en' ? 'Start again' : 'Start på nytt';
       if(cont)cont.remove();
