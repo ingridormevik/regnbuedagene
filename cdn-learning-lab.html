@@ -6641,6 +6641,150 @@ body.lab-mode #cdn-portrait-play {
     font-size: 16px !important;
   }
 }
+
+/* Final mobile landscape polish: keep the fit/camera system intact, lift only readability and contrast. */
+@media (max-width: 950px) and (orientation: landscape) {
+  body.cdn-fit-active #cdnFitViewport,
+  body.cdn-fit-active #cdnFitStage,
+  body.cdn-fit-active #hud,
+  body.cdn-fit-active #tb,
+  body.cdn-fit-active #touch-ui,
+  body.cdn-fit-active #story-card {
+    filter: none !important;
+    opacity: 1 !important;
+  }
+
+  body.cdn-fit-active #gc {
+    opacity: 1 !important;
+    filter: brightness(1.2) contrast(1.14) saturate(1.12) !important;
+    background:
+      radial-gradient(circle at 50% 45%, rgba(80, 160, 190, 0.16), transparent 52%),
+      linear-gradient(180deg, rgba(4, 12, 22, 0.88), rgba(3, 8, 16, 0.96)) !important;
+    box-shadow:
+      inset 0 0 42px rgba(80, 220, 255, 0.10),
+      inset 0 0 0 1px rgba(130, 220, 255, 0.16) !important;
+  }
+
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape canvas#gc,
+  body.cdn-fit-active.mobile-landscape canvas#gc {
+    opacity: 1 !important;
+    filter: brightness(1.2) contrast(1.14) saturate(1.12) !important;
+  }
+
+  body.cdn-fit-active #tb {
+    background: linear-gradient(90deg, rgba(3, 9, 16, 0.98), rgba(7, 22, 32, 0.94)) !important;
+    border-bottom: 1px solid rgba(120, 220, 255, 0.24) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.42) !important;
+  }
+
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #tb {
+    background: linear-gradient(90deg, rgba(3, 9, 16, 0.98), rgba(7, 22, 32, 0.94)) !important;
+    border-bottom: 1px solid rgba(120, 220, 255, 0.24) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.42) !important;
+  }
+
+  body.cdn-fit-active #tb .ts,
+  body.cdn-fit-active #tb .ts-brand,
+  body.cdn-fit-active #zone-lbl,
+  body.cdn-fit-active .hud-pill,
+  body.cdn-fit-active .stat-pill {
+    background: rgba(4, 12, 20, 0.9) !important;
+    border-color: rgba(125, 220, 255, 0.34) !important;
+    color: rgba(235, 250, 255, 0.96) !important;
+    text-shadow: 0 0 8px rgba(120, 220, 255, 0.25) !important;
+  }
+
+  body.cdn-fit-active #story-card {
+    background: linear-gradient(180deg, rgba(6, 10, 18, 0.97), rgba(2, 6, 12, 0.99)) !important;
+    border: 1px solid rgba(120, 220, 255, 0.3) !important;
+    box-shadow:
+      0 0 28px rgba(0, 0, 0, 0.75),
+      0 0 22px rgba(80, 220, 255, 0.08),
+      inset 0 0 18px rgba(255, 255, 255, 0.035) !important;
+    color: rgba(240, 248, 255, 0.96) !important;
+    backdrop-filter: blur(10px) saturate(1.2) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(1.2) !important;
+  }
+
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #story-card {
+    background: linear-gradient(180deg, rgba(6, 10, 18, 0.97), rgba(2, 6, 12, 0.99)) !important;
+    border: 1px solid rgba(120, 220, 255, 0.3) !important;
+    box-shadow:
+      0 0 28px rgba(0, 0, 0, 0.75),
+      0 0 22px rgba(80, 220, 255, 0.08),
+      inset 0 0 18px rgba(255, 255, 255, 0.035) !important;
+    color: rgba(240, 248, 255, 0.96) !important;
+    opacity: 1 !important;
+    backdrop-filter: blur(10px) saturate(1.2) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(1.2) !important;
+  }
+
+  body.cdn-fit-active #story-card #story-summary,
+  body.cdn-fit-active #story-card #story-mission,
+  body.cdn-fit-active #story-card p,
+  body.cdn-fit-active #story-card h2 {
+    color: rgba(240, 248, 255, 0.97) !important;
+    text-shadow: 0 0 12px rgba(120, 220, 255, 0.22) !important;
+  }
+
+  body.cdn-fit-active #touch-ui {
+    background: linear-gradient(180deg, rgba(3, 8, 13, 0.3), rgba(3, 8, 13, 0.72)) !important;
+  }
+
+  body.cdn-fit-active .touch-btn,
+  body.cdn-fit-active .touch-action-btn,
+  body.cdn-fit-active #touch-map,
+  body.cdn-fit-active #touch-calm,
+  body.cdn-fit-active #touch-interact,
+  body.cdn-fit-active #touch-stop,
+  body.cdn-fit-active #touch-helper {
+    background: rgba(12, 20, 32, 0.94) !important;
+    border: 1px solid rgba(140, 220, 255, 0.32) !important;
+    color: rgba(245, 250, 255, 0.96) !important;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.16) !important;
+    box-shadow:
+      0 0 16px rgba(0, 0, 0, 0.45),
+      inset 0 0 12px rgba(255, 255, 255, 0.035) !important;
+  }
+
+  body.cdn-fit-active #touch-interact,
+  body.cdn-fit-active button[data-action="explore"],
+  body.cdn-fit-active button[data-action="go-target"] {
+    background: linear-gradient(180deg, rgba(120, 78, 28, 0.97), rgba(58, 34, 16, 0.97)) !important;
+    border-color: rgba(255, 190, 95, 0.48) !important;
+    color: rgba(255, 245, 220, 0.98) !important;
+  }
+
+  body.cdn-fit-active #ipop,
+  body.cdn-fit-active #frpop,
+  body.cdn-fit-active #mobileSheet {
+    background: linear-gradient(180deg, rgba(6, 10, 18, 0.97), rgba(2, 6, 12, 0.99)) !important;
+    border: 1px solid rgba(120, 220, 255, 0.3) !important;
+    color: rgba(240, 248, 255, 0.96) !important;
+    box-shadow:
+      0 0 30px rgba(0, 0, 0, 0.78),
+      0 0 24px rgba(80, 220, 255, 0.08) !important;
+    opacity: 1 !important;
+  }
+
+  body.cdn-fit-active #mobile-sheet-backdrop,
+  body.cdn-fit-active #mobileBackdrop,
+  body.cdn-fit-active .modal-backdrop,
+  body.cdn-fit-active .consent-overlay,
+  body.cdn-fit-active .screen-dim,
+  body.cdn-fit-active .game-dim {
+    background: rgba(0, 0, 0, 0.28) !important;
+  }
+
+  body.cdn-fit-active #warn-b,
+  body.cdn-fit-active #aprmpt,
+  body.cdn-fit-active .toast,
+  body.cdn-fit-active .system-message {
+    background: rgba(4, 10, 16, 0.94) !important;
+    color: rgba(245, 250, 255, 0.96) !important;
+    border-color: rgba(255, 210, 140, 0.38) !important;
+  }
+}
 </style>
 </head>
 <body class="cdn-lab-active lab-mode">
@@ -6680,7 +6824,7 @@ body.lab-mode #cdn-portrait-play {
   </div>
 </div>
 
-<canvas id="gc"></canvas>
+<canvas id="gc" width="1280" height="496"></canvas>
 <button id="cdn-landscape-reset" type="button">Start på nytt</button>
 
 <!-- LOADING -->
