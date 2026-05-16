@@ -133,13 +133,16 @@ button:focus-visible, input:focus-visible, canvas:focus-visible {
 }
 
 .top-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
   min-width: 0;
 }
-.top-row-titles { min-width: 0; }
+.top-row-titles {
+  width: 100%;
+  min-width: 0;
+}
 
 .main-title {
   font-family: "Fraunces", serif;
@@ -148,6 +151,8 @@ button:focus-visible, input:focus-visible, canvas:focus-visible {
   line-height: 0.94;
   color: var(--ink);
   margin-bottom: 5px;
+  max-width: 100%;
+  overflow-wrap: break-word;
 }
 
 .sub-tagline {
@@ -162,9 +167,12 @@ button:focus-visible, input:focus-visible, canvas:focus-visible {
 
 .ctrl-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 6px;
-  flex-shrink: 0;
+  width: 100%;
+  min-width: 0;
+  justify-content: flex-start;
 }
 
 .pill-btn {
@@ -1170,6 +1178,57 @@ canvas#stage {
   }
 }
 
+/* Final Mini Pride mobile lock: keep text chrome from pushing or covering the trail. */
+@media (max-width: 768px) {
+  .stage-panel {
+    align-content: start !important;
+    grid-template-rows: auto auto auto !important;
+  }
+
+  .stage-top {
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .stage-copy {
+    padding: 8px 10px !important;
+    gap: 4px !important;
+  }
+
+  .stage-kicker {
+    font-size: 0.52rem !important;
+    line-height: 1.1 !important;
+  }
+
+  .stage-title {
+    font-size: clamp(1rem, 5.4vw, 1.32rem) !important;
+    line-height: 1.02 !important;
+  }
+
+  .stage-text {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+    overflow: hidden !important;
+    font-size: 0.72rem !important;
+    line-height: 1.24 !important;
+  }
+
+  .canvas-wrap {
+    align-self: start !important;
+    margin-top: 0 !important;
+    max-height: min(43dvh, 360px) !important;
+  }
+
+  canvas#stage {
+    max-height: min(43dvh, 360px) !important;
+  }
+
+  .touch-pad {
+    margin-top: 8px !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .badge-icon.unlocked { transform: none; }
   .finale-logo, .finale-logo-glow { animation: none !important; }
@@ -1370,7 +1429,7 @@ const COPY = {
     hideInfo: 'Skjul info',
     mcNextBtn: 'Neste venn \u2192',
     mcStayBtn: 'Bli her litt',
-    finalePoemLine: 'Du har funnet alle de sm\u00e5 vennene langs stien.\nMiniPride lyser litt sterkere n\u00e5,\nfordi du tok deg tid.',
+    finalePoemLine: 'Du har funnet alle de sm\u00e5 vennene langs stien.\nMini Pride lyser litt sterkere n\u00e5,\nfordi du tok deg tid.',
     finaleTitle: 'Glimmerstien er fullf\u00f8rt',
     finaleRestart: 'G\u00e5 stien p\u00e5 nytt',
     finaleStay:    'Tilbake til Pride Park',
@@ -2075,15 +2134,19 @@ function drawUnicorn(now) {
     ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(lx-2,ly+21); ctx.stroke();
   });
   ctx.restore();
-  // Badge count tag
-  ctx.save(); ctx.translate(canvas.width-108, 90);
-  ctx.fillStyle = 'rgba(255,255,255,0.78)';
-  roundRect(ctx, -100,-32,200,64,20); ctx.fill();
+  // Badge count tag. On phones, keep this tiny and away from the route nodes.
+  const mobileCanvas = window.innerWidth <= 768 || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+  const countText = state.found.size + '/6';
+  ctx.font = 'bold 21px "Baloo 2",cursive';
+  const tagW = Math.ceil(ctx.measureText(countText).width + (mobileCanvas ? 28 : 30));
+  const tagH = mobileCanvas ? 34 : 36;
+  const tagX = mobileCanvas ? 68 : 106;
+  const tagY = mobileCanvas ? 58 : 62;
+  ctx.save(); ctx.translate(tagX, tagY);
+  ctx.fillStyle = mobileCanvas ? 'rgba(255,255,255,0.70)' : 'rgba(255,255,255,0.78)';
+  roundRect(ctx, -tagW / 2, -tagH / 2, tagW, tagH, mobileCanvas ? 16 : 20); ctx.fill();
   ctx.fillStyle = '#0e2c35'; ctx.textAlign = 'center';
-  ctx.font = 'bold 13px "IBM Plex Sans",system-ui,sans-serif';
-  ctx.fillText(copy().badgeShelfTitle, 0, -8);
-  ctx.font = 'bold 24px "Baloo 2",cursive';
-  ctx.fillText(state.found.size + '/6', 0, 22);
+  ctx.fillText(countText, 0, 7);
   ctx.restore();
 }
 
