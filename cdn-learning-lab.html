@@ -6217,6 +6217,7 @@ body.lab-mode #cdn-rotate-continue {
     <p class="rotate-small">Liggende gir plass til kartet, kontrollene og datasporene.</p>
     <button id="cdn-mobile-back" type="button">Tilbake til kartet</button>
     <button id="cdn-mobile-reset" type="button">Start på nytt</button>
+    <button id="cdn-portrait-play" type="button" style="margin-top:4px;opacity:0.7;font-size:0.78em;">Spill i portrett uansett</button>
   </div>
 </div>
 <script>(function(){
@@ -6395,6 +6396,10 @@ body.lab-mode #cdn-rotate-continue {
 const gc=document.getElementById('gc');
 const ctx=gc.getContext('2d');
 gc.width=window.innerWidth; gc.height=window.innerHeight;
+// Portrait play mode: override canvas dimensions before game constants are calculated
+const CDN_PORTRAIT_PLAY_KEY='cdnPortraitPlay';
+const _portraitPlayActive=(()=>{try{return sessionStorage.getItem(CDN_PORTRAIT_PLAY_KEY)==='1'&&window.innerHeight>window.innerWidth;}catch(e){return false;}})();
+if(_portraitPlayActive){const _ph=Math.min(Math.round(window.innerHeight*0.44),420);gc.height=_ph;gc.width=window.innerWidth-20;document.body.classList.add('cdn-rotate-dismissed','mobile-portrait','mobile-layout','mobile-game','cdn-lab-active');}
 let W=gc.width, H=gc.height;
 const FORCE_MOBILE=new URLSearchParams(window.location.search).get('mobile')==='1';
 const MOBILE_MODE=FORCE_MOBILE||window.innerWidth<=900||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches&&window.innerWidth<=1100);
@@ -10915,7 +10920,9 @@ function cdnRotateHintDismissed(){
     return false;
   }
 }
+function cdnPortraitPlayActive(){try{return sessionStorage.getItem(CDN_PORTRAIT_PLAY_KEY)==='1';}catch(e){return false;}}
 function shouldShowRotateOverlay(){
+  if(cdnPortraitPlayActive())return false;
   return isMobileLikeDevice()&&isPortraitMode();
 }
 function updateRotateOverlayLanguage(){
@@ -10943,6 +10950,8 @@ function updateRotateOverlayLanguage(){
       if(back)back.textContent=LANG.current==='en' ? 'Back to map' : 'Tilbake til kartet';
       if(reset)reset.textContent=LANG.current==='en' ? 'Start again' : 'Start på nytt';
       if(cont)cont.remove();
+      const portraitBtn=simpleOverlay.querySelector('#cdn-portrait-play');
+      if(portraitBtn)portraitBtn.textContent=LANG.current==='en'?'Play in portrait anyway':'Spill i portrett uansett';
   }
   const landscapeReset=document.getElementById('cdn-landscape-reset');
   if(landscapeReset)landscapeReset.textContent=LANG.current==='en'?'Start again':'Start på nytt';
@@ -10967,12 +10976,12 @@ function updateRotateOverlay(){
   updateRotateOverlayLanguage();
   if(!isPortraitMode()){
     try{ sessionStorage.removeItem(CDN_ROTATE_HINT_DISMISSED_KEY); }catch(e){}
-    document.body.classList.remove('cdn-rotate-dismissed');
+    if(!cdnPortraitPlayActive())document.body.classList.remove('cdn-rotate-dismissed');
   }
   const overlay=document.getElementById('rotate-device-overlay');
   if(!overlay)return;
   const showOverlay=shouldShowRotateOverlay();
-  document.body.classList.toggle('cdn-rotate-dismissed',false);
+  if(!cdnPortraitPlayActive())document.body.classList.toggle('cdn-rotate-dismissed',false);
   if(maybeBootstrapLandscapeViewport(showOverlay))return;
   if(ROTATE_DEVICE_STATE.visible===showOverlay&&overlay.getAttribute('aria-hidden')===(showOverlay?'false':'true'))return;
   ROTATE_DEVICE_STATE.visible=showOverlay;
@@ -11034,6 +11043,10 @@ window.addEventListener('load',()=>{
   };
   document.getElementById('cdn-mobile-reset')?.addEventListener('click',resetCdnLearningLab);
   document.getElementById('cdn-mobile-back')?.addEventListener('click',returnToPrideMap);
+  document.getElementById('cdn-portrait-play')?.addEventListener('click',()=>{
+    try{sessionStorage.setItem(CDN_PORTRAIT_PLAY_KEY,'1');}catch(e){}
+    window.location.reload();
+  });
   document.getElementById('cdn-landscape-reset')?.addEventListener('click',resetCdnLearningLab);
   runBoot();resetGame();setupTouchControls();setupPointerSteering();setInterval(updateClock,1000);
   for(let i=0;i<3;i++)spawnJelly();
@@ -11046,6 +11059,12 @@ window.addEventListener('orientationchange',()=>{
     const nowLandscape=window.innerWidth>window.innerHeight;
     const wasPortrait=document.body.classList.contains('mobile-portrait');
     if(nowLandscape&&wasPortrait){
+      try{sessionStorage.removeItem(CDN_PORTRAIT_PLAY_KEY);}catch(e){}
+      window.location.reload();
+      return;
+    }
+    // rotating back to portrait - if portrait play was active, reload to recalculate constants
+    if(!nowLandscape&&cdnPortraitPlayActive()){
       window.location.reload();
       return;
     }
