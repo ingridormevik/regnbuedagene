@@ -11043,11 +11043,17 @@ window.addEventListener('load',()=>{
 window.addEventListener('resize',resizeLabGame);
 window.addEventListener('orientationchange',()=>{
   window.setTimeout(()=>{
+    const nowLandscape=window.innerWidth>window.innerHeight;
+    const wasPortrait=document.body.classList.contains('mobile-portrait');
+    if(nowLandscape&&wasPortrait){
+      window.location.reload();
+      return;
+    }
     resizeLabGame();
     resumeLabGame();
     updateRotateOverlay();
-  },250);
-  window.setTimeout(resizeLabGame,500);
+  },300);
+  window.setTimeout(resizeLabGame,600);
 });
 
 // ═════════════���═════════════════════════════════════════════════════════════
