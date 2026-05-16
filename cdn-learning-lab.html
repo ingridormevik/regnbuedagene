@@ -6206,18 +6206,452 @@ body.lab-mode #cdn-rotate-continue {
     text-overflow: ellipsis !important;
   }
 }
+/* Final CDN Learning Lab fit stage: scale one complete 1280x720 game surface. */
+:root {
+  --cdn-design-w: 1280;
+  --cdn-design-h: 720;
+  --cdn-scale: 1;
+  --cdn-stage-w: 100vw;
+  --cdn-stage-h: 100vh;
+}
+
+.cdn-fit-viewport {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.cdn-fit-stage {
+  width: var(--cdn-stage-w);
+  height: var(--cdn-stage-h);
+  min-width: 0;
+  min-height: 0;
+  transform: none;
+  transform-origin: top center;
+  position: relative;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+}
+
+body.cdn-fit-active,
+html.cdn-fit-active {
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
+body.lab-mode #cdn-portrait-play {
+  display: none !important;
+}
+
+@media (max-width: 950px) {
+  #cdnFitStage * {
+    max-width: none;
+  }
+
+  body.cdn-fit-active,
+  html.cdn-fit-active {
+    width: 100%;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    overflow: hidden !important;
+  }
+
+  body.cdn-fit-active #cdnFitStage canvas {
+    display: block;
+    max-width: none !important;
+    max-height: none !important;
+  }
+}
+
+@media (max-width: 950px) and (orientation: portrait) {
+  body.cdn-fit-active #cdnFitViewport {
+    width: 100vw !important;
+    min-height: 100svh !important;
+    height: 100svh !important;
+    overflow: hidden !important;
+  }
+
+  body.cdn-fit-active #cdnFitStage,
+  body.cdn-fit-active #cdn-portrait-play {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (max-width: 950px) and (orientation: landscape) {
+  body.cdn-fit-active #cdnFitViewport {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100svh !important;
+    max-height: 100svh !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: fixed !important;
+    inset: 0 !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    z-index: 1 !important;
+  }
+
+  body.cdn-fit-active #cdnFitStage {
+    width: calc(var(--cdn-design-w) * 1px) !important;
+    height: calc(var(--cdn-design-h) * 1px) !important;
+    min-width: calc(var(--cdn-design-w) * 1px) !important;
+    min-height: calc(var(--cdn-design-h) * 1px) !important;
+    margin: 0 auto !important;
+    transform: scale(var(--cdn-scale)) !important;
+    transform-origin: top center !important;
+    position: relative !important;
+    flex: 0 0 auto !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  body.cdn-fit-active #rotate-screen-overlay,
+  body.cdn-fit-active #rotate-device-overlay,
+  body.cdn-fit-active #ldg,
+  body.cdn-fit-active #btm,
+  body.cdn-fit-active #lp,
+  body.cdn-fit-active #rp,
+  body.cdn-fit-active #clock,
+  body.cdn-fit-active #lang-toggle,
+  body.cdn-fit-active #accessibility-menu,
+  body.cdn-fit-active #cdn-landscape-reset {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body.cdn-fit-active #hud {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 1280px !important;
+    height: 720px !important;
+    display: block !important;
+    visibility: visible !important;
+    pointer-events: none !important;
+    z-index: 40 !important;
+  }
+
+  body.cdn-fit-active #tb {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    width: 1280px !important;
+    height: 56px !important;
+    max-height: 56px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 8px 18px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    pointer-events: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  body.cdn-fit-active #tb .ts,
+  body.cdn-fit-active #tb .ts-brand,
+  body.cdn-fit-active #zone-lbl {
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+    min-height: 36px !important;
+    max-height: 40px !important;
+    padding: 8px 12px !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+    box-sizing: border-box !important;
+  }
+
+  body.cdn-fit-active #story-card {
+    position: absolute !important;
+    top: 56px !important;
+    left: 18px !important;
+    right: 18px !important;
+    width: auto !important;
+    max-width: none !important;
+    height: 56px !important;
+    max-height: 56px !important;
+    min-height: 0 !important;
+    padding: 8px 14px !important;
+    display: block !important;
+    visibility: visible !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    z-index: 45 !important;
+    box-sizing: border-box !important;
+  }
+
+  body.cdn-fit-active #story-toggle,
+  body.cdn-fit-active #story-card #story-scroll > :not(#story-mission) {
+    display: none !important;
+  }
+
+  body.cdn-fit-active #story-card #story-mission,
+  body.cdn-fit-active #story-card #story-summary {
+    display: block !important;
+    margin: 0 !important;
+    max-height: 100% !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    font-size: 17px !important;
+    line-height: 1.35 !important;
+    letter-spacing: .08em !important;
+  }
+
+  body.cdn-fit-active #gc {
+    position: absolute !important;
+    left: 0 !important;
+    top: 112px !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 1280px !important;
+    height: 496px !important;
+    min-width: 1280px !important;
+    min-height: 496px !important;
+    max-width: none !important;
+    max-height: none !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    overflow: hidden !important;
+    pointer-events: auto !important;
+    z-index: 1 !important;
+    box-sizing: border-box !important;
+  }
+
+  body.cdn-fit-active #touch-ui {
+    position: absolute !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: 0 !important;
+    width: 1280px !important;
+    height: 112px !important;
+    min-height: 112px !important;
+    max-height: 112px !important;
+    display: grid !important;
+    grid-template-columns: 156px repeat(5, minmax(0, 1fr)) !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 12px 18px !important;
+    overflow: hidden !important;
+    pointer-events: auto !important;
+    z-index: 60 !important;
+    box-sizing: border-box !important;
+  }
+
+  body.cdn-fit-active #touch-left-stack,
+  body.cdn-fit-active #touch-utility,
+  body.cdn-fit-active #touch-actions {
+    display: contents !important;
+  }
+
+  body.cdn-fit-active #touch-pad {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 146px !important;
+    height: 88px !important;
+    min-width: 146px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+    display: grid !important;
+    grid-template-columns: repeat(3, 44px) !important;
+    grid-template-rows: repeat(3, 26px) !important;
+    gap: 4px !important;
+    place-content: center !important;
+    align-self: center !important;
+    justify-self: start !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  body.cdn-fit-active #touch-pad .touch-btn {
+    width: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    height: 26px !important;
+    min-height: 26px !important;
+    max-height: 26px !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-fit-active #touch-pad .touch-btn.ghost {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body.cdn-fit-active #touch-map { grid-column: 2 !important; }
+  body.cdn-fit-active #touch-calm { grid-column: 3 !important; }
+  body.cdn-fit-active #touch-interact { grid-column: 4 !important; }
+  body.cdn-fit-active #touch-stop { grid-column: 5 !important; }
+  body.cdn-fit-active #touch-helper { grid-column: 6 !important; }
+
+  body.cdn-fit-active #touch-map,
+  body.cdn-fit-active #touch-calm,
+  body.cdn-fit-active #touch-interact,
+  body.cdn-fit-active #touch-stop,
+  body.cdn-fit-active #touch-helper {
+    grid-row: 1 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    height: 74px !important;
+    min-height: 74px !important;
+    max-height: 78px !important;
+    padding: 10px 12px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+    line-height: 1.08 !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    box-sizing: border-box !important;
+  }
+
+  body.cdn-fit-active #warn-b {
+    position: absolute !important;
+    top: 124px !important;
+    left: 50% !important;
+    transform: translateX(-50%) translateY(-120%) !important;
+    max-width: 520px !important;
+    font-size: 13px !important;
+    padding: 9px 18px !important;
+    z-index: 75 !important;
+  }
+
+  body.cdn-fit-active #warn-b.show {
+    transform: translateX(-50%) translateY(0) !important;
+  }
+
+  body.cdn-fit-active #aprmpt {
+    position: absolute !important;
+    left: 50% !important;
+    bottom: 122px !important;
+    transform: translateX(-50%) !important;
+    max-width: 520px !important;
+    text-align: center !important;
+    z-index: 62 !important;
+    pointer-events: none !important;
+  }
+
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #hud {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 1280px !important;
+    height: 720px !important;
+  }
+
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #tb {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: auto !important;
+    width: 1280px !important;
+    height: 56px !important;
+    max-height: 56px !important;
+  }
+
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #story-card {
+    position: absolute !important;
+    top: 56px !important;
+    left: 18px !important;
+    right: 18px !important;
+    width: auto !important;
+    max-width: none !important;
+    height: 56px !important;
+    max-height: 56px !important;
+  }
+
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #gc {
+    position: absolute !important;
+    left: 0 !important;
+    top: 112px !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 1280px !important;
+    height: 496px !important;
+    min-width: 1280px !important;
+    min-height: 496px !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #touch-ui {
+    position: absolute !important;
+    left: 0 !important;
+    right: auto !important;
+    bottom: 0 !important;
+    width: 1280px !important;
+    height: 112px !important;
+    min-height: 112px !important;
+    max-height: 112px !important;
+    grid-template-columns: 156px repeat(5, minmax(0, 1fr)) !important;
+  }
+
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #touch-pad {
+    width: 146px !important;
+    height: 88px !important;
+    min-width: 146px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+    grid-template-columns: repeat(3, 44px) !important;
+    grid-template-rows: repeat(3, 26px) !important;
+  }
+
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #touch-pad .touch-btn {
+    width: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    height: 26px !important;
+    min-height: 26px !important;
+    max-height: 26px !important;
+  }
+
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #touch-map,
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #touch-calm,
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #touch-interact,
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #touch-stop,
+  body.cdn-fit-active.cdn-lab-active.lab-mode.mobile-landscape #touch-helper {
+    height: 74px !important;
+    min-height: 74px !important;
+    max-height: 78px !important;
+    font-size: 16px !important;
+  }
+}
 </style>
 </head>
 <body class="cdn-lab-active lab-mode">
 <div id="rotate-screen-overlay" class="cdn-lab-rotate-hint" aria-live="polite">
   <div class="rotate-screen-card">
     <div class="rotate-icon">⌻</div>
-    <h1>CDN Learning Lab er et nettleserspill</h1>
-    <p>For best opplevelse: åpne på laptop, eller snu mobilen til liggende visning.</p>
-    <p class="rotate-small">Liggende gir plass til kartet, kontrollene og datasporene.</p>
+    <h1>Dette er et roterende minispill</h1>
+    <p>Snu mobilen horisontalt for å spille CDN Learning Lab.</p>
+    <p class="rotate-small">Landskap gir plass til kartet, kontrollene og datasporene.</p>
     <button id="cdn-mobile-back" type="button">Tilbake til kartet</button>
     <button id="cdn-mobile-reset" type="button">Start på nytt</button>
-    <button id="cdn-portrait-play" type="button" style="margin-top:4px;opacity:0.7;font-size:0.78em;">Spill i portrett uansett</button>
   </div>
 </div>
 <script>(function(){
@@ -6233,6 +6667,9 @@ body.lab-mode #cdn-rotate-continue {
   window.addEventListener('resize',setH);
   window.addEventListener('orientationchange',function(){setTimeout(setH,250);});
 })();</script>
+
+<div id="cdnFitViewport" class="cdn-fit-viewport">
+  <div id="cdnFitStage" class="cdn-fit-stage">
 
 <!-- ROTATE DEVICE OVERLAY HTML -->
 <div id="rotate-device-overlay" aria-hidden="true">
@@ -6391,14 +6828,59 @@ body.lab-mode #cdn-rotate-continue {
 </section>
 <div id="ipop"><div id="ipt"></div><div id="ipd"></div><div id="ipa"></div></div>
 
+  </div>
+</div>
+
 <script>
 // ════════ CANVAS ════════
+const CDN_FIT_DESIGN_W=1280;
+const CDN_FIT_DESIGN_H=720;
+function isCdnLearningLabFitTarget(){
+  return window.matchMedia&&window.matchMedia('(max-width: 950px), (hover: none) and (pointer: coarse)').matches;
+}
+function fitCdnLearningLabToViewport(){
+  const viewport=document.getElementById('cdnFitViewport');
+  const stage=document.getElementById('cdnFitStage');
+  if(!viewport||!stage)return;
+  const target=isCdnLearningLabFitTarget();
+  document.documentElement.classList.toggle('cdn-fit-active',target);
+  document.body.classList.toggle('cdn-fit-active',target);
+  if(!target){
+    document.documentElement.style.setProperty('--cdn-scale','1');
+    viewport.style.width='';
+    viewport.style.height='';
+    stage.style.width='';
+    stage.style.height='';
+    stage.style.minWidth='';
+    stage.style.minHeight='';
+    return;
+  }
+  const vv=window.visualViewport;
+  const availableW=Math.floor(vv&&vv.width?vv.width:window.innerWidth);
+  const availableH=Math.floor(vv&&vv.height?vv.height:window.innerHeight);
+  const safeW=Math.max(320,availableW);
+  const safeH=Math.max(240,availableH);
+  const scale=Math.min(safeW/CDN_FIT_DESIGN_W,safeH/CDN_FIT_DESIGN_H,1);
+  document.documentElement.style.setProperty('--cdn-scale',String(scale));
+  viewport.style.width=safeW+'px';
+  viewport.style.height=safeH+'px';
+  stage.style.width=CDN_FIT_DESIGN_W+'px';
+  stage.style.height=CDN_FIT_DESIGN_H+'px';
+  stage.style.minWidth=CDN_FIT_DESIGN_W+'px';
+  stage.style.minHeight=CDN_FIT_DESIGN_H+'px';
+}
+window.fitCdnLearningLabToViewport=fitCdnLearningLabToViewport;
+fitCdnLearningLabToViewport();
 const gc=document.getElementById('gc');
 const ctx=gc.getContext('2d');
-gc.width=window.innerWidth; gc.height=window.innerHeight;
+const initialGcRect=gc.getBoundingClientRect();
+const initialFitTarget=isCdnLearningLabFitTarget();
+gc.width=Math.max(320,Math.round(initialFitTarget?(gc.offsetWidth||initialGcRect.width||window.innerWidth):window.innerWidth));
+gc.height=Math.max(240,Math.round(initialFitTarget?(gc.offsetHeight||initialGcRect.height||window.innerHeight):window.innerHeight));
 // Portrait play mode: override canvas dimensions before game constants are calculated
 const CDN_PORTRAIT_PLAY_KEY='cdnPortraitPlay';
-const _portraitPlayActive=(()=>{try{return sessionStorage.getItem(CDN_PORTRAIT_PLAY_KEY)==='1'&&window.innerHeight>window.innerWidth;}catch(e){return false;}})();
+try{sessionStorage.removeItem(CDN_PORTRAIT_PLAY_KEY);}catch(e){}
+const _portraitPlayActive=false;
 if(_portraitPlayActive){const _ph=Math.min(Math.round(window.innerHeight*0.44),420);gc.height=_ph;gc.width=window.innerWidth-20;document.body.classList.add('cdn-rotate-dismissed','mobile-portrait','mobile-layout','mobile-game','cdn-lab-active');}
 let W=gc.width, H=gc.height;
 const FORCE_MOBILE=new URLSearchParams(window.location.search).get('mobile')==='1';
@@ -6414,27 +6896,38 @@ let GAME_VIEW_TOP=MOBILE_MODE?46:40;
 let GAME_VIEW_BOTTOM=H-(MOBILE_MODE?74:50);
 
 function resizeCanvasForMobileLandscape(){
+  fitCdnLearningLabToViewport();
   const mobileLayout=document.body.classList.contains('mobile-layout')||window.innerWidth<=900||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches);
+  const fitLandscape=document.body.classList.contains('cdn-fit-active')&&window.matchMedia&&window.matchMedia('(max-width: 950px) and (orientation: landscape)').matches;
   const dpr=Math.min(window.devicePixelRatio||1,2);
   let cssWidth=window.innerWidth;
   let cssHeight=window.innerHeight;
 
-  if(mobileLayout){
+  if(fitLandscape){
+    gc.style.position='absolute';
+    gc.style.left='0';
+    gc.style.top='112px';
+    gc.style.width='1280px';
+    gc.style.height='496px';
+  }else if(mobileLayout){
     gc.style.position='relative';
     gc.style.left='auto';
     gc.style.top='auto';
     gc.style.width='100%';
     gc.style.height='100%';
   }else{
-    gc.style.position='';
-    gc.style.left='';
-    gc.style.top='';
-    gc.style.width='';
-    gc.style.height='';
+    gc.style.position='absolute';
+    gc.style.left='0';
+    gc.style.top='0';
+    gc.style.width='100vw';
+    gc.style.height='100vh';
   }
 
   const rect=gc.getBoundingClientRect();
-  if(rect.width>0&&rect.height>0){
+  if(fitLandscape&&gc.offsetWidth>0&&gc.offsetHeight>0){
+    cssWidth=gc.offsetWidth;
+    cssHeight=gc.offsetHeight;
+  }else if(rect.width>0&&rect.height>0){
     cssWidth=rect.width;
     cssHeight=rect.height;
   }
@@ -7481,7 +7974,11 @@ function setupTouchControls(){
 
 function getCanvasIntent(clientX,clientY){
   const rect=gc.getBoundingClientRect();
-  const x=clientX-rect.left,y=clientY-rect.top;
+  const cssW=gc.offsetWidth||rect.width||W||1;
+  const cssH=gc.offsetHeight||rect.height||H||1;
+  const scaleX=rect.width?cssW/rect.width:1;
+  const scaleY=rect.height?cssH/rect.height:1;
+  const x=(clientX-rect.left)*scaleX,y=(clientY-rect.top)*scaleY;
   const mobile=isMobileGameLayout();
   const leftLimit=mobile?0:LP;
   const rightLimit=mobile?W:W-RP;
@@ -10920,7 +11417,7 @@ function cdnRotateHintDismissed(){
     return false;
   }
 }
-function cdnPortraitPlayActive(){try{return sessionStorage.getItem(CDN_PORTRAIT_PLAY_KEY)==='1';}catch(e){return false;}}
+function cdnPortraitPlayActive(){return false;}
 function shouldShowRotateOverlay(){
   if(cdnPortraitPlayActive())return false;
   return isMobileLikeDevice()&&isPortraitMode();
@@ -10940,18 +11437,18 @@ function updateRotateOverlayLanguage(){
     const reset=simpleOverlay.querySelector('#cdn-mobile-reset');
     const back=simpleOverlay.querySelector('#cdn-mobile-back');
     const cont=simpleOverlay.querySelector('#cdn-rotate-continue');
-      if(h)h.textContent=LANG.current==='en' ? 'CDN Learning Lab is a browser game' : 'CDN Learning Lab er et nettleserspill';
+      if(h)h.textContent=LANG.current==='en' ? 'This is a rotating minigame' : 'Dette er et roterende minispill';
       if(p)p.textContent=LANG.current==='en'
-        ? 'For the best experience: open on laptop, or turn your phone to landscape.'
-        : 'For best opplevelse: åpne på laptop, eller snu mobilen til liggende visning.';
+        ? 'Turn your phone sideways to play CDN Learning Lab.'
+        : 'Snu mobilen horisontalt for å spille CDN Learning Lab.';
       if(small)small.textContent=LANG.current==='en'
-        ? 'Landscape makes room for the map, controls and data traces.'
-        : 'Liggende gir plass til kartet, kontrollene og datasporene.';
+        ? 'Landscape gives room for the map, controls and data traces.'
+        : 'Landskap gir plass til kartet, kontrollene og datasporene.';
       if(back)back.textContent=LANG.current==='en' ? 'Back to map' : 'Tilbake til kartet';
       if(reset)reset.textContent=LANG.current==='en' ? 'Start again' : 'Start på nytt';
       if(cont)cont.remove();
       const portraitBtn=simpleOverlay.querySelector('#cdn-portrait-play');
-      if(portraitBtn)portraitBtn.textContent=LANG.current==='en'?'Play in portrait anyway':'Spill i portrett uansett';
+      if(portraitBtn)portraitBtn.remove();
   }
   const landscapeReset=document.getElementById('cdn-landscape-reset');
   if(landscapeReset)landscapeReset.textContent=LANG.current==='en'?'Start again':'Start på nytt';
@@ -11003,6 +11500,7 @@ function loop(ts){lastFrame=ts;update(ts);draw(ts);requestAnimationFrame(loop);}
 
 function resizeLabGame(){
   document.body.classList.add('lab-mode');
+  fitCdnLearningLabToViewport();
   syncRotateOverlayViewport();
   applyResponsiveAppState();
   resizeCanvasForMobileLandscape();
@@ -11043,10 +11541,6 @@ window.addEventListener('load',()=>{
   };
   document.getElementById('cdn-mobile-reset')?.addEventListener('click',resetCdnLearningLab);
   document.getElementById('cdn-mobile-back')?.addEventListener('click',returnToPrideMap);
-  document.getElementById('cdn-portrait-play')?.addEventListener('click',()=>{
-    try{sessionStorage.setItem(CDN_PORTRAIT_PLAY_KEY,'1');}catch(e){}
-    window.location.reload();
-  });
   document.getElementById('cdn-landscape-reset')?.addEventListener('click',resetCdnLearningLab);
   runBoot();resetGame();setupTouchControls();setupPointerSteering();setInterval(updateClock,1000);
   for(let i=0;i<3;i++)spawnJelly();
@@ -11054,7 +11548,16 @@ window.addEventListener('load',()=>{
 });
 
 window.addEventListener('resize',resizeLabGame);
+window.addEventListener('load',fitCdnLearningLabToViewport);
+document.addEventListener('DOMContentLoaded',fitCdnLearningLabToViewport);
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',fitCdnLearningLabToViewport,{passive:true});
+  window.visualViewport.addEventListener('scroll',fitCdnLearningLabToViewport,{passive:true});
+}
 window.addEventListener('orientationchange',()=>{
+  window.setTimeout(fitCdnLearningLabToViewport,80);
+  window.setTimeout(fitCdnLearningLabToViewport,250);
+  window.setTimeout(fitCdnLearningLabToViewport,600);
   window.setTimeout(()=>{
     const nowLandscape=window.innerWidth>window.innerHeight;
     const wasPortrait=document.body.classList.contains('mobile-portrait');
