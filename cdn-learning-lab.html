@@ -6248,6 +6248,17 @@ html.cdn-fit-active {
   overscroll-behavior: none !important;
 }
 
+body.cdn-fit-active #cdnFitStage {
+  width: calc(var(--cdn-design-w) * 1px);
+  height: calc(var(--cdn-design-h) * 1px);
+  min-width: calc(var(--cdn-design-w) * 1px);
+  min-height: calc(var(--cdn-design-h) * 1px);
+  transform: scale(var(--cdn-scale));
+  transform-origin: top center;
+  margin: 0 auto;
+  position: relative;
+}
+
 body.lab-mode #cdn-portrait-play {
   display: none !important;
 }
@@ -7181,7 +7192,7 @@ const CDN_FIT_DESIGN_W=1280;
 const CDN_FIT_DESIGN_H=720;
 const CDN_FIT_MOBILE_LANDSCAPE_VISIBLE_H=654;
 function isCdnLearningLabFitTarget(){
-  return window.matchMedia&&window.matchMedia('(max-width: 950px), (hover: none) and (pointer: coarse)').matches;
+  return true;
 }
 function fitCdnLearningLabToViewport(){
   const viewport=document.getElementById('cdnFitViewport');
@@ -7206,10 +7217,10 @@ function fitCdnLearningLabToViewport(){
   const safeW=Math.max(320,availableW);
   const safeH=Math.max(240,availableH);
   const isMobileLandscape=window.matchMedia&&window.matchMedia('(max-width: 950px) and (orientation: landscape)').matches;
-  let scale=Math.min(safeW/CDN_FIT_DESIGN_W,safeH/CDN_FIT_DESIGN_H,1);
+  let scale=Math.min(safeW/CDN_FIT_DESIGN_W,safeH/CDN_FIT_DESIGN_H);
   if(isMobileLandscape){
-    const boostedScale=Math.min(scale*1.10,1);
-    const visibleScaleLimit=Math.min(safeW/CDN_FIT_DESIGN_W,safeH/CDN_FIT_MOBILE_LANDSCAPE_VISIBLE_H,1);
+    const boostedScale=Math.min(scale*1.10,safeW/CDN_FIT_DESIGN_W);
+    const visibleScaleLimit=Math.min(safeW/CDN_FIT_DESIGN_W,safeH/CDN_FIT_MOBILE_LANDSCAPE_VISIBLE_H);
     scale=Math.min(boostedScale,visibleScaleLimit);
   }
   document.documentElement.style.setProperty('--cdn-scale',String(scale));
