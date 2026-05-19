@@ -6996,6 +6996,335 @@ body.lab-mode #cdn-portrait-play {
     padding: 6px 10px !important;
   }
 }
+
+/* Desktop viewport reset: keep the PC build full-screen, not mobile-fit scaled. */
+@media (min-width: 951px) {
+  html.cdn-fit-active,
+  body.cdn-fit-active,
+  body.cdn-lab-active.lab-mode {
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  body.cdn-fit-active #cdnFitViewport {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-width: none !important;
+    max-height: none !important;
+    display: block !important;
+    overflow: hidden !important;
+  }
+
+  body.cdn-fit-active #cdnFitStage {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-width: 100vw !important;
+    min-height: 100dvh !important;
+    transform: none !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.cdn-fit-active #gc,
+  body.cdn-fit-active canvas#gc {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    min-width: 100vw !important;
+    min-height: 100dvh !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+
+  body.cdn-fit-active #hud,
+  body.cdn-lab-active.lab-mode #hud {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+    z-index: 100 !important;
+  }
+
+  body.cdn-fit-active #tb,
+  body.cdn-lab-active.lab-mode #tb {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: auto !important;
+    height: 40px !important;
+    max-height: 40px !important;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-fit-active #lp,
+  body.cdn-fit-active #rp,
+  body.cdn-fit-active #btm,
+  body.cdn-lab-active.lab-mode #lp,
+  body.cdn-lab-active.lab-mode #rp,
+  body.cdn-lab-active.lab-mode #btm {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: none !important;
+  }
+
+  body.cdn-fit-active #lp,
+  body.cdn-lab-active.lab-mode #lp {
+    position: fixed !important;
+    left: 0 !important;
+    top: 40px !important;
+    bottom: 50px !important;
+    width: 156px !important;
+  }
+
+  body.cdn-fit-active #rp,
+  body.cdn-lab-active.lab-mode #rp {
+    position: fixed !important;
+    right: 0 !important;
+    top: 40px !important;
+    bottom: 50px !important;
+    width: 146px !important;
+  }
+
+  body.cdn-fit-active #btm,
+  body.cdn-lab-active.lab-mode #btm {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: auto !important;
+    height: 50px !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-fit-active #story-card,
+  body.cdn-lab-active.lab-mode #story-card {
+    position: fixed !important;
+    left: 170px !important;
+    right: 160px !important;
+    top: 52px !important;
+    width: auto !important;
+    max-width: 520px !important;
+    height: auto !important;
+    max-height: none !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: .88 !important;
+  }
+
+  body.cdn-fit-active #touch-ui,
+  body.cdn-lab-active.lab-mode #touch-ui {
+    display: none !important;
+  }
+
+  body.cdn-fit-active #accessibility-menu,
+  body.cdn-lab-active.lab-mode #accessibility-menu {
+    position: relative !important;
+    z-index: 500 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  body.cdn-fit-active #accessibility-menu[open] .access-menu-body,
+  body.cdn-lab-active.lab-mode #accessibility-menu[open] .access-menu-body {
+    position: absolute !important;
+    top: calc(100% + 8px) !important;
+    right: 0 !important;
+    left: auto !important;
+    width: min(330px, calc(100vw - 24px)) !important;
+    max-width: min(330px, calc(100vw - 24px)) !important;
+    max-height: calc(100dvh - 58px) !important;
+    padding: 10px !important;
+    display: grid !important;
+    gap: 8px !important;
+    overflow-y: auto !important;
+    pointer-events: auto !important;
+    z-index: 600 !important;
+  }
+
+  body.cdn-fit-active .access-menu-section,
+  body.cdn-lab-active.lab-mode .access-menu-section {
+    gap: 6px !important;
+    padding: 8px !important;
+  }
+
+  body.cdn-fit-active .access-menu-section > span,
+  body.cdn-lab-active.lab-mode .access-menu-section > span {
+    font-size: 11px !important;
+  }
+
+  body.cdn-fit-active .access-menu-section button,
+  body.cdn-lab-active.lab-mode .access-menu-section button {
+    min-height: 30px !important;
+    padding: 7px 9px !important;
+    font-size: 11px !important;
+  }
+}
+
+html.cdn-embedded-desktop,
+body.cdn-embedded-desktop {
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+body.cdn-embedded-desktop #cdnFitViewport,
+body.cdn-embedded-desktop #cdnFitStage {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-width: 100vw !important;
+  min-height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+  transform: none !important;
+  margin: 0 !important;
+  display: block !important;
+  overflow: hidden !important;
+}
+
+body.cdn-embedded-desktop #gc,
+body.cdn-embedded-desktop canvas#gc {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-width: 100vw !important;
+  min-height: 100dvh !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+body.cdn-embedded-desktop #hud {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: none !important;
+  z-index: 100 !important;
+}
+
+body.cdn-embedded-desktop #tb {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: auto !important;
+  height: 40px !important;
+  max-height: 40px !important;
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+body.cdn-embedded-desktop #lp,
+body.cdn-embedded-desktop #rp,
+body.cdn-embedded-desktop #btm {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+body.cdn-embedded-desktop #lp {
+  position: fixed !important;
+  left: 0 !important;
+  top: 40px !important;
+  bottom: 50px !important;
+  width: 156px !important;
+  pointer-events: none !important;
+}
+
+body.cdn-embedded-desktop #rp {
+  position: fixed !important;
+  right: 0 !important;
+  top: 40px !important;
+  bottom: 50px !important;
+  width: 146px !important;
+  pointer-events: none !important;
+}
+
+body.cdn-embedded-desktop #btm {
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: auto !important;
+  height: 50px !important;
+  pointer-events: auto !important;
+}
+
+body.cdn-embedded-desktop #story-card {
+  position: fixed !important;
+  left: 170px !important;
+  right: 160px !important;
+  top: 52px !important;
+  width: auto !important;
+  max-width: 520px !important;
+  height: auto !important;
+  max-height: none !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: .88 !important;
+}
+
+body.cdn-embedded-desktop #touch-ui {
+  display: none !important;
+}
+
+body.cdn-embedded-desktop #accessibility-menu {
+  position: relative !important;
+  z-index: 500 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+body.cdn-embedded-desktop #accessibility-menu[open] .access-menu-body {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  right: 0 !important;
+  left: auto !important;
+  width: min(330px, calc(100vw - 24px)) !important;
+  max-width: min(330px, calc(100vw - 24px)) !important;
+  max-height: calc(100dvh - 58px) !important;
+  padding: 10px !important;
+  display: grid !important;
+  gap: 8px !important;
+  overflow-y: auto !important;
+  pointer-events: auto !important;
+  z-index: 600 !important;
+}
 </style>
 </head>
 <body class="cdn-lab-active lab-mode">
@@ -7194,6 +7523,47 @@ const CDN_FIT_MOBILE_LANDSCAPE_VISIBLE_H=654;
 function isCdnLearningLabFitTarget(){
   return true;
 }
+function isCdnDesktopViewport(width){
+  const finePointer=window.matchMedia?window.matchMedia('(pointer: fine)').matches:false;
+  const hoverPointer=window.matchMedia?window.matchMedia('(hover: hover)').matches:false;
+  const ua=navigator.userAgent||'';
+  const mobileUA=/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua);
+  const ipadLike=/iPad/.test(ua)||(navigator.platform==='MacIntel'&&(navigator.maxTouchPoints||0)>1);
+  return finePointer&&hoverPointer&&!mobileUA&&!ipadLike&&width>=640;
+}
+function isCdnEmbeddedDesktopViewport(width){
+  const embedded=window.self!==window.top;
+  return embedded&&isCdnDesktopViewport(width);
+}
+function requestCdnParentViewport(width,height,desktopEmbed=false){
+  if(window.self===window.top)return;
+  const requestedWidth=desktopEmbed?Math.max(width,(window.screen&&window.screen.availWidth)||0):width;
+  const requestedHeight=desktopEmbed?Math.max(height,(window.screen&&window.screen.availHeight)||0):height;
+  try{
+    window.parent.postMessage({
+      type:'CDN_LEARNING_LAB_VIEWPORT',
+      width:requestedWidth,
+      height:requestedHeight,
+      iframeWidth:width,
+      iframeHeight:height,
+      fullViewport:true,
+      source:'cdn-learning-lab'
+    },'*');
+    window.parent.postMessage({type:'PRIDE_PARK_HEIGHT',height:requestedHeight,source:'cdn-learning-lab'},'*');
+  }catch(e){}
+  try{
+    const frame=window.frameElement;
+    if(frame){
+      frame.style.display='block';
+      frame.style.width='100vw';
+      frame.style.maxWidth='none';
+      frame.style.height='100dvh';
+      frame.style.minHeight='100dvh';
+      frame.style.margin='0';
+      frame.style.border='0';
+    }
+  }catch(e){}
+}
 function fitCdnLearningLabToViewport(){
   const viewport=document.getElementById('cdnFitViewport');
   const stage=document.getElementById('cdnFitStage');
@@ -7217,6 +7587,21 @@ function fitCdnLearningLabToViewport(){
   const safeW=Math.max(320,availableW);
   const safeH=Math.max(240,availableH);
   const isMobileLandscape=window.matchMedia&&window.matchMedia('(max-width: 950px) and (orientation: landscape)').matches;
+  const isEmbeddedDesktop=isCdnEmbeddedDesktopViewport(safeW);
+  const isDesktopViewport=isCdnDesktopViewport(safeW)&&!isPortraitMode();
+  document.documentElement.classList.toggle('cdn-embedded-desktop',isDesktopViewport);
+  document.body.classList.toggle('cdn-embedded-desktop',isDesktopViewport);
+  requestCdnParentViewport(safeW,safeH,isEmbeddedDesktop);
+  if(isDesktopViewport){
+    document.documentElement.style.setProperty('--cdn-scale','1');
+    viewport.style.width=safeW+'px';
+    viewport.style.height=safeH+'px';
+    stage.style.width=safeW+'px';
+    stage.style.height=safeH+'px';
+    stage.style.minWidth=safeW+'px';
+    stage.style.minHeight=safeH+'px';
+    return;
+  }
   let scale=Math.min(safeW/CDN_FIT_DESIGN_W,safeH/CDN_FIT_DESIGN_H);
   if(isMobileLandscape){
     const boostedScale=Math.min(scale*1.10,safeW/CDN_FIT_DESIGN_W);
@@ -7246,7 +7631,8 @@ const _portraitPlayActive=false;
 if(_portraitPlayActive){const _ph=Math.min(Math.round(window.innerHeight*0.44),420);gc.height=_ph;gc.width=window.innerWidth-20;document.body.classList.add('cdn-rotate-dismissed','mobile-portrait','mobile-layout','mobile-game','cdn-lab-active');}
 let W=gc.width, H=gc.height;
 const FORCE_MOBILE=new URLSearchParams(window.location.search).get('mobile')==='1';
-const MOBILE_MODE=FORCE_MOBILE||window.innerWidth<=900||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches&&window.innerWidth<=1100);
+const DESKTOP_POINTER_MODE=isCdnDesktopViewport(window.innerWidth);
+const MOBILE_MODE=FORCE_MOBILE||(!DESKTOP_POINTER_MODE&&(window.innerWidth<=900||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches&&window.innerWidth<=1100)));
 if(MOBILE_MODE)document.body.classList.add('mobile-ui');
 const PERF_SCALE=MOBILE_MODE ? .68 : 1;
 const LP=MOBILE_MODE?12:156, RP=MOBILE_MODE?12:146;           // left/right panel widths
@@ -7259,8 +7645,9 @@ let GAME_VIEW_BOTTOM=H-(MOBILE_MODE?74:50);
 
 function resizeCanvasForMobileLandscape(){
   fitCdnLearningLabToViewport();
-  const mobileLayout=document.body.classList.contains('mobile-layout')||window.innerWidth<=900||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches);
-  const fitLandscape=document.body.classList.contains('cdn-fit-active')&&window.matchMedia&&window.matchMedia('(max-width: 950px) and (orientation: landscape)').matches;
+  const desktopPointerMode=isCdnDesktopViewport(window.innerWidth);
+  const mobileLayout=!desktopPointerMode&&(document.body.classList.contains('mobile-layout')||window.innerWidth<=900||(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches));
+  const fitLandscape=!desktopPointerMode&&document.body.classList.contains('cdn-fit-active')&&window.matchMedia&&window.matchMedia('(max-width: 950px) and (orientation: landscape)').matches;
   const dpr=Math.min(window.devicePixelRatio||1,2);
   let cssWidth=window.innerWidth;
   let cssHeight=window.innerHeight;
@@ -8074,29 +8461,36 @@ function initParadeAudio(){
   const media=new Audio(PARADE_TRACK_SRC),source=AC.createMediaElementSource(media),gain=AC.createGain(),filter=AC.createBiquadFilter(),comp=AC.createDynamicsCompressor();
   media.loop=true;
   media.preload='auto';
+  media.volume=1;
+  media.playsInline=true;
   gain.gain.value=0;
   filter.type='lowpass';filter.frequency.value=420;filter.Q.value=.55;
   source.connect(filter);filter.connect(gain);gain.connect(comp);comp.connect(AC.destination);
-  paradeAudio={media,source,gain,filter};
-  media.play().catch(()=>{});
+  paradeAudio={media,source,gain,filter,started:false};
+  primeParadeAudio();
+}
+function primeParadeAudio(){
+  if(!paradeAudio||!paradeAudio.media.paused)return;
+  const playPromise=paradeAudio.media.play();
+  if(playPromise&&playPromise.then){
+    playPromise.then(()=>{paradeAudio.started=true;}).catch(()=>{paradeAudio.started=false;});
+  }else{
+    paradeAudio.started=true;
+  }
 }
 function updateParadeAudio(dt){
   if(!AC||!paradeAudio)return;
   const dx=(P.x+P.w/2)-PRIDE_PARADE_CENTER.x,dy=(P.y+P.h/2)-PRIDE_PARADE_CENTER.y;
   const dist=Math.hypot(dx,dy);
   const near=cl(1-dist/PRIDE_PARADE_CENTER.r,0,1);
-  const vol=near*near*(ACCESS.sfx ? .42*ACCESS.sfxVol : 0);
-  paradeAudio.gain.gain.setTargetAtTime(vol,AC.currentTime,.24);
-  paradeAudio.filter.frequency.setTargetAtTime(420+near*2400,AC.currentTime,.2);
-  if(near>.32&&!paradeLastLog){
+  const muffled=near*near*(ACCESS.sfx ? .42*ACCESS.sfxVol : 0);
+  paradeAudio.gain.gain.setTargetAtTime(muffled,AC.currentTime,.28);
+  paradeAudio.filter.frequency.setTargetAtTime(360+near*2400,AC.currentTime,.22);
+  if(ACCESS.sfx&&near>.05&&paradeAudio.media.paused)primeParadeAudio();
+  if(near>.34&&!paradeLastLog){
     paradeLastLog=true;
     addLog(lt('Pride-paraden i Nygårdsparken fyller vannet med farger og rytme. Her er det trygt å være seg selv.'),'i');
-  }else if(near<.16)paradeLastLog=false;
-  if(ACCESS.sfx&&near>.05){
-    if(paradeAudio.media.paused)paradeAudio.media.play().catch(()=>{});
-  }else if(!paradeAudio.media.paused){
-    paradeAudio.media.pause();
-  }
+  }else if(near<.18)paradeLastLog=false;
 }
 function initBuekorpsAudio(){
   if(bueAudio||!AC)return;
@@ -11195,9 +11589,11 @@ function drawRainBelow(t){
 // PANEL MASKS
 // ─────────────────────────────────────────────────
 function drawPanelMasks(){
-  ctx.fillStyle='rgba(1,6,14,.98)';
-  ctx.fillRect(0,0,LP,H);
-  ctx.fillRect(W-RP,0,RP,H);
+  if(!isCdnDesktopViewport(window.innerWidth)){
+    ctx.fillStyle='rgba(1,6,14,.98)';
+    ctx.fillRect(0,0,LP,H);
+    ctx.fillRect(W-RP,0,RP,H);
+  }
   // Divider glows
   const lg1=ctx.createLinearGradient(LP-2,0,LP+3,0);
   lg1.addColorStop(0,'rgba(58,184,216,0)');lg1.addColorStop(.5,'rgba(58,184,216,.08)');lg1.addColorStop(1,'rgba(58,184,216,0)');
