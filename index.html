@@ -831,6 +831,22 @@
             transform: translate(0, 6px) scale(1.07);
         }
 
+        /* Aftab portrait photo — cover crop, face positioned at top */
+        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .aftab-photo {
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            max-width: none !important;
+            max-height: none !important;
+            object-fit: cover !important;
+            object-position: center 18% !important;
+            transform: none !important;
+            margin: 0 !important;
+            display: block !important;
+            filter: drop-shadow(0 0 0 transparent) !important;
+        }
+
         .creature-card.artist-reveal-card.show-artist .card-artist-content {
             margin-top: 0;
             padding: 0;
@@ -3038,7 +3054,7 @@
                             <img src="assets/fossegrimen.png" alt="Fossegrimen" class="card-folklore-img">
                         </div>
                         <div class="artist-image">
-                            <img src="assets/aftab.PNG" alt="Fossegrimen cutout reveal" class="draug-dancer">
+                            <img src="assets/marinehagen/aftab.png" alt="Aftab" class="draug-dancer aftab-photo">
                         </div>
                     </div>
                     <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
