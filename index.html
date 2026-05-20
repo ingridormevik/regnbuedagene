@@ -810,6 +810,8 @@
 
         .creature-card[data-creature="fossegrim"].show-artist .artist-image {
             background: transparent;
+            overflow: hidden;
+            justify-content: flex-start; /* crawling pose: face is on the left */
         }
 
         .creature-card[data-creature="draug"].show-artist .artist-image {
@@ -823,28 +825,13 @@
 
         .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .draug-dancer {
             width: auto;
-            height: 390px;
+            height: 460px;
             max-width: none;
-            max-height: 390px;
+            max-height: 460px;
             object-fit: contain;
-            object-position: center bottom;
-            transform: translate(0, 6px) scale(1.07);
-        }
-
-        /* Aftab portrait photo — cover crop, face positioned at top */
-        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .aftab-photo {
-            position: absolute !important;
-            inset: 0 !important;
-            width: 100% !important;
-            height: 100% !important;
-            max-width: none !important;
-            max-height: none !important;
-            object-fit: cover !important;
-            object-position: center 18% !important;
-            transform: none !important;
-            margin: 0 !important;
-            display: block !important;
-            filter: drop-shadow(0 0 0 transparent) !important;
+            object-position: left bottom;
+            transform: translate(8%, -4%) scale(1.35);
+            transform-origin: left bottom;
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content {
@@ -3054,7 +3041,7 @@
                             <img src="assets/fossegrimen.png" alt="Fossegrimen" class="card-folklore-img">
                         </div>
                         <div class="artist-image">
-                            <img src="assets/marinehagen/aftab.png" alt="Aftab" class="draug-dancer aftab-photo">
+                            <img src="assets/aftab.PNG" alt="Aftab" class="draug-dancer">
                         </div>
                     </div>
                     <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
