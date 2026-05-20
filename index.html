@@ -3,20 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="color-scheme" content="dark">
-    <meta name="description" content="Regnbuenatt 2026 — Den Mytiske Skogen. Interaktive kunstinstallasjoner og spill for Bergen Pride. Utforsk BERGTATT, Pride Park og CDN Læringslab."/>
-    <meta property="og:title" content="Regnbuenatt 2026 — Den Mytiske Skogen"/>
-    <meta property="og:description" content="Interaktive kunstinstallasjoner for Bergen Pride 2026. BERGTATT · Pride Park · CDN Læringslab."/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="https://cool-mochi-5acdd7.netlify.app/"/>
-    <meta property="og:image" content="https://cool-mochi-5acdd7.netlify.app/assets/logo.png"/>
-    <meta property="og:locale" content="nb_NO"/>
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:title" content="Regnbuenatt 2026 — Den Mytiske Skogen"/>
-    <meta name="twitter:description" content="Interaktive kunstinstallasjoner for Bergen Pride 2026."/>
-    <meta name="twitter:image" content="https://cool-mochi-5acdd7.netlify.app/assets/logo.png"/>
+    <meta http-equiv="X-Frame-Options" content="ALLOWALL">
     <title>Regnbuenatt 2026 - Den Mytiske Skogen</title>
-    <link rel="icon" href="assets/logo.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
 
@@ -27,7 +15,7 @@
         }
 
         :root {
-            color-scheme: dark;
+            /* Kittelsen Dark Forest Palette */
             --forest-black: #0a0e0d;
             --forest-deep: #121816;
             --moss-dark: #1a2820;
@@ -47,22 +35,12 @@
             width: 100%;
             min-height: 100vh;
             overflow-x: hidden;
-            overflow-anchor: none;
-            overscroll-behavior-y: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            color-scheme: dark;
             font-family: 'Crimson Text', Georgia, serif;
             background: var(--forest-black);
             color: var(--spirit-white);
             cursor: default;
             -webkit-text-size-adjust: 100%;
             text-size-adjust: 100%;
-        }
-
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar {
-            display: none;
         }
 
         /* ---------------------------------------------------------------
@@ -78,16 +56,15 @@
             z-index: 0;
             pointer-events: none;
             overflow: hidden;
-            will-change: transform;
         }
 
+        /* Northern Lights Canvas */
         #aurora-canvas {
             position: absolute;
             width: 100%;
             height: 100%;
-            opacity: 0.55;
+            opacity: 0.15;
             mix-blend-mode: screen;
-            will-change: transform;
         }
 
         /* Mist/Fog Effect */
@@ -180,7 +157,6 @@
             letter-spacing: 0em;
             display: block;
             width: 100%;
-            max-width: 100%;
             margin-inline: auto;
             text-align: center;
             margin-bottom: 20px;
@@ -188,9 +164,7 @@
                 0 0 40px rgba(196, 212, 204, 0.4),
                 0 4px 12px rgba(0, 0, 0, 0.9);
             animation: titleGlow 4s ease-in-out infinite;
-            white-space: normal;
-            text-wrap: balance;
-            line-height: 1;
+            white-space: nowrap;
         }
 
         @keyframes titleGlow {
@@ -327,16 +301,11 @@
             border-radius: 20px;
             padding: 40px 30px;
             cursor: pointer;
-            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
-                        border-color 0.5s cubic-bezier(0.23, 1, 0.32, 1),
-                        box-shadow 0.5s cubic-bezier(0.23, 1, 0.32, 1),
-                        opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            overflow: clip;
-            overflow-clip-margin: 20px;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            overflow: hidden;
             backdrop-filter: blur(10px);
             touch-action: manipulation;
             -webkit-tap-highlight-color: transparent;
-            transform: translateZ(0);
         }
 
         .creature-card::before {
@@ -470,23 +439,16 @@
         .creature-card.artist-reveal-card:not(.show-artist) .folklore-image > img {
             width: auto;
             height: auto;
-            max-height: 292px;
+            max-height: 320px;
             max-width: 85%;
             object-fit: contain;
             display: block;
-            margin: 0 auto 26px;
+            margin: 6px auto 26px;
             flex-shrink: 0;
         }
 
-        .creature-card:not(.artist-reveal-card)[data-creature="nokken"] .creature-icon > img,
-        .creature-card.artist-reveal-card[data-creature="nokken"]:not(.show-artist) .folklore-image > img {
-            max-width: 72% !important;
-            max-height: 220px !important;
-        }
-
-        /* Huldra is a seated figure — boost display size to match upright creatures */
-        .creature-card.artist-reveal-card[data-creature="huldra"]:not(.show-artist) .folklore-image > img {
-            max-height: 340px;
+        .creature-card[data-creature="nokken"] .creature-icon img {
+            max-width: 85%;
         }
 
         .creature-icon {
@@ -536,13 +498,12 @@
             filter: drop-shadow(0 0 40px var(--glow-color)) drop-shadow(0 0 80px var(--glow-color)) brightness(1.05);
         }
 
-        .creature-card:not(.artist-reveal-card)[data-creature="jotna"] .creature-icon > img,
-        .creature-card.artist-reveal-card[data-creature="jotna"]:not(.show-artist) .folklore-image > img {
+        .creature-card[data-creature="jotna"] .creature-icon img {
             max-width: 85%;
         }
 
         .creature-card.artist-reveal-card .creature-icon::before {
-            opacity: 0.22;
+            opacity: 0;
             filter: blur(60px);
             transition: opacity 0.8s ease, filter 0.8s ease;
         }
@@ -759,10 +720,6 @@
             min-height: 390px;
             height: 390px;
             max-height: 390px;
-            --artist-cutout-height: 390px;
-            --artist-cutout-scale: 1.07;
-            --artist-cutout-offset-x: 0px;
-            --artist-cutout-offset-y: 6px;
         }
 
         .creature-card.artist-reveal-card.show-artist .creature-icon {
@@ -779,59 +736,84 @@
             left: auto;
             right: auto;
             top: auto;
+            width: auto;
+            height: 100%;
+            max-width: 300px;
+            max-height: 390px;
+        }
+
+        .creature-card[data-creature="jotna"].show-artist .artist-image {
+            background: transparent;
+        }
+
+        .creature-card.artist-reveal-card[data-creature="jotna"].show-artist .artist-image img[src*="alma.png"].draug-dancer {
+            position: relative;
+            left: auto;
+            right: auto;
+            top: auto;
             bottom: auto;
             display: block;
             margin: 0 auto;
-            width: auto;
-            height: var(--artist-cutout-height);
-            max-width: none;
-            max-height: none;
+            width: 156%;
+            max-width: 350px;
+            height: auto;
             object-fit: contain;
-            object-position: center bottom;
-            transform: translate(var(--artist-cutout-offset-x), var(--artist-cutout-offset-y)) scale(var(--artist-cutout-scale));
+            transform: translateY(16px) scale(1.24);
             transform-origin: center bottom;
             z-index: 2;
             pointer-events: none;
             background: transparent !important;
             box-shadow: none !important;
+            filter: none !important;
         }
 
-        .creature-card[data-creature="jotna"].show-artist .artist-image {
-            background: transparent;
-            --artist-cutout-height: 320px;
-            --artist-cutout-scale: 1.07;
-            --artist-cutout-offset-y: 6px;
-        }
-
-        .creature-card[data-creature="nokken"].show-artist .artist-image {
-            background: transparent;
-            --artist-cutout-offset-y: 4px;
-        }
-
+        .creature-card[data-creature="nokken"].show-artist .artist-image,
         .creature-card[data-creature="fossegrim"].show-artist .artist-image {
             background: transparent;
-            overflow: hidden;
-            justify-content: flex-start; /* crawling pose: face is on the left */
-        }
-
-        .creature-card[data-creature="draug"].show-artist .artist-image {
-            --artist-cutout-offset-y: 16px;
         }
 
         .creature-card.artist-reveal-card[data-creature="nokken"].show-artist .artist-image img[src*="logan"].draug-dancer {
+            position: relative;
+            left: auto;
+            right: auto;
+            top: auto;
+            bottom: auto;
+            display: block;
+            margin: 0 auto;
+            width: auto;
+            max-width: 300px;
+            height: 100%;
+            object-fit: contain;
+            transform: translateY(16px) scale(1.02);
+            transform-origin: center bottom;
+            z-index: 2;
+            pointer-events: none;
+            background: transparent !important;
+            box-shadow: none !important;
+            filter: none !important;
             -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0, 0, 0, 0.82) 88%, transparent 100%);
             mask-image: linear-gradient(180deg, #000 0%, #000 80%, rgba(0, 0, 0, 0.82) 88%, transparent 100%);
         }
 
-        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .draug-dancer {
+        .creature-card.artist-reveal-card[data-creature="draug"].show-artist .artist-image img[src*="dennixx"].draug-dancer {
+            position: relative;
+            left: auto;
+            right: auto;
+            top: auto;
+            bottom: auto;
+            display: block;
+            margin: 0 auto;
             width: auto;
-            height: 460px;
-            max-width: none;
-            max-height: 460px;
+            max-width: 310px;
+            height: 100%;
             object-fit: contain;
-            object-position: left bottom;
-            transform: translate(8%, -4%) scale(1.35);
-            transform-origin: left bottom;
+            transform: translateY(16px) scale(1.02);
+            transform-origin: center bottom;
+            z-index: 2;
+            pointer-events: none;
+            background: transparent !important;
+            box-shadow: none !important;
+            filter: none !important;
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content {
@@ -849,7 +831,6 @@
             min-height: 6.4rem;
             align-items: center;
             line-height: 1.06;
-            opacity: 1;
         }
 
         .creature-card.artist-reveal-card.show-artist .artist-pronouns {
@@ -859,7 +840,6 @@
             letter-spacing: 0.08em;
             text-align: center;
             color: var(--mist-gray);
-            opacity: 1;
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content .creature-identity {
@@ -868,13 +848,11 @@
             white-space: normal;
             font-size: 0.84rem;
             letter-spacing: 0.08em;
-            opacity: 1;
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content .creature-description {
             min-height: 0;
             margin-bottom: 0;
-            opacity: 1;
         }
 
         .creature-card.artist-reveal-card.show-artist .card-artist-content .creature-quote {
@@ -883,15 +861,6 @@
             min-height: 0;
             white-space: normal;
             font-size: 0.9rem;
-            opacity: 1;
-        }
-
-        /* Folklore/vesen text: always visible (animation fallback for Safari) */
-        .creature-card.artist-reveal-card:not(.show-artist) .card-folklore-content .creature-name,
-        .creature-card.artist-reveal-card:not(.show-artist) .card-folklore-content .creature-identity,
-        .creature-card.artist-reveal-card:not(.show-artist) .card-folklore-content .creature-description,
-        .creature-card.artist-reveal-card:not(.show-artist) .card-folklore-content .creature-quote {
-            opacity: 1;
         }
 
         .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image,
@@ -953,24 +922,56 @@
                 radial-gradient(circle at 42% 68%, rgba(255, 130, 65, 0.18), transparent 60%);
         }
 
-        /* huldra/troll/fossegrim artist-image::before glow is intentionally enabled (colored florie) */
+        .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image::before,
+        .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image::before,
+        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image::before {
+            display: none;
+        }
+
+        .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer,
+        .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer,
+        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .draug-dancer {
+            position: relative;
+            left: auto;
+            right: auto;
+            top: auto;
+            bottom: auto;
+            display: block;
+            margin: 0 auto;
+            width: auto;
+            max-width: 330px;
+            height: 100%;
+            object-fit: contain;
+            transform: translateY(16px) scale(1.04);
+            transform-origin: center bottom;
+            z-index: 2;
+            pointer-events: none;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
 
         .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer {
-            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55))
-                    drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
-                    drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
+            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
         }
 
         .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer {
-            filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58))
-                    drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
-                    drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
+            filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58));
         }
 
+        /* Aftab: horizontal crawling pose — show face by left-aligning */
+        .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image {
+            overflow: hidden;
+            justify-content: flex-start;
+        }
         .creature-card.artist-reveal-card[data-creature="fossegrim"].show-artist .artist-image .draug-dancer {
-            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55))
-                    drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
-                    drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
+            max-width: none !important;
+            width: auto;
+            height: 480px;
+            margin: 0;
+            object-position: left bottom;
+            transform: translateY(6px) scale(1.22);
+            transform-origin: left bottom;
+            filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55));
         }
 
         @keyframes creatureCutoutAura {
@@ -1163,7 +1164,9 @@
         }
 
         body.mobile-lite .mist-layer-2,
-        body.mobile-lite #aurora-shader-canvas {
+        body.mobile-lite #aurora-canvas,
+        body.mobile-lite #aurora-shader-canvas,
+        body.mobile-lite .forest-atmosphere {
             display: none !important;
         }
 
@@ -1179,9 +1182,7 @@
         }
 
         body.mobile-lite .creature-card::before,
-        body.mobile-lite .creature-card::after {
-            animation-duration: 10s !important;
-        }
+        body.mobile-lite .creature-card::after,
         body.mobile-lite .creature-icon::before,
         body.mobile-lite .creature-icon::after {
             animation: none !important;
@@ -1225,7 +1226,6 @@
             z-index: 2;
             display: grid;
             align-content: center;
-            justify-items: center;
             gap: 14px;
             text-align: center;
             padding-left: 260px;
@@ -1243,9 +1243,23 @@
             margin-bottom: 0;
             text-transform: uppercase;
             text-wrap: balance;
+        }
+
+        .witch-mark {
+            position: absolute;
+            top: 20px;
+            right: 22px;
+            z-index: 2;
+            width: clamp(92px, 11vw, 126px);
+            opacity: 0.72;
+            filter: drop-shadow(0 0 18px rgba(232, 236, 232, 0.14));
+            pointer-events: none;
+        }
+
+        .witch-mark img {
+            display: block;
             width: 100%;
-            text-align: center;
-            transform: translateX(-130px);
+            height: auto;
         }
 
         .witch-description {
@@ -1482,13 +1496,12 @@
             .main-title {
                 font-size: clamp(1.55rem, 7.6vw, 2.25rem);
                 animation: none;
-                width: 100%;
+                width: auto;
                 max-width: 100%;
-                display: block;
+                display: inline-block;
                 margin-inline: auto;
                 white-space: normal;
                 text-wrap: balance;
-                line-height: 1;
                 text-shadow:
                     0 0 24px rgba(196, 212, 204, 0.28),
                     0 4px 12px rgba(0, 0, 0, 0.9);
@@ -1524,9 +1537,9 @@
             inset: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.60;
+            opacity: 0.28;
             mix-blend-mode: screen;
-            filter: blur(5px) saturate(1.3);
+            filter: blur(10px) saturate(1.2);
         }
 
         .mist-layer-2 {
@@ -1607,16 +1620,6 @@
             100% { transform: translateY(105vh) rotate(20deg); opacity: 0; }
         }
 
-        .global-rune-rain {
-            will-change: transform, opacity;
-            contain: strict;
-        }
-
-        .ritual-rune {
-            will-change: transform, opacity;
-            contain: layout style;
-        }
-
         body.forest-awakened {
             animation: forestAwaken 3s ease-out forwards;
         }
@@ -1684,6 +1687,8 @@
         }
 
         @media (max-width: 768px) {
+            #aurora-canvas,
+            #aurora-shader-canvas,
             .mist-layer-2 {
                 display: none;
             }
@@ -1933,9 +1938,6 @@
                 padding-left: 170px;
                 min-height: 380px;
             }
-            .witch-ep h2 {
-                transform: translateX(-85px);
-            }
             .club-seduction-body {
                 grid-template-columns: 1fr;
             }
@@ -1974,7 +1976,7 @@
             .witch-description {
                 position: relative;
                 z-index: 2;
-                order: 3;
+                order: 4;
                 width: min(100%, 19rem);
                 max-width: 19rem;
                 margin: 0 auto;
@@ -1984,7 +1986,7 @@
             }
 
             .witch-lead {
-                order: 2;
+                order: 3;
                 width: min(100%, 19.5rem);
                 font-size: 1rem;
                 line-height: 1.66;
@@ -2004,7 +2006,7 @@
             .witch-pills {
                 position: relative;
                 z-index: 2;
-                order: 4;
+                order: 1;
                 width: 100%;
                 gap: 8px;
                 margin: 0 auto 18px;
@@ -2020,14 +2022,23 @@
             .witch-ep h2 {
                 position: relative;
                 z-index: 2;
-                order: 1;
+                order: 2;
                 max-width: 6.8ch;
                 margin: 0 auto 14px;
                 font-size: clamp(1.95rem, 9.8vw, 2.95rem);
                 line-height: 0.94;
                 letter-spacing: 0.03em;
                 text-wrap: balance;
-                transform: none;
+            }
+
+            .witch-mark {
+                position: relative;
+                top: auto;
+                right: auto;
+                display: block;
+                width: min(124px, 34vw);
+                margin: 0 auto 14px;
+                order: 0;
             }
 
             .witch-soundcloud {
@@ -2065,22 +2076,20 @@
         }
 
         @media (max-width: 680px) {
+            #aurora-canvas,
+            #aurora-shader-canvas,
             .mist-layer,
             .mist-layer-2 {
                 display: none;
             }
 
             .creature-card {
-                backdrop-filter: blur(4px);
-                -webkit-backdrop-filter: blur(4px);
+                backdrop-filter: blur(6px);
                 transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-                touch-action: pan-y manipulation;
             }
 
             .creature-card.touch-pressed {
-                transform: scale(0.97) translateZ(0);
-                transition: transform 0.04s ease-out;
-                border-color: var(--glow-color);
+                transform: scale(0.992);
             }
 
             .creature-card::before {
@@ -2124,12 +2133,6 @@
                 content-visibility: auto;
                 contain-intrinsic-size: 1px 420px;
             }
-
-            .creature-card.artist-reveal-card,
-            .creature-card.artist-reveal-card .card-state-toggle,
-            .creature-card.artist-reveal-card .card-state-button {
-                touch-action: manipulation;
-            }
         }
 
         body.embedded-desktop .forest-atmosphere,
@@ -2155,11 +2158,11 @@
         body.embedded-desktop .main-title {
             font-size: clamp(2.2rem, 8.4vw, 4.1rem);
             width: 100%;
-            max-width: 100%;
+            max-width: 14ch;
             margin-inline: auto;
             white-space: normal;
             text-wrap: balance;
-            line-height: 1;
+            line-height: 0.94;
         }
 
         body.embedded-desktop .subtitle {
@@ -2213,6 +2216,8 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+            #aurora-canvas,
+            #aurora-shader-canvas,
             .mist-layer,
             .mist-layer-2 {
                 display: none;
@@ -2311,7 +2316,6 @@
             max-width: 100%;
             min-height: 100%;
             overflow-x: hidden;
-            overflow-y: scroll;
             background: var(--forest-black) !important;
         }
 
@@ -2319,11 +2323,12 @@
             position: relative;
             min-width: 0;
             width: 100%;
-            max-width: 100%;
+            max-width: 100vw;
             min-height: 100vh;
             min-height: 100dvh;
             margin: 0;
             overflow-x: hidden;
+            overflow-x: clip;
             background:
                 radial-gradient(circle at 50% 0%, rgba(196, 212, 204, 0.08), transparent 34rem),
                 radial-gradient(circle at 12% 24%, rgba(255, 215, 0, 0.08), transparent 24rem),
@@ -2344,7 +2349,7 @@
 
         .forest-atmosphere {
             inset: 0;
-            width: 100% !important;
+            width: 100vw !important;
             height: 100vh;
             height: 100dvh;
             min-height: 100vh;
@@ -2353,27 +2358,29 @@
         #aurora-canvas,
         #aurora-shader-canvas {
             inset: 0;
-            width: 100% !important;
+            width: 100vw !important;
             height: 100vh !important;
             height: 100dvh !important;
         }
 
         .main-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 1400px;
+            width: 100vw !important;
+            max-width: none !important;
             min-height: 100vh;
             min-height: 100dvh;
-            margin: 0 auto;
+            margin-left: calc(50% - 50vw) !important;
+            margin-right: calc(50% - 50vw) !important;
             padding-top: max(clamp(38px, 5vw, 76px), env(safe-area-inset-top));
             padding-right: max(clamp(18px, 7vw, 138px), env(safe-area-inset-right));
             padding-bottom: max(clamp(56px, 6vw, 96px), env(safe-area-inset-bottom));
             padding-left: max(clamp(18px, 7vw, 138px), env(safe-area-inset-left));
+            overflow-x: clip;
             background:
                 radial-gradient(circle at 50% 4%, rgba(196, 212, 204, 0.12), transparent 30rem),
                 radial-gradient(circle at 12% 12%, rgba(255, 215, 0, 0.08), transparent 28rem),
-                radial-gradient(circle at 88% 18%, rgba(0, 255, 136, 0.055), transparent 32rem) !important;
+                radial-gradient(circle at 88% 18%, rgba(0, 255, 136, 0.055), transparent 32rem),
+                linear-gradient(90deg, #0a0e0d 0%, #121816 10%, #07100d 50%, #121816 90%, #0a0e0d 100%) !important;
+            box-shadow: inset 0 0 0 1px rgba(196, 212, 204, 0.055);
         }
 
         .title-section {
@@ -2382,11 +2389,10 @@
         }
 
         .main-title {
-            width: 100%;
-            max-width: 100%;
+            max-width: 14.5ch;
             white-space: normal;
             text-wrap: balance;
-            line-height: 1;
+            line-height: 0.92;
             font-size: clamp(2.35rem, 5.9vw, 5.8rem);
         }
 
@@ -2419,9 +2425,10 @@
         }
 
         body.embedded-desktop .main-container {
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
+            width: 100vw !important;
+            max-width: none !important;
+            margin-left: calc(50% - 50vw) !important;
+            margin-right: calc(50% - 50vw) !important;
             padding-top: max(clamp(38px, 5vw, 76px), env(safe-area-inset-top));
             padding-right: max(clamp(18px, 7vw, 138px), env(safe-area-inset-right));
             padding-bottom: max(clamp(56px, 6vw, 96px), env(safe-area-inset-bottom));
@@ -2434,10 +2441,9 @@
         }
 
         body.embedded-desktop .main-title {
-            width: 100%;
-            max-width: 100%;
+            max-width: 14.5ch;
             font-size: clamp(2.35rem, 5.9vw, 5.8rem);
-            line-height: 1;
+            line-height: 0.92;
         }
 
         body.embedded-desktop .journey-text {
@@ -2455,6 +2461,14 @@
         body.embedded-desktop .creatures-grid {
             grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
             max-width: 1200px;
+        }
+
+        @media (min-width: 1400px) {
+            .main-container,
+            body.embedded-desktop .main-container {
+                width: 100vw !important;
+                max-width: none !important;
+            }
         }
 
         @media (max-width: 768px) {
@@ -2478,12 +2492,9 @@
 
             .main-title,
             body.embedded-desktop .main-title {
-                max-width: 100%;
-                font-size: clamp(2rem, 11vw, 3.15rem);
+                max-width: 10.5ch;
+                font-size: clamp(2rem, 13vw, 3.15rem);
                 letter-spacing: 0;
-                line-height: 1;
-                white-space: normal;
-                text-wrap: balance;
             }
 
             .journey-text,
@@ -2499,283 +2510,6 @@
                 width: 100%;
                 height: clamp(220px, 62vw, 360px);
             }
-        }
-
-        /* ---------------------------------------------------------------
-           MOBILE FIX: Huldra/Selina + Bergtrollet/Diesel — full image visible
-           Must stay LAST to win specificity over all earlier rules.
-           --------------------------------------------------------------- */
-        @media (max-width: 768px) {
-            .creature-card.artist-reveal-card[data-creature="huldra"].show-artist,
-            .creature-card.artist-reveal-card[data-creature="troll"].show-artist {
-                overflow: hidden;
-                min-height: auto;
-            }
-
-            .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .creature-icon,
-            .creature-card.artist-reveal-card[data-creature="troll"].show-artist .creature-icon,
-            .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image,
-            .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image {
-                position: relative;
-                display: flex;
-                justify-content: center;
-                align-items: flex-end;
-                width: 100%;
-                min-height: clamp(440px, 92vw, 640px);
-                height: auto;
-                max-height: none;
-                overflow: visible;
-            }
-
-            .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer,
-            .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer {
-                position: relative;
-                left: auto;
-                right: auto;
-                top: auto;
-                bottom: auto;
-                display: block;
-                width: auto;
-                height: auto;
-                object-fit: contain;
-                object-position: center bottom;
-                transform-origin: center bottom;
-                z-index: 2;
-                pointer-events: none;
-                background: transparent !important;
-                box-shadow: none !important;
-                -webkit-mask-image: none !important;
-                mask-image: none !important;
-            }
-
-            /* HULDRA / SELINA: seated/kneeling pose */
-            .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .artist-image .draug-dancer {
-                max-width: 104%;
-                max-height: clamp(420px, 88vw, 610px);
-                transform: translateY(0) scale(0.94);
-                filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55))
-                        drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
-                        drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
-            }
-
-            /* BERGTROLLET / DIESEL: standing pose, boost to match visual size */
-            .creature-card.artist-reveal-card[data-creature="troll"].show-artist .artist-image .draug-dancer {
-                max-width: 104%;
-                max-height: clamp(420px, 88vw, 610px);
-                transform: translateY(0) scale(1.07);
-                filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.58))
-                        drop-shadow(0 14px 26px color-mix(in srgb, var(--glow-color) 26%, transparent))
-                        drop-shadow(0 10px 48px color-mix(in srgb, var(--glow-color) 13%, transparent));
-            }
-
-            .creature-card.artist-reveal-card[data-creature="huldra"].show-artist .card-artist-content,
-            .creature-card.artist-reveal-card[data-creature="troll"].show-artist .card-artist-content {
-                margin-top: 18px;
-                width: 100%;
-                max-width: 100%;
-            }
-        }
-
-        /* WITCH PRINCESS SECTION ONLY */
-        .witch-mark {
-          display: none !important;
-        }
-
-        .witch-ep,
-        .witch-ep.large {
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          text-align: center !important;
-          gap: 16px !important;
-          padding: clamp(34px, 5vw, 72px) !important;
-          border-radius: 28px !important;
-          overflow: hidden !important;
-        }
-
-        .witch-content {
-          position: relative !important;
-          z-index: 2 !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-          gap: 16px !important;
-          width: 100% !important;
-          max-width: 640px !important;
-          margin: 0 auto !important;
-          padding: 0 !important;
-          min-height: 0 !important;
-          text-align: center !important;
-        }
-
-        .witch-ep h2 {
-          max-width: 12ch !important;
-          margin: 0 auto !important;
-          text-align: center !important;
-          line-height: 0.92 !important;
-          letter-spacing: 0.04em !important;
-          text-wrap: balance !important;
-          transform: none !important;
-        }
-
-        .witch-ep h2,
-        .witch-description,
-        .witch-lead,
-        .witch-details,
-        .witch-pills {
-          margin-left: auto !important;
-          margin-right: auto !important;
-          text-align: center !important;
-        }
-
-        .witch-description {
-          width: min(100%, 28rem) !important;
-          max-width: 28rem !important;
-          line-height: 1.65 !important;
-          text-wrap: balance !important;
-        }
-
-        .witch-lead {
-          font-size: clamp(1.02rem, 2.4vw, 1.18rem) !important;
-        }
-
-        .witch-details {
-          position: relative !important;
-          z-index: 2 !important;
-          order: 30 !important;
-          width: min(100%, 30rem) !important;
-          max-width: 30rem !important;
-          font-size: 0.86rem !important;
-          line-height: 1.75 !important;
-          letter-spacing: 0.08em !important;
-          text-wrap: balance !important;
-          overflow-wrap: anywhere !important;
-          word-break: normal !important;
-          color: rgba(232,236,232,0.84) !important;
-          margin-top: 6px !important;
-        }
-
-        .witch-pills {
-          width: min(100%, 30rem) !important;
-          display: flex !important;
-          flex-wrap: wrap !important;
-          justify-content: center !important;
-          gap: 10px !important;
-          margin: 0 auto !important;
-        }
-
-        .witch-pill {
-          white-space: nowrap !important;
-        }
-
-        .witch-cutout {
-          position: relative !important;
-          left: auto !important;
-          right: auto !important;
-          top: auto !important;
-          bottom: auto !important;
-          display: block !important;
-          order: 20 !important;
-          width: min(100%, 270px) !important;
-          max-width: 270px !important;
-          margin: 16px auto 8px !important;
-          opacity: 1 !important;
-          transform: none !important;
-          object-fit: contain !important;
-          object-position: center bottom !important;
-          mix-blend-mode: normal !important;
-        }
-
-        .witch-soundcloud {
-          position: relative !important;
-          z-index: 2 !important;
-          order: 40 !important;
-          width: min(100%, 32rem) !important;
-          max-width: 32rem !important;
-          margin: 10px auto 0 !important;
-          padding: 10px !important;
-          border-radius: 22px !important;
-          background: linear-gradient(180deg, rgba(15,12,26,0.92), rgba(26,18,46,0.88)) !important;
-          border: 1px solid rgba(255,255,255,0.08) !important;
-          box-shadow:
-            0 10px 30px rgba(0,0,0,0.26),
-            inset 0 1px 0 rgba(255,255,255,0.04) !important;
-          overflow: hidden !important;
-        }
-
-        .witch-soundcloud iframe {
-          display: block !important;
-          width: 100% !important;
-          border: 0 !important;
-          border-radius: 16px !important;
-          background: transparent !important;
-          filter: brightness(0.94) contrast(0.94) saturate(0.82) !important;
-        }
-
-        @media (max-width: 760px) {
-          .witch-ep,
-          .witch-ep.large {
-            padding: 34px 18px 24px !important;
-            gap: 14px !important;
-          }
-
-          .witch-content {
-            width: 100% !important;
-            max-width: 100% !important;
-          }
-
-          .witch-ep h2 {
-            font-size: clamp(2.15rem, 12vw, 3.6rem) !important;
-            max-width: 10ch !important;
-            line-height: 0.9 !important;
-            letter-spacing: 0.02em !important;
-          }
-
-          .witch-description {
-            width: min(100%, 22rem) !important;
-            max-width: 22rem !important;
-            font-size: 1.02rem !important;
-            line-height: 1.65 !important;
-          }
-
-          .witch-details {
-            width: min(100%, 21rem) !important;
-            max-width: 21rem !important;
-            font-size: 0.75rem !important;
-            line-height: 1.7 !important;
-          }
-
-          .witch-pills {
-            width: min(100%, 22rem) !important;
-            max-width: 22rem !important;
-            display: flex !important;
-            flex-wrap: wrap !important;
-            justify-content: center !important;
-            gap: 8px !important;
-          }
-
-          .witch-pill {
-            font-size: 0.68rem !important;
-            letter-spacing: 0.08em !important;
-            padding: 8px 12px !important;
-          }
-
-          .witch-cutout {
-            width: min(82vw, 270px) !important;
-            max-width: 270px !important;
-            margin: 10px auto 8px !important;
-            transform: translateY(0) !important;
-            filter:
-              drop-shadow(0 0 28px rgba(140,60,200,0.28))
-              drop-shadow(0 0 42px rgba(0,200,255,0.12)) !important;
-          }
-
-          .witch-soundcloud {
-            width: 100% !important;
-            max-width: 100% !important;
-            margin-top: 0 !important;
-          }
         }
 
     </style>
@@ -2965,7 +2699,7 @@
                             <img src="assets/mare.png" alt="MARE" class="card-folklore-img">
                         </div>
                         <div class="artist-image">
-                            <img src="assets/alma-tight.png" alt="MARE cutout reveal" class="draug-dancer">
+                            <img src="assets/alma.png" alt="MARE cutout reveal" class="draug-dancer">
                         </div>
                     </div>
                     <div class="card-state-toggle" aria-label="Bytt mellom vesen og artist">
@@ -3076,6 +2810,9 @@
 
         <section class="witch-ep large">
             <div class="witch-visual"></div>
+            <div class="witch-mark" aria-hidden="true">
+                <img src="assets/liquid-moon-logo.png" alt="">
+            </div>
             <div class="witch-content">
                 <h2>WITCH PRINCESS</h2>
                 <p class="witch-description witch-lead">
@@ -3089,6 +2826,20 @@
                     <span class="witch-pill">Downtempo Ritual</span>
                     <span class="witch-pill">Åpner Kvelden</span>
                 </div>
+                <p class="witch-description witch-details">
+                    Mallika J Y Herland • Norge • DJ / Artist • Instagram: @dj_witch_princess_official
+                </p>
+                <div class="witch-soundcloud">
+                    <iframe
+                        title="Witch Princess - Forest Meeting EP"
+                        width="100%"
+                        height="116"
+                        scrolling="no"
+                        frameborder="no"
+                        allow="autoplay"
+                        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/the-witch-princess/sets/forest-meeting-ep&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false">
+                    </iframe>
+                </div>
             </div>
             <img
                 src="assets/wp2.png.png"
@@ -3096,25 +2847,11 @@
                 id="witchPrincess"
                 alt="Witch Princess"
             />
-            <p class="witch-description witch-details">
-                Mallika J Y Herland • Norge • DJ / Artist • Instagram: @dj_witch_princess_official
-            </p>
-            <div class="witch-soundcloud">
-                <iframe
-                    title="Witch Princess - Forest Meeting EP"
-                    width="100%"
-                    height="116"
-                    scrolling="no"
-                    frameborder="no"
-                    allow=""
-                    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/the-witch-princess/sets/forest-meeting-ep&color=%23000000&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false">
-                </iframe>
-            </div>
         </section>
 
         <section class="club-seduction-section" aria-labelledby="clubSeductionTitle">
             <div class="club-seduction-header">
-                <div class="club-seduction-kicker">Vesnene skifter form</div>
+                <div class="club-seduction-kicker">Etter vesenene</div>
                 <h2 class="club-seduction-title" id="clubSeductionTitle">Club Seduction feat DJ Pizza$lut</h2>
                 <div class="club-seduction-line" aria-hidden="true"></div>
             </div>
@@ -3144,7 +2881,7 @@
         </section>
 
         <iframe
-            data-src="bergtatt-visuals.html?preview=true"
+            src="bergtatt-visuals.html?preview=true"
             id="bergtattPreview"
             class="visual-preview"
             title="BERGTATT preview"
@@ -3217,7 +2954,7 @@
                 ['[data-creature="jotna"] .card-artist-content .creature-identity', { no: 'Kunstner • Dominatrix • Aktivist', en: 'Artist • Dominatrix • Activist' }],
                 ['[data-creature="jotna"] .card-artist-content .artist-pronouns', { no: 'hun/henne', en: 'she/her' }],
                 ['[data-creature="jotna"] .card-artist-content .creature-description', { no: 'Alma Adore er kunstner, dominatrix og aktivist. Founder of seduction.no og Club Seduction, tidligere konsept på Elsker.', en: 'Alma Adore is an artist, dominatrix and activist. Founder of seduction.no and Club Seduction, formerly a concept at Elsker.' }],
-                ['.club-seduction-kicker', { no: 'Vesnene skifter form', en: 'The beings change form' }],                ['.club-seduction-copy p', { no: 'DJ Pizza$lut tar over når skogen skifter form. Begjær uten unnskyldning, kropper som tar plass og en natt som blir mørkere, friere og mer intens.', en: 'DJ Pizza$lut takes over as the forest changes shape. Desire without apology, bodies taking up space and a night that grows darker, freer and more intense.' }],
+                ['.club-seduction-kicker', { no: 'Etter vesenene', en: 'After the beings' }],                ['.club-seduction-copy p', { no: 'DJ Pizza$lut tar over når skogen skifter form. Begjær uten unnskyldning, kropper som tar plass og en natt som blir mørkere, friere og mer intens.', en: 'DJ Pizza$lut takes over as the forest changes shape. Desire without apology, bodies taking up space and a night that grows darker, freer and more intense.' }],
                 ['.club-seduction-row:nth-child(2) .club-seduction-label', { no: 'DJ Pizza$lut tar over', en: 'DJ Pizza$lut takes over' }],
                 ['.club-seduction-row:nth-child(3) .club-seduction-time', { no: 'Til 02:30', en: 'Until 02:30' }],
                 ['.club-seduction-footer', { no: 'Marinehagen • 6 juni 2026 • Bergen', en: 'Marinehagen • June 6, 2026 • Bergen' }],
@@ -3282,17 +3019,6 @@
 
         initLanguageSystem();
 
-        function runAfterFirstPaint(callback) {
-            const run = () => {
-                if ('requestIdleCallback' in window) {
-                    window.requestIdleCallback(callback, { timeout: 900 });
-                } else {
-                    setTimeout(callback, 120);
-                }
-            };
-            requestAnimationFrame(() => requestAnimationFrame(run));
-        }
-
         // ---------------------------------------------------------------
         // NORTHERN LIGHTS AURORA EFFECT - Enhanced
         // ---------------------------------------------------------------
@@ -3310,21 +3036,13 @@
         function isMobilePerformanceMode() {
             if (isEmbeddedDesktopMode()) return false;
             const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-            // Only suppress heavy effects on actual phones (coarse touch + narrow screen)
-            // Narrow iframe viewports and tablets should keep all effects
-            return coarsePointer && window.innerWidth <= 430;
-        }
-
-        function shouldDisableInlinePreview() {
-            const coarsePointer = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-            return !isEmbeddedDesktopMode() && (coarsePointer || window.innerWidth <= 768);
+            return window.innerWidth < 768 || (coarsePointer && window.innerWidth < 1024);
         }
 
         let mobileLiteMode = isMobilePerformanceMode();
         document.body.classList.toggle('embedded-desktop', isEmbeddedDesktopMode());
         document.body.classList.toggle('mobile-lite', mobileLiteMode);
 
-        // Best effort only. Cross-origin iframe parents cannot reliably be styled from inside the child page.
         function syncNetlifyPreviewBackdrop() {
             try {
                 if (window.self === window.top || !window.parent || !window.parent.document) return;
@@ -3352,64 +3070,38 @@
 
         syncNetlifyPreviewBackdrop();
 
-        let _lastCanvasW = 0;
         function resizeCanvas() {
             const scale = mobileLiteMode ? 0.5 : 0.82;
-            const w = Math.floor(window.innerWidth * scale);
-            const h = Math.floor(window.innerHeight * scale);
-            // Skip tiny height-only changes (mobile URL bar showing/hiding ~70px)
-            if (Math.abs(w - _lastCanvasW) < 2 && Math.abs(h - canvas.height) < 120) return;
-            _lastCanvasW = w;
-            canvas.width = w;
-            canvas.height = h;
+            canvas.width = Math.floor(window.innerWidth * scale);
+            canvas.height = Math.floor(window.innerHeight * scale);
             canvas.style.width = `${window.innerWidth}px`;
             canvas.style.height = `${window.innerHeight}px`;
         }
         resizeCanvas();
 
-        let resizeTimer = null;
+        let resizeQueued = false;
         function schedulePerformanceResize() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                const newLite = isMobilePerformanceMode();
-                const newEmbed = isEmbeddedDesktopMode();
-                if (newLite !== mobileLiteMode) {
-                    mobileLiteMode = newLite;
-                    document.body.classList.toggle('mobile-lite', mobileLiteMode);
-                }
-                document.body.classList.toggle('embedded-desktop', newEmbed);
+            if (resizeQueued) return;
+            resizeQueued = true;
+            requestAnimationFrame(() => {
+                resizeQueued = false;
+                mobileLiteMode = isMobilePerformanceMode();
+                document.body.classList.toggle('embedded-desktop', isEmbeddedDesktopMode());
+                document.body.classList.toggle('mobile-lite', mobileLiteMode);
                 resizeCanvas();
                 resizeShaderCanvas();
-            }, 200);
+            });
         }
         window.addEventListener('resize', schedulePerformanceResize, { passive: true });
 
         let time = 0;
         let auroraFrameToggle = false;
-        let _auroraActive = false;
-        let _scrolling = false;
-        let _scrollTimer = null;
-        window.addEventListener('scroll', () => {
-            _scrolling = true;
-            clearTimeout(_scrollTimer);
-            _scrollTimer = setTimeout(() => {
-                _scrolling = false;
-                if (!_auroraActive && !document.hidden) {
-                    _auroraActive = true;
-                    requestAnimationFrame(drawAurora);
-                }
-                if (!mobileLiteMode && !_shaderActive && !document.hidden) {
-                    _shaderActive = true;
-                    requestAnimationFrame(drawAuroraShader);
-                }
-            }, 120);
-        }, { passive: true });
-
         function drawAurora() {
             const mobileMode = mobileLiteMode;
-            if (document.hidden) { _auroraActive = false; return; }
-            if (_scrolling) { _auroraActive = false; return; }
-            _auroraActive = true;
+            if (document.hidden) {
+                requestAnimationFrame(drawAurora);
+                return;
+            }
             if (mobileMode) {
                 auroraFrameToggle = !auroraFrameToggle;
                 if (auroraFrameToggle) {
@@ -3425,7 +3117,7 @@
             const xStep = mobileMode ? 12 : 8;
             for (let layer = 0; layer < layerCount; layer++) {
                 const layerTime = time + layer * 0.5;
-                const alpha = mobileMode ? 0.14 + (layer * 0.04) : 0.12 + (layer * 0.07);
+                const alpha = mobileMode ? 0.085 + (layer * 0.02) : 0.05 + (layer * 0.03);
 
                 ctx.globalCompositeOperation = 'lighter';
 
@@ -3455,12 +3147,11 @@
             time += mobileMode ? 0.005 : 0.008;
             requestAnimationFrame(drawAurora);
         }
-        runAfterFirstPaint(() => {
-            if (document.hidden || _auroraActive) return;
-            _auroraActive = true;
-            requestAnimationFrame(drawAurora);
-        });
-        // mobile-lite: drawAurora runs with 1 layer + every-other-frame
+        if (!mobileLiteMode) {
+            drawAurora();
+        } else {
+            canvas.style.display = 'none';
+        }
 
         // ---------------------------------------------------------------
         // BERGEN MOUNTAINS SILHOUETTE - De Syv Fjell
@@ -3543,7 +3234,7 @@
         }
 
         if (!mobileLiteMode) {
-            runAfterFirstPaint(drawBergenMountains);
+            drawBergenMountains();
         }
 
         // ---------------------------------------------------------------
@@ -3551,29 +3242,23 @@
         // ---------------------------------------------------------------
         const atmosphere = document.querySelector('.forest-atmosphere');
 
-        runAfterFirstPaint(() => {
-            const ambientParticleCount = mobileLiteMode ? 0 : 30;
-            if (!atmosphere || ambientParticleCount === 0) return;
-            const ambientParticles = document.createDocumentFragment();
-            for (let i = 0; i < ambientParticleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.setProperty('--drift', (Math.random() - 0.5) * 200 + 'px');
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                ambientParticles.appendChild(particle);
-            }
-            atmosphere.appendChild(ambientParticles);
-        });
+        const ambientParticleCount = mobileLiteMode ? 0 : 30;
+        const ambientParticles = document.createDocumentFragment();
+        for (let i = 0; i < ambientParticleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.setProperty('--drift', (Math.random() - 0.5) * 200 + 'px');
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            ambientParticles.appendChild(particle);
+        }
+        atmosphere.appendChild(ambientParticles);
 
        // ---------------------------------------------------------------
 // CREATURE CARD INTERACTIONS - Particle Explosion on Click
 // ---------------------------------------------------------------
 const creatureCards = document.querySelectorAll('.creature-card');
 const ritualCountMap = {};
-const FAST_TAP_GUARD_MS = 90;
-const SCROLL_CANCEL_PX = 14;
-const STALE_TAP_MS = 1200;
 
 function getParticleBurstLayer() {
     let layer = document.getElementById('particleBurstLayer');
@@ -3595,9 +3280,6 @@ creatureCards.forEach(card => {
     const explosionContainer = card.querySelector('.particle-explosion');
 
     const activate = (clientX, clientY) => {
-        const now = performance.now();
-        if (card._lastActivationAt && now - card._lastActivationAt < FAST_TAP_GUARD_MS) return;
-        card._lastActivationAt = now;
         const key = card.dataset.creature;
         ritualCountMap[key] = (ritualCountMap[key] || 0) + 1;
 
@@ -3617,19 +3299,12 @@ creatureCards.forEach(card => {
 
         const activeDuration = window.innerWidth <= 680 ? 950 : 1600;
 
-        clearTimeout(card._ritualTimer);
-        card._ritualTimer = setTimeout(() => {
+        setTimeout(() => {
             card.classList.remove('ritual-active');
         }, activeDuration);
 
         // Particle explosion
         if (explosionContainer) {
-            const existingBursts = explosionContainer.querySelectorAll('.particle-burst, .particle, .ritual-rune');
-            if (existingBursts.length > 72) {
-                existingBursts.forEach((node, index) => {
-                    if (index < existingBursts.length - 48) node.remove();
-                });
-            }
             createExplosion(explosionContainer, key, clientX, clientY);
         }
 
@@ -3642,63 +3317,20 @@ creatureCards.forEach(card => {
         checkAllAwakened();
     };
 
-    // touchmove = finger physically moved = scroll gesture, not a tap
-    card.addEventListener('touchmove', () => {
-        card._pTouchMoved = true;
-    }, { passive: true });
-
-    card.addEventListener('pointermove', (e) => {
-        if (e.pointerType !== 'touch' || !card._pStartTime) return;
-        const dx = Math.abs(e.clientX - (card._pStartX || e.clientX));
-        const dy = Math.abs(e.clientY - (card._pStartY || e.clientY));
-        if (dx > SCROLL_CANCEL_PX || dy > SCROLL_CANCEL_PX) {
-            card._pTouchMoved = true;
-            card.classList.remove('touch-pressed');
-        }
-    }, { passive: true });
-
     card.addEventListener('pointerup', (e) => {
         if (e.target.closest('.card-state-button')) return;
         card.classList.remove('touch-pressed');
-        if (e.pointerType === 'touch') {
-            // Finger moved during this touch = scroll gesture
-            if (card._pTouchMoved) return;
-            // No matching pointerdown recorded (e.g. pointercancel fired during scroll)
-            if (!card._pStartTime) return;
-            const dur = Date.now() - card._pStartTime;
-            // Too long = stale pStartTime from a previous swipe gesture.
-            if (dur > STALE_TAP_MS) return;
-            const dx = Math.abs(e.clientX - (card._pStartX || e.clientX));
-            const dy = Math.abs(e.clientY - (card._pStartY || e.clientY));
-            if (dx > SCROLL_CANCEL_PX || dy > SCROLL_CANCEL_PX) return;
-            // Skip rightmost 15% — scroll strip
-            if (e.clientX > window.innerWidth * 0.85) return;
-        }
         activate(e.clientX, e.clientY);
-        card._pStartX = undefined;
-        card._pStartY = undefined;
-        card._pStartTime = undefined;
-        card._pTouchMoved = false;
     }, { passive: true });
 
     card.addEventListener('pointerdown', (e) => {
         if (e.pointerType === 'mouse' || e.target.closest('.card-state-button')) return;
-        card._pStartX = e.clientX;
-        card._pStartY = e.clientY;
-        card._pStartTime = Date.now();
-        card._pTouchMoved = false;
         card.classList.add('touch-pressed');
-        // Instant tactile feedback on finger-down (before activation on lift)
-        if (hasVibrate) { try { navigator.vibrate(22); } catch (ex) {} }
     }, { passive: true });
 
     ['pointercancel', 'pointerleave'].forEach((eventName) => {
         card.addEventListener(eventName, () => {
             card.classList.remove('touch-pressed');
-            card._pStartX = undefined;
-            card._pStartY = undefined;
-            card._pStartTime = undefined;
-            card._pTouchMoved = false;
         }, { passive: true });
     });
 
@@ -3709,12 +3341,12 @@ creatureCards.forEach(card => {
         const awakenedSet = new Set();
 
         function pulseResonance(sourceCard) {
-            const others = Array.from(creatureCards).filter(c => c !== sourceCard);
-            others.forEach(c => c.classList.remove('resonance-pulse'));
-            void sourceCard.offsetWidth;
-            others.forEach(c => {
-                c.classList.add('resonance-pulse');
-                c.addEventListener('animationend', () => c.classList.remove('resonance-pulse'), { once: true });
+            creatureCards.forEach(card => {
+                if (card === sourceCard) return;
+                card.classList.remove('resonance-pulse');
+                void card.offsetWidth;
+                card.classList.add('resonance-pulse');
+                card.addEventListener('animationend', () => card.classList.remove('resonance-pulse'), { once: true });
             });
         }
 
@@ -3727,11 +3359,9 @@ creatureCards.forEach(card => {
         function triggerForestFullyAwakened() {
             document.body.classList.add('forest-awakened');
             setTimeout(() => document.body.classList.remove('forest-awakened'), 3000);
-            const symbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ'];
-            const count = mobileLiteMode ? 6 : 12;
-            const gap = mobileLiteMode ? 220 : 140;
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < 24; i++) {
                 setTimeout(() => {
+                    const symbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ'];
                     const rune = document.createElement('div');
                     rune.className = 'global-rune-rain';
                     rune.textContent = symbols[i % symbols.length];
@@ -3739,12 +3369,12 @@ creatureCards.forEach(card => {
                         position:fixed;left:${5 + Math.random()*90}%;top:-2rem;
                         font-family:'Cinzel',serif;font-size:${1.1+Math.random()*1.4}rem;
                         color:var(--fossegrim-gold);pointer-events:none;z-index:9999;
-                        text-shadow:0 0 18px var(--fossegrim-gold);
-                        animation:runeRain ${2.4+Math.random()*1.2}s ease-in forwards;
+                        text-shadow:0 0 18px var(--fossegrim-gold),0 0 36px var(--fossegrim-gold);
+                        animation:runeRain ${2.2+Math.random()*1.4}s ease-in forwards;
                     `;
                     document.body.appendChild(rune);
                     rune.addEventListener('animationend', () => rune.remove());
-                }, i * gap);
+                }, i * 90);
             }
         }
 
@@ -3797,15 +3427,6 @@ creatureCards.forEach(card => {
             card.classList.toggle('show-artist', showArtist);
             card.dataset.cardState = showArtist ? 'artist' : 'folklore';
 
-            // Force animation restart for Safari iOS (display:none → grid doesn't always replay)
-            if (showArtist) {
-                const content = card.querySelector('.card-artist-content');
-                if (content) void content.offsetWidth;
-            } else {
-                const content = card.querySelector('.card-folklore-content');
-                if (content) void content.offsetWidth;
-            }
-
             card.querySelectorAll('.card-state-button').forEach((button) => {
                 const isActive = button.dataset.cardState === card.dataset.cardState;
                 button.classList.toggle('is-active', isActive);
@@ -3836,8 +3457,6 @@ creatureCards.forEach(card => {
         // ---------------------------------------------------------------
         // LEGENDARY NOTIFICATION SYSTEM
         // ---------------------------------------------------------------
-        let legendaryNotificationTimer;
-
         function showLegendaryNotification(creatureType) {
             const creatureData = {
                 'huldra': {
@@ -3901,8 +3520,7 @@ creatureCards.forEach(card => {
             createFloatingParticles(creature.color);
 
             // Auto-hide after 6 seconds
-            clearTimeout(legendaryNotificationTimer);
-            legendaryNotificationTimer = setTimeout(() => {
+            setTimeout(() => {
                 notification.classList.remove('show');
             }, 6000);
         }
@@ -3910,7 +3528,7 @@ creatureCards.forEach(card => {
         function createNotificationParticleBurst(color) {
             const container = document.getElementById('notificationParticles');
             container.style.setProperty('--creature-color', color);
-            const burstCount = isMobilePerformanceMode() ? 12 : 24;
+            const burstCount = isMobilePerformanceMode() ? 16 : 40;
             const particles = [];
             const fragment = document.createDocumentFragment();
 
@@ -3952,9 +3570,7 @@ creatureCards.forEach(card => {
         }
 
         function createFloatingParticles(color) {
-            if (document.hidden) return;
-            if (document.querySelectorAll('.bg-float-particle').length > 24) return;
-            const floatCount = isMobilePerformanceMode() ? 8 : 16;
+            const floatCount = isMobilePerformanceMode() ? 10 : 25;
             const particles = [];
             const fragment = document.createDocumentFragment();
             // Create floating particles that rise up
@@ -4013,8 +3629,6 @@ creatureCards.forEach(card => {
             const startX = typeof originX === 'number' ? originX : containerRect.left + containerRect.width / 2;
             const startY = typeof originY === 'number' ? originY : containerRect.top + containerRect.height / 2;
             const explosionCount = isMobilePerformanceMode() ? 14 : 30;
-            if (document.hidden) return;
-            if (document.querySelectorAll('.explosion-particle').length > 60) return;
             const particles = [];
             const fragment = document.createDocumentFragment();
 
@@ -4064,10 +3678,16 @@ creatureCards.forEach(card => {
             entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
                     setTimeout(() => {
-                        entry.target.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translate3d(0,0,0)';
+                        entry.target.style.opacity = '0';
+                        entry.target.style.transform = 'translateY(30px)';
+                        entry.target.style.transition = 'all 0.8s ease-out';
+
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, 50);
                     }, index * 150);
+
                     observer.unobserve(entry.target);
                 }
             });
@@ -4075,7 +3695,6 @@ creatureCards.forEach(card => {
 
         creatureCards.forEach(card => {
             card.style.opacity = '0';
-            card.style.transform = 'translate3d(0,20px,0)';
             observer.observe(card);
         });
 
@@ -4110,13 +3729,13 @@ creatureCards.forEach(card => {
 
         let shaderTime = 0;
         let shaderFrameToggle = false;
-        let _shaderActive = false;
         function drawAuroraShader() {
             if (!shaderCtx || !shaderCanvas) return;
             const mobileMode = mobileLiteMode;
-            if (document.hidden) { _shaderActive = false; return; }
-            if (_scrolling) { _shaderActive = false; return; }
-            _shaderActive = true;
+            if (document.hidden) {
+                requestAnimationFrame(drawAuroraShader);
+                return;
+            }
             if (mobileMode) {
                 shaderFrameToggle = !shaderFrameToggle;
                 if (shaderFrameToggle) {
@@ -4136,10 +3755,10 @@ creatureCards.forEach(card => {
                 const width = 90 + band * 16;
 
                 const gradient = shaderCtx.createLinearGradient(0, baseY - width, shaderCanvas.width, baseY + width);
-                gradient.addColorStop(0.00, `rgba(0, 212, 255, ${0.050 + band * 0.016})`);
-                gradient.addColorStop(0.28, `rgba(0, 255, 136, ${0.070 + band * 0.020})`);
-                gradient.addColorStop(0.55, `rgba(185, 104, 255, ${0.055 + band * 0.016})`);
-                gradient.addColorStop(0.82, `rgba(255, 215, 0, ${0.040 + band * 0.012})`);
+                gradient.addColorStop(0.00, `rgba(0, 212, 255, ${0.018 + band * 0.007})`);
+                gradient.addColorStop(0.28, `rgba(0, 255, 136, ${0.030 + band * 0.009})`);
+                gradient.addColorStop(0.55, `rgba(185, 104, 255, ${0.022 + band * 0.008})`);
+                gradient.addColorStop(0.82, `rgba(255, 215, 0, ${0.015 + band * 0.006})`);
                 gradient.addColorStop(1.00, `rgba(0, 212, 255, 0.00)`);
 
                 shaderCtx.beginPath();
@@ -4174,20 +3793,10 @@ creatureCards.forEach(card => {
             requestAnimationFrame(drawAuroraShader);
         }
         if (!mobileLiteMode) {
-            runAfterFirstPaint(() => {
-                if (document.hidden || _shaderActive) return;
-                _shaderActive = true;
-                requestAnimationFrame(drawAuroraShader);
-            });
+            drawAuroraShader();
         } else if (shaderCanvas) {
             shaderCanvas.style.display = 'none';
         }
-
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) return;
-            if (!_auroraActive) { _auroraActive = true; requestAnimationFrame(drawAurora); }
-            if (!mobileLiteMode && !_shaderActive) { _shaderActive = true; requestAnimationFrame(drawAuroraShader); }
-        });
 
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
         const hasVibrate = 'vibrate' in navigator;
@@ -4196,9 +3805,8 @@ creatureCards.forEach(card => {
         let ritualAudioCtx = null;
         let lastHapticIndicatorText = '';
         let lastHapticIndicatorAt = 0;
-        const LANDING_AUDIO_DISABLED = true;
+
         function getRitualAudioCtx() {
-            if (LANDING_AUDIO_DISABLED) return null;
             if (!ritualAudioCtx) {
                 const Ctx = window.AudioContext || window.webkitAudioContext;
                 if (Ctx) ritualAudioCtx = new Ctx();
@@ -4207,7 +3815,6 @@ creatureCards.forEach(card => {
         }
 
         function ensureAudioResumed() {
-            if (LANDING_AUDIO_DISABLED) return;
             const ctx = getRitualAudioCtx();
             if (ctx && ctx.state === 'suspended') {
                 ctx.resume().catch(() => {});
@@ -4232,7 +3839,6 @@ creatureCards.forEach(card => {
         }
 
         function playHapticTone(intensity) {
-            if (LANDING_AUDIO_DISABLED) return;
             try {
                 const ctx = getRitualAudioCtx();
                 if (!ctx) return;
@@ -4303,12 +3909,13 @@ creatureCards.forEach(card => {
             }
 
             if (!didVibrate) {
+                playHapticTone(intensity);
                 triggerShake(element, intensity);
             }
 
             const modeText = LANG.current === 'en'
-                ? (didVibrate ? 'RITUAL HAPTICS · VIBRATION' : 'RITUAL HAPTICS · SHAKE')
-                : (didVibrate ? 'RITUELL HAPTIKK · VIBRASJON' : 'RITUELL HAPTIKK · RISTING');
+                ? (didVibrate ? 'RITUAL HAPTICS · VIBRATION' : (isIOS ? 'RITUAL HAPTICS · SOUND + SHAKE' : 'RITUAL HAPTICS · SHAKE'))
+                : (didVibrate ? 'RITUELL HAPTIKK · VIBRASJON' : (isIOS ? 'RITUELL HAPTIKK · LYD + RISTING' : 'RITUELL HAPTIKK · RISTING'));
             showHapticMode(modeText);
         }
 
@@ -4316,19 +3923,17 @@ creatureCards.forEach(card => {
             card.classList.remove('ritual-active');
             void card.offsetWidth;
             card.classList.add('ritual-active');
-            clearTimeout(card._wakeTimer);
-            card._wakeTimer = setTimeout(() => card.classList.remove('ritual-active'), 1600);
+            setTimeout(() => card.classList.remove('ritual-active'), 1600);
 
             const symbols = ['ᚠ', 'ᚢ', 'ᚦ', 'ᚨ', 'ᚱ', 'ᚲ', 'ᚷ', 'ᚹ'];
             const rect = card.getBoundingClientRect();
-            const runeCount = mobileLiteMode ? 3 : 5;
 
-            for (let i = 0; i < runeCount; i++) {
+            for (let i = 0; i < 7; i++) {
                 const rune = document.createElement('div');
                 rune.className = 'ritual-rune';
                 rune.textContent = symbols[(i + count) % symbols.length];
-                rune.style.setProperty('--tx', `${(x - rect.left - rect.width / 2) + Math.cos((i / runeCount) * Math.PI * 2) * (36 + i * 10)}px`);
-                rune.style.setProperty('--ty', `${(y - rect.top - rect.height / 2) + Math.sin((i / runeCount) * Math.PI * 2) * (32 + i * 8)}px`);
+                rune.style.setProperty('--tx', `${(x - rect.left - rect.width / 2) + Math.cos((i / 7) * Math.PI * 2) * (36 + i * 10)}px`);
+                rune.style.setProperty('--ty', `${(y - rect.top - rect.height / 2) + Math.sin((i / 7) * Math.PI * 2) * (32 + i * 8)}px`);
                 card.appendChild(rune);
                 setTimeout(() => rune.remove(), 1250);
             }
@@ -4340,34 +3945,26 @@ setTimeout(() => {
     if (el) el.classList.add('active');
 }, 600);
 
-const bergtattLoopPreview = document.getElementById('bergtattPreview');
-let bergtattPreviewVisible = false;
-
-function loadBergtattPreview() {
-    if (!bergtattLoopPreview || bergtattLoopPreview.dataset.loaded === 'true') return;
-    const src = bergtattLoopPreview.dataset.src;
-    if (!src) return;
-    bergtattLoopPreview.src = src;
-    bergtattLoopPreview.dataset.loaded = 'true';
+if (mobileLiteMode) {
+    const preview = document.getElementById('bergtattPreview');
+    if (preview) {
+        preview.removeAttribute('src');
+        preview.style.display = 'none';
+    }
 }
 
-if (bergtattLoopPreview && shouldDisableInlinePreview()) {
-    bergtattLoopPreview.removeAttribute('src');
-    bergtattLoopPreview.style.display = 'none';
-    const mobilePreviewLink = document.querySelector('.bergtatt-mobile-link');
-    if (mobilePreviewLink) mobilePreviewLink.style.display = 'block';
-} else if (bergtattLoopPreview) {
+// Keep BERGTATT teaser fresh without reloading it while the user is looking at it.
+const bergtattLoopPreview = document.getElementById('bergtattPreview');
+let bergtattPreviewVisible = false;
+if (bergtattLoopPreview && !mobileLiteMode) {
     const previewObserver = new IntersectionObserver((entries) => {
         bergtattPreviewVisible = entries.some((entry) => entry.isIntersecting);
-        if (bergtattPreviewVisible) {
-            runAfterFirstPaint(loadBergtattPreview);
-        }
-    }, { rootMargin: '260px 0px', threshold: 0.04 });
+    }, { threshold: 0.08 });
     previewObserver.observe(bergtattLoopPreview);
 
     setInterval(() => {
-        if (document.hidden || bergtattPreviewVisible || bergtattLoopPreview.dataset.loaded !== 'true') return;
-        bergtattLoopPreview.src = `https://cool-mochi-5acdd7.netlify.app/bergtatt-visuals.html?preview=true&t=${Date.now()}`;
+        if (document.hidden || bergtattPreviewVisible) return;
+        bergtattLoopPreview.src = `https://ingridormevik.github.io/bergtatt-visuals.html?preview=true&t=${Date.now()}`;
     }, 45000);
 }
 
