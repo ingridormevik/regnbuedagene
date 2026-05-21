@@ -7325,9 +7325,31 @@ body.cdn-embedded-desktop #accessibility-menu[open] .access-menu-body {
   pointer-events: auto !important;
   z-index: 600 !important;
 }
+#mobile-block-overlay{display:none;position:fixed;inset:0;z-index:9999999;align-items:center;justify-content:center;padding:max(32px,env(safe-area-inset-top,32px)) 22px max(32px,env(safe-area-inset-bottom,32px));background:radial-gradient(circle at 50% 20%,rgba(96,220,255,.16),transparent 34%),radial-gradient(circle at 20% 80%,rgba(255,190,120,.10),transparent 38%),linear-gradient(180deg,#06101b 0%,#02060d 100%);color:#eef8ff;text-align:center;}
+html.is-mobile #mobile-block-overlay{display:flex;}
+html.is-mobile #rotate-screen-overlay{display:none!important;}
+.mbl-card{width:min(100%,400px);padding:36px 26px 32px;border-radius:28px;border:1px solid rgba(150,220,255,.28);background:rgba(5,14,26,.88);box-shadow:0 0 40px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.04);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;flex-direction:column;align-items:center;gap:16px;}
+.mbl-icon{font-size:1.5rem;line-height:1.3;color:rgba(143,230,255,.7);font-family:'Share Tech Mono',monospace;letter-spacing:.08em;}
+.mbl-title{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.3rem;letter-spacing:.14em;text-transform:uppercase;color:#e8f8ff;}
+.mbl-body{font-family:'IBM Plex Mono',monospace;font-size:.82rem;line-height:1.7;color:rgba(230,248,255,.65);max-width:300px;}
+.mbl-btn{margin-top:6px;padding:13px 26px;border-radius:999px;cursor:pointer;background:linear-gradient(135deg,rgba(100,210,255,.18),rgba(255,190,110,.12));border:1px solid rgba(143,230,255,.35);color:#e8f8ff;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:1rem;letter-spacing:.1em;text-transform:uppercase;transition:background .2s,border-color .2s;text-decoration:none;display:inline-block;}
+.mbl-btn:hover{background:linear-gradient(135deg,rgba(100,210,255,.28),rgba(255,190,110,.2));border-color:rgba(143,230,255,.6);}
+.mbl-note{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:rgba(143,230,255,.4);}
 </style>
 </head>
 <body class="cdn-lab-active lab-mode">
+<div id="mobile-block-overlay" role="alert" aria-live="assertive">
+  <div class="mbl-card">
+    <div class="mbl-icon">[ PC ]</div>
+    <div class="mbl-title">CDN L&aelig;ringslab</div>
+    <p class="mbl-body">
+      Dette spillet krever tastatur og stor skjerm.<br>
+      &Aring;pne p&aring; PC i en nettleser.
+    </p>
+    <a class="mbl-btn" href="pride-park-spill-2026.html">Spill Pride Park 2026 &rarr;</a>
+    <p class="mbl-note">Pride Park er optimalisert for mobil</p>
+  </div>
+</div>
 <div id="rotate-screen-overlay" class="cdn-lab-rotate-hint" aria-live="polite">
   <div class="rotate-screen-card">
     <div class="rotate-icon">⌻</div>
